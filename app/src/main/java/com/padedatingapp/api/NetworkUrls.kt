@@ -12,5 +12,7 @@ object NetworkUrls {
     const val RESET_PASSWORD = "api/v1/user/resetPassword"
     const val PROFILE_SETUP = "api/v1/user/profileSetup" //create new account
     const val StaffByCategory = "api/v1/Customer/StaffByCategory" //create new account
+    const val giftCards = "api/v1/admin/giftCards"
+
 
 }

@@ -67,5 +67,12 @@ interface PadeDatingApi {
     ): Result<UserModel>
 
 
+    @POST(NetworkUrls.giftCards)
+    suspend fun giftCards(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): Result<AllGiftCard>
+
+
 
 }
