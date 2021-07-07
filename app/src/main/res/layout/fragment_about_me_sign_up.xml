@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey"
+        android:orientation="vertical"
+        tools:context=".ui.onboarding.fragments.newaccount.NewAccountFragment">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAboutMeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/about_me"
+                    android:textColor="#172b4d"
+                    android:textSize="24sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAboutMeDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/lorem_ipsum_about_me"
+                    android:textColor="#7a869a"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAboutMeText" />
+
+
+                <TextView
+                    android:id="@+id/tvOrigin"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:text="@={vm.originEthnicity}"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/origin_or_ethnicity"
+                    android:maxLines="1"
+                    android:onClick="@{()->vm.onClick(`ethnicity`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAboutMeDesc" />
+
+                <EditText
+                    android:id="@+id/tvEducationLevel"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:maxLength="80"
+                    android:onClick="@{()->vm.onClick(`education`)}"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:focusableInTouchMode="false"
+                    android:text="@={vm.educationLevel}"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/education_lavel"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvOrigin" />
+
+
+                <TextView
+                    android:id="@+id/tvWork"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:text="@={vm.work}"
+                    android:textColor="@color/colorBlack"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/work"
+                    android:maxLines="1"
+                    android:onClick="@{()->vm.onClick(`work`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvEducationLevel" />
+
+                <TextView
+                    android:id="@+id/tvDatingPref"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:text="@={vm.datingPreference}"
+                    android:textColor="@color/colorBlack"
+
+                    android:hint="@string/dating_pref"
+                    android:maxLines="1"
+                    android:onClick="@{()->vm.onClick(`dating_pref`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvWork" />
+
+                <TextView
+                    android:id="@+id/tvReligious"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/religious_beliefs"
+                    android:text="@={vm.religiousBeliefs}"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlack"
+                    android:onClick="@{()->vm.onClick(`religious_beliefs`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDatingPref" />
+
+                <TextView
+                    android:id="@+id/textHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:text="@string/height"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="@id/tvFeet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvReligious"
+                    app:layout_constraintTop_toTopOf="@id/tvFeet" />
+
+                <TextView
+                    android:id="@+id/textFeet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/feet"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="@id/tvFeet"
+                    app:layout_constraintEnd_toStartOf="@id/tvFeet"
+                    app:layout_constraintStart_toEndOf="@id/textHeight"
+                    app:layout_constraintTop_toTopOf="@id/tvFeet" />
+
+                <TextView
+                    android:id="@+id/tvFeet"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:text="@={vm.feet}"
+                    android:textColor="@color/colorBlack"
+                    android:gravity="center_vertical|start"
+                    android:onClick="@{()->vm.onClick(`select_feet`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    app:layout_constraintEnd_toStartOf="@id/textInch"
+                    app:layout_constraintStart_toEndOf="@id/textFeet"
+                    app:layout_constraintTop_toBottomOf="@id/tvReligious" />
+
+                <TextView
+                    android:id="@+id/textInch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/inch"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="@id/tvFeet"
+                    app:layout_constraintEnd_toStartOf="@id/tvInch"
+                    app:layout_constraintStart_toEndOf="@id/tvFeet"
+                    app:layout_constraintTop_toTopOf="@id/tvFeet" />
+
+                <TextView
+                    android:id="@+id/tvInch"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:onClick="@{()->vm.onClick(`select_inches`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:text="@={vm.inches}"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvReligious" />
+
+                <TextView
+                    android:id="@+id/textDoYouSmoke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:fontFamily="@font/rubik"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@string/do_you_smoke"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFeet" />
+
+                <RadioGroup
+                    android:id="@+id/rgSmoke"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_18sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textDoYouSmoke">
+
+                    <RadioButton
+                        android:id="@+id/rbSmokeYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="@string/yes"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbSmokeNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+
+                        android:text="@string/no"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbSmokeSomeTimes"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="@string/sometimes"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textDoYouDrink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@string/do_you_drink"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rgSmoke" />
+
+
+                <RadioGroup
+                    android:id="@+id/rgDrink"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_18sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textDoYouDrink">
+
+                    <RadioButton
+                        android:id="@+id/rbDrinkYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="@string/yes"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbDrinkNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:text="@string/no"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbDrinkSomeTimes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@null"
+                        android:drawableLeft="@android:color/transparent"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="@string/sometimes"
+                        android:textColor="@color/colorBlack"
+                        android:theme="@style/checkBoxStyle"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textInterestedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:lineSpacingExtra="20sp"
+                    android:text="@string/interested_in"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rgDrink" />
+
+                <ImageView
+                    android:id="@+id/ivMale"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white_purple_border"
+                    android:padding="@dimen/_18sdp"
+                    android:src="@drawable/ic_gender_male"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInterestedIn"
+                    />
+
+                <ImageView
+                    android:id="@+id/ivFemale"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:padding="@dimen/_18sdp"
+                    android:src="@drawable/ic_gender_female"
+                    app:layout_constraintEnd_toStartOf="@id/ivBothGender"
+                    app:layout_constraintStart_toEndOf="@id/ivMale"
+                    app:layout_constraintTop_toBottomOf="@id/textInterestedIn" />
+
+
+                <ImageView
+                    android:id="@+id/ivBothGender"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:padding="@dimen/_18sdp"
+                    android:src="@drawable/ic_both_gender"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInterestedIn" />
+                <TextView
+                    android:id="@+id/tvMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:textColor="#4c5980"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintStart_toStartOf="@id/ivMale"
+                    app:layout_constraintEnd_toEndOf="@id/ivMale"
+                    app:layout_constraintTop_toBottomOf="@id/ivMale"
+                    android:gravity="center_horizontal"
+                    android:text="@string/male"
+                    />
+
+                <TextView
+                    android:id="@+id/tvFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:textColor="#4c5980"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintStart_toStartOf="@id/ivFemale"
+                    app:layout_constraintEnd_toEndOf="@id/ivFemale"
+                    app:layout_constraintTop_toBottomOf="@id/ivFemale"
+                    android:gravity="center_horizontal"
+                    android:text="@string/female"
+                    />
+
+                <TextView
+                    android:id="@+id/tvBoth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:textColor="#4c5980"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    app:layout_constraintStart_toStartOf="@id/ivBothGender"
+                    app:layout_constraintEnd_toEndOf="@id/ivBothGender"
+                    app:layout_constraintTop_toBottomOf="@id/ivBothGender"
+                    android:gravity="center_horizontal"
+                    android:text="@string/both"
+                    />
+
+                <Button
+                    android:id="@+id/btnSubmit"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginVertical="@dimen/_18sdp"
+                    android:background="@drawable/button_gradient_bg"
+                    android:fontFamily="@font/rubik_medium"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    app:backgroundTint="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvMale"
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnSubmit" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

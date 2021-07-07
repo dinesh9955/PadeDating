@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightGrey"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp">
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_cancel"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="5sp"
+        android:text="Gift Card Purchased Successfully"
+        android:textColor="@color/colorBlack"
+        android:textSize="25sp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/ic_big_tick_gradient" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/bg_round_edge_white"
+        android:padding="@dimen/_10sdp"
+
+        >
+
+        <TextView
+            android:id="@+id/textCouponCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/coupon_code"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RelativeLayout
+            android:id="@+id/rlCoupon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:background="@drawable/coupon_dashed_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textCouponCode">
+
+            <TextView
+                android:id="@+id/tvCoupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_copy"
+                android:fontFamily="@font/rubik"
+                android:gravity="start"
+                android:lineSpacingExtra="16sp"
+                android:text="GC125sd4s8r43"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            android:layout_marginEnd="@dimen/_30sdp"
+            app:layout_constraintBottom_toBottomOf="@id/rlCoupon"
+            app:layout_constraintEnd_toEndOf="@id/rlCoupon"
+            app:layout_constraintTop_toTopOf="@id/rlCoupon" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/rubik"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="2sp"
+            android:text="You can use this code while
+Making any Purchase on the platform"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rlCoupon" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/button_gradient_bg"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/done"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</LinearLayout>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.padedatingapp.ui.onboarding.fragments.login.LoginVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/llRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorLightGrey"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:context=".ui.onboarding.fragments.newaccount.NewAccountFragment">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:src="@drawable/ic_gradient_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/welcome_user"
+                android:textColor="#172b4d"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/sign_in_to_continue"
+                android:textColor="#7a869a"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPhone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="@drawable/bg_round_edge_white">
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:hint="@string/enter_phone_number"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.phoneNo}"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ccp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:ccp_showArrow="false"
+                    app:ccp_showNameCode="false"
+                    app:ccp_textSize="15sp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:background="@drawable/bg_round_edge_white"
+                android:fontFamily="@font/rubik"
+                android:hint="@string/enter_email_address"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_18sdp"
+                android:singleLine="true"
+                android:text="@={vm.email}"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                >
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_round_edge_white"
+                android:fontFamily="@font/rubik"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_18sdp"
+                android:singleLine="true"
+                android:text="@={vm.password}"
+                android:textAlignment="viewStart"
+                android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/ivHideShowPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_unvisible_pass"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <CheckBox
+                    android:id="@+id/cbRememberMe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_weight="1"
+                    android:checked="@={vm.isRememberMe}"
+                    android:button="@drawable/checkbox_selector"
+                    android:buttonTint="@null"
+                    android:drawableLeft="@android:color/transparent"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:fontFamily="@font/rubik"
+                    android:padding="0dp"
+                    android:text="@string/remember_me"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:theme="@style/checkBoxStyle" />
+
+                <TextView
+                    android:id="@+id/tvForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="end"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+            <Button
+                android:id="@+id/btnLogin"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/button_gradient_bg"
+                android:fontFamily="@font/rubik_medium"
+                android:text="@string/login"
+                android:onClick="@{()->vm.validate()}"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
+
+            <TextView
+                android:id="@+id/tvContinueWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/continue_with_email"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_horizontal"
+                android:text="@string/or"
+                android:textColor="#7a869a"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_18sdp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_facebook_button" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:src="@drawable/ic_google_button" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_instagram_button" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginBottom="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:text="Don't have an Account? "
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

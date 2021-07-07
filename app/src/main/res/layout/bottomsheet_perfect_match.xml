@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorLightGrey"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik_medium"
+        android:textStyle="normal"
+        android:textSize="24sp"
+        android:textColor="#a16ae8"
+        android:gravity="center_horizontal"
+        android:text="Perfect matched Say Hi"
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivUserOne"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_61sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintCircle="@id/ivHeart"
+            app:layout_constraintCircleRadius="@dimen/_40sdp"
+            app:layout_constraintCircleAngle="270"
+            android:src="@drawable/ic_dummy_user"
+            app:layout_constraintEnd_toStartOf="@id/ivUserTwo"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivUserTwo"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_61sdp"
+            android:src="@drawable/dummy_other_user"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircle="@id/ivHeart"
+            app:layout_constraintCircleRadius="@dimen/_40sdp"
+            app:layout_constraintStart_toEndOf="@id/ivUserOne"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <TextView
+            android:id="@+id/tvUserOneName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/ivUserOne"
+            app:layout_constraintTop_toBottomOf="@id/ivUserOne"
+            app:layout_constraintStart_toStartOf="@id/ivUserOne"
+            android:textColor="@color/colorBlack"
+            android:gravity="center_horizontal"
+            android:text="Matheus"
+            />
+
+        <TextView
+            android:id="@+id/tvUserTwoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="normal"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/ivUserTwo"
+            app:layout_constraintTop_toBottomOf="@id/ivUserTwo"
+            app:layout_constraintStart_toStartOf="@id/ivUserTwo"
+            android:textColor="@color/colorBlack"
+            android:gravity="center_horizontal"
+            android:text="Emma Stone"
+            />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivHeart"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_41sdp"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_25sdp"
+            app:contentPadding="@dimen/_12sdp"
+            android:background="@drawable/button_gradient_bg"
+            app:srcCompat="@drawable/ic_heart_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/ic_perfect_match" />
+    <Button
+        android:id="@+id/btnSendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/button_gradient_bg"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/send_message"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btnKeepExploring"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/button_gradient_bg"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/keep_exploring"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/_15sdp"
+        android:src="@drawable/ic_back_gradient"/>
+</RelativeLayout>

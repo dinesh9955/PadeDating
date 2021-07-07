@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_onboarding"
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+
+        <action
+            android:id="@+id/action_welcome_to_login"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_new_account"
+            app:destination="@id/newAccountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newAccountFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment"
+        tools:layout="@layout/fragment_new_account">
+        <action
+            android:id="@+id/action_new_account_to_verify_otp"
+            app:destination="@id/verifyOtpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                android:name="verificationType"
+                app:argType="string"
+                android:defaultValue="phone"
+                />
+            <argument
+                android:name="email"
+                app:argType="string"
+                android:defaultValue=""
+                />
+            <argument
+                android:name="phone"
+                app:argType="string"
+                android:defaultValue="phone"
+                />
+            <argument
+                android:name="countryCode"
+                app:argType="string"
+                android:defaultValue=""
+                />
+        </action>
+
+        <action
+            android:id="@+id/action_to_create_new_account"
+            app:destination="@id/creatNewAccountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/newAccountFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+
+            <argument
+                android:name="email"
+                app:argType="string"
+                app:nullable="false"
+                android:defaultValue=""
+                />
+
+            <argument
+                android:name="phone"
+                app:argType="string"
+                app:nullable="false"
+                android:defaultValue=""
+                />
+
+            <argument
+                android:name="countryCode"
+                app:argType="string"
+                app:nullable="false"
+                android:defaultValue=""
+                />
+
+        </action>
+
+        <action
+            android:id="@+id/action_to_login"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/verifyOtpFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.otp.VerifyOtpFragment"
+        tools:layout="@layout/fragment_verify_otp">
+
+        <action
+            android:id="@+id/action_to_create_new_account"
+            app:destination="@id/creatNewAccountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+
+            <argument
+                android:name="verificationType"
+                app:argType="string"
+                android:defaultValue="phone"
+                />
+            <argument
+                android:name="email"
+                app:argType="string"
+                android:defaultValue=""
+                />
+            <argument
+                android:name="phone"
+                app:argType="string"
+                android:defaultValue="phone"
+                />
+            <argument
+                android:name="countryCode"
+                app:argType="string"
+                android:defaultValue=""
+                />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.login.LoginFragment"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_to_home"
+            app:destination="@id/nav_graph_main"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_upload_photo"
+            app:destination="@id/newUploadPhotoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="false"
+            app:popUpTo="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                app:argType="string"
+                android:name="from"
+                android:defaultValue="sign_up"
+                />
+        </action>
+        <action
+            android:id="@+id/action_to_sign_up"
+            app:destination="@id/newAccountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+            <action
+                android:id="@+id/action_to_sign_up_about_fragment"
+                app:destination="@id/signupAboutMeFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/loginFragment"
+                app:popUpToInclusive="false"
+                app:popEnterAnim="@anim/slide_in_right"
+                app:popExitAnim="@anim/slide_out_left" >
+                <argument
+                    android:name="title"
+                    android:defaultValue="Sign Up"
+                    app:argType="string"
+                    app:nullable="false" />
+
+                <argument
+                    android:name="from"
+                    android:defaultValue="sign_up"
+                    app:argType="string"
+                    app:nullable="false" />
+            </action>
+
+
+        <action
+            android:id="@+id/action_to_forgot_password"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="false"
+            app:popUpTo="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                android:name="verificationType"
+                app:argType="string"
+                android:defaultValue="phone" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/newUploadPhotoFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.upload_photo.UploadPhotoFragment"
+        tools:layout="@layout/item_upload_photo">
+
+        <action
+            android:id="@+id/action_to_sign_up_about_fragment"
+            app:destination="@id/signupAboutMeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="false"
+            app:popUpTo="@id/newAccountFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                android:name="title"
+                android:defaultValue="Sign Up"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupAboutMeFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeSignUpFragment"
+        tools:layout="@layout/fragment_about_me_sign_up">
+
+        <argument
+            android:name="title"
+            android:defaultValue="Sign Up"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.forgot_password.ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password">
+        <action
+            android:id="@+id/action_to_password_recovery"
+            app:destination="@id/passowrdRecoveryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passowrdRecoveryFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.password_recovery_fragment.PasswordRecoveryFragment"
+        tools:layout="@layout/fragment_password_recovery">
+
+        <action
+            android:id="@+id/action_to_login"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/firstCreateFlowFragment"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/creatNewAccountFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.create_account.CreateAccountFragment"
+        tools:layout="@layout/fragment_create_account">
+
+        <action
+            android:id="@+id/action_to_upload_photo"
+            app:destination="@id/newUploadPhotoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="false"
+            app:popUpTo="@id/newAccountFragment"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+</navigation>

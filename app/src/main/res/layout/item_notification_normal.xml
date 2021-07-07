@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:background="@drawable/bg_round_edge_white">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivUserPic"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:layout_width="40dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:src="@drawable/dummy_other_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:singleLine="true"
+                android:text="Emma Stone"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@id/tvTime"
+                app:layout_constraintStart_toEndOf="@id/ivUserPic"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMentions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:singleLine="true"
+                android:text="Mentioned you in a comment"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@id/tvTime"
+                app:layout_constraintStart_toStartOf="@id/tvName"
+                app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="end"
+                android:text="1 Day ago"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/colorDarkGrey"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+
+                android:id="@+id/tvNotiDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:textColor="@color/colorBlack"
+                android:maxLines="2"
+                app:layout_constraintTop_toBottomOf="@id/tvMentions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvName"
+                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/colorDarkGrey"
+                android:layout_marginTop="@dimen/_5sdp"
+               app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

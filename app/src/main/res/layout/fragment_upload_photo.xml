@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.padedatingapp.ui.onboarding.fragments.upload_photo.UploadPhotoVM" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_layout" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivPorfilePic"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_121sdp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                        app:srcCompat="@drawable/user_place_holder" />
+
+                    <ImageView
+                        android:id="@+id/ivChooseImage"
+                        android:layout_width="@dimen/_42sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintCircleAngle="300"
+                        app:layout_constraintCircle="@id/ivPorfilePic"
+                        app:layout_constraintCircleRadius="@dimen/_60sdp"
+                        android:src="@drawable/ic_camera_edit_profile"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="15sp"
+                    android:text="Add Profile Picture"
+                    android:textColor="#172b4d"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:text="@string/add_a_profile_pic_desc"
+                    android:textColor="#7a869a"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvAddPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_above="@id/tvTandC"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginVertical="@dimen/_18sdp"
+                    android:background="@drawable/button_gradient_bg"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center"
+                    android:text="@string/add_a_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/private_secondary_images_or_videos"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    tools:listitem="@layout/item_upload_photo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:text="@string/note_the_video_cannot_be_longer"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/btnGetStarted"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_above="@id/tvTandC"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginVertical="@dimen/_18sdp"
+                    android:background="@drawable/button_gradient_bg"
+                    android:fontFamily="@font/rubik_medium"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    app:backgroundTint="@null" />
+
+                <TextView
+                    android:id="@+id/tvSkip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:onClick="@{()->vm.onClick(`skip`)}"
+                    android:fontFamily="@font/rubik"
+                    android:text="@string/skip_for_now"
+                    android:textColor="#a16ae8"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/_24sdp"
+        android:background="@color/colorLightGrey">
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:text="@string/profile"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="Logout"
+            android:backgroundTint="@color/colorRed"
+            android:background="@drawable/bg_round_edge_white"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_alignParentTop="true"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvTitle"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorLightGrey"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="@dimen/_18sdp"
+                android:visibility="gone"
+                android:src="@drawable/ic_back" />
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clHeader"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+               android:layout_alignParentTop="true"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:background="@drawable/bg_round_edge_white">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:singleLine="true"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCredits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:drawableStart="@drawable/ic_recharge_coin"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text="Credits : 152"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                <TextView
+                    android:id="@+id/tvPremium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:drawableStart="@drawable/ic_crown_gradient"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:labelFor="@id/tvCredits"
+                    android:letterSpacing="-0.02"
+                    android:text="@string/premium"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCredits" />
+
+                <View
+                    android:id="@+id/vDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/colorLightGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvPremium" />
+
+                <TextView
+                    android:id="@+id/textLiked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vDivider"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:layout_toStartOf="@id/tvPremium"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toStartOf="@id/textFollower"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/vDivider"
+                    android:text="@string/liked" />
+
+                <TextView
+                    android:id="@+id/textFollower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vDivider"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textLiked"
+                    app:layout_constraintTop_toBottomOf="@id/vDivider"
+                    android:text="@string/followers" />
+
+                <TextView
+                    android:id="@+id/tvLikesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textLiked"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toStartOf="@id/tvPremium"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="@id/textLiked"
+                    app:layout_constraintStart_toStartOf="@id/textLiked"
+                    app:layout_constraintTop_toBottomOf="@id/textLiked"
+                    android:text="3K" />
+
+                <TextView
+                    android:id="@+id/tvFollowerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textLiked"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toEndOf="@id/tvPremium"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="@id/textFollower"
+                    app:layout_constraintStart_toStartOf="@id/textFollower"
+                    app:layout_constraintTop_toBottomOf="@id/textFollower"
+                    android:text="3K" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/_20sdp" >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPorfilePic"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/user_place_holder" />
+
+            <ImageView
+                android:id="@+id/ivEditProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/ivPorfilePic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintCircle="@id/ivPorfilePic"
+                app:layout_constraintCircleRadius="@dimen/_30sdp"
+                app:layout_constraintCircleAngle="90"
+                android:src="@drawable/ic_choose_camera" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clHeader"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_round_edge_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBuyGift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_buy_gift"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/buy_gift_card"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+
+            <TextView
+                android:id="@+id/tvRechargeCoins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_recharge_coin"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/rubik"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/recharge_coins"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_center"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_round_edge_white"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvOrigin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_origin_ethnicity"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/rubik"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/origin_or_ethnicity"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+
+            <TextView
+                android:id="@+id/tvPref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_preference"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/prefrence"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_settings"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/settings"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/tvLoyaltyPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_loayty_points"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/loyalty_points"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+
+            <TextView
+                android:id="@+id/tvReferAfriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_refer_friend"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/refer_a_friend"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llPremium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_footer"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/button_gradient_bg"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvBecomePremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_crown_gradient"
+                android:drawablePadding="@dimen/_10sdp"
+                android:drawableTint="@color/colorWhite"
+                android:fontFamily="@font/rubik"
+                android:padding="@dimen/_11sdp"
+                android:text="@string/become_premium"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_dummy_user"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+    </ImageView>
+</layout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_explore"
+        android:color="@color/colorPrimaryDark"
+        android:title="@string/meet_me" />
+
+    <item
+        android:id="@+id/matchesFragment"
+        android:icon="@drawable/ic_hearts"
+        android:title="@string/matches"
+        android:color="@color/colorPrimaryDark"
+
+        />
+
+    <item
+        android:id="@+id/messageFragment"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/messages_caps"
+        android:color="@color/colorPrimaryDark"
+        />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_account"
+        android:title="@string/profile"
+        android:color="@color/colorPrimaryDark"
+
+        />
+
+</menu>

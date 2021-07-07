@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.padedatingapp.ui.onboarding.fragments.create_account.CreateAccountVM" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:padding="@dimen/_18sdp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center"
+            android:lineSpacingExtra="8sp"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            tools:text="@string/sign_up" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvTitle"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorLightGrey"
+                android:orientation="vertical"
+                tools:context=".ui.onboarding.fragments.newaccount.NewAccountFragment">
+
+
+                <TextView
+                    android:id="@+id/tvCreateAccountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/create_new_account"
+                    android:textColor="#172b4d"
+                    android:textSize="24sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tvCreateAccountDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCreateAccountText"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_horizontal"
+                    android:letterSpacing="-0.01"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/create_an_account_to_continue"
+                    android:textColor="#7a869a"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/etFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/tvCreateAccountDesc"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="25dp"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/first_name"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.firstName}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/etFirstName"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/last_name"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.lastName}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etLastName"
+                    android:layout_marginHorizontal="@dimen/_18sdp">
+
+                    <EditText
+                        android:id="@+id/etUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/bg_round_edge_white"
+                        android:digits="abcdefghijklmnopqrstuvwxyz.1234567890_"
+                        android:fontFamily="@font/rubik"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/username"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:paddingHorizontal="@dimen/_18sdp"
+                        android:singleLine="true"
+                        android:text="@={vm.userName}"
+                        android:textAlignment="viewStart"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvIsUsernameAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/not_available"
+                        android:textColor="@color/colorRed"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/etUserName" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/clUserName"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_18sdp"
+                    android:background="@drawable/bg_round_edge_white">
+
+                    <EditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/bg_round_edge_white"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/rubik"
+                        android:hint="@string/phone_number"
+                        android:maxLines="1"
+                        android:paddingEnd="@dimen/_18sdp"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ccp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        app:ccpDialog_showCloseIcon="true"
+                        android:focusableInTouchMode="false"
+                        app:ccp_clickable="false"
+                        app:ccp_showArrow="false"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/clPhone"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/email_address"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/etEmail"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_round_edge_white"
+                        android:fontFamily="@font/rubik"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,_-!@#$()+=:;?"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:paddingHorizontal="@dimen/_18sdp"
+                        android:singleLine="true"
+                        android:text="@={vm.password}"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/ivHideShowPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_unvisible_pass"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clConfPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/clPassword"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp">
+                <EditText
+                    android:id="@+id/etConfPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,_-!@#$()+=:;?"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.confirmPassword}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+                    <ImageView
+                        android:id="@+id/ivHideShowConfPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_unvisible_pass"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvDateOfBorth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/clConfPassword"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/date_of_birth"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.dob}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tvGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/tvDateOfBorth"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/gender"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.gender}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tvCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/tvGender"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/city_country"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.cityAndCountry}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/tvCountry"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/location"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:text="@={vm.address}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <CheckBox
+                    android:id="@+id/cbTandC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLocation"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginVertical="15dp"
+                    android:button="@drawable/checkbox_selector"
+                    android:buttonTint="@null"
+                    android:checked="@={vm.termsConditionCheck}"
+                    android:drawableLeft="@android:color/transparent"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:text="@string/by_creating_an_account_you_agree_to_our_term_and_conditions"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    android:theme="@style/checkBoxStyle" />
+
+                <Button
+                    android:id="@+id/btnCreateAccount"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/cbTandC"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginVertical="@dimen/_18sdp"
+                    android:background="@drawable/button_gradient_bg"
+                    android:clickable="true"
+                    android:fontFamily="@font/rubik_medium"
+                    android:onClick="@{()->vm.validate()}"
+                    android:text="@string/create_account"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    app:backgroundTint="@null" />
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+</layout>

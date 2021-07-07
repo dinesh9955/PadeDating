@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_margin="@dimen/_20sdp"
+    android:padding="@dimen/_40sdp"
+    android:background="@drawable/bg_round_edge_white">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_checked_congrats"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
+        android:textStyle="normal"
+        android:textSize="27sp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="#ec75f6"
+        android:gravity="center_horizontal"
+        android:text="@string/congratulation" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
+        android:textStyle="normal"
+        android:textSize="15sp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="@string/your_password_has_been_completely_reset_login_and_use_the_app"
+        />
+</LinearLayout>

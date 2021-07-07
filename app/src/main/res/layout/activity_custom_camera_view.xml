@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.CustomCameraView">
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/cameraView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cameraMode="picture"
+        app:cameraPictureSizeAspectRatio="9:16"
+        app:cameraVideoSizeAspectRatio="9:16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/rlPictureMode"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_70sdp"
+        android:background="@color/colorBlackTransparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCapture"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_51sdp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/rectangle_gradient_bg"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <ImageView
+            android:id="@+id/ivVideoMode"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:src="@drawable/ic_chat_video"
+            app:tint="@color/colorPrimary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlVideoMode"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_80sdp"
+        android:visibility="gone"
+        android:background="@color/colorBlackTransparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivRecordVideo"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_51sdp"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            android:background="@drawable/rectangle_gradient_bg"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <ImageView
+            android:id="@+id/ivRecordStopRec"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:backgroundTint="@color/colorRed"
+            android:background="@drawable/button_stop_rec"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <TextView
+            android:id="@+id/tvStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:fontFamily="@font/rubik_medium"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:fontFamily="@font/rubik_medium"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_alignParentTop="true"
+           android:layout_centerHorizontal="true"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:id="@+id/ivPictureMode"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:src="@drawable/ic_camera_edit_profile"
+           />
+    </RelativeLayout>
+
+
+    <ProgressBar
+        android:id="@+id/pbSavingVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        app:indicatorColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

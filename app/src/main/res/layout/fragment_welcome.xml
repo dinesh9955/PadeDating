@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"
+        tools:context=".ui.onboarding.fragments.IntroFragment">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/introViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </androidx.viewpager.widget.ViewPager>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsIntro"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_above="@id/btnNext"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:layout_centerHorizontal="true"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/colorPrimary"
+            android:visibility="gone"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="fixed"
+            app:tabIndicatorFullWidth="false"
+            app:tabMaxWidth="@dimen/_30sdp"
+            app:tabPaddingStart="@dimen/_5sdp"
+            app:tabPaddingEnd="@dimen/_5sdp"
+            app:tabBackground="@color/colorBlack"
+            app:tabSelectedTextColor="@color/colorBlack"
+            app:tabTextColor="@color/colorBlack"
+            style="@style/MineCustomTabText"
+            app:tabIndicator="@drawable/button_gradient_bg" />
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnNext"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:layout_centerHorizontal="true">
+            <View
+                android:id="@+id/vOne"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:background="@drawable/bg_round_edge_white"
+                android:layout_marginEnd="@dimen/_5sdp"
+                />
+
+            <View
+                android:id="@+id/vTwo"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:background="@drawable/bg_round_edge_white"
+
+
+                />
+            <View
+                android:id="@+id/vThree"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/bg_round_edge_white"
+                />
+
+            <View
+                android:id="@+id/vFour"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/bg_round_edge_white"
+                />
+
+        </TableRow>
+
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@id/tvTandC"
+            android:layout_marginHorizontal="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button_gradient_bg"
+            android:text="@string/next"
+            app:cornerRadius="@dimen/_18sdp"
+            android:textAllCaps="false"
+            app:backgroundTint="@null" />
+
+        <TextView
+            android:id="@+id/tvTandC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:text="@string/terms_and_conditions"
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
+</layout>

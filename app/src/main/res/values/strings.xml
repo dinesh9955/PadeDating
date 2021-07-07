@@ -1,0 +1,253 @@
+<resources>
+    <string name="app_name">Pade Dating App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--
+    <string name="google_maps_key">AIzaSyAuptk-VCeLs864df80F1PIzsxL5RM9F1c</string>
+-->
+    <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>
+
+    <string-array name="dating_pref_array">
+        <item>Engineer</item>
+        <item>Adventurer</item>
+        <item>Doctor</item>
+        <item>Model</item>
+        <item>Dentis</item>
+    </string-array>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="work_array">
+        <item>Student</item>
+        <item>Employee</item>
+        <item>Intern</item>
+        <item>Freelancer</item>
+    </string-array>
+
+
+    <string-array name="ethnicity_array">
+        <item>American</item>
+        <item>Latin</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="religious_array">
+        <item>Agnostic</item>
+        <item>Atheist</item>
+    </string-array>
+
+    <string-array name="education_array">
+        <item>Graduate</item>
+        <item>Post Graduate</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="feet_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="inches_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next">Next</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="welcome_user">Welcome User</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="or">Or</string>
+    <string name="verify_account_by">Verify Account By:</string>
+    <string name="email_address">Email Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="cancel">Cancel</string>
+    <string name="verifying_phone_number">Verifying Phone Number</string>
+    <string name="please_enter_the_verification_code_sent_to">Please enter the verification code sent to</string>
+    <string name="verify">Verify</string>
+    <string name="resend">Resend</string>
+    <string name="sign_in_to_continue">Hello there, sign in to continue!</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="password">Password</string>
+    <string name="get_started">Get Started</string>
+    <string name="login">Login</string>
+    <string name="continue_with_email">Continue With Email</string>
+    <string name="continue_with_phone">Continue With Phone Number</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="create_an_account_to_continue">Create an account to continue!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="city_country">City, Country</string>
+    <string name="location">Location</string>
+
+    <string name="by_creating_an_account_you_agree_to_our_term_and_conditions">By creating an account, you agree to our Terms and Conditions</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="add_a_profile_pic_desc">Add a profile picture so that you and your friend can identify each other</string>
+    <string name="add_a_photo">Add a Photo</string>
+    <string name="note_the_video_cannot_be_longer">Note : Video can\'t be longer than 30 Seconds</string>
+    <string name="submit">Submit</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="private_secondary_images_or_videos">Private/Secondary Images or Videos</string>
+    <string name="about_me">About Me</string>
+    <string name="lorem_ipsum_about_me">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna</string>
+    <string name="origin_or_ethnicity">Origin / Ethnicity</string>
+    <string name="education_lavel">Education Level</string>
+    <string name="work">Work</string>
+    <string name="dating_pref">Dating Preference</string>
+    <string name="religious_beliefs">Religious Beliefs</string>
+    <string name="height">Height:</string>
+    <string name="inch">In</string>
+    <string name="feet">Ft</string>
+    <string name="do_you_smoke">Do you Smoke?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sometimes">Sometimes</string>
+    <string name="do_you_drink">Do You Drink</string>
+    <string name="interested_in">Interested In</string>
+    <string name="set_your_password">Set Your Password</string>
+    <string name="new_password">New Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="_8_characters_n_1_symbols">• 8+ characters\n• 1 symbols</string>
+    <string name="_1_uppercase_n_1_number">• 1 uppercase \n • 1 number</string>
+    <string name="enter_mobile_number_desc">Enter the Mobile Number associated with your account to reset your password.</string>
+    <string name="enter_email_address_desc">Enter the Email Address associated with your account to reset your password.</string>
+    <string name="enter_four_digit_code">Enter 4 digit code. We will text you on </string>
+    <string name="open_camera_to_capture_image">Open camera to capture image</string>
+    <string name="photos">Photos</string>
+    <string name="camera">Camera</string>
+    <string name="browse_images_from_gallery">Browse images from gallery</string>
+    <string name="meet_me">MEET ME</string>
+    <string name="profile">PROFILE</string>
+    <string name="chat">CHAT</string>
+    <string name="matches">MATCHES</string>
+    <string name="pade">PADE</string>
+    <string name="my_matches">MY MATCHES</string>
+    <string name="home">Home</string>
+    <string name="matches_lower_case">Matches</string>
+    <string name="people_whoe_like">People Who Liked Me</string>
+    <string name="student">Student</string>
+    <string name="inbox">Inbox</string>
+    <string name="search_messages">Search Messages</string>
+    <string name="messages">Messages</string>
+    <string name="messages_caps">MESSAGES</string>
+    <string name="followers">Followers</string>
+    <string name="liked">Liked</string>
+    <string name="premium">Premium</string>
+    <string name="buy_gift">Buy Gift</string>
+    <string name="gift_cards">Gift Cards</string>
+    <string name="prefrence">Preference</string>
+    <string name="settings">Settings</string>
+    <string name="refer_a_friend">Refer A Friend</string>
+    <string name="become_premium">Become Premium Member</string>
+    <string name="about">About</string>
+    <string name="images">Images</string>
+    <string name="get_more_followers">Get More Followers</string>
+    <string name="get_more_likes">Get More Likes</string>
+    <string name="get_more_views">Get More Views</string>
+    <string name="recharge_coins">Recharge Coins</string>
+    <string name="save">Save</string>
+    <string name="address">Address</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="online">Online</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="done">Done</string>
+    <string name="buy_more">Buy More</string>
+    <string name="redeem_now">Redeem Now</string>
+    <string name="available">Available Points</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="cvv_number">CVV Number</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="use_loyalty_points">Use Loyalty Points</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="notifications">Notifications</string>
+    <string name="refer_now">Refer Now</string>
+    <string name="buy_credit">Buy Credits</string>
+    <string name="filters">Filters</string>
+    <string name="show_me">Show Me</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="Employment">Employment</string>
+    <string name="age">Age</string>
+    <string name="block_user">Block User</string>
+    <string name="report">Report</string>
+    <string name="distance">Distance</string>
+    <string name="congratulation">Congratulation!</string>
+    <string name="your_password_has_been_completely_reset_login_and_use_the_app">Your password has been completely reset, login and use the app</string>
+    <string name="send_message">Send Message</string>
+    <string name="keep_exploring">Keep Exploring</string>
+    <string name="end_call">End Call</string>
+    <string name="buy_gift_card">Buy Gift Card</string>
+    <string name="loyalty_points">Loyalty Points</string>
+    <string name="verify_number">Verify Number</string>
+    <string name="verify_email">Verify Email</string>
+
+    <string name="phone_length_should_be_greater_than_7_characters">Phone length should be greater than 7</string>
+    <string name="email_should_not_contain_white_spaces">Email should not contain White Spaces</string>
+    <string name="please_enter_first_name">Please enter First Name</string>
+    <string name="please_enter_last_name">Please enter Last Name</string>
+    <string name="please_enter_valid_email">Please enter valid Email</string>
+    <string name="please_enter_phone_number">Please enter Phone Number</string>
+    <string name="please_enter_valid_phone_number">Please enter valid Phone Number</string>
+    <string name="please_enter_valid_password">Please enter valid Password</string>
+    <string name="please_enter_valid_current_password">Please enter valid Current Password</string>
+    <string name="password_length_should_be_greater_than_7_characters">Password length should be greater than 7 characters</string>
+    <string name="password_should_have_special_character">Password must have atleast one special character !!</string>
+    <string name="password_must_have_atleast_one_uppercase_character">Password must have atleast one uppercase character !!</string>
+    <string name="password_must_have_atleast_one_digit_character">Password must have atleast one digit character !!</string>
+    <string name="password_must_have_special_one_uppercase_character">Password must have atleast one uppercase character and atleast one digit character and atleast one special character  !!</string>
+    <string name="please_enter_confirm_password">Please enter valid Confirm Password</string>
+    <string name="please_select_date_of_birth">Please select Date Of Birth</string>
+    <string name="please_select_city_or_country">Please select City or Country</string>
+    <string name="please_select_location">Please select Location/Address</string>
+    <string name="please_accept_t_and_c">Please accept Terms and Conditions</string>
+    <string name="please_select_gender">Please select Gender</string>
+    <string name="please_enter_username">Please enter username</string>
+    <string name="password_and_confirm_password_doesnot_match">Password and Confirm Password doesn\'t match</string>
+
+    <string name="please_enter_valid_otp">Please enter valid OTP</string>
+    <string name="verifying_email">Verifying Email Address !</string>
+    <string name="not_available">Not Available</string>
+    <string name="_available">Available</string>
+    <string name="please_enter_valid_user_name">Please enter valid username</string>
+    <string name="please_enter_education_level">Please select Education Level</string>
+    <string name="please_select_origin_ethnicity">Please select Origin/Ethnicity</string>
+    <string name="please_select_work">Please select Work</string>
+    <string name="please_select_dating_pref">Please select Dating Preference</string>
+    <string name="please_select_religous_beliefs">Please select Religious Beliefs</string>
+    <string name="password_recovery">Password Recovery</string>
+    <string name="edit_information">Edit Information</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="both">Both</string>
+
+
+</resources>

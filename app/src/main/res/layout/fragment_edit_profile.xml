@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.padedatingapp.ui.main.fragments.edit_profile.EditProfileVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_layout_with_gradient_back" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/header"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorLightGrey"
+                android:clickable="true"
+                android:focusable="true">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivPorfilePic"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_91sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_place_holder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                <ImageView
+                    android:id="@+id/ivCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera_edit_profile"
+                    app:layout_constraintBottom_toBottomOf="@id/ivPorfilePic"
+                    app:layout_constraintCircle="@id/ivPorfilePic"
+                    app:layout_constraintCircleAngle="90"
+                    app:layout_constraintCircleRadius="@dimen/_45sdp"
+                    app:layout_constraintStart_toEndOf="@id/ivPorfilePic"
+                    app:layout_constraintTop_toTopOf="@id/ivPorfilePic" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="24sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivPorfilePic"
+                    tools:text="Emma Stone" />
+
+                <View
+                    android:id="@+id/vFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                <EditText
+                    android:id="@+id/etFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:fontFamily="@font/rubik"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/first_name"
+                    android:text="@={vm.firstName}"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@id/vFirstName"
+                    app:layout_constraintEnd_toEndOf="@id/vFirstName"
+                    app:layout_constraintStart_toStartOf="@id/vFirstName"
+                    app:layout_constraintTop_toTopOf="@id/vFirstName" />
+
+                <View
+                    android:id="@+id/vLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vFirstName" />
+
+                <EditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:fontFamily="@font/rubik"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/last_name"
+                    android:text="@={vm.lastName}"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@id/vLastName"
+                    app:layout_constraintEnd_toEndOf="@id/vLastName"
+                    app:layout_constraintStart_toStartOf="@id/vLastName"
+                    app:layout_constraintTop_toTopOf="@id/vLastName" />
+
+                <View
+                    android:id="@+id/vPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLastName" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_37sdp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    app:layout_constraintTop_toBottomOf="@id/vLastName">
+
+                    <EditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/rubik"
+                        android:hint="@string/phone"
+                        android:inputType="phone"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:paddingEnd="@dimen/_18sdp"
+                        android:singleLine="true"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ccp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:ccpDialog_showCloseIcon="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        app:ccp_clickable="false"
+                        app:ccp_showArrow="false"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:id="@+id/vEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_round_edge_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/clPhone" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/email"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@id/vEmail"
+                    app:layout_constraintEnd_toEndOf="@id/vEmail"
+                    app:layout_constraintStart_toStartOf="@id/vEmail"
+                    app:layout_constraintTop_toTopOf="@id/vEmail" />
+
+
+                <TextView
+                    android:id="@+id/tvGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:text="@={vm.gender}"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:textColor="@color/colorBlack"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/gender"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/vEmail" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:text="@={vm.address}"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/address"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/tvGender" />
+
+                <TextView
+                    android:id="@+id/textPrivatePhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/private_secondary_images_or_videos"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddress" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPhotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/textPrivatePhotos"
+                    tools:listitem="@layout/item_upload_photo" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_80sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvPhotos" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button_gradient_bg"
+            android:fontFamily="@font/rubik_medium"
+            android:text="@string/save"
+            android:onClick="@{()->vm.validate()}"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:backgroundTint="@null" />
+
+    </RelativeLayout>
+
+</layout>

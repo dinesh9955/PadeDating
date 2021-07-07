@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBuyCredit"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="4dp"
+        app:cardElevation="@dimen/_1sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardBackgroundColor="@color/white"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tvCredits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="2700 credits"
+                android:textSize="12sp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/colorBlack"
+                android:drawableTop="@drawable/ic_recharge_coin"
+                />
+
+            <TextView
+                android:id="@+id/tvCreditAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="$999"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textColor="@color/colorAccent"
+                />
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

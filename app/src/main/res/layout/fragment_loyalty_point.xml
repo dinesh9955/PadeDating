@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_250sdp"
+            android:background="@drawable/topbar_gradient">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:src="@drawable/ic_back_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:fontFamily="@font/rubik_medium"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/loyalty_points"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/ic_loaylty_point_logo"/>
+
+            <TextView
+                android:id="@+id/textAvailablePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivLogo"
+                android:lineSpacingExtra="20sp"
+                android:text="@string/available"
+                />
+
+            <TextView
+                android:id="@+id/tvLoyaltyPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:textStyle="normal"
+                android:textSize="25sp"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintTop_toBottomOf="@id/textAvailablePoints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:lineSpacingExtra="11sp"
+                android:text="500"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:background="@drawable/bg_round_edge_white"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_below="@id/clTop">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:textStyle="normal"
+                android:textSize="15sp"
+                android:textColor="@color/colorBlack"
+                android:text="History"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:textStyle="normal"
+                android:drawablePadding="@dimen/_5sdp"
+                android:drawableStart="@drawable/ic_loyalty_history"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="5 Points Gained for Completing 6 Months."
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:textStyle="normal"
+                android:drawablePadding="@dimen/_5sdp"
+                android:drawableStart="@drawable/ic_loyalty_history"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="5 Points Gained for Completing 6 Months."
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:drawableStart="@drawable/ic_loyalty_history"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
+                android:text="5 Points Gained for Completing 6 Months."
+                />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRedeemNow"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/button_gradient_bg"
+            android:fontFamily="@font/rubik_medium"
+            android:text="@string/redeem_now"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </RelativeLayout>
+</layout>
+

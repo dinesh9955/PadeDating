@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/rectangle_gradient_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp">
+
+
+    <ImageView
+        android:id="@+id/ivSwitchCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_switch_camera"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/ivChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_call_chat"
+        />
+
+    <ImageView
+        android:id="@+id/ivPorfilePic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_password_unvisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivChat"
+        app:layout_constraintBottom_toTopOf="@id/tvEndCall"
+        />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik_medium"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal"
+        android:text="Carolyn Glover"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivPorfilePic"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubic_light"
+        android:textStyle="normal"
+        android:textSize="25sp"
+        android:textColor="#ffffff"
+        android:text="8:20"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        />
+
+    <ImageView
+        android:id="@+id/ivVideoOffOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_video_off"
+        />
+    <ImageView
+        android:id="@+id/ivMinOnOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_mic_on"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvEndCall"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/_18sdp"
+        android:background="@drawable/button_gradient_bg"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/end_call"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_chat_call"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:paddingHorizontal="@dimen/_30sdp"
+        app:layout_constraintTop_toTopOf="@id/ivVideoOffOn"
+
+        app:layout_constraintEnd_toStartOf="@id/ivVideoOffOn"
+        app:layout_constraintStart_toEndOf="@id/ivMinOnOff"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="@id/ivVideoOffOn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/refer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="8sp"
+        android:text="Refer A Friend"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/refer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/refer" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:text="Refer As Many As You Can" />
+
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/rubik"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="6sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:background="@drawable/bg_round_edge_white"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textCouponCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:layout_gravity="center_horizontal"
+            tools:text="Coupon Code" />
+
+
+        <TextView
+            android:id="@+id/coupcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:lineSpacingExtra="16sp"
+            android:layout_marginHorizontal="@dimen/_40sdp"
+            android:textColor="#ec75f6"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textStyle="normal"
+            android:drawableEnd="@drawable/ic_copy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="GC125sd4s8r43" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/button_gradient_bg"
+        android:text="@string/login"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@null" />
+
+
+</LinearLayout>

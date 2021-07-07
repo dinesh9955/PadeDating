@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        tools:context=".ui.main.HomeActivity">
+
+        <fragment
+            android:id="@+id/nav_host_fragment_home"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_main" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.fxn.BubbleTabBar
+            android:id="@+id/bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:padding="7dp"
+            app:bubbletab_custom_font="@font/rubik"
+            app:bubbletab_title_size="14sp"
+            app:background="@drawable/bg_round_edge_top_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:bubbletab_menuResource="@menu/home_menu">
+        </com.fxn.BubbleTabBar>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

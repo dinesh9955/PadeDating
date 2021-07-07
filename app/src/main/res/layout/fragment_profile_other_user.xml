@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+
+            android:background="@drawable/bg_round_edge_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivUserPic"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/group_81684"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.5" />
+
+                <TextView
+                    android:id="@+id/tvOtherUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_medium"
+                    android:textStyle="normal"
+                    android:textSize="24sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Lily James , 22"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivUserPic"
+                    android:layout_margin="@dimen/_20sdp"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@id/ivUserPic"
+                    android:src="@drawable/ic_verified"/>
+
+                <TextView
+                    android:id="@+id/tvEmployementType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Fashion, Arts"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvOtherUserName"
+                    />
+
+                <TextView
+                    android:id="@+id/textAbout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_medium"
+                    android:textStyle="normal"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="@string/about"
+                    android:layout_marginVertical="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvEmployementType"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAboutDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textAbout"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                     android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam"
+                    />
+
+                <TextView
+                    android:id="@+id/textImages"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_medium"
+                    android:textStyle="normal"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:gravity="start"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvAboutDesc"
+                    android:text="@string/images"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvImagesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_other_user_images"
+                    app:layout_constraintTop_toBottomOf="@id/textImages"
+                    />
+                <View
+                    android:id="@+id/vBottom"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_70sdp"
+                    app:layout_constraintTop_toBottomOf="@id/rvImagesList"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:tint="@color/white"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        >
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

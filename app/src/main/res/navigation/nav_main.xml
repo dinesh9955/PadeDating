@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.padedatingapp.ui.main.fragments.MeetMeFragment"
+        tools:layout="@layout/fragment_meet_me">
+
+        <action
+            android:id="@+id/action_to_notif"
+            app:destination="@id/notificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_matches"
+            app:destination="@id/matchesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+
+        <action
+            android:id="@+id/action_to_filters"
+            app:destination="@id/filtersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_other_profile"
+            app:destination="@id/profileOtherUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_chat"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.padedatingapp.ui.main.fragments.MatchesFragment"
+        tools:layout="@layout/fragment_matches">
+
+        <action
+            android:id="@+id/action_to_buy_premium"
+            app:destination="@id/buyPremiumFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_notif"
+            app:destination="@id/notificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_filters"
+            app:destination="@id/filtersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_chat"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_meet_me"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_to_buy_premium"
+            app:destination="@id/buyPremiumFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_sign_up_about_fragment"
+            app:destination="@id/signupAboutMeFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:launchSingleTop="true" >
+            <argument
+                android:name="title"
+                android:defaultValue="Edit Info"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
+        <action
+            android:id="@+id/action_to_edit_profile_fragment"
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_to_loyalty_fragment"
+            app:destination="@id/loyaltyPointFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_gift_card_list_fragment"
+            app:destination="@id/giftCardsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_refer_friend_fragment"
+            app:destination="@id/referFriendFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/action_to_buy_credit_fragment"
+            app:destination="@id/buyCreditFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.padedatingapp.ui.main.fragments.MessagesFragment"
+        tools:layout="@layout/fragment_messages">
+
+        <action
+            android:id="@+id/action_to_chat_fragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/buyPremiumFragment"
+        android:name="com.padedatingapp.ui.main.fragments.BuyPremiumFragment"
+        tools:layout="@layout/fragment_buy_premium">
+
+        <action
+            android:id="@+id/action_to_buy"
+            app:destination="@id/buyGiftCardWithPayment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                android:name="title"
+                app:nullable="false"
+                app:argType="string"
+                android:defaultValue="Buy Premium"
+                />
+        </action>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/buyGiftCardsListFragment"
+        android:name="com.padedatingapp.ui.main.fragments.BuyGiftCardsListFragment"
+        tools:layout="@layout/fragment_buy_gift_cards_list">
+        <action
+            android:id="@+id/action_to_buy"
+            app:destination="@id/buyGiftCardWithPayment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+        <argument
+            android:name="title"
+            app:nullable="false"
+            app:argType="string"
+            android:defaultValue="Buy Gift Card"
+            /></action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.padedatingapp.ui.main.fragments.NotificationsFragment"
+        tools:layout="@layout/fragment_notifications"></fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ChatFragment"
+        tools:layout="@layout/fragment_chat"></fragment>
+
+    <fragment
+        android:id="@+id/buyGiftCardWithPayment"
+        android:name="com.padedatingapp.ui.main.fragments.BuyGiftFragment"
+        tools:layout="@layout/fragment_buy_gift"></fragment>
+
+    <fragment
+        android:id="@+id/giftCardsFragment"
+        android:name="com.padedatingapp.ui.main.fragments.GiftCardsFragment"
+        tools:layout="@layout/fragment_gift_cards">
+        <action
+            android:id="@+id/action_to_buy_gift_card"
+            app:destination="@id/buyGiftCardsListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loyaltyPointFragment"
+        android:name="com.padedatingapp.ui.main.fragments.LoyaltyPointFragment"
+        tools:layout="@layout/fragment_loyalty_point">
+
+        <action
+            android:id="@+id/action_to_buy_premium"
+            app:destination="@id/buyPremiumFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument android:name="from"
+                android:defaultValue="none"
+                app:argType="string"
+                />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.padedatingapp.ui.main.fragments.edit_profile.EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile"></fragment>
+
+
+    <fragment
+        android:id="@+id/profileOtherUserFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ProfileOtherUserFragment"
+        tools:layout="@layout/fragment_profile_other_user"></fragment>
+
+    <fragment
+        android:id="@+id/buyCreditFragment"
+        android:name="com.padedatingapp.ui.main.fragments.BuyCreditFragment"
+        tools:layout="@layout/fragment_buy_credit"></fragment>
+
+
+    <fragment
+        android:id="@+id/signupAboutMeFragment"
+        android:name="com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeSignUpFragment"
+        tools:layout="@layout/fragment_about_me_sign_up"></fragment>
+
+    <fragment
+        android:id="@+id/referFriendFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ReferFriendFragment"
+        tools:layout="@layout/fragment_refer_friend"></fragment>
+
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="com.padedatingapp.ui.main.fragments.FiltersFragment"
+        tools:layout="@layout/fragment_filters"></fragment>
+</navigation>
