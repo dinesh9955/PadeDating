@@ -13,6 +13,7 @@ object NetworkUrls {
     const val PROFILE_SETUP = "api/v1/user/profileSetup" //create new account
     const val StaffByCategory = "api/v1/Customer/StaffByCategory" //create new account
     const val giftCards = "api/v1/admin/giftCards"
-
+    const val explore = "api/v1/user/explore"
+    const val matches = "api/v1/user/matches"
 
 }

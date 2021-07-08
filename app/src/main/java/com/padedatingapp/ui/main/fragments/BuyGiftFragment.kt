@@ -14,6 +14,7 @@ import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentBuyGiftBinding
 import com.padedatingapp.utils.hideKeyboard
+import kotlinx.android.synthetic.main.header_layout.view.*
 
 
 class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){

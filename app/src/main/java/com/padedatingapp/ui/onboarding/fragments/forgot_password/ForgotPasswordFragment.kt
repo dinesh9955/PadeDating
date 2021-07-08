@@ -14,11 +14,12 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentForgotPasswordBinding
 import com.padedatingapp.model.OtpData
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.getFormattedCountDownTimer
 import com.padedatingapp.utils.hideKeyboard
+import kotlinx.android.synthetic.main.header_layout.view.*
 import org.koin.android.ext.android.inject
 
 class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding>() {
@@ -122,7 +123,7 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
         }
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -131,16 +132,16 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
                 progressDialog?.dismiss()
                 when (type) {
                     "sendOtpResponse" -> {
-                        var data = response.data as? Result<OtpData>
+                        var data = response.data as? ResultModel<OtpData>
                         onSendOtpResponse(data)
                     }
                     "verifyOtpResponse" -> {
-                        var data = response.data as? Result<UserModel>
+                        var data = response.data as? ResultModel<UserModel>
                         onVerifyOtpResponse(data)
                     }
 
                     "forgotPasswordResponse" -> {
-                        var data = response.data as? Result<UserModel>
+                        var data = response.data as? ResultModel<UserModel>
                         onForgotPasswordResponse(data)
                     }
 
@@ -157,7 +158,7 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
 
     }
 
-    private fun onForgotPasswordResponse(data: Result<UserModel>?) {
+    private fun onForgotPasswordResponse(data: ResultModel<UserModel>?) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 viewBinding.otpView.setText("")
@@ -169,7 +170,7 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
         }
     }
 
-    private fun onVerifyOtpResponse(data: Result<UserModel>?) {
+    private fun onVerifyOtpResponse(data: ResultModel<UserModel>?) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS) {
                 timer.cancel()
@@ -183,7 +184,7 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
     }
 
 
-    private fun onSendOtpResponse(data: Result<OtpData>?) {
+    private fun onSendOtpResponse(data: ResultModel<OtpData>?) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 viewBinding.tvResend.isEnabled = false

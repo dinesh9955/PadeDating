@@ -40,7 +40,7 @@ import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentEditProfileBinding
 import com.padedatingapp.model.ImageModel
 import com.padedatingapp.model.ImageUploadResponse
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.CustomCameraView
 import com.padedatingapp.ui.PlayerActivity
@@ -109,7 +109,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
 
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -119,12 +119,12 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
 
                 when (type) {
                     "setupProfileResponse" -> {
-                        val data = response.data as Result<UserModel>
+                        val data = response.data as ResultModel<UserModel>
                         onSetupProfileResponse(data)
                     }
 
                     "uploadFileResponse" -> {
-                        val data = response.data as Result<ImageUploadResponse>
+                        val data = response.data as ResultModel<ImageUploadResponse>
                         onUploadFileResponse(data)
                     }
                 }
@@ -139,7 +139,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
         }
     }
 
-    private fun onUploadFileResponse(data: Result<ImageUploadResponse>) {
+    private fun onUploadFileResponse(data: ResultModel<ImageUploadResponse>) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 if (isProfileClick) {
@@ -180,7 +180,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
         viewBinding.rvPhotos.layoutManager = GridLayoutManager(requireContext(), 4)
     }
 
-    private fun onSetupProfileResponse(data: Result<UserModel>) {
+    private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)

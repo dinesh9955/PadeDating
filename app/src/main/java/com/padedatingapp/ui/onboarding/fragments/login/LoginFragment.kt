@@ -16,14 +16,13 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentLoginBinding
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
 import org.koin.android.ext.android.inject
-import kotlin.math.log
 
 class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     private val loginVM by inject<LoginVM>()
@@ -81,7 +80,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -91,7 +90,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
                 when (type) {
                     "loginResponse" -> {
-                        val data = response.data as Result<UserModel>
+                        val data = response.data as ResultModel<UserModel>
                         onLoginResponse(data)
                     }
                 }
@@ -106,7 +105,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun onLoginResponse(data: Result<UserModel>) {
+    private fun onLoginResponse(data: ResultModel<UserModel>) {
 
         data?.let {
 

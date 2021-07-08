@@ -1,17 +1,15 @@
 package com.padedatingapp.ui.onboarding.fragments.otp
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.OtpRepo
-import com.padedatingapp.api.repository.SignUpRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.OtpData
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -23,8 +21,8 @@ class OtpVM(
     private val coroutinesManager: CoroutinesManager,
     private val otpRepo: OtpRepo
 ) : ViewModel() {
-    var verifyOtpResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var sendOtpResponse = SingleLiveEvent<Resource<Result<OtpData>>>()
+    var verifyOtpResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var sendOtpResponse = SingleLiveEvent<Resource<ResultModel<OtpData>>>()
     var countryCode = ""
     var verificationType = "phone"
     var otp = SingleLiveEvent<String>()

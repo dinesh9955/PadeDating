@@ -13,9 +13,8 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentNewAccountBinding
 import com.padedatingapp.model.OtpData
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
-import com.padedatingapp.ui.onboarding.fragments.otp.VerifyOtpFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_new_account.*
@@ -84,7 +83,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
     }
 
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -94,12 +93,12 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
                 when (type) {
                     "registerUserResponse" -> {
-                        var data = response.data as Result<UserModel>
+                        var data = response.data as ResultModel<UserModel>
                         onRegisterUserResponse(data)
                     }
 
                     "sentOtpResponse" -> {
-                        var data = response.data as Result<OtpData>
+                        var data = response.data as ResultModel<OtpData>
                         onSendOtpResponse(data)
                     }
                 }
@@ -114,7 +113,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         }
     }
 
-    private fun onRegisterUserResponse(data: Result<UserModel>?) {
+    private fun onRegisterUserResponse(data: ResultModel<UserModel>?) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 signUpVM.phoneNo.value = data.data!!.phoneNo
@@ -133,7 +132,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         }
     }
 
-    private fun onSendOtpResponse(data: Result<OtpData>?) {
+    private fun onSendOtpResponse(data: ResultModel<OtpData>?) {
 
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {

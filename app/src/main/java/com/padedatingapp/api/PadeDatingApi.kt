@@ -10,35 +10,35 @@ interface PadeDatingApi {
     @POST(NetworkUrls.REGISTER_USER)
     suspend fun registerUser(
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @POST(NetworkUrls.VERIFY_OTP)
     suspend fun verifyOtp(
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @POST(NetworkUrls.SEND_OTP)
     suspend fun sendOtp(
         @Body body: RequestBody
-    ): Result<OtpData>
+    ): ResultModel<OtpData>
 
 
     @POST(NetworkUrls.PROFILE_SETUP)
     suspend fun profileSetUp(
         @Header("Authorization") token:String,
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @POST(NetworkUrls.CHECK_USERNAME)
     suspend fun checkUsername(
         @Header("Authorization") token:String,
         @Body body: RequestBody
-    ): Result<UsernameResponse>
+    ): ResultModel<UsernameResponse>
 
     @POST(NetworkUrls.LOGIN)
     suspend fun login(
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @Multipart
     @POST(NetworkUrls.UPLOAD_FILE)
@@ -47,31 +47,48 @@ interface PadeDatingApi {
         @Part source: MultipartBody.Part?,
         @Part thumb: MultipartBody.Part?,
         @Part("type") type:RequestBody
-    ): Result<ImageUploadResponse>
+    ): ResultModel<ImageUploadResponse>
 
     @POST(NetworkUrls.FORGOT_PASSWORD)
     suspend fun forgotPassword(
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @POST(NetworkUrls.RESET_PASSWORD)
     suspend fun resetPassword(
         @Header("Authorization") token: String,
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
     @POST(NetworkUrls.StaffByCategory)
     suspend fun staffByCategory(
         @Header("Authorization") token: String,
         @Body body: RequestBody
-    ): Result<UserModel>
+    ): ResultModel<UserModel>
 
 
-    @POST(NetworkUrls.giftCards)
+    @GET(NetworkUrls.giftCards)
     suspend fun giftCards(
-        @Header("Authorization") token: String,
-        @Body body: RequestBody
-    ): Result<AllGiftCard>
+        @Header("Authorization") token: String
+//        @Body body: RequestBody
+    ): ResultModel<AllGiftCard>
+
+
+
+    @POST(NetworkUrls.explore)
+    suspend fun meetMe(
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): MeetMe
+
+
+    @GET(NetworkUrls.matches)
+    suspend fun myMatches(
+            @Header("Authorization") token: String
+//            @Query("limit") limit: String,
+//            @Query("page") page: String
+           // @Body body: RequestBody
+    ): ResultModel<MyMatches>
 
 
 

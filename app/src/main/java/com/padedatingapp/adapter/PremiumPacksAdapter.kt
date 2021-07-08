@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemPremiumPackstBinding
+import com.padedatingapp.model.Doc
 import com.padedatingapp.model.DummyModel
 
 class PremiumPacksAdapter(private val listener: OnItemClickListener) :
@@ -78,4 +79,14 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
             3 ->   ContextCompat.getDrawable(context, R.drawable.pattern_bg_blue)
             else ->  ContextCompat.getDrawable(context, R.drawable.pattern_bg_green)
         }
+
+
+    fun updateData(arrayList2: ArrayList<DummyModel>) {
+       // alName = arrayList2
+        notifyDataSetChanged()
+    }
+
+
+
+
 }

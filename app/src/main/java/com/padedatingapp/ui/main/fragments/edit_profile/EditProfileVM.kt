@@ -3,16 +3,14 @@ package com.padedatingapp.ui.main.fragments.edit_profile
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.EditProfileRepo
-import com.padedatingapp.api.repository.UploadPhotoRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.ImageModel
 import com.padedatingapp.model.ImageUploadResponse
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -29,8 +27,8 @@ class EditProfileVM(
     private val coroutinesManager: CoroutinesManager,
     private val editProfileRepo: EditProfileRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var uploadFileResponse = SingleLiveEvent<Resource<Result<ImageUploadResponse>>>()
+    var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var uploadFileResponse = SingleLiveEvent<Resource<ResultModel<ImageUploadResponse>>>()
     var file: File? = null
     var token = ""
     var profilePicUrl = ""

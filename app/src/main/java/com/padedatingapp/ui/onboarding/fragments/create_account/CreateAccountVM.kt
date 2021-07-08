@@ -10,13 +10,11 @@ import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.SignUpRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.UsernameResponse
 import com.padedatingapp.utils.ResourceProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -28,8 +26,8 @@ class CreateAccountVM(
     private val signUpRepo: SignUpRepo
 ) : ViewModel() {
 
-    var setupProfileResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var checkUsernameResponse = SingleLiveEvent<Resource<Result<UsernameResponse>>>()
+    var setupProfileResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var checkUsernameResponse = SingleLiveEvent<Resource<ResultModel<UsernameResponse>>>()
     var countryCode = ""
     var token = ""
     var firstName = MutableLiveData<String>("")

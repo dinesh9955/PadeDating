@@ -9,6 +9,7 @@ import com.padedatingapp.R
 import com.padedatingapp.adapter.PremiumPacksAdapter
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentBuyPremiumBinding
+import com.padedatingapp.model.Doc
 import com.padedatingapp.model.DummyModel
 import com.padedatingapp.utils.hideKeyboard
 

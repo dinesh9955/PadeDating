@@ -1,29 +1,21 @@
 package com.padedatingapp.ui.onboarding.fragments.about_me
 
 import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.AboutMeRepo
-import com.padedatingapp.api.repository.LoginRepo
-import com.padedatingapp.api.repository.UploadPhotoRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.ImageUploadResponse
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.File
 
 class AboutMeVM(
@@ -31,7 +23,7 @@ class AboutMeVM(
     private val coroutinesManager: CoroutinesManager,
     private val aboutMeRepo: AboutMeRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
+    var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
     var file: File? = null
     var token = ""
     var religiousBeliefs = MutableLiveData("")

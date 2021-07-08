@@ -2,15 +2,12 @@ package com.padedatingapp.ui.onboarding.fragments.upload_photo
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.padedatingapp.api.Resource
-import com.padedatingapp.api.repository.LoginRepo
 import com.padedatingapp.api.repository.UploadPhotoRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.ImageUploadResponse
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -27,8 +24,8 @@ class UploadPhotoVM(
     private val coroutinesManager: CoroutinesManager,
     private val uploadPhotoRepo: UploadPhotoRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var uploadFileResponse = SingleLiveEvent<Resource<Result<ImageUploadResponse>>>()
+    var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var uploadFileResponse = SingleLiveEvent<Resource<ResultModel<ImageUploadResponse>>>()
     var file: File? = null
     var token = ""
     var profilePicUrl = ""

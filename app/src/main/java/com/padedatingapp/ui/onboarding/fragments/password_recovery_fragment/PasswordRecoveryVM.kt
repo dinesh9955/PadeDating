@@ -9,7 +9,7 @@ import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.ForgotPasswordRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class PasswordRecoveryVM(
     private val coroutinesManager: CoroutinesManager,
     private val forgotPasswordRepo: ForgotPasswordRepo
 ) : ViewModel() {
-    var resetPasswordResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
+    var resetPasswordResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
     var token = ""
     var password = MutableLiveData<String>("")
     var email = MutableLiveData<String>("")

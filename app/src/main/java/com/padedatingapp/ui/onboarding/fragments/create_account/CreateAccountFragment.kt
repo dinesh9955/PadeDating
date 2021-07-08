@@ -28,7 +28,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentCreateAccountBinding
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.UsernameResponse
 import com.padedatingapp.utils.AppConstants
@@ -147,7 +147,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         })
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 if (type != "checkUsernameResponse")
@@ -158,12 +158,12 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
 
                 when (type) {
                     "setupProfileResponse" -> {
-                        var data = response.data as Result<UserModel>
+                        var data = response.data as ResultModel<UserModel>
                         onSetupProfileResponse(data)
                     }
 
                     "checkUsernameResponse" -> {
-                        var data = response.data as Result<UsernameResponse>
+                        var data = response.data as ResultModel<UsernameResponse>
                         onCheckUsernameResponse(data)
                     }
                 }
@@ -178,7 +178,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         }
     }
 
-    private fun onSetupProfileResponse(data: Result<UserModel>) {
+    private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN,it.data?.accessToken!!)
@@ -191,7 +191,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
 
     }
 
-    private fun onCheckUsernameResponse(data: Result<UsernameResponse>) {
+    private fun onCheckUsernameResponse(data: ResultModel<UsernameResponse>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 if (it.data!!.isAvailable) {

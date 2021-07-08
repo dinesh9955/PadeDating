@@ -12,11 +12,11 @@ import javax.inject.Singleton
 @Singleton
 class UploadPhotoRepo @Inject constructor(private val padeApi: PadeDatingApi) {
 
-    suspend fun uploadFile(token: String,source: MultipartBody.Part?,thumb: MultipartBody.Part?,type:  RequestBody): Resource<Result<ImageUploadResponse>> {
+    suspend fun uploadFile(token: String,source: MultipartBody.Part?,thumb: MultipartBody.Part?,type:  RequestBody): Resource<ResultModel<ImageUploadResponse>> {
         return handleException { padeApi.uploadFile(token,source,thumb,type) }
     }
 
-    suspend fun setUpProfile(token: String, requestBody: RequestBody): Resource<Result<UserModel>> {
+    suspend fun setUpProfile(token: String, requestBody: RequestBody): Resource<ResultModel<UserModel>> {
         return handleException { padeApi.profileSetUp(token, requestBody) }
     }
 

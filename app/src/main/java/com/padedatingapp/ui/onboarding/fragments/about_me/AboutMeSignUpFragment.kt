@@ -16,7 +16,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentAboutMeSignUpBinding
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.utils.AppConstants
@@ -238,7 +238,9 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
         Log.e(TAG , "onViewCreated11")
     }
 
-    private fun getLiveData(response: Resource<Result<UserModel>>?, type: String) {
+
+
+    private fun getLiveData(response: Resource<ResultModel<UserModel>>?, type: String) {
 
         Log.e(TAG , "onViewCreated12")
 
@@ -251,7 +253,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
 
                 when (type) {
                     "setupProfileResponse" -> {
-                        val data = response.data as Result<UserModel>
+                        val data = response.data as ResultModel<UserModel>
                         onSetupProfileResponse(data)
                     }
                 }
@@ -266,7 +268,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
         }
     }
 
-    private fun onSetupProfileResponse(data: Result<UserModel>) {
+    private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
 
         Log.e(TAG, "onSetupProfileResponse "+data)
 

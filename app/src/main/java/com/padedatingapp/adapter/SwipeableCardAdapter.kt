@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.padedatingapp.databinding.ItemMeetMeBinding
-import com.padedatingapp.model.DummyModel
 
-class SwipeableCardAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<DummyModel, SwipeableCardAdapter.MatchesViewHolder>(
+import com.padedatingapp.model.MeetMeData
+
+class SwipeableCardAdapter(internal var list: ArrayList<MeetMeData>, private val listener: OnItemClickListener) :
+    ListAdapter<MeetMeData, SwipeableCardAdapter.MatchesViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
     inner class MatchesViewHolder(private val binding: ItemMeetMeBinding) :
@@ -20,10 +21,15 @@ class SwipeableCardAdapter(private val listener: OnItemClickListener) :
              }
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: MeetMeData) {
             binding.apply {
             }
         }
+    }
+
+
+    override fun getItemCount(): Int {
+        return list?.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
@@ -39,18 +45,23 @@ class SwipeableCardAdapter(private val listener: OnItemClickListener) :
         }
     }
 
+    fun updateData(arrayList2: ArrayList<MeetMeData>) {
+        list = arrayList2
+        notifyDataSetChanged()
+    }
+
     companion object {
-        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DummyModel>() {
+        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<MeetMeData>() {
             override fun areItemsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: MeetMeData,
+                newItem: MeetMeData
             ): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun areContentsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: MeetMeData,
+                newItem: MeetMeData
             ): Boolean {
                 TODO("Not yet implemented")
             }
@@ -58,7 +69,7 @@ class SwipeableCardAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(model: DummyModel)
+        fun onItemClick(model: MeetMeData)
     }
 
 }

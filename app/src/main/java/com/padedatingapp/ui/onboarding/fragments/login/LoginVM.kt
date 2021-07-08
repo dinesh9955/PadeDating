@@ -10,7 +10,7 @@ import com.padedatingapp.api.repository.LoginRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.OtpData
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -23,8 +23,8 @@ class LoginVM(
     private val coroutinesManager: CoroutinesManager,
     private val loginRepo: LoginRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var sendOtpResponse = SingleLiveEvent<Resource<Result<OtpData>>>()
+    var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var sendOtpResponse = SingleLiveEvent<Resource<ResultModel<OtpData>>>()
 
     var countryCode = ""
     var verificationType = "phone"

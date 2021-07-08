@@ -38,6 +38,7 @@ import com.padedatingapp.utils.ImageCompressor
 import com.padedatingapp.utils.RealPathUtil
 import com.padedatingapp.utils.hideKeyboard
 import id.zelory.compressor.Compressor
+import kotlinx.android.synthetic.main.header_layout.view.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -167,7 +168,7 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
         }
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -177,12 +178,12 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
 
                 when (type) {
                     "setupProfileResponse" -> {
-                        var data = response.data as Result<UserModel>
+                        var data = response.data as ResultModel<UserModel>
                         onSetupProfileResponse(data)
                     }
 
                     "uploadFileResponse" -> {
-                        var data = response.data as Result<ImageUploadResponse>
+                        var data = response.data as ResultModel<ImageUploadResponse>
                         onUploadFileResponse(data)
                     }
                 }
@@ -197,7 +198,7 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
         }
     }
 
-    private fun onUploadFileResponse(data: Result<ImageUploadResponse>) {
+    private fun onUploadFileResponse(data: ResultModel<ImageUploadResponse>) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 if (isProfileClick) {
@@ -230,7 +231,7 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
         }
     }
 
-    private fun onSetupProfileResponse(data: Result<UserModel>) {
+    private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)

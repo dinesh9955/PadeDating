@@ -1,7 +1,6 @@
 package com.padedatingapp.ui.onboarding.fragments.newaccount
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonObject
 import com.padedatingapp.R
@@ -10,7 +9,7 @@ import com.padedatingapp.api.repository.SignUpRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.OtpData
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -23,8 +22,8 @@ class SignUpVM(
     private val coroutinesManager: CoroutinesManager,
     private val signUpRepo: SignUpRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<Result<UserModel>>>()
-    var sendOtpResponse = SingleLiveEvent<Resource<Result<OtpData>>>()
+    var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var sendOtpResponse = SingleLiveEvent<Resource<ResultModel<OtpData>>>()
 
     var countryCode = ""
     var verificationType = "phone"

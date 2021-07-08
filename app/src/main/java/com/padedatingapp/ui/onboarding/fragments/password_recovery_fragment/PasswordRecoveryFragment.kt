@@ -18,7 +18,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentPasswordRecoveryBinding
-import com.padedatingapp.model.Result
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -45,7 +45,7 @@ class PasswordRecoveryFragment : DataBindingFragment<FragmentPasswordRecoveryBin
         }
     }
 
-    private fun getLiveData(response: Resource<Result<*>>?, type: String) {
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
         when (response?.status) {
             Resource.Status.LOADING -> {
                 progressDialog?.show()
@@ -54,7 +54,7 @@ class PasswordRecoveryFragment : DataBindingFragment<FragmentPasswordRecoveryBin
                 progressDialog?.dismiss()
                 when (type) {
                     "resetPasswordResponse" -> {
-                        var data = response.data as? Result<UserModel>
+                        var data = response.data as? ResultModel<UserModel>
                         onResetPasswordResponse(data)
                     }
 
@@ -71,7 +71,7 @@ class PasswordRecoveryFragment : DataBindingFragment<FragmentPasswordRecoveryBin
 
     }
 
-    private fun onResetPasswordResponse(data: Result<UserModel>?) {
+    private fun onResetPasswordResponse(data: ResultModel<UserModel>?) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 showCongratsPopup()
