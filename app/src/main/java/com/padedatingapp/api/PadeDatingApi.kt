@@ -91,5 +91,12 @@ interface PadeDatingApi {
     ): ResultModel<MyMatches>
 
 
+    @PUT(NetworkUrls.profile+"{id}")
+    suspend fun meetMeLike(
+            @Path("id") id: String,
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): MeetMe
+
 
 }

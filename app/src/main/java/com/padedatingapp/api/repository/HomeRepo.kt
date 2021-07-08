@@ -24,4 +24,10 @@ class HomeRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     }
 
 
+    suspend fun meetMeLike(id: String, token: String, requestBody: RequestBody): Resource<MeetMe> {
+        return handleException { padeApi.meetMeLike(id, token, requestBody) }
+    }
+
+
+
 }

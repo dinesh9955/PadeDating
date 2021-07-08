@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.card.MaterialCardView
 import com.padedatingapp.R
 import com.padedatingapp.model.Doc
 import com.padedatingapp.model.MeetMeData
@@ -40,7 +41,8 @@ class MeetMeAdapter(internal var context: Context, internal var list: List<MeetM
     override fun onBindViewHolder(holder: BookMarkListViewHolder, position: Int) {
           Glide.with(context).load(list!![position]?.image)
           .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(holder.imageViewPhoto)
-        holder.nameTextView.text = list[position].firstName+" "+list[position].lastName+", "+list[position].age
+
+          holder.nameTextView.text = list[position].firstName+" "+list[position].lastName+", "+list[position].age
 
 //        holder.rootLayout1.background = getDrawable(context, position)!!
 //        holder.cardNameTextView.text = list[position].cardName
@@ -80,11 +82,11 @@ class MeetMeAdapter(internal var context: Context, internal var list: List<MeetM
 //        holder.validTillTextView.text = ""+months
 
 
-//
-//        holder.rootLayout1.setOnClickListener(View.OnClickListener {
-//            listener.onItemClick(list[position])
-//            //  ((BuyGiftCardsListFragment).context.cofindNavController().navigate(BuyGiftCardsListFragmentDirections.actionToBuy())
-//        })
+
+        holder.materialCardView.setOnClickListener(View.OnClickListener {
+            listener.onItemClick(list[position])
+            //  ((BuyGiftCardsListFragment).context.cofindNavController().navigate(BuyGiftCardsListFragmentDirections.actionToBuy())
+        })
 
     }
 
@@ -93,13 +95,13 @@ class MeetMeAdapter(internal var context: Context, internal var list: List<MeetM
         var imageViewPhoto : ImageView
         var nameTextView: TextView
         var distanceView: TextView
-//        var validTillTextView: TextView
+        var materialCardView: MaterialCardView
 //
         init {
             imageViewPhoto = itemView.findViewById(R.id.image)
             nameTextView = itemView.findViewById(R.id.tvName)
             distanceView = itemView.findViewById(R.id.tvUserDistance)
-//            validTillTextView = itemView.findViewById(R.id.tvPackValidity)
+            materialCardView = itemView.findViewById(R.id.cardViewRoot)
         }
     }
 

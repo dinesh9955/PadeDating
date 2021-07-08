@@ -109,14 +109,6 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             findNavController().navigate(R.id.action_to_notif)
         }
 
-        viewBinding.likeFloating.setOnClickListener {
-            // viewBinding.motionLayout.transitionToState(R.id.like)
-            showCongratsPopup()
-        }
-
-        viewBinding.unlikeFloating.setOnClickListener {
-            dislike()
-        }
         viewBinding.ivFilters.setOnClickListener {
             findNavController().navigate(MeetMeFragmentDirections.actionToFilters())
         }
@@ -255,6 +247,28 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
     override fun onCardAppeared(view: View?, position: Int) {
         Log.e("MeetMeFragment", "onCardAppeared: ")
+
+        viewBinding.likeFloating.setOnClickListener {
+            // viewBinding.motionLayout.transitionToState(R.id.like)
+//            showCongratsPopup()
+           // viewBinding.cStack.swipe()
+            Log.e("MeetMeFragment", "setOnClickListener: "+position)
+
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("action", "like")
+
+            meetMeVM.callMeetMeLikeApi(
+                    list[position]._id,
+                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
+
+
+        }
+
+        viewBinding.unlikeFloating.setOnClickListener {
+            dislike()
+        }
+
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {

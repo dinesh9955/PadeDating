@@ -15,5 +15,5 @@ object NetworkUrls {
     const val giftCards = "api/v1/admin/giftCards"
     const val explore = "api/v1/user/explore"
     const val matches = "api/v1/user/matches"
-
+    const val profile = "api/v1/user/profile/"
 }

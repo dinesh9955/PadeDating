@@ -40,4 +40,14 @@ class MeetMeVM(
     }
 
 
+
+    fun callMeetMeLikeApi(id : String, body: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            loginResponse.postValue(Resource.loading(null))
+            loginResponse.postValue(aboutMeRepo.meetMeLike(id, "Bearer $token", body))
+        }
+    }
+
+
+
 }
