@@ -3,10 +3,7 @@ package com.padedatingapp.api.repository
 import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
-import com.padedatingapp.model.MeetMe
-import com.padedatingapp.model.MyMatches
-import com.padedatingapp.model.ResultModel
-import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.*
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,12 +16,12 @@ class HomeRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     }
 
 
-    suspend fun myMatches(token: String, requestBody: RequestBody): Resource<ResultModel<MyMatches>> {
+    suspend fun myMatches(token: String, requestBody: RequestBody): Resource<MyMatches> {
         return handleException { padeApi.myMatches(token) }
     }
 
 
-    suspend fun meetMeLike(id: String, token: String, requestBody: RequestBody): Resource<MeetMe> {
+    suspend fun meetMeLike(id: String, token: String, requestBody: RequestBody): Resource<LikeModel> {
         return handleException { padeApi.meetMeLike(id, token, requestBody) }
     }
 

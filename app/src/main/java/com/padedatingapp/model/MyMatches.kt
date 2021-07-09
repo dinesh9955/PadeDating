@@ -1,6 +1,8 @@
 package com.padedatingapp.model
 
 data class MyMatches(
-        val doc: ArrayList<Doc>,
-        val itemCount: Int
+        val data: List<MeetMeData>,
+        val message: String,
+        val statusCode: Int,
+        val success: Boolean
 )

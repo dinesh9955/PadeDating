@@ -1,5 +1,6 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.location.Address
@@ -8,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
 import com.google.android.libraries.places.api.model.Place
@@ -28,9 +31,14 @@ import java.util.*
 class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
     private val sharedPref by inject<SharedPref>()
 
+    var age = 0
+    var distance = 0
+
+    var interestIn = ""
 
     companion object {
         private const val SELECT_ADDRESS_REQUEST_CODE = 1003
+        var TAG = "FiltersFragment"
     }
 
 
@@ -58,6 +66,7 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
         setMarqueText(viewBinding.tvLocation)
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun initComponents() {
         viewBinding.ivClose.setOnClickListener {
             findNavController().popBackStack()
@@ -67,21 +76,59 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
         }
 
         viewBinding.tvDone.setOnClickListener {
+
+
+
+            sharedPref.setString("filter", "filter")
+            sharedPref.setString("interest", interestIn)
             sharedPref.setString("address", tvLocation.text.toString())
+            sharedPref.setString("employment", etEmployment.text.toString())
+            sharedPref.setInt("age", age)
+            sharedPref.setInt("distance", distance)
             findNavController().popBackStack()
         }
 
         viewBinding.rangeSeekbarAge.setOnRangeSeekbarChangeListener { minValue, maxValue ->
             if (minValue != null && maxValue != null) {
+                age = maxValue.toInt()
                 viewBinding.tvAge.text = "${minValue.toInt()} - ${maxValue.toInt()}"
             }
         }
 
         viewBinding.rangeSeekbarDistance.setOnRangeSeekbarChangeListener { minValue, maxValue ->
             if (minValue != null && maxValue != null) {
+                distance = maxValue.toInt()
                 viewBinding.tvDistance.text = "${minValue.toInt()}km - ${maxValue.toInt()}km"
             }
         }
+
+
+
+
+        tvMen.setOnClickListener(View.OnClickListener {
+            interestIn = "male"
+            tvMen.setBackgroundTintList(null);
+            tvWomen.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+            tvBoth.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+
+        })
+
+        tvWomen.setOnClickListener(View.OnClickListener {
+            interestIn = "female"
+            tvMen.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+            tvWomen.setBackgroundTintList(null);
+            tvBoth.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+        })
+
+        tvBoth.setOnClickListener(View.OnClickListener {
+            interestIn = "both"
+            tvMen.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+            tvWomen.background.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+            tvBoth.setBackgroundTintList(null);
+        })
+
+
+
     }
 
     override fun onResume() {

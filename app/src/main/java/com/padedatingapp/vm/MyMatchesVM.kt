@@ -18,7 +18,7 @@ class MyMatchesVM(
         private val coroutinesManager: CoroutinesManager,
         private val aboutMeRepo: HomeRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<ResultModel<MyMatches>>>()
+    var loginResponse = SingleLiveEvent<Resource<MyMatches>>()
     var token = ""
 
     var errorMessage =  MutableLiveData("")

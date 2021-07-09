@@ -13,6 +13,7 @@ import com.padedatingapp.adapter.PeopleWhoLikedAdapter
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentMessagesBinding
 import com.padedatingapp.model.DummyModel
+import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.utils.hideKeyboard
 
 class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
@@ -52,5 +53,9 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
+    }
+
+    override fun onItemClick(model: MeetMeData) {
+        TODO("Not yet implemented")
     }
 }

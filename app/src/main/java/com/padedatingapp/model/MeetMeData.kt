@@ -1,5 +1,11 @@
 package com.padedatingapp.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+
+
+@Parcelize
 data class MeetMeData(
     val __v: Int,
     val _id: String,
@@ -7,7 +13,7 @@ data class MeetMeData(
     val address: String,
     val age: Int,
     val appleId: String,
-    val blockedUsers: List<Any>,
+    val blockedUsers:@RawValue List<Any>,
     val city: String,
     val country: String,
     val countryCode: String,
@@ -34,7 +40,7 @@ data class MeetMeData(
     val instagramId: String,
     val interestedIn: String,
     val isActive: Boolean,
-    val isAlreadyThere: List<Any>,
+    val isAlreadyThere:@RawValue List<Any>,
     val isApproved: Boolean,
     val isBlocked: Boolean,
     val isDeleted: Boolean,
@@ -57,4 +63,4 @@ data class MeetMeData(
     val username: String,
     val walletAmount: String,
     val work: String
-)
+):Parcelable

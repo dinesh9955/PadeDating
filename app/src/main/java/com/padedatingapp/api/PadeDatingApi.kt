@@ -88,7 +88,7 @@ interface PadeDatingApi {
 //            @Query("limit") limit: String,
 //            @Query("page") page: String
            // @Body body: RequestBody
-    ): ResultModel<MyMatches>
+    ): MyMatches
 
 
     @PUT(NetworkUrls.profile+"{id}")
@@ -96,7 +96,7 @@ interface PadeDatingApi {
             @Path("id") id: String,
             @Header("Authorization") token: String,
             @Body body: RequestBody
-    ): MeetMe
+    ): LikeModel
 
 
 }

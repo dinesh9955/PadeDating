@@ -10,6 +10,7 @@ import com.padedatingapp.api.repository.AboutMeRepo
 import com.padedatingapp.api.repository.HomeRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
+import com.padedatingapp.model.LikeModel
 import com.padedatingapp.model.MeetMe
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
@@ -25,7 +26,9 @@ class MeetMeVM(
         private val coroutinesManager: CoroutinesManager,
         private val aboutMeRepo: HomeRepo
 ) : ViewModel() {
-    var loginResponse = SingleLiveEvent<Resource<MeetMe>>()
+    var meetMeResponse = SingleLiveEvent<Resource<MeetMe>>()
+    var likeModelResponse = SingleLiveEvent<Resource<LikeModel>>()
+
     var token = ""
 
     var errorMessage =  MutableLiveData("")
@@ -34,8 +37,8 @@ class MeetMeVM(
 
     fun callMeetMeApi(body: RequestBody) {
         coroutinesManager.ioScope.launch {
-            loginResponse.postValue(Resource.loading(null))
-            loginResponse.postValue(aboutMeRepo.meetMe("Bearer $token", body))
+            meetMeResponse.postValue(Resource.loading(null))
+            meetMeResponse.postValue(aboutMeRepo.meetMe("Bearer $token", body))
         }
     }
 
@@ -43,8 +46,8 @@ class MeetMeVM(
 
     fun callMeetMeLikeApi(id : String, body: RequestBody) {
         coroutinesManager.ioScope.launch {
-            loginResponse.postValue(Resource.loading(null))
-            loginResponse.postValue(aboutMeRepo.meetMeLike(id, "Bearer $token", body))
+            likeModelResponse.postValue(Resource.loading(null))
+            likeModelResponse.postValue(aboutMeRepo.meetMeLike(id, "Bearer $token", body))
         }
     }
 

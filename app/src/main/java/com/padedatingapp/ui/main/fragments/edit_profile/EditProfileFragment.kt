@@ -49,6 +49,7 @@ import com.padedatingapp.utils.ImageCompressor
 import com.padedatingapp.utils.RealPathUtil
 import com.padedatingapp.utils.hideKeyboard
 import id.zelory.compressor.Compressor
+import kotlinx.android.synthetic.main.header_layout.view.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

@@ -45,8 +45,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
 
+            <argument
+                android:name="meetMeModel"
+                app:argType="com.padedatingapp.model.MeetMeData"
+                app:nullable="false"
+                />
+        </action>
         <action
             android:id="@+id/action_to_chat"
             app:destination="@id/chatFragment"
@@ -54,7 +60,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
+
+        </action>
     </fragment>
 
     <fragment
@@ -96,7 +104,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
+
+            <argument
+                android:name="meetMeModelChat"
+                app:argType="com.padedatingapp.model.MeetMeData"
+                app:nullable="false"
+                />
+        </action>
 
         <action
             android:id="@+id/action_to_meet_me"

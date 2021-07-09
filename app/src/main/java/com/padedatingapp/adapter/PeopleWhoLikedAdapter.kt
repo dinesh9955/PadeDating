@@ -5,11 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemWhoLikedBinding
 import com.padedatingapp.model.DummyModel
+import com.padedatingapp.model.MeetMeData
+import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 
 class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<DummyModel, PeopleWhoLikedAdapter.UploadItemViewHolder>(
+    ListAdapter<MeetMeData, PeopleWhoLikedAdapter.UploadItemViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
     inner class UploadItemViewHolder(private val binding: ItemWhoLikedBinding) :
@@ -20,8 +25,13 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: MeetMeData) {
             binding.apply {
+                Glide.with(binding.root).load(model.image)
+                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+
+                tvName.text = model.firstName+" "+model.lastName+", "+model.age
+                tvProfileType.text = model.work
             }
         }
     }
@@ -40,17 +50,17 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
     }
 
     companion object {
-        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DummyModel>() {
+        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<MeetMeData>() {
             override fun areItemsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: MeetMeData,
+                newItem: MeetMeData
             ): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun areContentsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: MeetMeData,
+                newItem: MeetMeData
             ): Boolean {
                 TODO("Not yet implemented")
             }
@@ -58,7 +68,7 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(model: DummyModel)
+        fun onItemClick(model: MeetMeData)
     }
 
 }

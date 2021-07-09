@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.birimo.birimosports.utils.SharedPref
 import com.google.gson.JsonObject
 import com.padedatingapp.R
+import com.padedatingapp.adapter.MeetMeAdapter
+import com.padedatingapp.adapter.OtherUserImagesAdapter
 import com.padedatingapp.adapter.PeopleWhoLikedAdapter
 import com.padedatingapp.api.Resource
+import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMatchesBinding
-import com.padedatingapp.model.DummyModel
-import com.padedatingapp.model.MeetMe
-import com.padedatingapp.model.MyMatches
-import com.padedatingapp.model.ResultModel
+import com.padedatingapp.model.*
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.MeetMeVM
@@ -33,6 +33,9 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
         var TAG = "MatchesFragment"
     }
 
+
+    private lateinit var adapter: PeopleWhoLikedAdapter
+    var list = ArrayList<MeetMeData>()
 
     private val myMatchesVM by inject<MyMatchesVM>()
     private var progressDialog: CustomProgressDialog? = null
@@ -56,12 +59,16 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
         myMatchesVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
 
 
-        var list = ArrayList<DummyModel>()
-        repeat(10) {
-            list.add(DummyModel())
-        }
-        var adapter = PeopleWhoLikedAdapter(this)
-        adapter.submitList(list)
+//        var list = ArrayList<DummyModel>()
+//        repeat(10) {
+//            list.add(DummyModel())
+//        }
+      //  var adapter = PeopleWhoLikedAdapter(this)
+
+        adapter = PeopleWhoLikedAdapter(this)
+
+        //adapter.submitList(list)
+
         adapter.notifyDataSetChanged()
         viewBinding.rvWhoLiked.adapter = adapter
         viewBinding.rvWhoLiked.layoutManager = GridLayoutManager(requireContext(),2)
@@ -126,7 +133,7 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
 
 
-    private fun getLiveData(response: Resource<ResultModel<MyMatches>>?, type: String) {
+    private fun getLiveData(response: Resource<MyMatches>?, type: String) {
 
         //Log.e(TAG, "onViewCreated12")
 
@@ -139,9 +146,9 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
                 when (type) {
                     "MyMatches" -> {
-                        val data = response.data as ResultModel<MeetMe>
+                        val data = response.data as MyMatches
                         Log.e(TAG, "dataAA "+data.toString())
-                        //  onSetupProfileResponse(data)
+                          onMyMatchesResponse(data)
                     }
                 }
             }
@@ -160,9 +167,38 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
 
 
-    override fun onItemClick(model: DummyModel) {
+    private fun onMyMatchesResponse(data: MyMatches) {
+        data?.let {
+            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                list = data.data as ArrayList<MeetMeData>
+                Log.e(TAG, "listAA "+list.size)
+//                adapter.updateData(list)
+//                adapter.notifyDataSetChanged()
+
+//                var adapter2 = PeopleWhoLikedAdapter(this)
+//                adapter2.submitList(list)
+//                adapter2.notifyDataSetChanged()
+//                viewBinding.rvImagesList.adapter = adapter2
+
+                adapter.submitList(list)
+
+                adapter.notifyDataSetChanged()
+//                viewBinding.rvWhoLiked.adapter = adapter
+
+            } else {
+                toast(data.message)
+            }
+        }
+    }
+
+
+
+
+
+
+    override fun onItemClick(model: MeetMeData) {
         Log.e("Matches Fragment", "onItemClick: " )
-        findNavController().navigate(MatchesFragmentDirections.actionToChat())
+        findNavController().navigate(MatchesFragmentDirections.actionToChat(model))
     }
 
     override fun onResume() {

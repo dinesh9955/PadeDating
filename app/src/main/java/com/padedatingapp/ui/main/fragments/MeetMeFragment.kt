@@ -27,20 +27,18 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MeetMeAdapter
-import com.padedatingapp.adapter.SwipeableCardAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
 import com.padedatingapp.model.*
-import com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeSignUpFragment
-import com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeVM
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.android.synthetic.main.fragment_filters.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -50,6 +48,7 @@ import kotlin.collections.ArrayList
 class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackListener,
         MeetMeAdapter.OnItemClickListener {
 
+    private lateinit var userObject : UserModel
 
     private lateinit var dialog: Dialog
     private lateinit var adapter: MeetMeAdapter
@@ -85,17 +84,18 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         if (sharedPref.getString("address") != "") {
             viewBinding.tvMyLocationHome.text = sharedPref.getString("address")
         } else {
-            val userObject =
-                Gson().fromJson(
-                    sharedPref.getString(AppConstants.USER_OBJECT),
-                    UserModel::class.java
-                )
             viewBinding.tvMyLocationHome.text = userObject.address
         }
         setMarqueText(viewBinding.tvMyLocationHome)
     }
 
     private fun initComponents() {
+        userObject =
+                Gson().fromJson(
+                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        UserModel::class.java
+                )
+
         meetMeVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
 
         viewBinding.tvMyLocationHome.setOnClickListener {
@@ -120,8 +120,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
         initializeCard()
         adapter = MeetMeAdapter(requireContext(), list, this)
-        adapter.updateData(list)
-        adapter.notifyDataSetChanged()
+       // adapter.updateData(list)
+        //adapter.notifyDataSetChanged()
         viewBinding.cStack.adapter = adapter
 
 
@@ -208,7 +208,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         val ivBack = dialogView.findViewById<ImageView>(R.id.ivBack)
         btnSendMessage.setOnClickListener {
             dialog.dismiss()
-            findNavController().navigate(MeetMeFragmentDirections.actionToChat())
+            //findNavController().navigate(MeetMeFragmentDirections.actionToChat(null))
         }
         btnKeepExploring.setOnClickListener {
             dialog.dismiss()
@@ -263,10 +263,18 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             )
 
 
+
         }
 
         viewBinding.unlikeFloating.setOnClickListener {
-            dislike()
+//            dislike()
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("action", "dislike")
+
+            meetMeVM.callMeetMeLikeApi(
+                    list[position]._id,
+                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
         }
 
     }
@@ -335,26 +343,54 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 //            showDropDownDialog(it)
 //        }
 
-        meetMeVM.loginResponse.observe(viewLifecycleOwner) {
+        meetMeVM.meetMeResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "MeetMe")
         }
 
-        Log.e(TAG, "onViewCreated11")
+
+        meetMeVM.likeModelResponse.observe(viewLifecycleOwner) {
+            getLiveDataLike(it, "LikeMe")
+        }
+
+
+        var filter = sharedPref.getString("filter")
+
+        Log.e(TAG, "filter11 "+filter)
 
 
         val jsonObj = JsonObject()
-        jsonObj.addProperty("gender", "Female")
-        jsonObj.addProperty("distance",10)
-        jsonObj.addProperty("age", 25)
+
+
+
+        if(filter.equals("filter")){
+            var interest = sharedPref.getString("interest")
+            var address = sharedPref.getString("address")
+            var employment = sharedPref.getString("employment")
+            var age = sharedPref.getInt("age")
+            var distance = sharedPref.getInt("distance")
+
+            jsonObj.addProperty("gender", interest)
+            jsonObj.addProperty("distance",distance)
+            jsonObj.addProperty("age", age)
+//            jsonObj.addProperty("limit", 4)
+//            jsonObj.addProperty("page", 1)
+        }else{
+            jsonObj.addProperty("gender", userObject.interestedIn)
+            jsonObj.addProperty("distance",10)
+            jsonObj.addProperty("age", 25)
 //        jsonObj.addProperty("lat", 30)
 //        jsonObj.addProperty("long", 70)
-        jsonObj.addProperty("limit", 4)
-        jsonObj.addProperty("page", 1)
+          //  jsonObj.addProperty("limit", 4)
+         //   jsonObj.addProperty("page", 1)
+        }
 
 
         meetMeVM.callMeetMeApi(
                 jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
         )
+
+
+        sharedPref.setString("filter", "")
 
 
     }
@@ -394,6 +430,57 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 
 
+    private fun getLiveDataLike(response: Resource<LikeModel>?, type: String) {
+
+        //Log.e(TAG, "onViewCreated12")
+
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "LikeMe" -> {
+                        val data = response.data as LikeModel
+                        Log.e(TAG, "dataAAB "+data.toString())
+                       // onMeetMeResponse(data)
+
+                        data?.let {
+                            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+
+                                if(data.data.likedBy.size != 0){
+                                    if(data.data.isMatched == true){
+                                        showCongratsPopup()
+                                    }else{
+                                        like()
+                                    }
+                                }
+
+                                if(data.data.dislikedBy.size != 0){
+                                    dislike()
+                                }
+
+
+                            } else {
+                                toast(data.message)
+                            }
+                        }
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
 
 
     private fun onMeetMeResponse(data: MeetMe) {
@@ -402,7 +489,12 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                 list = data.data as ArrayList<MeetMeData>
                 Log.e(TAG, "listAA "+list.size)
                 adapter.updateData(list)
-                adapter.notifyDataSetChanged()
+               // adapter.notifyDataSetChanged()
+
+                if(list.size == 0){
+                    viewBinding.likeFloating.visibility = View.GONE
+                    viewBinding.unlikeFloating.visibility = View.GONE
+                }
 
             } else {
                 toast(data.message)
@@ -411,7 +503,11 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     }
 
     override fun onItemClick(model: MeetMeData) {
-        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile())
+//        var person  = intent.getParcelableExtra<Person>("clicked_person") as Person
+       // Log.e(TAG, "myFoodHistoryA "+model?.firstName)
+
+
+        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model))
     }
 
 
