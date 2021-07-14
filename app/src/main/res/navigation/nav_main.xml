@@ -108,7 +108,7 @@
 
             <argument
                 android:name="meetMeModelChat"
-                app:argType="com.padedatingapp.model.MeetMeData"
+                app:argType="com.padedatingapp.model.ChatIDModel"
                 app:nullable="false"
                 />
         </action>
@@ -209,7 +209,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
+
+            <argument
+                android:name="meetMeModelChat"
+                app:argType="com.padedatingapp.model.ChatIDModel"
+                app:nullable="false"
+                />
+        </action>
     </fragment>
 
     <fragment

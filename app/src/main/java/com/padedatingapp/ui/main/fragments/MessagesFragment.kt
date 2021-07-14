@@ -12,6 +12,7 @@ import com.padedatingapp.adapter.MessagesListAdapter
 import com.padedatingapp.adapter.PeopleWhoLikedAdapter
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentMessagesBinding
+import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.DummyModel
 import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.utils.hideKeyboard
@@ -46,16 +47,47 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 
     }
 
-    override fun onItemClick(model: DummyModel) {
-        findNavController().navigate(R.id.action_to_chat_fragment)
-    }
+
 
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
     }
 
+
+
+
+    override fun onItemClick(model: DummyModel) {
+//        findNavController().navigate(R.id.action_to_chat_fragment)
+
+        var chatIDModel = ChatIDModel()
+//        chatIDModel.senderID = userObject._id
+//        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
+//        chatIDModel.senderImage = userObject.image
+
+//        chatIDModel.receiverID = model._id
+//        chatIDModel.receiverName = model.firstName + " "+model.lastName
+//        chatIDModel.receiverImage = model.image
+
+        findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
+
+    }
+
+
     override fun onItemClick(model: MeetMeData) {
-        TODO("Not yet implemented")
+
+        var chatIDModel = ChatIDModel()
+//        chatIDModel.senderID = userObject._id
+//        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
+//        chatIDModel.senderImage = userObject.image
+
+        chatIDModel.receiverID = model._id
+        chatIDModel.receiverName = model.firstName + " "+model.lastName
+        chatIDModel.receiverImage = model.image
+
+        findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
+
+//        findNavController().navigate(MatchesFragmentDirections.actionToChat(chatIDModel))
+
     }
 }

@@ -19,6 +19,7 @@ import com.padedatingapp.ui.onboarding.fragments.otp.OtpVM
 import com.padedatingapp.ui.onboarding.fragments.password_recovery_fragment.PasswordRecoveryVM
 import com.padedatingapp.ui.onboarding.fragments.upload_photo.UploadPhotoVM
 import com.padedatingapp.utils.ResourceProvider
+import com.padedatingapp.vm.ChatVM
 import com.padedatingapp.vm.MeetMeVM
 import com.padedatingapp.vm.MyMatchesVM
 import okhttp3.OkHttpClient
@@ -47,11 +48,11 @@ object AppModule {
         viewModel { AboutMeVM(get(), get(), get()) }
         viewModel { ForgotPasswordVM(get(), get(), get()) }
         viewModel { PasswordRecoveryVM(get(), get(), get()) }
-        viewModel {  EditProfileVM(get(), get(), get()) }
+        viewModel { EditProfileVM(get(), get(), get()) }
         viewModel { BuyGiftCardsListVM(get(), get(), get()) }
         viewModel { MeetMeVM(get(), get(), get()) }
         viewModel { MyMatchesVM(get(), get(), get()) }
-
+        viewModel { ChatVM(get(), get(), get()) }
     }
 
     val RemoteApiModule = module {
@@ -65,6 +66,7 @@ object AppModule {
         single { EditProfileRepo(get()) }
         single { GiftCardRepo(get()) }
         single { HomeRepo(get()) }
+        single { ChatRepo(get()) }
 
         factory {
             createWebService<PadeDatingApi>(

@@ -123,6 +123,23 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.13.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.3'
 
+
+
+    //socket
+    implementation('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-iid:21.1.0'
+
 //    debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
 //    releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
 }

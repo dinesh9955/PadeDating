@@ -250,4 +250,6 @@
     <string name="both">Both</string>
 
 
+    <string name="check_internet">Internet Issue! Please try again</string>
+
 </resources>

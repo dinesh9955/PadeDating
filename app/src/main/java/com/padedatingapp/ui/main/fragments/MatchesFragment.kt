@@ -7,6 +7,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.birimo.birimosports.utils.SharedPref
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MeetMeAdapter
@@ -198,7 +199,23 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
     override fun onItemClick(model: MeetMeData) {
         Log.e("Matches Fragment", "onItemClick: " )
-        findNavController().navigate(MatchesFragmentDirections.actionToChat(model))
+
+        var userObject =
+                Gson().fromJson(
+                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        UserModel::class.java
+                )
+
+        var chatIDModel = ChatIDModel()
+//        chatIDModel.senderID = userObject._id
+//        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
+//        chatIDModel.senderImage = userObject.image
+
+        chatIDModel.receiverID = model._id
+        chatIDModel.receiverName = model.firstName + " "+model.lastName
+        chatIDModel.receiverImage = model.image
+
+        findNavController().navigate(MatchesFragmentDirections.actionToChat(chatIDModel))
     }
 
     override fun onResume() {

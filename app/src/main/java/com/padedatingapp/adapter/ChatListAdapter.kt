@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.flexhelp.model.chat_history.DataItem
 import com.padedatingapp.databinding.ItemChatBinding
 import com.padedatingapp.databinding.ItemChatOtherUserBinding
 import com.padedatingapp.databinding.ItemMessageListBinding
@@ -13,7 +14,7 @@ import com.padedatingapp.ui.main.fragments.ChatFragment
 import com.padedatingapp.ui.main.fragments.MessagesFragment
 
 class ChatListAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<DummyModel, RecyclerView.ViewHolder>(
+    ListAdapter<DataItem, RecyclerView.ViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
     inner class MyMessagesViewHolder(private val binding: ItemChatOtherUserBinding) :
@@ -22,7 +23,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: DataItem) {
             binding.apply {
             }
         }
@@ -34,7 +35,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: DataItem) {
             binding.apply {
             }
         }
@@ -74,17 +75,17 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
     }
 
     companion object {
-        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DummyModel>() {
+        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DataItem>() {
             override fun areItemsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: DataItem,
+                newItem: DataItem
             ): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun areContentsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: DataItem,
+                newItem: DataItem
             ): Boolean {
                 TODO("Not yet implemented")
             }
@@ -92,7 +93,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(model: DummyModel)
+        fun onItemClick(model: DataItem)
     }
 
 }

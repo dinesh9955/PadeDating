@@ -99,4 +99,19 @@ interface PadeDatingApi {
     ): LikeModel
 
 
+
+    @POST(NetworkUrls.explore)
+    suspend fun chatUserList(
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): MeetMe
+
+
+    @POST(NetworkUrls.explore)
+    suspend fun chatHistory(
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): MeetMe
+
+
 }
