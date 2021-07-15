@@ -8,7 +8,6 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.remote.NetworkConnectionInterceptor
 import com.padedatingapp.api.repository.*
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.vm.BuyGiftCardsListVM
 import com.padedatingapp.ui.main.fragments.edit_profile.EditProfileVM
 import com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeVM
 import com.padedatingapp.ui.onboarding.fragments.create_account.CreateAccountVM
@@ -19,9 +18,7 @@ import com.padedatingapp.ui.onboarding.fragments.otp.OtpVM
 import com.padedatingapp.ui.onboarding.fragments.password_recovery_fragment.PasswordRecoveryVM
 import com.padedatingapp.ui.onboarding.fragments.upload_photo.UploadPhotoVM
 import com.padedatingapp.utils.ResourceProvider
-import com.padedatingapp.vm.ChatVM
-import com.padedatingapp.vm.MeetMeVM
-import com.padedatingapp.vm.MyMatchesVM
+import com.padedatingapp.vm.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
@@ -52,6 +49,7 @@ object AppModule {
         viewModel { BuyGiftCardsListVM(get(), get(), get()) }
         viewModel { MeetMeVM(get(), get(), get()) }
         viewModel { MyMatchesVM(get(), get(), get()) }
+        viewModel { ChatUserVM(get(), get(), get()) }
         viewModel { ChatVM(get(), get(), get()) }
     }
 

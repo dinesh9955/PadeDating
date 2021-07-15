@@ -29,10 +29,12 @@
         <activity
             android:name=".ui.CustomCameraView"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.main.HomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustResize"  />
+
         <activity
             android:name=".CustomCameraActivity"
             android:screenOrientation="portrait" />
@@ -48,7 +50,8 @@
 
         <activity
             android:name=".abc"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
 
         </activity>
 
@@ -65,12 +68,12 @@
 
 
 
-        <service android:name=".sockets.SocketIOService">
+        <service android:name="com.padedatingapp.sockets.SocketIOService">
             <intent-filter>
-                <action android:name="com.flexhelp.sockets.SocketIOService" />
+                <action android:name="com.padedatingapp.sockets.SocketIOService" />
             </intent-filter>
         </service>
-        <receiver android:name=".sockets.BootReceiver">
+        <receiver android:name="com.padedatingapp.sockets.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

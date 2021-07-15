@@ -63,7 +63,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
             android:textStyle="normal"
-            android:layout_marginTop="@dimen/_5sdp"
+
             app:layout_constraintStart_toEndOf="@id/ivUserImageHeader"
             app:layout_constraintTop_toTopOf="@id/ivUserImageHeader" />
 
@@ -79,8 +79,7 @@
             android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <ImageView
             android:id="@+id/ivBack"
@@ -127,53 +126,42 @@
 
 
 
-
-
-
-
-
-        <RelativeLayout
+        <View
             android:id="@+id/vBottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:background="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <EditText
-                android:id="@+id/etTypingMessage"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/round_corner_search_bg"
-                android:paddingVertical="10dp"
-                android:clickable="false"
-                android:paddingBottom="10dp"
-                android:hint="Type a message..."
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/blank"
-                android:textColorHint="#717e99"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/ivChatSend"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                />
+            app:layout_constraintStart_toStartOf="parent" >
 
 
-            <ImageView
-                android:id="@+id/ivChatSend"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_send_message"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="@dimen/_5sdp"
-                />
-
-        </RelativeLayout>
+        </View>
 
 
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/round_corner_search_bg"
+            android:drawableStart="@drawable/ic_chat_emoji"
+            android:drawableEnd="@drawable/ic_send_message"
+            android:drawablePadding="@dimen/_7sdp"
+            android:hint="@string/search_messages"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_8sdp"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorDarkGrey"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -226,7 +214,7 @@
                     app:layout_constraintStart_toStartOf="@id/ivUserOne"
                     android:textColor="@color/colorBlack"
                     android:gravity="center_horizontal"
-                 android:text="Matheus"
+                    android:text="Matheus"
                     />
 
                 <TextView

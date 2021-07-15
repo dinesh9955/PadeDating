@@ -1,6 +1,7 @@
 package com.padedatingapp.api
 
 import com.padedatingapp.model.*
+import com.padedatingapp.model.chat.ChatUsers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -100,18 +101,18 @@ interface PadeDatingApi {
 
 
 
-    @POST(NetworkUrls.explore)
+    @GET(NetworkUrls.chats)
     suspend fun chatUserList(
             @Header("Authorization") token: String,
-            @Body body: RequestBody
-    ): MeetMe
+//            @Body body: RequestBody
+    ): ChatUsers
 
 
     @POST(NetworkUrls.explore)
     suspend fun chatHistory(
             @Header("Authorization") token: String,
             @Body body: RequestBody
-    ): MeetMe
+    ): ChatUsers
 
 
 }

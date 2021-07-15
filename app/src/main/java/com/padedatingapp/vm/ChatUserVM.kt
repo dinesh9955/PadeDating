@@ -4,16 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.ChatRepo
+import com.padedatingapp.api.repository.HomeRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.MeetMe
+import com.padedatingapp.model.MyMatches
 import com.padedatingapp.model.chat.ChatUsers
-import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 
-class ChatVM(
+class ChatUserVM(
         private val resourceProvider: ResourceProvider,
         private val coroutinesManager: CoroutinesManager,
         private val aboutMeRepo: ChatRepo
@@ -25,10 +25,10 @@ class ChatVM(
 
 
 
-    fun chatHistoryApi(body: RequestBody) {
+    fun chatUserListApi(body: RequestBody) {
         coroutinesManager.ioScope.launch {
             loginResponse.postValue(Resource.loading(null))
-            loginResponse.postValue(aboutMeRepo.chatHistory("Bearer $token", body))
+            loginResponse.postValue(aboutMeRepo.chatUserList("Bearer $token", body))
         }
     }
 

@@ -10,6 +10,12 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.birimo.birimosports.utils.SharedPref;
+import com.padedatingapp.utils.AppConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import io.socket.client.Ack;
@@ -24,6 +30,9 @@ public class SocketIOService extends Service {
     private Socket mSocket;
     private boolean serviceBinded = false;
     private final LocalBinder mBinder = new LocalBinder();
+
+
+    SharedPref sharedPref = null;
 
     public void setAppConnectedToService(Boolean appConnectedToService) {
         try
@@ -72,8 +81,10 @@ public class SocketIOService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        sharedPref = new SharedPref(getApplication());
         try
-        {Log.e("SocketIOServiceonCreate", "try");
+        {
+            Log.e("SocketIOServiceonCreate", "try");
             initializeSocket();
             addSocketHandlers();
         }catch (Exception e)
@@ -110,9 +121,16 @@ public class SocketIOService extends Service {
         try{
             Log.e("SocketIOService", "try");
 
+           // sharedPref.getString(AppConstants.USER_TOKEN);
+
             IO.Options options = new IO.Options();
             options.forceNew = true;
+            options.reconnectionAttempts = Integer.MAX_VALUE;
+            //  options.timeout = 10000;
+            options.query = "token=" + sharedPref.getString(AppConstants.USER_TOKEN);
+
             mSocket = IO.socket(SocketUrls.CHAT_SERVER_URL,options);
+
         }
         catch (Exception e){
             Log.e("Error", "Exception in socket creation");

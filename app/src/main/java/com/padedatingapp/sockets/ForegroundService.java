@@ -18,7 +18,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
+import com.birimo.birimosports.utils.SharedPref;
 import com.padedatingapp.R;
+import com.padedatingapp.utils.AppConstants;
 
 import java.util.List;
 
@@ -42,6 +44,8 @@ public class ForegroundService extends Service {
     public static final String ACTION_PAUSE = "ACTION_PAUSE";
 
     public static final String ACTION_PLAY = "ACTION_PLAY";
+
+    SharedPref sharedPref = null;
 
     private final LocalBinder mBinder = new LocalBinder();
     public ForegroundService() {
@@ -82,6 +86,8 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        sharedPref = new SharedPref(getApplication());
         if(intent != null)
         {
             String action = intent.getAction();
@@ -228,6 +234,9 @@ public class ForegroundService extends Service {
 
             IO.Options options = new IO.Options();
             options.forceNew = true;
+            options.reconnectionAttempts = Integer.MAX_VALUE;
+            //  options.timeout = 10000;
+            options.query = "token=" + sharedPref.getString(AppConstants.USER_TOKEN);
             mSocket = IO.socket(SocketUrls.CHAT_SERVER_URL,options);
         }
         catch (Exception e){

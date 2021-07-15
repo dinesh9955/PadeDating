@@ -5,11 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemMatchesAtChatBinding
 import com.padedatingapp.model.DummyModel
+import com.padedatingapp.model.chat.ChatUsersData
 
 class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<DummyModel, MatchesAtChatAdapter.MatchesViewHolder>(
+    ListAdapter<ChatUsersData, MatchesAtChatAdapter.MatchesViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
     inner class MatchesViewHolder(private val binding: ItemMatchesAtChatBinding) :
@@ -20,8 +24,10 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
              }
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: ChatUsersData) {
             binding.apply {
+                Glide.with(binding.root).load(model.sentTo.image)
+                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivPhoto)
             }
         }
     }
@@ -40,17 +46,17 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
     }
 
     companion object {
-        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DummyModel>() {
+        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<ChatUsersData>() {
             override fun areItemsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: ChatUsersData,
+                newItem: ChatUsersData
             ): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun areContentsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: ChatUsersData,
+                newItem: ChatUsersData
             ): Boolean {
                 TODO("Not yet implemented")
             }
@@ -58,7 +64,7 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(model: DummyModel)
+        fun onItemClick(model: ChatUsersData)
     }
 
 }

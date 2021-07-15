@@ -6,15 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birimo.birimosports.utils.SharedPref
@@ -27,21 +23,19 @@ import com.google.gson.JsonObject
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.adapter.ChatListAdapter
-import com.padedatingapp.adapter.MeetMeAdapter
-import com.padedatingapp.adapter.PremiumPacksAdapter
 import com.padedatingapp.api.Resource
-import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
-import com.padedatingapp.model.*
+import com.padedatingapp.model.ChatIDModel
+import com.padedatingapp.model.MeetMe
+import com.padedatingapp.model.UserModel
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.chats.ConnectivityReceiver
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
-import com.padedatingapp.vm.MeetMeVM
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -71,7 +65,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     private lateinit var adapter: ChatListAdapter
 
 
-    private var bookingId: String? = null
+//    private var bookingId: String? = null
     private var receiverId: String?=null
     private var senderId: String?=null
 
@@ -98,11 +92,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
-
         initComponents()
-//        initObservables()
-//        initializeSockets()
-//        joinRoom()
+        initObservables()
+        initializeSockets()
+        joinRoom()
     }
 
 
@@ -115,10 +108,22 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 )
 
 
+
+
+
+
         val bundle = arguments
-        Log.e(TAG, "bundleAA "+bundle)
+        Log.e(TAG, "bundleAA "+bundle.toString())
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
         //myMatchesVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+
+//        bookingId = "60ee8d5ccf1b8502aecd4117"
+        senderId = ""+userObject._id
+        receiverId = ""+person.receiverID
+        Log.e(TAG, "receiverId "+receiverId)
+
+
+
 
         val options = RequestOptions()
         options.centerCrop()
@@ -131,6 +136,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         Glide.with(requireActivity()).load(person.receiverImage)
                 .apply(options).into(viewBinding.ivUserTwo)
         viewBinding.tvUserTwoName.text = person.receiverName
+
+
+        Glide.with(requireActivity()).load(person.receiverImage)
+                .apply(options).into(viewBinding.ivUserImageHeader)
+        viewBinding.tvName.text = person.receiverName
+
 
 
 
@@ -166,32 +177,67 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             showCallPopup()
         }
 
+
+        viewBinding.ivChatSend.setOnClickListener {
+            if(viewBinding.etTypingMessage.text.toString().trimStart().isNotEmpty()){
+                sendMessage("text")
+                viewBinding.etTypingMessage.setText("")
+            }else{
+                Toast.makeText(context,"Please input String ",Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+
+
+
     }
 
 
 
 
+    private fun sendMessage(type : String ) {
+        val json = JSONObject()
+        json.put("type", type)
+        json.put("id",  senderId)
+        json.put("partner", receiverId)
+//        json.put("bookingId", bookingId?:"")
+
+        if(type == "text")
+            json.put("message", viewBinding.etTypingMessage.text.toString())
+       // else
+            //json.put("media", sendImage)
+
+        Log.e(TAG , "AppSocketListener "+AppSocketListener.getInstance().isSocketConnected)
+
+        if(AppSocketListener.getInstance().isSocketConnected){
+            AppSocketListener.getInstance().emit(SocketUrls.SEND_MESSAGE, json)
+        }
+
+    }
+
+
+
     private fun initObservables() {
-
-        chatVM.errorMessage.observe(viewLifecycleOwner) {
-            if (it != "") {
-                toast(it)
-            }
-        }
-
-
-        chatVM.meetMeResponse.observe(viewLifecycleOwner) {
-            getLiveData(it, "MeetMe")
-        }
-
+//        chatVM.errorMessage.observe(viewLifecycleOwner) {
+//            if (it != "") {
+//                toast(it)
+//            }
+//        }
+//
+//
+//        chatVM.loginResponse.observe(viewLifecycleOwner) {
+//            //getLiveData(it, "MeetMe")
+//        }
 
 
-        val jsonObj = JsonObject()
-        jsonObj.addProperty("gender", "interest")
 
-        chatVM.chatUserListApi(
-                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        )
+//        val jsonObj = JsonObject()
+//        jsonObj.addProperty("gender", "interest")
+//
+//        chatVM.chatHistoryApi(
+//                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//        )
 
 
 
@@ -318,17 +364,16 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     private fun initializeSockets() {
         onConnect = Emitter.Listener {
             activity?.runOnUiThread {
-                val json = JSONObject()
-                json.put("bookingId", bookingId?:"")
-                socket.emit("joinRoom", json)
+//                val json = JSONObject()
+//                json.put("token", userObject.accessToken?:"")
+                socket.emit("room")
 
                 Handler().postDelayed({
 
                     roomJoined = true
                     if (unsendMessageList?.size ?: 0 > 0) {
                         for (i in 0 until unsendMessageList?.size!!)
-                            socket.emit(
-                                    "sendMessage",
+                            socket.emit("sendMessage",
                                     JSONObject(PadeDatingApp.gson.toJson(unsendMessageList?.get(i)))
                             )
                     }
@@ -352,28 +397,28 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 val data: JSONObject = args[0] as JSONObject
 
                 Log.e("onNewMe ", "message $data")
-                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), DataItem::class.java)
-
-                if (chat_message?.type.equals("text")) {
-                    if (chat_message?.sender!!.equals(userObject._id)){//(context as BaseActivity).user_obj?.id)) {
-                        chat_message.typeText = 0
-                        main_list.add(chat_message)
-                    } else {
-                        chat_message.typeText = 1
-                        main_list.add(chat_message)
-                    }
-                }
-                else
-                {
-                    if (chat_message?.sender!!.equals( person.receiverID)){//(context as BaseActivity).user_obj?.id)) {
-                        chat_message.typeText = 0
-                        main_list.add(chat_message)
-                    } else {
-                        chat_message.typeText = 1
-                        main_list.add(chat_message)
-                    }
-                }
-                adapter?.notifyDataSetChanged()
+//                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), DataItem::class.java)
+//
+//                if (chat_message?.type.equals("text")) {
+//                    if (chat_message?.sender!!.equals(userObject._id)){//(context as BaseActivity).user_obj?.id)) {
+//                        chat_message.typeText = 0
+//                        main_list.add(chat_message)
+//                    } else {
+//                        chat_message.typeText = 1
+//                        main_list.add(chat_message)
+//                    }
+//                }
+//                else
+//                {
+//                    if (chat_message?.sender!!.equals( person.receiverID)){//(context as BaseActivity).user_obj?.id)) {
+//                        chat_message.typeText = 0
+//                        main_list.add(chat_message)
+//                    } else {
+//                        chat_message.typeText = 1
+//                        main_list.add(chat_message)
+//                    }
+//                }
+//                adapter?.notifyDataSetChanged()
 
 
 //                if (main_list.size > 0)
@@ -392,14 +437,34 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun joinRoom() {
-        val json = JSONObject()
-        json.put("bookingId", bookingId?:"")
-        AppSocketListener.getInstance().emit(SocketUrls.JOIN_ROOM, json)
+//        val json = JSONObject()
+//        json.put("token", userObject.accessToken?:"")
+        AppSocketListener.getInstance().emit(SocketUrls.JOIN_ROOM)
     }
 
 
 
 
+
+
+//    private fun clicks() {
+//        viewBinding.ivChatSend.setOnClickListener {
+//            if(binding.etTypingMessage.text.toString().trimStart().isNotEmpty()){
+//                sendMessage("text")
+//                binding.etTypingMessage.setText("")
+//            }else{
+//                Toast.makeText(context,"Please input String ",Toast.LENGTH_LONG).show()
+//            }
+//
+//        }
+//
+//        binding.ivChatShareFile.setOnClickListener {
+//
+//            CropImage.activity()
+//                    .setOutputCompressQuality(50)
+//                    .start(requireActivity(), this)
+//        }
+//    }
 
 
 }

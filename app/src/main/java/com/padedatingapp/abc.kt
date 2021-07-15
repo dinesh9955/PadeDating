@@ -25,7 +25,7 @@ class abc : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.chat)
 
         val policy = StrictMode.ThreadPolicy.Builder()
             .detectAll()
@@ -34,12 +34,14 @@ class abc : AppCompatActivity() {
         StrictMode.setThreadPolicy(policy)
 
 
-        Handler().postDelayed({
-            if (Utility.checkAndRequestPermissions(this@abc, REQUEST_ID_MULTIPLE_PERMISSIONS)) {
-                getLogin()
-            } else {
-            }
-        }, 1000)
+
+
+//        Handler().postDelayed({
+//            if (Utility.checkAndRequestPermissions(this@abc, REQUEST_ID_MULTIPLE_PERMISSIONS)) {
+//                getLogin()
+//            } else {
+//            }
+//        }, 1000)
 
     }
 
