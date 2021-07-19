@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birimo.birimosports.utils.SharedPref
@@ -19,17 +20,18 @@ import com.bumptech.glide.request.RequestOptions
 import com.flexhelp.model.MessageItem
 import com.flexhelp.model.chat_history.DataItem
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.adapter.ChatListAdapter
 import com.padedatingapp.api.Resource
+import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
 import com.padedatingapp.model.ChatIDModel
-import com.padedatingapp.model.MeetMe
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.chats.ConnectivityReceiver
@@ -38,8 +40,6 @@ import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 
@@ -69,7 +69,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     private var receiverId: String?=null
     private var senderId: String?=null
 
-    var main_list = ArrayList<DataItem>()
+    var main_list = ArrayList<ChatUsersData>()
 
     var unsendMessageList: MutableList<MessageItem>? = ArrayList()
 
@@ -106,7 +106,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                         sharedPref.getString(AppConstants.USER_OBJECT),
                         UserModel::class.java
                 )
-
+        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
 
 
 
@@ -115,7 +115,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         val bundle = arguments
         Log.e(TAG, "bundleAA "+bundle.toString())
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
-        //myMatchesVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+
 
 //        bookingId = "60ee8d5ccf1b8502aecd4117"
         senderId = ""+userObject._id
@@ -219,25 +219,26 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun initObservables() {
-//        chatVM.errorMessage.observe(viewLifecycleOwner) {
-//            if (it != "") {
-//                toast(it)
-//            }
-//        }
-//
-//
-//        chatVM.loginResponse.observe(viewLifecycleOwner) {
-//            //getLiveData(it, "MeetMe")
-//        }
+        chatVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
+
+
+        chatVM.loginResponse.observe(viewLifecycleOwner) {
+            getLiveData(it, "ChatHistory")
+        }
 
 
 
 //        val jsonObj = JsonObject()
 //        jsonObj.addProperty("gender", "interest")
-//
-//        chatVM.chatHistoryApi(
-//                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//        )
+
+        chatVM.chatHistoryApi(
+                receiverId
+              //  jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        )
 
 
 
@@ -252,7 +253,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
     }
 
-    override fun onItemClick(model: DataItem) {
+    override fun onItemClick(model: ChatUsersData) {
         Log.e("BuyPremiumFragment", "onItemClick: ")
     }
 
@@ -308,7 +309,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
-    private fun getLiveData(response: Resource<MeetMe>?, type: String) {
+    private fun getLiveData(response: Resource<ChatUsers>?, type: String) {
 
         //Log.e(TAG, "onViewCreated12")
 
@@ -320,10 +321,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 progressDialog?.dismiss()
 
                 when (type) {
-                    "MeetMe" -> {
-                        val data = response.data as MeetMe
-                        Log.e(TAG, "dataAA "+data.toString())
-                       // onMeetMeResponse(data)
+                    "ChatHistory" -> {
+                        val data = response.data as ChatUsers
+                        Log.e(TAG, "dataAAB "+data.toString())
+                        onMeetMeResponse(data)
                     }
                 }
             }
@@ -340,24 +341,24 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
-//    private fun onMeetMeResponse(data: MeetMe) {
-//        data?.let {
-//            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
-//                list = data.data as ArrayList<MeetMeData>
-//                Log.e(MeetMeFragment.TAG, "listAA "+list.size)
-//                adapter.updateData(list)
-//                // adapter.notifyDataSetChanged()
-//
+    private fun onMeetMeResponse(data: ChatUsers) {
+        data?.let {
+            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                main_list = data.data as ArrayList<ChatUsersData>
+                Log.e(MeetMeFragment.TAG, "listAA "+main_list.size)
+                adapter.submitList(main_list)
+                 adapter.notifyDataSetChanged()
+
 //                if(list.size == 0){
 //                    viewBinding.likeFloating.visibility = View.GONE
 //                    viewBinding.unlikeFloating.visibility = View.GONE
 //                }
-//
-//            } else {
-//                toast(data.message)
-//            }
-//        }
-//    }
+
+            } else {
+                toast(data.message)
+            }
+        }
+    }
 
 
 

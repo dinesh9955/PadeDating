@@ -6,12 +6,9 @@ import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.ChatRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.MeetMe
 import com.padedatingapp.model.chat.ChatUsers
-import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
-import okhttp3.RequestBody
 
 class ChatVM(
         private val resourceProvider: ResourceProvider,
@@ -25,10 +22,10 @@ class ChatVM(
 
 
 
-    fun chatHistoryApi(body: RequestBody) {
+    fun chatHistoryApi(receiverID: String?) {
         coroutinesManager.ioScope.launch {
             loginResponse.postValue(Resource.loading(null))
-            loginResponse.postValue(aboutMeRepo.chatHistory("Bearer $token", body))
+            loginResponse.postValue(aboutMeRepo.chatHistory("Bearer $token", receiverID!!))
         }
     }
 

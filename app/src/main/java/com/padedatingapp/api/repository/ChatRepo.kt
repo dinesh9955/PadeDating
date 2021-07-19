@@ -19,8 +19,8 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     }
 
 
-    suspend fun chatHistory(token: String, requestBody: RequestBody): Resource<ChatUsers> {
-        return handleException { padeApi.chatHistory(token, requestBody) }
+    suspend fun chatHistory(token: String, receiverID: String): Resource<ChatUsers> {
+        return handleException { padeApi.chatHistory(token, receiverID) }
     }
 
 

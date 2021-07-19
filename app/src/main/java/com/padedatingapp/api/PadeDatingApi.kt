@@ -108,10 +108,16 @@ interface PadeDatingApi {
     ): ChatUsers
 
 
-    @POST(NetworkUrls.explore)
+//    @GET(NetworkUrls.chatsuser+"")
+//    suspend fun chatHistory(
+//            @Header("Authorization") token: String,
+//            @Query("/chats/:user") receiverID: String
+//    ): ChatUsers
+
+    @GET(NetworkUrls.chatsuser+"{user}")
     suspend fun chatHistory(
-            @Header("Authorization") token: String,
-            @Body body: RequestBody
+        @Header("Authorization") token: String,
+        @Path( "user") filter: String,
     ): ChatUsers
 
 
