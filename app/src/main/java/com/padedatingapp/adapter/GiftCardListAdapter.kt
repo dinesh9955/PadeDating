@@ -83,6 +83,8 @@ class GiftCardListAdapter(internal var context: Context, internal var list: List
     }
 
 
+
+
     class BookMarkListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
          var rootLayout1 : ConstraintLayout
          var cardNameTextView: TextView

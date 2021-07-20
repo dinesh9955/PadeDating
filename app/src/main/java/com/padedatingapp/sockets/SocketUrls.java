@@ -17,7 +17,7 @@ public class SocketUrls {
     public static final String socketConnection = "socket.connection";
     public static final String connectionFailure = "failedToConnect";
     public static final String CHAT_SERVER_URL = "http://dev.webdevelopmentsolution.net:3004/";
-    public static final String NEW_MESSAGES="getMessage";
+    public static final String NEW_MESSAGES="newMessage";
     public static final String SEND_MESSAGE="sendMessage";
 
     public static final String UPDATE_LOCATION="updateLocation";  //SP

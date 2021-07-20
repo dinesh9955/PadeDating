@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.*
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,8 +20,8 @@ import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.flexhelp.model.MessageItem
-import com.flexhelp.model.chat_history.DataItem
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.adapter.ChatListAdapter
@@ -30,6 +32,7 @@ import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
@@ -40,8 +43,12 @@ import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
@@ -127,8 +134,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         val options = RequestOptions()
         options.centerCrop()
-        options.placeholder(R.drawable.user_place_holder)
-
+        options.placeholder(R.drawable.user_circle_1179465)
         Glide.with(requireActivity()).load(userObject.image)
                 .apply(options).into(viewBinding.ivUserOne)
         viewBinding.tvUserOneName.text = userObject.firstName + " "+userObject.lastName
@@ -170,11 +176,23 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         }
 
         viewBinding.ivChatCall.setOnClickListener {
-            showCallPopup()
+            //showCallPopup()
+        val jsonObj = JsonObject()
+        jsonObj.addProperty("callType", "audio")
+            jsonObj.addProperty("partner", receiverId)
+            chatVM.callApi(
+                      jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
         }
 
         viewBinding.ivChatVideoCall.setOnClickListener {
-            showCallPopup()
+//            showCallPopup()
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("callType", "video")
+            jsonObj.addProperty("partner", receiverId)
+            chatVM.callApi(
+                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
         }
 
 
@@ -225,7 +243,6 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             }
         }
 
-
         chatVM.loginResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "ChatHistory")
         }
@@ -241,6 +258,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         )
 
 
+
+
+
+        chatVM.callUserResponse.observe(viewLifecycleOwner) {
+            getCallLiveData(it, "Call")
+        }
 
     }
 
@@ -346,6 +369,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 main_list = data.data as ArrayList<ChatUsersData>
                 Log.e(MeetMeFragment.TAG, "listAA "+main_list.size)
+
+                Collections.reverse(main_list)
+
+                adapter.updateList(userObject._id)
                 adapter.submitList(main_list)
                  adapter.notifyDataSetChanged()
 
@@ -362,24 +389,63 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
+
+
+    private fun getCallLiveData(response: Resource<CallUser>?, type: String) {
+
+        //Log.e(TAG, "onViewCreated12")
+
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "Call" -> {
+                        val data = response.data as CallUser
+                        Log.e(TAG, "dataAAC "+data.toString())
+                       // onMeetMeResponse(data)
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+
+
+    //  var count = 0
+
     private fun initializeSockets() {
+        Log.e(TAG, "initializeSockets")
+
         onConnect = Emitter.Listener {
             activity?.runOnUiThread {
 //                val json = JSONObject()
 //                json.put("token", userObject.accessToken?:"")
                 socket.emit("room")
 
-                Handler().postDelayed({
-
-                    roomJoined = true
-                    if (unsendMessageList?.size ?: 0 > 0) {
-                        for (i in 0 until unsendMessageList?.size!!)
-                            socket.emit("sendMessage",
-                                    JSONObject(PadeDatingApp.gson.toJson(unsendMessageList?.get(i)))
-                            )
-                    }
-                    unsendMessageList?.clear()
-                }, 500)
+//                Handler().postDelayed({
+//
+//                    roomJoined = true
+//                    if (unsendMessageList?.size ?: 0 > 0) {
+//                        for (i in 0 until unsendMessageList?.size!!)
+//                            socket.emit("sendMessage",
+//                                    JSONObject(PadeDatingApp.gson.toJson(unsendMessageList?.get(i)))
+//                            )
+//                    }
+//                    unsendMessageList?.clear()
+//                }, 500)
             }
         }
         onDisconnect = Emitter.Listener {
@@ -398,6 +464,24 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 val data: JSONObject = args[0] as JSONObject
 
                 Log.e("onNewMe ", "message $data")
+
+                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), ChatUsersData::class.java)
+
+
+
+
+                main_list.add(chat_message)
+
+               viewBinding.rvMessageList.scrollToPosition(main_list.size - 1)
+
+                adapter.updateList(userObject._id)
+                adapter.submitList(main_list)
+
+
+
+
+                adapter?.notifyDataSetChanged()
+
 //                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), DataItem::class.java)
 //
 //                if (chat_message?.type.equals("text")) {

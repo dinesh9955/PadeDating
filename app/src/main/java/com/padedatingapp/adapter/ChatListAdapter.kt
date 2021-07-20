@@ -5,9 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.birimo.birimosports.utils.SharedPref
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemChatBinding
 import com.padedatingapp.databinding.ItemChatOtherUserBinding
+import com.padedatingapp.model.Doc
 import com.padedatingapp.model.chat.ChatUsersData
+import org.koin.android.ext.android.inject
+import java.util.ArrayList
 
 class ChatListAdapter(private val listener: OnItemClickListener) :
     ListAdapter<ChatUsersData, RecyclerView.ViewHolder>(
@@ -16,6 +23,8 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
     private val LAYOUT_ONE = 0
     private val LAYOUT_TWO = 1
+
+    lateinit var myId: String;
 
     inner class MyMessagesViewHolder(private val binding: ItemChatOtherUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,6 +36,8 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
         fun bind(model: ChatUsersData) {
             binding.apply {
                 tvMessage.text = model.modMsg
+                Glide.with(binding.root).load(model.sentTo.image)
+                        .apply(RequestOptions().placeholder(R.drawable.user_circle_1179465)).into(ivUserImage)
             }
         }
     }
@@ -40,19 +51,37 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
         fun bind(model: ChatUsersData) {
             binding.apply {
                 tvMessage.text = model.modMsg
+                Glide.with(binding.root).load(model.sentTo.image)
+                        .apply(RequestOptions().placeholder(R.drawable.user_circle_1179465)).into(ivUserImage)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         //return position % 2
-        if(position==0)
+        //return position % 2 * 2;
+//        if(position==0)
+//            return LAYOUT_ONE;
+//        else
+//            return LAYOUT_TWO;
+
+        if(getItem(position).sentBy._id.equals(myId)){
             return LAYOUT_ONE;
-        else
+        }else{
             return LAYOUT_TWO;
+        }
+
     }
 
+
+    override fun getItem(position: Int): ChatUsersData {
+        return super.getItem(position)
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+
         when (viewType) {
             0 -> {
                 val binding =
@@ -63,7 +92,9 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
                     )
                 return MyMessagesViewHolder(binding)
             }
+
             else -> {
+
                 val binding =
                     ItemChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 return OtherUserMessagesViewHolder(binding)
@@ -74,25 +105,23 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
-
-        if(holder.getItemViewType() == LAYOUT_ONE)
-        {
-            val currentItem = getItem(position)
-            (holder as MyMessagesViewHolder).bind(currentItem)
-        }
-
-        if(holder.getItemViewType() == LAYOUT_TWO)
-        {
-            val currentItem = getItem(position)
-            (holder as OtherUserMessagesViewHolder).bind(currentItem)
-        }
-
-//        val currentItem = getItem(position)
-//        if (currentItem != null) {
-//            if (holder is MyMessagesViewHolder)  holder.bind(currentItem)
-//            else if (holder is OtherUserMessagesViewHolder) holder.bind(currentItem)
+//        if(holder.getItemViewType() == LAYOUT_ONE)
+//        {
+//            val currentItem = getItem(position)
+//            (holder as MyMessagesViewHolder).bind(currentItem)
 //        }
+//
+//        if(holder.getItemViewType() == LAYOUT_TWO)
+//        {
+//            val currentItem = getItem(position)
+//            (holder as OtherUserMessagesViewHolder).bind(currentItem)
+//        }
+
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            if (holder is MyMessagesViewHolder)  holder.bind(currentItem)
+            else if (holder is OtherUserMessagesViewHolder) holder.bind(currentItem)
+        }
     }
 
     companion object {
@@ -115,6 +144,13 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(model: ChatUsersData)
+    }
+
+
+
+    fun updateList(myId2: String) {
+        myId = myId2
+        notifyDataSetChanged()
     }
 
 }

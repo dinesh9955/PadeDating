@@ -175,13 +175,16 @@
 
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/vBottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vTopbar">
+            app:layout_constraintTop_toBottomOf="@id/vTopbar"
+
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -269,7 +272,10 @@
                     app:layout_constraintTop_toBottomOf="@id/tvUserTwoName"
                     tools:itemCount="1"
                     tools:layout_editor_absoluteX="13dp"
-                    tools:listitem="@layout/item_chat" />
+                    tools:listitem="@layout/item_chat"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:transcriptMode="normal"
+                    app:reverseLayout="true"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

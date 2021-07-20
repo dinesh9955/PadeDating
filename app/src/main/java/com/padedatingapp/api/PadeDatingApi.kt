@@ -1,6 +1,7 @@
 package com.padedatingapp.api
 
 import com.padedatingapp.model.*
+import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -119,6 +120,15 @@ interface PadeDatingApi {
         @Header("Authorization") token: String,
         @Path( "user") filter: String,
     ): ChatUsers
+
+
+
+    @POST(NetworkUrls.makeCall)
+    suspend fun call(
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): CallUser
+
 
 
 }

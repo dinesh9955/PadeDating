@@ -6,6 +6,7 @@ import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.LikeModel
 import com.padedatingapp.model.MeetMe
 import com.padedatingapp.model.MyMatches
+import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
 import okhttp3.RequestBody
 import javax.inject.Inject
@@ -22,6 +23,11 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun chatHistory(token: String, receiverID: String): Resource<ChatUsers> {
         return handleException { padeApi.chatHistory(token, receiverID) }
     }
+
+    suspend fun call(token: String, receiverID: RequestBody): Resource<CallUser> {
+        return handleException { padeApi.call(token, receiverID) }
+    }
+
 
 
 
