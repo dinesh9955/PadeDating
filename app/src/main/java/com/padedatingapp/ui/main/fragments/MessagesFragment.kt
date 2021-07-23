@@ -9,6 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.birimo.birimosports.utils.SharedPref
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MatchesAtChatAdapter
@@ -22,6 +25,7 @@ import com.padedatingapp.databinding.FragmentMessagesBinding
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.DummyModel
 import com.padedatingapp.model.MeetMeData
+import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.utils.AppConstants
@@ -48,6 +52,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
     private lateinit var adapter: MessagesListAdapter
     var list_data = ArrayList<ChatUsersData>()
 
+    private lateinit var userObject : UserModel
 
     override fun layoutId(): Int = R.layout.fragment_messages
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,11 +69,16 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 
     private fun initComponents() {
         chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        userObject =
+                Gson().fromJson(
+                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        UserModel::class.java
+                )
 
-        var list = ArrayList<DummyModel>()
-        repeat(10) {
-            list.add(DummyModel())
-        }
+//        var list = ArrayList<DummyModel>()
+//        repeat(10) {
+//            list.add(DummyModel())
+//        }
 
         adapter1 = MatchesAtChatAdapter(this)
 //        adapter2.submitList(list)
@@ -154,6 +164,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                                 list_data = data.data as ArrayList<ChatUsersData>
 
                                 adapter.submitList(list_data)
+                                adapter.updateList(userObject._id)
                                 adapter.notifyDataSetChanged()
 
                                 adapter1.submitList(list_data)
@@ -198,9 +209,29 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 //        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
 //        chatIDModel.senderImage = userObject.image
 
-        chatIDModel.receiverID = model.sentTo._id
-        chatIDModel.receiverName = model.sentTo.firstName + " "+model.sentTo.lastName
-        chatIDModel.receiverImage = model.sentTo.image
+
+
+        if(!model.sentBy._id.equals(userObject._id)){
+//            Glide.with(binding.root).load(model.sentBy.image)
+//                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+//            tvName.text = model.sentBy.firstName + " " + model.sentBy.lastName
+
+            chatIDModel.receiverID = model.sentBy._id
+            chatIDModel.receiverName = model.sentBy.firstName + " "+model.sentBy.lastName
+            chatIDModel.receiverImage = model.sentBy.image
+        }
+        if(!model.sentTo._id.equals(userObject._id)){
+//            Glide.with(binding.root).load(model.sentTo.image)
+//                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+//            tvName.text = model.sentTo.firstName + " " + model.sentTo.lastName
+
+            chatIDModel.receiverID = model.sentTo._id
+            chatIDModel.receiverName = model.sentTo.firstName + " "+model.sentTo.lastName
+            chatIDModel.receiverImage = model.sentTo.image
+        }
+
+        Log.e(TAG, "receiverIDVV "+chatIDModel.receiverID)
+
         findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
     }
 

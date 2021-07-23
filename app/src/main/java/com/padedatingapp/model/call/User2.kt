@@ -1,5 +1,11 @@
 package com.padedatingapp.model.call
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+import java.io.Serializable
+
+
 data class User2(
     val __v: Int,
     val _id: String,
@@ -7,7 +13,7 @@ data class User2(
     val address: String,
     val age: Int,
     val appleId: String,
-    val blockedUsers: List<Any>,
+    val blockedUsers: @RawValue List<Any>,
     val city: String,
     val country: String,
     val countryCode: String,
@@ -17,7 +23,7 @@ data class User2(
     val description: String,
     val deviceToken: String,
     val deviceType: String,
-    val docImage: List<Any>,
+    val docImage: @RawValue List<Any>,
     val doyoudrink: String,
     val doyousmoke: String,
     val educationLevel: String,
@@ -29,7 +35,7 @@ data class User2(
     val geoPoint: GeoPointX,
     val googleId: String,
     val height: String,
-    val heightInCms: Int,
+    val heightInCms: Double,
     val image: String,
     val instagramId: String,
     val interestedIn: String,
@@ -56,4 +62,4 @@ data class User2(
     val username: String,
     val walletAmount: String,
     val work: String
-)
+): Serializable

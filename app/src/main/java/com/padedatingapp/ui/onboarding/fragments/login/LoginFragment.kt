@@ -2,6 +2,7 @@ package com.padedatingapp.ui.onboarding.fragments.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -25,6 +26,11 @@ import com.padedatingapp.utils.togglePasswordVisibility
 import org.koin.android.ext.android.inject
 
 class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
+
+    companion object{
+        var TAG = "LoginFragment"
+    }
+
     private val loginVM by inject<LoginVM>()
     private val sharedPref by inject<SharedPref>()
     private var progressDialog: CustomProgressDialog? = null
@@ -107,6 +113,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
     private fun onLoginResponse(data: ResultModel<UserModel>) {
 
+        Log.e(TAG, "onLoginResponse "+data.data.toString())
+
         data?.let {
 
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
@@ -146,6 +154,14 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                         )
                     }
                     3 -> {
+                        toast(it.message)
+                        sharedPref.setString(AppConstants.USER_ID, it.data._id)
+                        sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+                        startActivity(Intent(requireContext(), HomeActivity::class.java))
+                        requireActivity().finish()
+                    }
+
+                    0 -> {
                         toast(it.message)
                         sharedPref.setString(AppConstants.USER_ID, it.data._id)
                         sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1038386550237",
+    "project_id": "paddating",
+    "storage_bucket": "paddating.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038386550237:android:cdc9eb0ea9f198c46e9234",
+        "android_client_info": {
+          "package_name": "com.padedatingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038386550237-rogmudchi5lvtk65teib4t6o6q8otj4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtuzZT1f4Q4LHQBz0yZ7wU39cPnwmh2D0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038386550237-rogmudchi5lvtk65teib4t6o6q8otj4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1038386550237-leia1n4rpi88u9bacinv90ela46h9gcr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.paddating"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 package com.padedatingapp.ui.main.fragments
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -37,6 +38,7 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
+import com.padedatingapp.ui.call.CallActivity
 import com.padedatingapp.ui.chats.ConnectivityReceiver
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -407,6 +409,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                         val data = response.data as CallUser
                         Log.e(TAG, "dataAAC "+data.toString())
                        // onMeetMeResponse(data)
+                        var intent = Intent(requireContext(), CallActivity::class.java)
+                        var bundle = Bundle()
+                        bundle.putSerializable("key", data);
+                        intent.putExtras(bundle)
+                        startActivity(intent)
+
+                       // requireActivity().finish()
+
                     }
                 }
             }

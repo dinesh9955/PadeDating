@@ -36,8 +36,11 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
         fun bind(model: ChatUsersData) {
             binding.apply {
                 tvMessage.text = model.modMsg
-                Glide.with(binding.root).load(model.sentTo.image)
-                        .apply(RequestOptions().placeholder(R.drawable.user_circle_1179465)).into(ivUserImage)
+                val options = RequestOptions()
+                options.centerCrop()
+                options.placeholder(R.drawable.user_circle_1179465)
+                Glide.with(binding.root).load(model.sentBy.image)
+                        .apply(options).into(ivUserImage)
             }
         }
     }
@@ -51,8 +54,11 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
         fun bind(model: ChatUsersData) {
             binding.apply {
                 tvMessage.text = model.modMsg
-                Glide.with(binding.root).load(model.sentTo.image)
-                        .apply(RequestOptions().placeholder(R.drawable.user_circle_1179465)).into(ivUserImage)
+                val options = RequestOptions()
+                options.centerCrop()
+                options.placeholder(R.drawable.user_circle_1179465)
+                Glide.with(binding.root).load(model.sentBy.image)
+                        .apply(options).into(ivUserImage)
             }
         }
     }

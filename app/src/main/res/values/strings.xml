@@ -6,6 +6,9 @@
 -->
     <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>
 
+    <string name="title_settings_dialog">Permissions Required</string>
+    <string name="rationale_video_app">This app needs access to your camera and mic to make video calls</string>
+
     <string-array name="dating_pref_array">
         <item>Engineer</item>
         <item>Adventurer</item>

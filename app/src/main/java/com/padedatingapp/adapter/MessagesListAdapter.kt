@@ -20,6 +20,7 @@ class MessagesListAdapter(private val listener: MessagesFragment) :
         DELIVERY_ITEM_COMPARATOR
     ) {
 
+    lateinit var myId: String;
 
     inner class MessagesViewHolder(private val binding: ItemMessageListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -36,9 +37,24 @@ class MessagesListAdapter(private val listener: MessagesFragment) :
             Log.e(TAG, "modelA "+model.sentTo)
 
             binding.apply {
-                Glide.with(binding.root).load(model.sentTo.image)
-                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
-                tvName.text = model.sentTo.firstName + " " + model.sentTo.lastName
+                val options = RequestOptions()
+                options.centerCrop()
+                options.placeholder(R.drawable.user_circle_1179465)
+
+                if(!model.sentBy._id.equals(myId)){
+                    Glide.with(binding.root).load(model.sentBy.image)
+                            .apply(options).into(ivUserPic)
+                    tvName.text = model.sentBy.firstName + " " + model.sentBy.lastName
+                }
+                if(!model.sentTo._id.equals(myId)){
+                    Glide.with(binding.root).load(model.sentTo.image)
+                            .apply(options).into(ivUserPic)
+                    tvName.text = model.sentTo.firstName + " " + model.sentTo.lastName
+                }
+
+
+
+
                 tvLastMessage.text = model.modMsg
 
                 val date = model.sentAt
@@ -89,6 +105,12 @@ class MessagesListAdapter(private val listener: MessagesFragment) :
 
     interface OnItemClickListener {
         fun onItemClick(model: ChatUsersData)
+    }
+
+
+    fun updateList(myId2: String) {
+        myId = myId2
+        notifyDataSetChanged()
     }
 
 }
