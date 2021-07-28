@@ -331,9 +331,9 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                     return;
                 }
 
-                initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
+//                initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
                 if(callUser != null){
-//                    initializeSession(callUser.getData().getApikey(), callUser.getData().getSessionId(), callUser.getData().getToken());
+                    initializeSession(callUser.getData().getApikey(), callUser.getData().getSessionId(), callUser.getData().getToken());
                 }
 
             }
