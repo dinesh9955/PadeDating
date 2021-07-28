@@ -38,7 +38,8 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
-import com.padedatingapp.ui.call.CallActivity
+import com.padedatingapp.ui.call.AudioCallActivity
+import com.padedatingapp.ui.call.VideoCallActivity
 import com.padedatingapp.ui.chats.ConnectivityReceiver
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -75,8 +76,11 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 //    private var bookingId: String? = null
-    private var receiverId: String?=null
+
+
     private var senderId: String?=null
+    private var receiverId: String?=null
+    private var blockUser: String?=null
 
     var main_list = ArrayList<ChatUsersData>()
 
@@ -245,6 +249,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             }
         }
 
+
+
+
         chatVM.loginResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "ChatHistory")
         }
@@ -253,6 +260,18 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 //        val jsonObj = JsonObject()
 //        jsonObj.addProperty("gender", "interest")
+
+
+//        val jsonObj = JsonObject()
+//        jsonObj.addProperty("action", "like")
+
+
+//        chatVM.userProfile(
+//                list[position]._id,
+//                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//        )
+
+
 
         chatVM.chatHistoryApi(
                 receiverId
@@ -408,14 +427,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                     "Call" -> {
                         val data = response.data as CallUser
                         Log.e(TAG, "dataAAC "+data.toString())
-                       // onMeetMeResponse(data)
-                        var intent = Intent(requireContext(), CallActivity::class.java)
-                        var bundle = Bundle()
-                        bundle.putSerializable("key", data);
-                        intent.putExtras(bundle)
-                        startActivity(intent)
 
-                       // requireActivity().finish()
+                        if(data.data.callType.equals("audio")){
+                            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+                            var bundle = Bundle()
+                            bundle.putSerializable("key", data);
+                            intent.putExtras(bundle)
+                            startActivity(intent)
+                        }else if(data.data.callType.equals("video")){
+                            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+                            var bundle = Bundle()
+                            bundle.putSerializable("key", data);
+                            intent.putExtras(bundle)
+                            startActivity(intent)
+                        }
 
                     }
                 }

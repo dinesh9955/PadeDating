@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
 import com.google.android.libraries.places.api.model.Place

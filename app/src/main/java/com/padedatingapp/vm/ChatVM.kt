@@ -25,6 +25,14 @@ class ChatVM(
     var errorMessage =  MutableLiveData("")
 
 
+//    fun chatHistoryApi(receiverID: String?) {
+//        coroutinesManager.ioScope.launch {
+//            loginResponse.postValue(Resource.loading(null))
+//            loginResponse.postValue(aboutMeRepo.chatHistory("Bearer $token", receiverID!!))
+//        }
+//    }
+
+
 
     fun chatHistoryApi(receiverID: String?) {
         coroutinesManager.ioScope.launch {

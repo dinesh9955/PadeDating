@@ -4,12 +4,19 @@ import android.Manifest;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
@@ -19,6 +26,8 @@ import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
 import com.padedatingapp.R;
+import com.padedatingapp.base.BaseActivity;
+import com.padedatingapp.model.call.CallUser;
 import com.padedatingapp.ui.call.network.APIService;
 import com.padedatingapp.ui.call.network.GetSessionResponse;
 
@@ -37,9 +46,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 
-public class CallActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class VideoCallActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
-    private static final String TAG = CallActivity.class.getSimpleName();
+    private static final String TAG = VideoCallActivity.class.getSimpleName();
 
     private static final int PERMISSIONS_REQUEST_CODE = 124;
 
@@ -52,6 +61,142 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
 
     private FrameLayout publisherViewContainer;
     private FrameLayout subscriberViewContainer;
+
+    CallUser callUser;
+
+    TextView textViewCall;
+    ImageView imageViewAudio, imageViewVideo;
+
+    LinearLayout linearLayoutAudio, linearLayoutVideo;
+
+    ImageView imageViewUser;
+    TextView textViewUser;
+
+//    boolean booleanAudio = true;
+//    boolean booleanVideo = true;
+
+    @Override
+    public int layoutId() {
+        return R.layout.call_view_activity;
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+       // setContentView(R.layout.activity_main2);
+
+        publisherViewContainer = findViewById(R.id.publisher_container);
+        subscriberViewContainer = findViewById(R.id.subscriber_container);
+
+        linearLayoutAudio = findViewById(R.id.layout_call);
+        linearLayoutVideo = findViewById(R.id.layout_call_2);
+
+        imageViewUser = findViewById(R.id.ivPorfilePic);
+        textViewUser = findViewById(R.id.tvName);
+
+        imageViewAudio = findViewById(R.id.ivMinOnOff);
+        textViewCall = findViewById(R.id.tvEndCall);
+        imageViewVideo = findViewById(R.id.ivVideoOffOn);
+
+
+        Bundle bundle = getIntent().getExtras();
+
+        callUser = (CallUser) bundle.getSerializable("key");
+
+
+//        if(callUser != null){
+////            if(callUser.getData().getCallType().equalsIgnoreCase("audio")){
+////                linearLayoutAudio.setVisibility(View.VISIBLE);
+////                linearLayoutVideo.setVisibility(View.GONE);
+////            } else if(callUser.getData().getCallType().equalsIgnoreCase("video")){
+////                linearLayoutAudio.setVisibility(View.GONE);
+////                linearLayoutVideo.setVisibility(View.VISIBLE);
+////            }
+//
+//            textViewUser.setText(""+callUser.getData().getUser2().getFirstName()+" "+callUser.getData().getUser2().getLastName());
+//
+//           // options.placeholder(R.drawable.user_circle_1179465)
+//            RequestOptions options = new RequestOptions();
+//            options.centerCrop();
+//            options.placeholder(R.drawable.user_circle_1179465);
+//
+//            Glide.with(VideoCallActivity.this).load(callUser.getData().getUser2().getImage())
+//                    .apply(options).into(imageViewUser);
+//
+//        }
+
+
+        Log.e(TAG ,"callUser "+callUser.toString());
+
+        textViewCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        imageViewAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imageViewAudio.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_mic_on).getConstantState()))
+                {
+                    imageViewAudio.setImageResource(R.drawable.ic_video_off);
+//                    linearLayoutAudio.setVisibility(View.VISIBLE);
+//                    linearLayoutVideo.setVisibility(View.GONE);
+//                    booleanAudio = false;
+                }else{
+                    imageViewAudio.setImageResource(R.drawable.ic_mic_on);
+//                    linearLayoutAudio.setVisibility(View.GONE);
+//                    linearLayoutVideo.setVisibility(View.VISIBLE);
+//                    booleanAudio = true;
+                }
+            }
+        });
+
+        imageViewVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imageViewVideo.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_video_off).getConstantState()))
+                {
+                    imageViewVideo.setImageResource(R.drawable.ic_mic_on);
+                    linearLayoutAudio.setVisibility(View.GONE);
+                    linearLayoutVideo.setVisibility(View.VISIBLE);
+//                    booleanVideo = false;
+                }else{
+                    imageViewVideo.setImageResource(R.drawable.ic_video_off);
+                    linearLayoutAudio.setVisibility(View.VISIBLE);
+                    linearLayoutVideo.setVisibility(View.GONE);
+//                    booleanVideo = true;
+                }
+            }
+        });
+
+
+        requestPermissions();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (session != null) {
+            session.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (session != null) {
+            session.onResume();
+        }
+    }
+
+
+
 
     private PublisherKit.PublisherListener publisherListener = new PublisherKit.PublisherListener() {
         @Override
@@ -75,10 +220,13 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
         public void onConnected(Session session) {
             Log.d(TAG, "onConnected: Connected to session: " + session.getSessionId());
 
-            publisher = new Publisher.Builder(CallActivity.this).build();
+            publisher = new Publisher.Builder(VideoCallActivity.this).build();
             publisher.setPublisherListener(publisherListener);
             publisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
-            //publisher.setPublishVideo(false);
+
+           // publisher.setPublishAudio(booleanAudio);
+//            publisher.setPublishVideo(booleanVideo);
+
             publisherViewContainer.addView(publisher.getView());
 
             if (publisher.getView() instanceof GLSurfaceView) {
@@ -100,9 +248,13 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
             Log.d(TAG, "onStreamReceived: New Stream Received " + stream.getStreamId() + " in session: " + session.getSessionId());
 
             if (subscriber == null) {
-                subscriber = new Subscriber.Builder(CallActivity.this, stream).build();
+                subscriber = new Subscriber.Builder(VideoCallActivity.this, stream).build();
                 subscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
                 subscriber.setSubscriberListener(subscriberListener);
+
+//                subscriber.setSubscribeToAudio(booleanAudio);
+//                subscriber.setSubscribeToVideo(booleanVideo);
+
                 session.subscribe(subscriber);
                 subscriberViewContainer.addView(subscriber.getView());
             }
@@ -111,7 +263,6 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         public void onStreamDropped(Session session, Stream stream) {
             Log.d(TAG, "onStreamDropped: Stream Dropped: " + stream.getStreamId() + " in session: " + session.getSessionId());
-
             if (subscriber != null) {
                 subscriber = null;
                 subscriberViewContainer.removeAllViews();
@@ -141,35 +292,6 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-
-        publisherViewContainer = findViewById(R.id.publisher_container);
-        subscriberViewContainer = findViewById(R.id.subscriber_container);
-
-        requestPermissions();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (session != null) {
-            session.onPause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (session != null) {
-            session.onResume();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -210,6 +332,10 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
                 }
 
                 initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
+                if(callUser != null){
+//                    initializeSession(callUser.getData().getApikey(), callUser.getData().getSessionId(), callUser.getData().getToken());
+                }
+
             }
         } else {
             EasyPermissions.requestPermissions(this, getString(R.string.rationale_video_app), PERMISSIONS_REQUEST_CODE, perms);
@@ -277,4 +403,23 @@ public class CallActivity extends AppCompatActivity implements EasyPermissions.P
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         this.finish();
     }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        if (publisher != null) {
+//            session.unpublish(publisher);
+//        }
+//
+//        if (subscriber != null) {
+//            subscriber.destroy();
+//        }
+//
+//        if(session != null) {
+//            session.disconnect();
+//        }
+//
+//
+//        super.onBackPressed();
+//    }
 }

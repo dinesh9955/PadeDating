@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/rectangle_gradient_bg"
+    android:orientation="vertical"
+  >
+
+
+        <LinearLayout
+            android:id="@+id/layout_call"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_above="@+id/layout_bottom"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivPorfilePic"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:src="@drawable/ic_password_unvisible"
+
+                />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#ffffff"
+                android:gravity="center_horizontal"
+                android:text="Carolyn Glover"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivPorfilePic"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubic_light"
+                android:textStyle="normal"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:text="8:20"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
+                android:visibility="gone"
+                />
+
+
+        </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_call_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_above="@+id/layout_bottom">
+
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/subscriber_container"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+            <FrameLayout
+                android:id="@+id/publisher_container"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#CCCCCC"
+                android:padding="2dp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/_20sdp">
+
+        <ImageView
+            android:id="@+id/ivMinOnOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_mic_on"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/tvEndCall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/_18sdp"
+            android:background="@drawable/button_gradient_bg"
+            android:fontFamily="@font/rubik_medium"
+            android:text="@string/end_call"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableStart="@drawable/ic_chat_call"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:paddingHorizontal="@dimen/_30sdp"
+            app:backgroundTint="@null"
+            android:layout_centerHorizontal="true"
+           />
+
+
+        <ImageView
+            android:id="@+id/ivVideoOffOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_video_off"
+            />
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

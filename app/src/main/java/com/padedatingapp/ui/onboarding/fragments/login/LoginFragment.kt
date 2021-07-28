@@ -97,6 +97,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                 when (type) {
                     "loginResponse" -> {
                         val data = response.data as ResultModel<UserModel>
+                        Log.e(TAG, "dataAA "+response.data)
+                        Log.e(TAG, "dataBB "+data.toString())
                         onLoginResponse(data)
                     }
                 }
