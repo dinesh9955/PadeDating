@@ -143,6 +143,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
        // adapter.updateData(list)
         //adapter.notifyDataSetChanged()
 
+        initializeCard()
 
 
     }
@@ -506,7 +507,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 list = data.data as ArrayList<MeetMeData>
                 Log.e(TAG, "listAA "+list.size)
-              //  initializeCard()
+
 
 
                 adapter.updateData(list)
