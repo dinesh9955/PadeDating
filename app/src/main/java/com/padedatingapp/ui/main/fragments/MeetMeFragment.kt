@@ -229,7 +229,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         val ivBack = dialogView.findViewById<ImageView>(R.id.ivBack)
         btnSendMessage.setOnClickListener {
             dialog.dismiss()
-            //findNavController().navigate(MeetMeFragmentDirections.actionToChat(null))
+          //  findNavController().navigate(MeetMeFragmentDirections.actionToChat(null))
         }
         btnKeepExploring.setOnClickListener {
             dialog.dismiss()

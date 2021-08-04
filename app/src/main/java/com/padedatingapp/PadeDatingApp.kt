@@ -3,6 +3,8 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.google.android.libraries.places.api.Places
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.padedatingapp.di.AppModule
 import com.padedatingapp.sockets.AppSocketListener
@@ -13,9 +15,16 @@ class PadeDatingApp : Application() {
     companion object {
          var mAppLang = "en"
         lateinit var gson: Gson
+        var TAG = "PadeDatingApp"
     }
+
+    var crashlytics: FirebaseCrashlytics? = null
+
     override fun onCreate() {
         super.onCreate()
+
+        FirebaseApp.initializeApp(applicationContext);
+
         gson = Gson()
         startKoin {
             androidContext(applicationContext)
@@ -29,6 +38,15 @@ class PadeDatingApp : Application() {
             .get()
             .lifecycle
             .addObserver(ApplicationObserver())*/
+
+        try {
+            crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics!!.log("Start logging!")
+            crashlytics!!.setCustomKey("DeviceName", "Android")
+            crashlytics!!.setCustomKey("Email", "dinesh.kumar@apptunix.com")
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, "getMessage3 " + e.message)
+        }
 
         initializeSocket(applicationContext)
     }

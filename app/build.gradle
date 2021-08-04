@@ -153,6 +153,8 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-auth:21.0.1'
 //    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 //    implementation 'com.google.firebase:firebase-iid:21.1.0'
+//    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+
 
 
 
@@ -184,3 +186,5 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+
