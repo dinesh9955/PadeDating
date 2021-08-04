@@ -3,6 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: "androidx.navigation.safeargs.kotlin"
+
+apply plugin: 'com.google.firebase.crashlytics'
+
+//apply {
+//    from '../../commons.gradle'
+//}
+
 android {
     compileSdkVersion 30
 
@@ -130,22 +137,37 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.13.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.3'
 
-
+    implementation 'com.google.android.gms:play-services-location:11.4.0'
 
     //socket
     implementation('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
 
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
+//
+//    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+//
+//    implementation 'com.google.firebase:firebase-core:19.0.0'
+//    implementation 'com.google.firebase:firebase-auth:21.0.1'
+//    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+//    implementation 'com.google.firebase:firebase-iid:21.1.0'
 
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
 
-    implementation 'com.google.firebase:firebase-core:19.0.0'
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-iid:21.1.0'
+
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-messaging'
+
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+
 
 //    debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
 //    releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
@@ -160,3 +182,5 @@ dependencies {
 
 
 }
+
+apply plugin: 'com.google.gms.google-services'

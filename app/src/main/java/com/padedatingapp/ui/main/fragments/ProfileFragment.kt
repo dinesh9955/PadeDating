@@ -113,6 +113,9 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             viewBinding.tvName.text = userObject.firstName + " " + userObject.lastName
             Glide.with(requireContext()).load(userObject.image)
                 .placeholder(R.drawable.user_place_holder).into(viewBinding.ivPorfilePic)
+
+            viewBinding.tvCredits.text = userObject.totalPoints
+
         } catch (e: JsonParseException) {
 
         }

@@ -75,14 +75,33 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
 
 
            // viewBinding.originEthnicity.setText(userObject.firstName)
-            aboutMeVM.originEthnicity.value = userObject.ethnicity.substring(0, 1).toUpperCase() + userObject.ethnicity.substring(1).toLowerCase()
-            aboutMeVM.educationLevel.value = userObject.educationLevel.substring(0, 1).toUpperCase() + userObject.educationLevel.substring(1).toLowerCase()
-            aboutMeVM.work.value = userObject.work.substring(0, 1).toUpperCase() + userObject.work.substring(1).toLowerCase()
-            aboutMeVM.datingPreference.value = userObject.datingPreference.substring(0, 1).toUpperCase() + userObject.datingPreference.substring(1).toLowerCase()
-            aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
+//            Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
+            if(!userObject.ethnicity.equals("")){
+                Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
+                aboutMeVM.originEthnicity.value = userObject.ethnicity.substring(0, 1).toUpperCase() + userObject.ethnicity.substring(1).toLowerCase()
+            }
+            if(!userObject.educationLevel.equals("")){
+                aboutMeVM.educationLevel.value = userObject.educationLevel.substring(0, 1).toUpperCase() + userObject.educationLevel.substring(1).toLowerCase()
+            }
+            if(!userObject.work.equals("")){
+                aboutMeVM.work.value = userObject.work.substring(0, 1).toUpperCase() + userObject.work.substring(1).toLowerCase()
+            }
+            if(!userObject.datingPreference.equals("")){
+                aboutMeVM.datingPreference.value = userObject.datingPreference.substring(0, 1).toUpperCase() + userObject.datingPreference.substring(1).toLowerCase()
+            }
+            if(!userObject.religiousBelief.equals("")){
+                aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
+            }
 
-            aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
-            aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
+//            if(!userObject.religiousBelief.equals("")){
+//                aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
+//            }
+
+            if(!userObject.height.equals("")){
+                aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
+                aboutMeVM.inches.value = userObject.height.split(" ")[0].toUpperCase()
+            }
+
 
             aboutMeVM.doYouSmoke.value = userObject.doyousmoke.toUpperCase()
             if(userObject.doyousmoke.equals("YES" , true)){
@@ -279,6 +298,9 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
 
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+
+               // Log.e(TAG, "accessToken "+it.data?.accessToken!!)
+
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
 
                 sharedPref.setString(AppConstants.USER_ID, it.data._id)
@@ -329,6 +351,15 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                             aboutMeVM.religiousBeliefs.value = list[which]
 
                         }.show()
+                }
+                "childern" -> {
+                    list = resources.getStringArray(R.array.childern_array)
+                    MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(resources.getString(R.string.childern))
+                            .setItems(list) { _, which ->
+                                aboutMeVM.childern.value = list[which]
+
+                            }.show()
                 }
                 "select_feet" -> {
                     list = resources.getStringArray(R.array.feet_array)

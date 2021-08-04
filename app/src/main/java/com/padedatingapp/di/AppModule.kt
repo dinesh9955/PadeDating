@@ -51,6 +51,7 @@ object AppModule {
         viewModel { MyMatchesVM(get(), get(), get()) }
         viewModel { ChatUserVM(get(), get(), get()) }
         viewModel { ChatVM(get(), get(), get()) }
+
     }
 
     val RemoteApiModule = module {

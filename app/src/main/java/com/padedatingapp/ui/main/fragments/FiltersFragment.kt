@@ -9,13 +9,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
@@ -36,10 +36,17 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
 
     var interestIn = ""
 
+//    var originEthnicity = MutableLiveData("")
+//
+//    var optionChoosen =  SingleLiveEvent<String>()
+
     companion object {
         private const val SELECT_ADDRESS_REQUEST_CODE = 1003
         var TAG = "FiltersFragment"
     }
+
+
+//    private val aboutMeVM by inject<FilterVM>()
 
 
     override fun layoutId(): Int = R.layout.fragment_filters
@@ -49,6 +56,7 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initComponents()
+//        initObservables()
         setUserData()
     }
 
@@ -75,16 +83,22 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             showAddressOverlay()
         }
 
+
+         viewBinding.tvDatingPrefences.setOnClickListener {
+             initObservables()
+        }
+
+
+
         viewBinding.tvDone.setOnClickListener {
-
-
-
             sharedPref.setString("filter", "filter")
             sharedPref.setString("interest", interestIn)
             sharedPref.setString("address", tvLocation.text.toString())
             sharedPref.setString("employment", etEmployment.text.toString())
             sharedPref.setInt("age", age)
             sharedPref.setInt("distance", distance)
+            sharedPref.setString("dating_prefences", ""+viewBinding.tvDatingPrefences.text)
+
             findNavController().popBackStack()
         }
 
@@ -131,6 +145,24 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
 
     }
 
+
+
+
+    private fun initObservables() {
+        var list: Array<String>
+        list = resources.getStringArray(R.array.dating_prefences_array)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.hint_DatingPrefences))
+            .setItems(list) { _, which ->
+                //aboutMeVM.originEthnicity.value = list[which]
+                viewBinding.tvDatingPrefences.text = list[which]
+            }.show()
+
+
+        Log.e(TAG, "onViewCreated11")
+    }
+
+
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
@@ -139,6 +171,7 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
 
     private fun showAddressOverlay() {
         val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        Log.e(TAG, "fieldsAA " +fields.toString())
         val intent = object : Autocomplete.IntentBuilder(
             AutocompleteActivityMode.FULLSCREEN, fields
         ) {}
@@ -146,6 +179,7 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             .build(requireContext())
         startActivityForResult(intent, SELECT_ADDRESS_REQUEST_CODE)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -173,5 +207,17 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -27,6 +27,7 @@ class AboutMeVM(
     var file: File? = null
     var token = ""
     var religiousBeliefs = MutableLiveData("")
+    var childern = MutableLiveData("")
     var work = MutableLiveData("")
     var educationLevel = MutableLiveData("")
     var originEthnicity = MutableLiveData("")
@@ -59,6 +60,7 @@ class AboutMeVM(
            "education"->{optionChoosen.value = "education"}
            "dating_pref"->{optionChoosen.value = "dating_pref"}
            "religious_beliefs"->{optionChoosen.value = "religious_beliefs"}
+           "childern"->{optionChoosen.value = "childern"}
            "select_feet"->{optionChoosen.value = "select_feet"}
            "select_inches"->{optionChoosen.value = "select_inches"}
            "submit"->{
@@ -82,6 +84,10 @@ class AboutMeVM(
                        errorMessage.value = resourceProvider.getString(R.string.please_select_religous_beliefs)
                    }
 
+                   childern.value.toString().trim().isEmpty() -> {
+                       errorMessage.value = resourceProvider.getString(R.string.please_select_childern)
+                   }
+
                    else ->{
                        val jsonObj = JsonObject()
                        jsonObj.addProperty("height", "${feet.value} ${inches.value}")
@@ -90,6 +96,7 @@ class AboutMeVM(
                        jsonObj.addProperty("work", work.value)
                        jsonObj.addProperty("datingPreference", datingPreference.value)
                        jsonObj.addProperty("religiousBelief", religiousBeliefs.value)
+                     //  jsonObj.addProperty("childern", childern.value)
                        jsonObj.addProperty("doyoudrink", doYouDrink.value)
                        jsonObj.addProperty("doyousmoke", doYouSmoke.value)
                        jsonObj.addProperty("interestedIn", interesedIn.value)

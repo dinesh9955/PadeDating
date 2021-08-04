@@ -331,8 +331,12 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                     return;
                 }
 
-//                initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
+                //initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
                 if(callUser != null){
+                    Log.e(TAG, "callUser.getData().getApikey() "+callUser.getData().getApikey());
+                    Log.e(TAG, "callUser.getData().getSessionId() "+callUser.getData().getSessionId());
+                    Log.e(TAG, "callUser.getData().getToken() "+callUser.getData().getToken());
+
                     initializeSession(callUser.getData().getApikey(), callUser.getData().getSessionId(), callUser.getData().getToken());
                 }
 
@@ -377,9 +381,8 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
         session = new Session.Builder(this, apiKey, sessionId).build();
         session.setSessionListener(sessionListener);
         session.connect(token);
-
-
     }
+
 
     private void initRetrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

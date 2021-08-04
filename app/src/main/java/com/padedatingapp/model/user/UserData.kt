@@ -1,11 +1,15 @@
-package com.padedatingapp.model
+package com.padedatingapp.model.user
 
-class UserModel (
+import com.padedatingapp.model.ImageModel
+
+data class UserData(
     val __v: Int,
     val _id: String,
     val accessToken: String,
     val address: String,
+    val age: Int,
     val appleId: String,
+    val blockedUsers: List<Any>,
     val city: String,
     val country: String,
     val countryCode: String,
@@ -16,7 +20,6 @@ class UserModel (
     val deviceToken: String,
     val deviceType: String,
     val docImage: ArrayList<ImageModel>,
-    val docNumber: String,
     val doyoudrink: String,
     val doyousmoke: String,
     val educationLevel: String,
@@ -25,9 +28,13 @@ class UserModel (
     val facebookId: String,
     val firstName: String,
     val gender: String,
+    val geoPoint: GeoPoint,
     val googleId: String,
     val height: String,
+    val heightInCms: Double,
     val image: String,
+    val instagramId: String,
+    val interestedIn: String,
     val isActive: Boolean,
     val isApproved: Boolean,
     val isBlocked: Boolean,
@@ -35,25 +42,20 @@ class UserModel (
     val isEmailVerified: Boolean,
     val isNewUser: Boolean,
     val isNotification: Boolean,
+    val isOnline: Boolean,
     val isPhoneVerified: Boolean,
     val lastName: String,
     val latitude: String,
-    val likes: List<Any>,
     val longitude: String,
     val oneTimeCode: String,
     val password: String,
     val pendingAmount: String,
     val phoneNo: String,
+    val profileStatus: Int,
     val religiousBelief: String,
     val state: String,
     val updatedAt: String,
     val username: String,
     val walletAmount: String,
-    val work: String,
-    var profileStatus:Int,
-    val interestedIn: String,
-    val totalPoints: String
-
-
+    val work: String
 )
-

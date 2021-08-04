@@ -1,13 +1,31 @@
 <resources>
     <string name="app_name">Pade Dating App</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <!--
+
     <string name="google_maps_key">AIzaSyAuptk-VCeLs864df80F1PIzsxL5RM9F1c</string>
--->
-    <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>
+
+<!--    <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>-->
 
     <string name="title_settings_dialog">Permissions Required</string>
     <string name="rationale_video_app">This app needs access to your camera and mic to make video calls</string>
+
+
+
+    <string-array name="dating_prefences_array">
+        <item>Pacific Islander</item>
+        <item>American India</item>
+        <item>Black/African Descent</item>
+        <item>East Asian</item>
+        <item>Hispanic/Latino</item>
+        <item>Middle Eastern</item>
+        <item>Pacific Islander</item>
+        <item>South Asian</item>
+        <item>White/Causcasian</item>
+    </string-array>
+
+
+
+
 
     <string-array name="dating_pref_array">
         <item>Engineer</item>
@@ -38,14 +56,30 @@
     </string-array>
 
     <string-array name="religious_array">
+        <item>Buddhist</item>
+        <item>Catholic</item>
+        <item>Christian</item>
+        <item>Hindu</item>
+        <item>Jewish</item>
+        <item>Muslim</item>
+        <item>Spiritual</item>
         <item>Agnostic</item>
         <item>Atheist</item>
+        <item>Other</item>
+        <item>Prefer Not to Say</item>
     </string-array>
 
     <string-array name="education_array">
         <item>Graduate</item>
         <item>Post Graduate</item>
         <item>Other</item>
+    </string-array>
+
+
+    <string-array name="childern_array">
+        <item>Don\'t have childern</item>
+        <item>Have childern</item>
+        <item>Prefer Not to Say</item>
     </string-array>
 
     <string-array name="feet_array">
@@ -121,12 +155,14 @@
     <string name="skip_for_now">Skip for now</string>
     <string name="private_secondary_images_or_videos">Private/Secondary Images or Videos</string>
     <string name="about_me">About Me</string>
-    <string name="lorem_ipsum_about_me">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna</string>
+    <string name="lorem_ipsum_about_me">Add something about you</string>
     <string name="origin_or_ethnicity">Origin / Ethnicity</string>
+    <string name="hint_DatingPrefences">Dating Prefences</string>
     <string name="education_lavel">Education Level</string>
     <string name="work">Work</string>
     <string name="dating_pref">Dating Preference</string>
     <string name="religious_beliefs">Religious Beliefs</string>
+    <string name="childern">What about your childern</string>
     <string name="height">Height:</string>
     <string name="inch">In</string>
     <string name="feet">Ft</string>
@@ -199,6 +235,8 @@
     <string name="men">Men</string>
     <string name="women">Women</string>
     <string name="Employment">Employment</string>
+    <string name="DatingPrefences">Dating Prefences</string>
+
     <string name="age">Age</string>
     <string name="block_user">Block User</string>
     <string name="report">Report</string>
@@ -246,6 +284,7 @@
     <string name="please_select_work">Please select Work</string>
     <string name="please_select_dating_pref">Please select Dating Preference</string>
     <string name="please_select_religous_beliefs">Please select Religious Beliefs</string>
+    <string name="please_select_childern">Please select your childern</string>
     <string name="password_recovery">Password Recovery</string>
     <string name="edit_information">Edit Information</string>
     <string name="male">Male</string>

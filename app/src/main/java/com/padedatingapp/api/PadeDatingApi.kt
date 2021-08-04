@@ -3,6 +3,7 @@ package com.padedatingapp.api
 import com.padedatingapp.model.*
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.user.UpdateModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -30,6 +31,14 @@ interface PadeDatingApi {
         @Header("Authorization") token:String,
         @Body body: RequestBody
     ): ResultModel<UserModel>
+
+
+//    @POST(NetworkUrls.PROFILE_SETUP)
+//    suspend fun profileSetUpUserData(
+//        @Header("Authorization") token:String,
+//        @Body body: RequestBody
+//    ): UpdateModel
+
 
     @POST(NetworkUrls.CHECK_USERNAME)
     suspend fun checkUsername(

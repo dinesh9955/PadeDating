@@ -3,6 +3,7 @@ package com.padedatingapp.ui.onboarding.fragments.login
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
@@ -59,6 +60,9 @@ class LoginVM(
                         val jsonObj = JsonObject()
                         jsonObj.addProperty("email", email.value)
                         jsonObj.addProperty("password", password.value)
+                        jsonObj.addProperty("deviceType", "ANDROID")
+                        jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
+                        FirebaseInstanceId.getInstance().getToken();
                         Log.d("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
                         callLoginUserApi(
                             jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
@@ -90,6 +94,8 @@ class LoginVM(
                         jsonObj.addProperty("phoneNo", phoneNo.value)
                         jsonObj.addProperty("countryCode", countryCode)
                         jsonObj.addProperty("password", password.value)
+                       // jsonObj.addProperty("deviceType", "ANDROID")
+                        jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
                         Log.d("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
                         callLoginUserApi(
                             jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())

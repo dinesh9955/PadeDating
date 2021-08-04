@@ -22,8 +22,14 @@ import com.padedatingapp.ui.main.fragments.BuyGiftCardsListFragment
 import com.padedatingapp.ui.main.fragments.MeetMeFragment
 import java.util.*
 
-class MeetMeAdapter(internal var context: Context, internal var list: List<MeetMeData>, val listener: MeetMeFragment) :
+class MeetMeAdapter(internal var context: Context,  val listener: MeetMeFragment) :
         RecyclerView.Adapter<MeetMeAdapter.BookMarkListViewHolder>() {
+
+    private var list: List<MeetMeData>
+
+    init {
+        list = ArrayList()
+    }
 
     var TAG = "GiftCardListAdapter"
 

@@ -3,6 +3,7 @@ package com.padedatingapp.ui.main.fragments.edit_profile
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.iid.FirebaseInstanceId
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.EditProfileRepo
@@ -94,6 +95,8 @@ class EditProfileVM(
                 jsonObj.put("latitude", latitude.value.toString())
                 jsonObj.put("longitude", longitude.value.toString())
                 jsonObj.put("profileStatus", 3)
+               // jsonObj.put("deviceType", "ANDROID")
+                jsonObj.put("deviceToken", FirebaseInstanceId.getInstance().getToken())
                 for (url in list) {
                     if (url.source != "add") {
                         val obj = JSONObject()

@@ -19,6 +19,7 @@ import android.widget.ImageView
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.birimo.birimosports.utils.SharedPref
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -33,12 +34,14 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
 import com.padedatingapp.model.*
+//import com.padedatingapp.ui.MeetMeFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_filters.*
+import kotlinx.android.synthetic.main.fragment_meet_me.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -47,6 +50,7 @@ import kotlin.collections.ArrayList
 
 class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackListener,
         MeetMeAdapter.OnItemClickListener {
+
 
     private lateinit var userObject : UserModel
 
@@ -90,6 +94,9 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     }
 
     private fun initComponents() {
+
+        Log.e(TAG, "initComponents")
+
         userObject =
                 Gson().fromJson(
                         sharedPref.getString(AppConstants.USER_OBJECT),
@@ -118,11 +125,24 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 //            list.add(DummyModel())
 //        }
 
-        initializeCard()
-        adapter = MeetMeAdapter(requireContext(), list, this)
+      //  if(list.size == 0){
+            adapter =  MeetMeAdapter(requireActivity(), this)
+            viewBinding.cStack.adapter = adapter
+      //  }
+
+
+
+
+//        val linearLayoutManager1 = LinearLayoutManager(requireContext())
+//        linearLayoutManager1.orientation = LinearLayoutManager.VERTICAL
+//        viewBinding.cStack1!!.layoutManager = linearLayoutManager1
+//        adapter =  MeetMeAdapter(requireActivity(), this)
+//        viewBinding.cStack1.adapter = adapter
+
+
        // adapter.updateData(list)
         //adapter.notifyDataSetChanged()
-        viewBinding.cStack.adapter = adapter
+
 
 
     }
@@ -360,8 +380,6 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
         val jsonObj = JsonObject()
 
-
-
         if(filter.equals("filter")){
             var interest = sharedPref.getString("interest")
             var address = sharedPref.getString("address")
@@ -488,8 +506,11 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 list = data.data as ArrayList<MeetMeData>
                 Log.e(TAG, "listAA "+list.size)
+              //  initializeCard()
+
+
                 adapter.updateData(list)
-               // adapter.notifyDataSetChanged()
+//                adapter.notifyDataSetChanged()
 
                 if(list.size == 0){
                     viewBinding.likeFloating.visibility = View.GONE

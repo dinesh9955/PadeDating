@@ -62,6 +62,9 @@ import java.util.*
 
 class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
     UploadImageAdapter.OnItemClickListener {
+
+
+
     private val sharedPref by inject<SharedPref>()
     private var progressDialog: CustomProgressDialog? = null
     private val editProfileVM by inject<EditProfileVM>()
@@ -80,6 +83,8 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
         private const val GALLERY_IMAGE_REQUEST = 1002
         private const val GALLERY_PERMISSION_REQUEST = 1004
         private const val SELECT_ADDRESS_REQUEST_CODE = 1003
+
+        var TAG = "EditProfileFragment"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -182,8 +187,10 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
     }
 
     private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
+        Log.e(TAG, "onSetupProfileResponse "+data.data?.toString())
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                Log.e(TAG, "onSetupProfileResponse "+it.data?.toString())
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
 
                 sharedPref.setString(AppConstants.USER_ID, it.data._id)
