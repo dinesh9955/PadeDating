@@ -46,6 +46,7 @@ import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.fragment_chat.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -74,6 +75,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     private lateinit var adapter: ChatListAdapter
 
+
+
+    var block : Boolean = false
 
 //    private var bookingId: String? = null
 
@@ -130,7 +134,19 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
 
 
-//        bookingId = "60ee8d5ccf1b8502aecd4117"
+        if(person.equals("VIDEO_CALL")){
+
+            var data : CallUser
+            data.data.apikey = person.
+
+            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+            var bundle = Bundle()
+            bundle.putSerializable("key", data);
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+
+
         senderId = ""+userObject._id
         receiverId = ""+person.receiverID
         Log.e(TAG, "receiverId "+receiverId)
@@ -154,6 +170,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 .apply(options).into(viewBinding.ivUserImageHeader)
         viewBinding.tvName.text = person.receiverName
 
+
+        if(block == true){
+            tvBlock.text = "Blocked user"
+        }else{
+            tvBlock.text = "Block user"
+        }
+
+        tvBlock.setOnClickListener {
+            viewBinding.llChatOptions.visibility = View.GONE
+        }
+
+        tvReport.setOnClickListener {
+            viewBinding.llChatOptions.visibility = View.GONE
+        }
 
 
 

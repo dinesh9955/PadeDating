@@ -16,14 +16,17 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.birimo.birimosports.utils.SharedPref
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
@@ -40,8 +43,7 @@ import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.fragment_filters.*
-import kotlinx.android.synthetic.main.fragment_meet_me.*
+import kotlinx.android.synthetic.main.bottomsheet_perfect_match.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -53,6 +55,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 
     private lateinit var userObject : UserModel
+
+    private lateinit var meetMeData : MeetMeData
 
     private lateinit var dialog: Dialog
     private lateinit var adapter: MeetMeAdapter
@@ -215,7 +219,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 
 
-    private fun showCongratsPopup() = try {
+    private fun showCongratsPopup(chatIDModel: ChatIDModel) = try {
         if (::dialog.isInitialized && dialog.isShowing)
             dialog.cancel()
         dialog = Dialog(requireActivity(), R.style.dialog_style)
@@ -229,7 +233,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         val ivBack = dialogView.findViewById<ImageView>(R.id.ivBack)
         btnSendMessage.setOnClickListener {
             dialog.dismiss()
-          //  findNavController().navigate(MeetMeFragmentDirections.actionToChat(null))
+            findNavController().navigate(MeetMeFragmentDirections.actionToChat(chatIDModel))
         }
         btnKeepExploring.setOnClickListener {
             dialog.dismiss()
@@ -237,6 +241,27 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         ivBack.setOnClickListener {
             dialog.dismiss()
         }
+
+
+        val options = RequestOptions()
+        options.centerCrop()
+        options.placeholder(R.drawable.user_circle_1179465)
+
+        val tvUserOneName = dialogView.findViewById<TextView>(R.id.tvUserOneName)
+        val tvUserTwoName = dialogView.findViewById<TextView>(R.id.tvUserTwoName)
+        val ivUserOne = dialogView.findViewById<ShapeableImageView>(R.id.ivUserOne)
+        val ivUserTwo = dialogView.findViewById<ShapeableImageView>(R.id.ivUserTwo)
+
+        Glide.with(requireActivity()).load(userObject.image)
+                .apply(options).into(ivUserOne)
+        tvUserOneName.text = userObject.firstName + " "+userObject.lastName
+
+        Glide.with(requireActivity()).load(chatIDModel.receiverImage)
+                .apply(options).into(ivUserTwo)
+        tvUserTwoName.text = chatIDModel.receiverName
+
+
+
 
         dialog.setContentView(dialogView)
         dialog.window?.setLayout(
@@ -269,11 +294,17 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     override fun onCardAppeared(view: View?, position: Int) {
         Log.e("MeetMeFragment", "onCardAppeared: ")
 
+        meetMeData = list[position]
+
+        Log.e("MeetMeFragment", "meetMeDataAA: "+meetMeData.firstName)
+
         viewBinding.likeFloating.setOnClickListener {
             // viewBinding.motionLayout.transitionToState(R.id.like)
 //            showCongratsPopup()
            // viewBinding.cStack.swipe()
             Log.e("MeetMeFragment", "setOnClickListener: "+position)
+
+            meetMeData = list[position]
 
             val jsonObj = JsonObject()
             jsonObj.addProperty("action", "like")
@@ -283,6 +314,15 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
 
+
+//            var chatIDModel = ChatIDModel()
+//            if(meetMeData != null){
+//                chatIDModel.receiverID = meetMeData._id
+//                chatIDModel.receiverName = meetMeData.firstName + " "+meetMeData.lastName
+//                chatIDModel.receiverImage = meetMeData.image
+//
+//                showCongratsPopup(chatIDModel)
+//            }
 
 
         }
@@ -471,7 +511,15 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
                                 if(data.data.likedBy.size != 0){
                                     if(data.data.isMatched == true){
-                                        showCongratsPopup()
+                                        var chatIDModel = ChatIDModel()
+                                        if(chatIDModel != null){
+                                            chatIDModel.receiverID = meetMeData._id
+                                            chatIDModel.receiverName = meetMeData.firstName + " "+meetMeData.lastName
+                                            chatIDModel.receiverImage = meetMeData.image
+
+                                            showCongratsPopup(chatIDModel)
+                                        }
+
                                     }else{
                                         like()
                                     }

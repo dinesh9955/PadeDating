@@ -72,8 +72,8 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
     ImageView imageViewUser;
     TextView textViewUser;
 
-//    boolean booleanAudio = true;
-//    boolean booleanVideo = true;
+    boolean booleanAudio = true;
+    boolean booleanVideo = true;
 
     @Override
     public int layoutId() {
@@ -106,26 +106,26 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
         callUser = (CallUser) bundle.getSerializable("key");
 
 
-//        if(callUser != null){
-////            if(callUser.getData().getCallType().equalsIgnoreCase("audio")){
-////                linearLayoutAudio.setVisibility(View.VISIBLE);
-////                linearLayoutVideo.setVisibility(View.GONE);
-////            } else if(callUser.getData().getCallType().equalsIgnoreCase("video")){
-////                linearLayoutAudio.setVisibility(View.GONE);
-////                linearLayoutVideo.setVisibility(View.VISIBLE);
-////            }
-//
-//            textViewUser.setText(""+callUser.getData().getUser2().getFirstName()+" "+callUser.getData().getUser2().getLastName());
-//
-//           // options.placeholder(R.drawable.user_circle_1179465)
-//            RequestOptions options = new RequestOptions();
-//            options.centerCrop();
-//            options.placeholder(R.drawable.user_circle_1179465);
-//
-//            Glide.with(VideoCallActivity.this).load(callUser.getData().getUser2().getImage())
-//                    .apply(options).into(imageViewUser);
-//
-//        }
+        if(callUser != null){
+            if(callUser.getData().getCallType().equalsIgnoreCase("audio")){
+                linearLayoutAudio.setVisibility(View.VISIBLE);
+                linearLayoutVideo.setVisibility(View.GONE);
+            } else if(callUser.getData().getCallType().equalsIgnoreCase("video")){
+                linearLayoutAudio.setVisibility(View.GONE);
+                linearLayoutVideo.setVisibility(View.VISIBLE);
+            }
+
+            textViewUser.setText(""+callUser.getData().getUser2().getFirstName()+" "+callUser.getData().getUser2().getLastName());
+
+           // options.placeholder(R.drawable.user_circle_1179465)
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            options.placeholder(R.drawable.user_circle_1179465);
+
+            Glide.with(VideoCallActivity.this).load(callUser.getData().getUser2().getImage())
+                    .apply(options).into(imageViewUser);
+
+        }
 
 
         Log.e(TAG ,"callUser "+callUser.toString());
@@ -143,14 +143,14 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                 if(imageViewAudio.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_mic_on).getConstantState()))
                 {
                     imageViewAudio.setImageResource(R.drawable.ic_video_off);
-//                    linearLayoutAudio.setVisibility(View.VISIBLE);
-//                    linearLayoutVideo.setVisibility(View.GONE);
-//                    booleanAudio = false;
+                 //   linearLayoutAudio.setVisibility(View.VISIBLE);
+                   // linearLayoutVideo.setVisibility(View.GONE);
+                    booleanAudio = false;
                 }else{
                     imageViewAudio.setImageResource(R.drawable.ic_mic_on);
-//                    linearLayoutAudio.setVisibility(View.GONE);
-//                    linearLayoutVideo.setVisibility(View.VISIBLE);
-//                    booleanAudio = true;
+                  //  linearLayoutAudio.setVisibility(View.GONE);
+                   // linearLayoutVideo.setVisibility(View.VISIBLE);
+                    booleanAudio = true;
                 }
             }
         });
@@ -161,14 +161,14 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                 if(imageViewVideo.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_video_off).getConstantState()))
                 {
                     imageViewVideo.setImageResource(R.drawable.ic_mic_on);
-                    linearLayoutAudio.setVisibility(View.GONE);
-                    linearLayoutVideo.setVisibility(View.VISIBLE);
-//                    booleanVideo = false;
-                }else{
-                    imageViewVideo.setImageResource(R.drawable.ic_video_off);
                     linearLayoutAudio.setVisibility(View.VISIBLE);
                     linearLayoutVideo.setVisibility(View.GONE);
-//                    booleanVideo = true;
+                    booleanVideo = false;
+                }else{
+                    imageViewVideo.setImageResource(R.drawable.ic_video_off);
+                    linearLayoutAudio.setVisibility(View.GONE);
+                    linearLayoutVideo.setVisibility(View.VISIBLE);
+                    booleanVideo = true;
                 }
             }
         });

@@ -76,19 +76,19 @@ public class MyReciever extends WakefulBroadcastReceiver
         );
 
 
-//                try{
-//                    JSONObject jsonObject = new JSONObject(data);
-//                    if(jsonObject.has("notificationtype")){
-//                        String notificationtype = jsonObject.getString("notificationtype");
+                try{
+                    JSONObject jsonObject = new JSONObject(data);
+                    if(jsonObject.has("notificationtype")){
+                        String notificationtype = jsonObject.getString("notificationtype");
 //                        if(notificationtype.equalsIgnoreCase("invoice seen")){
 //                            if(!pref.getCustomerName().equalsIgnoreCase("")){
 //                                sendNotification(context11);
 //                            }
 //                        }
-//                    }
-//                }catch (Exception e){
-//
-//                }
+                    }
+                }catch (Exception e){
+
+                }
 
 
 

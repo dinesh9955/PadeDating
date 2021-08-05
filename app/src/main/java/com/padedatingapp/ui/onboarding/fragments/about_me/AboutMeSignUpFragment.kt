@@ -422,7 +422,6 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
             viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
             aboutMeVM.interesedIn.value = "Female"
-
         }
 
         viewBinding.ivBothGender.setOnClickListener {
@@ -431,6 +430,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
             aboutMeVM.interesedIn.value = "Both"
         }
+
         viewBinding.rgDrink.setOnCheckedChangeListener { p0, p1 ->
             if (rbDrinkNo.isChecked) aboutMeVM.doYouDrink.value = "No"
             else if (rbDrinkYes.isChecked) aboutMeVM.doYouDrink.value = "Yes"

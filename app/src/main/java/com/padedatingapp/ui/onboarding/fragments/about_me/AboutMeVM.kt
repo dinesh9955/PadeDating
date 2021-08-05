@@ -83,10 +83,10 @@ class AboutMeVM(
                    religiousBeliefs.value.toString().trim().isEmpty() -> {
                        errorMessage.value = resourceProvider.getString(R.string.please_select_religous_beliefs)
                    }
-
-                   childern.value.toString().trim().isEmpty() -> {
-                       errorMessage.value = resourceProvider.getString(R.string.please_select_childern)
-                   }
+//
+//                   childern.value.toString().trim().isEmpty() -> {
+//                       errorMessage.value = resourceProvider.getString(R.string.please_select_childern)
+//                   }
 
                    else ->{
                        val jsonObj = JsonObject()
