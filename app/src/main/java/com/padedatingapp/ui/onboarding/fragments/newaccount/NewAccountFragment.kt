@@ -3,6 +3,7 @@ package com.padedatingapp.ui.onboarding.fragments.newaccount
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
 import com.google.android.material.bottomsheet.BottomSheetDialog

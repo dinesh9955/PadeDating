@@ -29,9 +29,6 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
         initComponents()
     }
 
@@ -98,7 +95,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
             chat.arguments = bundle2
 
             val ft = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.nav_host_fragment_home, chat)
+            ft.replace(R.id.constraintLayout_home, chat)
             ft.disallowAddToBackStack();
             ft.commit()
 

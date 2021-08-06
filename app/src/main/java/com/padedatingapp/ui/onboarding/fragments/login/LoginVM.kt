@@ -94,7 +94,7 @@ class LoginVM(
                         jsonObj.addProperty("phoneNo", phoneNo.value)
                         jsonObj.addProperty("countryCode", countryCode)
                         jsonObj.addProperty("password", password.value)
-                       // jsonObj.addProperty("deviceType", "ANDROID")
+                        jsonObj.addProperty("deviceType", "ANDROID")
                         jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
                         Log.d("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
                         callLoginUserApi(

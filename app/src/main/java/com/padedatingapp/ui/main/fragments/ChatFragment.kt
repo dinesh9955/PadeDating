@@ -136,14 +136,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         if(person.equals("VIDEO_CALL")){
 
-            var data : CallUser
-            data.data.apikey = person.
+//            var data : CallUser
+//            data.data.apikey = person.
 
-            var intent = Intent(requireContext(), VideoCallActivity::class.java)
-            var bundle = Bundle()
-            bundle.putSerializable("key", data);
-            intent.putExtras(bundle)
-            startActivity(intent)
+//            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+//            var bundle = Bundle()
+//            bundle.putSerializable("key", data);
+//            intent.putExtras(bundle)
+//            startActivity(intent)
         }
 
 
@@ -204,7 +204,15 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         viewBinding.ivBack.setOnClickListener {
             requireActivity().hideKeyboard()
-            findNavController().popBackStack()
+
+            Log.e(TAG , "personZZ "+person.type)
+
+            if(person.type.equals("VIDEO_CALL") || person.type.equals("TEXT_CHAT")){
+                activity?.finish()
+            }else{
+                findNavController().popBackStack()
+            }
+
         }
 
         viewBinding.ivChatOptions.setOnClickListener {

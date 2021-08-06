@@ -53,7 +53,7 @@ class PadeDatingApp : Application() {
 
 
 
-    fun initializeSocket(applicationContext: Context) {
+    public fun initializeSocket(applicationContext: Context) {
         try {
             Log.e("initializeSocket", "try")
             AppSocketListener.getInstance().initialize(applicationContext)
