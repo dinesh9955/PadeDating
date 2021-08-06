@@ -40,6 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
+            android:id="@+id/searchEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
@@ -64,7 +65,7 @@
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/rubik_medium"
-            android:text="Matches (15)"
+            android:text="Matches"
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
             android:textStyle="normal"
@@ -107,6 +108,22 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/tvMessages"
             tools:listitem="@layout/item_message_list" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:text="No user found!"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

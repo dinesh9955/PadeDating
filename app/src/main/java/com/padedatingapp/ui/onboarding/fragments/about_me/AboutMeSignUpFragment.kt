@@ -73,50 +73,87 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             val json = gson.toJson(userObject)
             Log.e(TAG, "userObject "+json)
 
+            if(userObject != null){
 
-           // viewBinding.originEthnicity.setText(userObject.firstName)
-//            Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
-            if(!userObject.ethnicity.equals("")){
-                Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
-                aboutMeVM.originEthnicity.value = userObject.ethnicity.substring(0, 1).toUpperCase() + userObject.ethnicity.substring(1).toLowerCase()
-            }
-            if(!userObject.educationLevel.equals("")){
-                aboutMeVM.educationLevel.value = userObject.educationLevel.substring(0, 1).toUpperCase() + userObject.educationLevel.substring(1).toLowerCase()
-            }
-            if(!userObject.work.equals("")){
-                aboutMeVM.work.value = userObject.work.substring(0, 1).toUpperCase() + userObject.work.substring(1).toLowerCase()
-            }
-            if(!userObject.datingPreference.equals("")){
-                aboutMeVM.datingPreference.value = userObject.datingPreference.substring(0, 1).toUpperCase() + userObject.datingPreference.substring(1).toLowerCase()
-            }
-            if(!userObject.religiousBelief.equals("")){
-                aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
-            }
+                if(!userObject.ethnicity.equals("")){
+                    Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
+                    aboutMeVM.originEthnicity.value = userObject.ethnicity.substring(0, 1).toUpperCase() + userObject.ethnicity.substring(1).toLowerCase()
+                }
+                if(!userObject.educationLevel.equals("")){
+                    aboutMeVM.educationLevel.value = userObject.educationLevel.substring(0, 1).toUpperCase() + userObject.educationLevel.substring(1).toLowerCase()
+                }
+                if(!userObject.work.equals("")){
+                    aboutMeVM.work.value = userObject.work.substring(0, 1).toUpperCase() + userObject.work.substring(1).toLowerCase()
+                }
+                if(!userObject.datingPreference.equals("")){
+                    aboutMeVM.datingPreference.value = userObject.datingPreference.substring(0, 1).toUpperCase() + userObject.datingPreference.substring(1).toLowerCase()
+                }
+                if(!userObject.religiousBelief.equals("")){
+                    aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
+                }
 
 //            if(!userObject.religiousBelief.equals("")){
 //                aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
 //            }
 
-            if(!userObject.height.equals("")){
-                aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
-                aboutMeVM.inches.value = userObject.height.split(" ")[0].toUpperCase()
+                if(!userObject.height.equals("")){
+                    aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
+                    aboutMeVM.inches.value = userObject.height.split(" ")[0].toUpperCase()
+                }
+
+
+                aboutMeVM.doYouSmoke.value = userObject.doyousmoke.toUpperCase()
+                if(userObject.doyousmoke.equals("YES" , true)){
+                    viewBinding.rbSmokeYes.isChecked = true
+                    viewBinding.rbSmokeNo.isChecked = false
+                    viewBinding.rbSmokeSomeTimes.isChecked = false
+                }else if(userObject.doyousmoke.equals("NO" , true)){
+                    viewBinding.rbSmokeYes.isChecked = false
+                    viewBinding.rbSmokeNo.isChecked = true
+                    viewBinding.rbSmokeSomeTimes.isChecked = false
+                }else if(userObject.doyousmoke.equals("SOMETIMES" , true)){
+                    viewBinding.rbSmokeYes.isChecked = false
+                    viewBinding.rbSmokeNo.isChecked = false
+                    viewBinding.rbSmokeSomeTimes.isChecked = true
+                }
+
+
+                aboutMeVM.doYouDrink.value = userObject.doyoudrink.toUpperCase()
+                if(userObject.doyoudrink.equals("YES" , true)){
+                    viewBinding.rbDrinkYes.isChecked = true
+                    viewBinding.rbDrinkNo.isChecked = false
+                    viewBinding.rbDrinkSomeTimes.isChecked = false
+                }else if(userObject.doyoudrink.equals("NO" , true)){
+                    viewBinding.rbDrinkYes.isChecked = false
+                    viewBinding.rbDrinkNo.isChecked = true
+                    viewBinding.rbDrinkSomeTimes.isChecked = false
+                }else if(userObject.doyoudrink.equals("SOMETIMES" , true)){
+                    viewBinding.rbDrinkYes.isChecked = false
+                    viewBinding.rbDrinkNo.isChecked = false
+                    viewBinding.rbDrinkSomeTimes.isChecked = true
+                }
+
+
+
+
+                aboutMeVM.interesedIn.value = userObject.interestedIn
+                if(userObject.interestedIn.equals("male" , true)){
+                    viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
+                    viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
+                    viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
+                }else if(userObject.interestedIn.equals("female" , true)){
+                    viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
+                    viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
+                    viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
+                }else if(userObject.interestedIn.equals("both" , true)){
+                    viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
+                    viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
+                    viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
+                }
             }
 
 
-            aboutMeVM.doYouSmoke.value = userObject.doyousmoke.toUpperCase()
-            if(userObject.doyousmoke.equals("YES" , true)){
-                viewBinding.rbSmokeYes.isChecked = true
-                viewBinding.rbSmokeNo.isChecked = false
-                viewBinding.rbSmokeSomeTimes.isChecked = false
-            }else if(userObject.doyousmoke.equals("NO" , true)){
-                viewBinding.rbSmokeYes.isChecked = false
-                viewBinding.rbSmokeNo.isChecked = true
-                viewBinding.rbSmokeSomeTimes.isChecked = false
-            }else if(userObject.doyousmoke.equals("SOMETIMES" , true)){
-                viewBinding.rbSmokeYes.isChecked = false
-                viewBinding.rbSmokeNo.isChecked = false
-                viewBinding.rbSmokeSomeTimes.isChecked = true
-            }
+
 
 
             viewBinding.rbSmokeYes.setOnClickListener(View.OnClickListener {
@@ -141,20 +178,8 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             })
 
 
-            aboutMeVM.doYouDrink.value = userObject.doyoudrink.toUpperCase()
-            if(userObject.doyoudrink.equals("YES" , true)){
-                viewBinding.rbDrinkYes.isChecked = true
-                viewBinding.rbDrinkNo.isChecked = false
-                viewBinding.rbDrinkSomeTimes.isChecked = false
-            }else if(userObject.doyoudrink.equals("NO" , true)){
-                viewBinding.rbDrinkYes.isChecked = false
-                viewBinding.rbDrinkNo.isChecked = true
-                viewBinding.rbDrinkSomeTimes.isChecked = false
-            }else if(userObject.doyoudrink.equals("SOMETIMES" , true)){
-                viewBinding.rbDrinkYes.isChecked = false
-                viewBinding.rbDrinkNo.isChecked = false
-                viewBinding.rbDrinkSomeTimes.isChecked = true
-            }
+
+
 
             viewBinding.rbDrinkYes.setOnClickListener(View.OnClickListener {
                 viewBinding.rbDrinkYes.isChecked = true
@@ -178,20 +203,8 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             })
 
 
-            aboutMeVM.interesedIn.value = userObject.interestedIn
-            if(userObject.interestedIn.equals("male" , true)){
-                viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
-                viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
-                viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
-            }else if(userObject.interestedIn.equals("female" , true)){
-                viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
-                viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
-                viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
-            }else if(userObject.interestedIn.equals("both" , true)){
-                viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
-                viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
-                viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
-            }
+
+
 
 
 

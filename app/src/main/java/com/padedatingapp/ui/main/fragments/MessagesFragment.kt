@@ -1,6 +1,8 @@
 package com.padedatingapp.ui.main.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -9,28 +11,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.birimo.birimosports.utils.SharedPref
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MatchesAtChatAdapter
 import com.padedatingapp.adapter.MessagesListAdapter
-import com.padedatingapp.adapter.PeopleWhoLikedAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMessagesBinding
 import com.padedatingapp.model.ChatIDModel
-import com.padedatingapp.model.DummyModel
-import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatUserVM
+import kotlinx.android.synthetic.main.fragment_messages.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -97,9 +95,37 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 
 
 
+        searchEdit.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                    if (list_data.size > 0) {
+                        filterData(s.toString())
+                    }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
     }
 
+    private fun filterData(toString: String) {
+        var list_data2 = ArrayList<ChatUsersData>()
+        if(list_data.size > 0) {
+            for (d in list_data) {
+                if (d.toString().toLowerCase().contains(toString.toLowerCase())) {
+                    list_data2.add(d)
+                }
+            }
 
+            adapter.submitList(list_data2)
+            adapter.updateList(userObject._id)
+            adapter.notifyDataSetChanged()
+        }
+
+    }
 
 
     private fun initObservables() {
@@ -162,6 +188,19 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                                 Log.e(TAG, "listAA "+data.data.size)
                                 list_data = data.data as ArrayList<ChatUsersData>
+
+                                if(list_data.size == 0){
+                                    tvMatches.visibility = View.GONE
+                                    tvMessages.visibility = View.GONE
+                                    tvMsg.visibility = View.VISIBLE
+                                }else{
+                                    tvMatches.text = "Matches ("+list_data.size+")"
+                                    tvMatches.visibility = View.VISIBLE
+                                    tvMessages.visibility = View.VISIBLE
+                                    tvMsg.visibility = View.GONE
+                                }
+
+
 
                                 adapter.submitList(list_data)
                                 adapter.updateList(userObject._id)
