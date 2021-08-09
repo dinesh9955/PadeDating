@@ -2,6 +2,7 @@ package com.padedatingapp
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import com.facebook.FacebookSdk
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -22,6 +23,8 @@ class PadeDatingApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        FacebookSdk.sdkInitialize(applicationContext)
 
         FirebaseApp.initializeApp(applicationContext);
 
@@ -48,7 +51,7 @@ class PadeDatingApp : Application() {
             Log.e(TAG, "getMessage3 " + e.message)
         }
 
-        initializeSocket(applicationContext)
+       // initializeSocket(applicationContext)
     }
 
 

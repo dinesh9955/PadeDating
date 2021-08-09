@@ -87,7 +87,7 @@ class SignUpVM(
                 jsonObj.addProperty("email", email.value)
             }
         }
-        Log.d("REGISTER_RQST_BODY_DATA", "sendOtp: $jsonObj")
+        Log.e("REGISTER_RQST_BODY_DATA", "sendOtp: $jsonObj")
 
         coroutinesManager.ioScope.launch {
             sendOtpResponse.postValue(Resource.loading(null))

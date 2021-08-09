@@ -31,6 +31,8 @@ public class SocketIOService extends Service {
     private boolean serviceBinded = false;
     private final LocalBinder mBinder = new LocalBinder();
 
+    String TAG = "SocketIOService";
+
 
     SharedPref sharedPref = null;
 
@@ -127,6 +129,7 @@ public class SocketIOService extends Service {
             options.forceNew = true;
             options.reconnectionAttempts = Integer.MAX_VALUE;
             //  options.timeout = 10000;
+            Log.e(TAG, "sharedPrefToken "+sharedPref.getString(AppConstants.USER_TOKEN));
             options.query = "token=" + sharedPref.getString(AppConstants.USER_TOKEN);
 
             mSocket = IO.socket(SocketUrls.CHAT_SERVER_URL,options);

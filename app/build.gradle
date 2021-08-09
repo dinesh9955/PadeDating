@@ -182,7 +182,9 @@ dependencies {
     implementation "pub.devrel:easypermissions:${extEasyPermissionsVersion}"
     implementation "com.squareup.retrofit2:converter-moshi:${extRetrofit2ConverterMoshi}"
 
-
+    //Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
+    implementation 'com.facebook.android:facebook-login:8.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

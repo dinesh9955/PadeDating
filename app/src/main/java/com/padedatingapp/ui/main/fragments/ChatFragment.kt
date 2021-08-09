@@ -274,6 +274,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         if(AppSocketListener.getInstance().isSocketConnected){
             AppSocketListener.getInstance().emit(SocketUrls.SEND_MESSAGE, json)
+        }else{
+//            val mApplication: PadeDatingApp = requireActivity() as PadeDatingApp
+//            mApplication.initializeSocket(requireActivity())
         }
 
     }

@@ -7,6 +7,7 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import com.fxn.OnBubbleClickListener
+import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingActivity
 import com.padedatingapp.databinding.ActivityHomeBinding
@@ -28,6 +29,9 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mApplication: PadeDatingApp = applicationContext as PadeDatingApp
+        mApplication.initializeSocket(applicationContext)
 
         initComponents()
     }

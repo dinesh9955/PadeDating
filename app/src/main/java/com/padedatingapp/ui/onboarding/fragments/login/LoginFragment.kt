@@ -1,15 +1,26 @@
 package com.padedatingapp.ui.onboarding.fragments.login
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.databinding.ObservableField
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
+import com.facebook.*
+import com.facebook.login.LoginBehavior
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
@@ -24,6 +35,10 @@ import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
 import org.koin.android.ext.android.inject
+import com.google.android.gms.tasks.OnCompleteListener
+import kotlinx.android.synthetic.main.dialog_account_verification_type.*
+import org.json.JSONObject
+
 
 class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
@@ -31,9 +46,27 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         var TAG = "LoginFragment"
     }
 
+
+    var fcmToken: String = ""
+    var mGoogleSignInClient: GoogleSignInClient? = null
+    lateinit var gso: GoogleSignInOptions
+    lateinit var callbackManager: CallbackManager
+    val RC_SIGN_IN=120
+    var jsonObject: FacebookEventObject? = null
+
+    var firstnameOb = ObservableField("")
+    var lastNameOb = ObservableField("")
+    var emailOb = ObservableField("")
+//    var facebookToken: String? = ""
+//
+//    var callbackManager: CallbackManager? = null
+
+
+
     private val loginVM by inject<LoginVM>()
     private val sharedPref by inject<SharedPref>()
     private var progressDialog: CustomProgressDialog? = null
+
     override fun layoutId(): Int = R.layout.fragment_login
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +74,21 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         viewBinding.vm = loginVM
         viewBinding.lifecycleOwner = this
         progressDialog = CustomProgressDialog(requireContext())
+
+
+        callbackManager = CallbackManager.Factory.create()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+        gso = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        getFcmToken()
+
+
         initComponents()
     }
 
@@ -209,6 +257,19 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             findNavController().navigate(LoginFragmentDirections.actionToForgotPassword("email"))*/
             showAccountVerificationChoice()
         }
+
+
+        viewBinding.facebookImage.setOnClickListener {
+            facebookSignIn()
+        }
+
+        viewBinding.googleImage.setOnClickListener {
+            //googleSignIn()
+        }
+
+        viewBinding.instagramImage.setOnClickListener {
+            facebookSignIn()
+        }
     }
 
     private fun toggleEmailPhone() {
@@ -255,5 +316,112 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
+    }
+
+
+
+
+
+    private fun facebookSignIn() {
+        LoginManager.getInstance().loginBehavior = LoginBehavior.WEB_ONLY
+        LoginManager.getInstance()
+            .logInWithReadPermissions(context as Activity, listOf("email", "public_profile"))
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult?) {
+                fcmToken = result?.accessToken?.token.toString()
+                Log.e("Facebook............", " id : " + result?.accessToken?.token)
+
+                //added new
+                val graph: GraphRequest =
+                    GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                        Log.e("data of fb ", " all data facebook $`object` response  $response")
+                        getFacebookData(`object`!!)
+                    }
+                val bundle: Bundle = Bundle()
+                bundle.putString("fields", "id,first_name,last_name,email,gender")
+                graph.parameters = bundle
+                graph.executeAsync()
+            }
+
+            override fun onCancel() {
+                Log.d("TAG", "Login attempt cancelled.")
+            }
+
+            override fun onError(error: FacebookException?) {
+                Log.d("TAG", "Login attempt failed.")
+            }
+        })
+    }
+
+
+
+
+    private fun getFacebookData(jsonObject: JSONObject) {
+
+        val id: String = jsonObject.getString("id")
+        val pic: String = "https://graph.facebook.com/$id/picture?type=large"
+        val firstName: String = jsonObject.getString("first_name")
+        val lastname: String = jsonObject.getString("last_name")
+
+
+
+
+        var Email: String = ""
+        var gender: String = ""
+        if (jsonObject.has("email"))
+            Email = jsonObject.getString("email")
+
+        ////****   facebook data ....
+
+        Log.e("call", "FacebookLogin id: $id")
+        Log.e("call", "FacebookLogin firstname: $firstName")
+        Log.e("call", "FacebookLogin lastname: $lastname")
+        Log.e("call", "FacebookLogin profile: $pic")
+        Log.e("call", "FacebookLogin email: $Email")
+
+        firstnameOb.set(firstName)
+        lastNameOb.set(lastname)
+        emailOb.set(Email)
+
+        // callSocialLoginApi()
+    }
+
+
+
+
+
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //SignInMethod for Google
+        if (requestCode == RC_SIGN_IN)
+        {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            //model!!.handleGoogleSignin(task)
+//             vm!!.callSocialLoginApi()
+
+        } else {
+            // Pass the activity result back to the Facebook SDK
+            callbackManager!!.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+
+
+    private fun getFcmToken() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("fcm_task", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+                // Get new Instance ID token
+                fcmToken = task.result?.token!!
+                sharedPref.setString("fcmToken", ""+fcmToken)
+                Log.e("device_Token", " " + fcmToken)
+            })
     }
 }

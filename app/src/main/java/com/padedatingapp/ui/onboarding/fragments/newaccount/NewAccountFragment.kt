@@ -1,6 +1,7 @@
 package com.padedatingapp.ui.onboarding.fragments.newaccount
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.observe
@@ -22,6 +23,10 @@ import kotlinx.android.synthetic.main.fragment_new_account.*
 import org.koin.android.ext.android.inject
 
 class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
+
+    companion object{
+        var TAG = "NewAccountFragment"
+    }
 
     private val signUpVM by inject<SignUpVM>()
     private val sharedPref by inject<SharedPref>()
@@ -95,11 +100,16 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
                 when (type) {
                     "registerUserResponse" -> {
                         var data = response.data as ResultModel<UserModel>
+
+                        Log.e(TAG, "registerUserResponse "+data.toString())
+
                         onRegisterUserResponse(data)
                     }
 
                     "sentOtpResponse" -> {
                         var data = response.data as ResultModel<OtpData>
+
+                        Log.e(TAG, "sentOtpResponse "+data.toString())
                         onSendOtpResponse(data)
                     }
                 }
@@ -173,7 +183,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         val tvEmailValue = dialogView.findViewById<TextView>(R.id.tvEmailValue)
         val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
 
-        tvPhoneValue.text = "+" + signUpVM.countryCode + signUpVM.phoneNo.value
+        tvPhoneValue.text = "" + signUpVM.countryCode + signUpVM.phoneNo.value
         tvEmailValue.text = signUpVM.email.value
 
         tvPhone?.setOnClickListener {
