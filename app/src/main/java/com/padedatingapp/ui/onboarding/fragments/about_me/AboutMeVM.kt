@@ -26,6 +26,8 @@ class AboutMeVM(
     var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
     var file: File? = null
     var token = ""
+
+    var etAboutMe = MutableLiveData("")
     var religiousBeliefs = MutableLiveData("")
     var childern = MutableLiveData("")
     var work = MutableLiveData("")
@@ -65,6 +67,11 @@ class AboutMeVM(
            "select_inches"->{optionChoosen.value = "select_inches"}
            "submit"->{
                when{
+
+                   etAboutMe.value.toString().trim().isEmpty() -> {
+                       errorMessage.value = resourceProvider.getString(R.string.about_me)
+                   }
+
                    originEthnicity.value.toString().trim().isEmpty() -> {
                        errorMessage.value = resourceProvider.getString(R.string.please_select_origin_ethnicity)
                    }
@@ -90,6 +97,7 @@ class AboutMeVM(
 
                    else ->{
                        val jsonObj = JsonObject()
+                       jsonObj.addProperty("description", "${etAboutMe.value}")
                        jsonObj.addProperty("height", "${feet.value} ${inches.value}")
                        jsonObj.addProperty("ethnicity", originEthnicity.value)
                        jsonObj.addProperty("educationLevel", educationLevel.value)

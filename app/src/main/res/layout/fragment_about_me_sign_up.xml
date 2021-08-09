@@ -36,39 +36,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvAboutMeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/rubik_medium"
-                    android:gravity="center_horizontal"
-                    android:text="@string/about_me"
-                    android:textColor="#172b4d"
-                    android:textSize="24sp"
-                    android:textStyle="normal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvAboutMeDesc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_18sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                <EditText
+                    android:id="@+id/etAboutMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:background="@drawable/bg_round_edge_white"
                     android:fontFamily="@font/rubik"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/_10sdp"
-                    android:text="@string/lorem_ipsum_about_me"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    android:visibility="visible"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/about_me"
+                    android:text="@={vm.etAboutMe}"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAboutMeText" />
+                    tools:ignore="MissingConstraints" />
+
 
 
                 <TextView
@@ -93,7 +79,7 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAboutMeDesc" />
+                    app:layout_constraintTop_toBottomOf="@id/etAboutMe" />
 
                 <EditText
                     android:id="@+id/tvEducationLevel"

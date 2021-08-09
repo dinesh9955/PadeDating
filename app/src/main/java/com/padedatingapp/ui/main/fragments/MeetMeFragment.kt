@@ -280,7 +280,25 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     }
 
     override fun onCardSwiped(direction: Direction?) {
-        Log.e("MeetMeFragment", "onCardSwiped: ")
+        Log.e("MeetMeFragment", "onCardSwiped: "+direction.toString())
+
+//        if(direction?.equals("Left")!!){
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("action", "dislike")
+//            meetMeVM.callMeetMeLikeApi(
+//                    meetMeData._id,
+//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//            )
+//        } else if(direction?.equals("Right")!!){
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("action", "like")
+//            meetMeVM.callMeetMeLikeApi(
+//                    meetMeData._id,
+//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//            )
+//        }
+
+
     }
 
     override fun onCardRewound() {
@@ -435,8 +453,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 //            jsonObj.addProperty("page", 1)
         }else{
             jsonObj.addProperty("gender", userObject.interestedIn)
-            jsonObj.addProperty("distance",10)
-            jsonObj.addProperty("age", 25)
+//            jsonObj.addProperty("distance",10)
+//            jsonObj.addProperty("age", 25)
 //        jsonObj.addProperty("lat", 30)
 //        jsonObj.addProperty("long", 70)
           //  jsonObj.addProperty("limit", 4)

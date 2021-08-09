@@ -75,6 +75,10 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
 
             if(userObject != null){
 
+                if(!userObject.description.equals("")){
+                    aboutMeVM.etAboutMe.value = userObject.description
+                }
+
                 if(!userObject.ethnicity.equals("")){
                     Log.e(TAG, "userObject.educationLevel "+userObject.ethnicity)
                     aboutMeVM.originEthnicity.value = userObject.ethnicity.substring(0, 1).toUpperCase() + userObject.ethnicity.substring(1).toLowerCase()
