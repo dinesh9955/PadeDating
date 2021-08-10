@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
@@ -53,6 +54,8 @@ import kotlin.collections.ArrayList
 class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackListener,
         MeetMeAdapter.OnItemClickListener {
 
+    var placeLat : Double = 0.0
+    var placeLng : Double = 0.0
 
     private lateinit var userObject : UserModel
 
@@ -282,21 +285,21 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     override fun onCardSwiped(direction: Direction?) {
         Log.e("MeetMeFragment", "onCardSwiped: "+direction.toString())
 
-//        if(direction?.equals("Left")!!){
-//            val jsonObj = JsonObject()
-//            jsonObj.addProperty("action", "dislike")
-//            meetMeVM.callMeetMeLikeApi(
-//                    meetMeData._id,
-//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//            )
-//        } else if(direction?.equals("Right")!!){
-//            val jsonObj = JsonObject()
-//            jsonObj.addProperty("action", "like")
-//            meetMeVM.callMeetMeLikeApi(
-//                    meetMeData._id,
-//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//            )
-//        }
+        if(direction?.equals("Left")!!){
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("action", "dislike")
+            meetMeVM.callMeetMeLikeApi(
+                    meetMeData._id,
+                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
+        } else if(direction?.equals("Right")!!){
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("action", "like")
+            meetMeVM.callMeetMeLikeApi(
+                    meetMeData._id,
+                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
+        }
 
 
     }
@@ -392,6 +395,12 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                                 place.latLng?.longitude!!,
                                 1
                             )
+
+//                            placeLat = place.latLng!!.latitude
+//                            placeLng = place.latLng!!.longitude
+
+                            Log.e(TAG , "placeLat2 "+placeLat+" "+placeLng)
+
                             sharedPref.setString("address", addresses[0].getAddressLine(0))
                             viewBinding.tvMyLocationHome.text = addresses[0].getAddressLine(0)
                             requireActivity().hideKeyboard()
@@ -449,16 +458,29 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             jsonObj.addProperty("gender", interest)
             jsonObj.addProperty("distance",distance)
             jsonObj.addProperty("age", age)
+            jsonObj.addProperty("lat", sharedPref.getString("placeLat"))
+            jsonObj.addProperty("long",sharedPref.getString("placeLng"))
+
+
 //            jsonObj.addProperty("limit", 4)
 //            jsonObj.addProperty("page", 1)
         }else{
             jsonObj.addProperty("gender", userObject.interestedIn)
 //            jsonObj.addProperty("distance",10)
 //            jsonObj.addProperty("age", 25)
-//        jsonObj.addProperty("lat", 30)
-//        jsonObj.addProperty("long", 70)
+            jsonObj.addProperty("lat", userObject.latitude)
+            jsonObj.addProperty("long", userObject.longitude)
           //  jsonObj.addProperty("limit", 4)
          //   jsonObj.addProperty("page", 1)
+            //Log.e(TAG , "placeLat "+placeLat+" "+placeLng)
+
+           // var dd = sharedPref.getString("address")
+            Log.e(TAG , "placeLat "+userObject.address)
+            Log.e(TAG , "placeLat "+userObject.latitude)
+            Log.e(TAG , "placeLat "+userObject.longitude)
+
+
+
         }
 
 

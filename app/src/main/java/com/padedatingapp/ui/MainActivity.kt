@@ -3,6 +3,7 @@ package com.padedatingapp.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
@@ -10,6 +11,11 @@ import com.propertyonthespot.utils.Utility
 
 class MainActivity : AppCompatActivity() {
     val REQUEST_ID_MULTIPLE_PERMISSIONS = 1999
+
+
+    companion object{
+        var TAG   = "MainActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        Log.e(TAG , "onActivityResult "+requestCode+ " "+resultCode)
         supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             fragment.onActivityResult(requestCode, resultCode, data)
         }

@@ -36,6 +36,9 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
 
     var interestIn = ""
 
+    var placeLat : Double = 0.0
+    var placeLng : Double = 0.0
+
 //    var originEthnicity = MutableLiveData("")
 //
 //    var optionChoosen =  SingleLiveEvent<String>()
@@ -97,6 +100,9 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             sharedPref.setString("employment", etEmployment.text.toString())
             sharedPref.setInt("age", age)
             sharedPref.setInt("distance", distance)
+            sharedPref.setString("placeLat", ""+placeLat)
+            sharedPref.setString("placeLng", ""+placeLng)
+
             sharedPref.setString("dating_prefences", ""+viewBinding.tvDatingPrefences.text)
 
             findNavController().popBackStack()
@@ -197,6 +203,8 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
                             )
                             viewBinding.tvLocation.setText( addresses[0].getAddressLine(0))
                             setMarqueText(viewBinding.tvLocation)
+                            placeLat = place.latLng!!.latitude
+                            placeLng = place.latLng!!.longitude
                             requireActivity().hideKeyboard()
                         } catch (e: Exception) {
                             Log.e("HomeFragment", "GeoCoder Exception: $e")

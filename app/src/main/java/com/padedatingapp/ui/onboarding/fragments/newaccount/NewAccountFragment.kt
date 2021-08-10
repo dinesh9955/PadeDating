@@ -1,13 +1,29 @@
 package com.padedatingapp.ui.onboarding.fragments.newaccount
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
+import androidx.databinding.ObservableField
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
+import com.facebook.*
+import com.facebook.login.LoginBehavior
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
@@ -17,16 +33,40 @@ import com.padedatingapp.databinding.FragmentNewAccountBinding
 import com.padedatingapp.model.OtpData
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.ui.onboarding.fragments.login.FacebookEventObject
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_new_account.*
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
+import com.google.android.gms.tasks.OnCompleteListener
+
+
 
 class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
     companion object{
         var TAG = "NewAccountFragment"
     }
+
+    var fcmToken: String = ""
+    var mGoogleSignInClient: GoogleSignInClient? = null
+    lateinit var gso: GoogleSignInOptions
+    lateinit var callbackManager: CallbackManager
+    val RC_SIGN_IN=120
+    var jsonObject: FacebookEventObject? = null
+
+
+    lateinit var googleSignInClient: GoogleSignInClient
+    lateinit var mAuth: FirebaseAuth
+
+
+    var firstnameOb = ObservableField("")
+    var lastNameOb = ObservableField("")
+    var emailOb = ObservableField("")
+
+
 
     private val signUpVM by inject<SignUpVM>()
     private val sharedPref by inject<SharedPref>()
@@ -38,6 +78,22 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         viewBinding.vm = signUpVM
         viewBinding.lifecycleOwner = this
         progressDialog = CustomProgressDialog(requireContext())
+
+
+        callbackManager = CallbackManager.Factory.create()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+
+        gso = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        getFcmToken()
+
+
+
         initComponents()
     }
 
@@ -64,6 +120,19 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
         signUpVM._errorMessage.observe(viewLifecycleOwner) {
             if (it != "") toast(it)
+        }
+
+
+        viewBinding.facebookImage.setOnClickListener {
+           // facebookSignIn()
+        }
+
+        viewBinding.googleImage.setOnClickListener {
+            //googleSignIn()
+        }
+
+        viewBinding.instagramImage.setOnClickListener {
+            //facebookSignIn()
         }
 
         initObservables()
@@ -217,6 +286,160 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+
+
+
+
+
+
+
+    private fun facebookSignIn() {
+        LoginManager.getInstance().loginBehavior = LoginBehavior.WEB_ONLY
+        LoginManager.getInstance()
+                .logInWithReadPermissions(context as Activity, listOf("email", "public_profile"))
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+                FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult?) {
+                fcmToken = result?.accessToken?.token.toString()
+                Log.e("Facebook............", " id : " + result?.accessToken?.token)
+
+                //added new
+                val graph: GraphRequest =
+                        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                            Log.e("data of fb ", " all data facebook $`object` response  $response")
+                            getFacebookData(`object`!!)
+                        }
+                val bundle: Bundle = Bundle()
+                bundle.putString("fields", "id,first_name,last_name,email,gender")
+                graph.parameters = bundle
+                graph.executeAsync()
+            }
+
+            override fun onCancel() {
+                Log.d("TAG", "Login attempt cancelled.")
+            }
+
+            override fun onError(error: FacebookException?) {
+                Log.d("TAG", "Login attempt failed.")
+            }
+        })
+    }
+
+
+
+
+    private fun getFacebookData(jsonObject: JSONObject) {
+
+        val id: String = jsonObject.getString("id")
+        val pic: String = "https://graph.facebook.com/$id/picture?type=large"
+        val firstName: String = jsonObject.getString("first_name")
+        val lastname: String = jsonObject.getString("last_name")
+
+
+
+
+        var Email: String = ""
+        var gender: String = ""
+        if (jsonObject.has("email"))
+            Email = jsonObject.getString("email")
+
+        ////****   facebook data ....
+
+        Log.e("call", "FacebookLogin id: $id")
+        Log.e("call", "FacebookLogin firstname: $firstName")
+        Log.e("call", "FacebookLogin lastname: $lastname")
+        Log.e("call", "FacebookLogin profile: $pic")
+        Log.e("call", "FacebookLogin email: $Email")
+
+        firstnameOb.set(firstName)
+        lastNameOb.set(lastname)
+        emailOb.set(Email)
+
+        // callSocialLoginApi()
+    }
+
+
+
+
+    fun googleSignIn() {
+// Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(requireActivity().getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        mAuth = FirebaseAuth.getInstance()
+        signIn()
+    }
+
+    fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        (context as Activity).startActivityForResult(signInIntent, RC_SIGN_IN)
+
+    }
+
+    fun handleGoogleSignin(task: Task<GoogleSignInAccount>) {
+
+        try {
+            // Google Sign In was successful, authenticate with Firebase
+            val account = task.getResult(ApiException::class.java)!!
+            Log.d("MainActivity", "firebaseAuthWithGoogle:" + account.id)
+
+
+            firstnameOb.set(account.givenName)
+            lastNameOb.set(account.familyName)
+            emailOb.set(account.email)
+
+            Log.e(LoginFragment.TAG, "gt"+firstnameOb.toString())
+            Log.e(LoginFragment.TAG,"gt"+lastNameOb.toString())
+            Log.e(LoginFragment.TAG,"gt"+emailOb.toString())
+
+            //callSocialLoginApi()
+        } catch (e: ApiException) {
+            // Google Sign In failed, update UI appropriately
+            Log.w("MainActivity", "Google sign in failed", e)
+        }
+
+    }
+
+
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //SignInMethod for Google
+        if (requestCode == RC_SIGN_IN)
+        {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleGoogleSignin(task)
+//             vm!!.callSocialLoginApi()
+
+        } else {
+            // Pass the activity result back to the Facebook SDK
+            callbackManager!!.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+
+
+    private fun getFcmToken() {
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("fcm_task", "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    // Get new Instance ID token
+                    fcmToken = task.result?.token!!
+                    sharedPref.setString("fcmToken", ""+fcmToken)
+                    Log.e("device_Token", " " + fcmToken)
+                })
+    }
+
+
 
     override fun onResume() {
         super.onResume()

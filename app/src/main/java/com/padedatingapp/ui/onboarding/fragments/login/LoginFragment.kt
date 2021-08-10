@@ -1,8 +1,12 @@
 package com.padedatingapp.ui.onboarding.fragments.login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -17,9 +21,14 @@ import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.padedatingapp.R
@@ -34,10 +43,10 @@ import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
-import org.koin.android.ext.android.inject
-import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.dialog_account_verification_type.*
 import org.json.JSONObject
+import org.koin.android.ext.android.inject
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
@@ -53,6 +62,11 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     lateinit var callbackManager: CallbackManager
     val RC_SIGN_IN=120
     var jsonObject: FacebookEventObject? = null
+
+
+    lateinit var googleSignInClient: GoogleSignInClient
+    lateinit var mAuth: FirebaseAuth
+
 
     var firstnameOb = ObservableField("")
     var lastNameOb = ObservableField("")
@@ -87,7 +101,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         getFcmToken()
-
+        printHashKey(requireContext())
 
         initComponents()
     }
@@ -260,15 +274,15 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
         viewBinding.facebookImage.setOnClickListener {
-            facebookSignIn()
+           // facebookSignIn()
         }
 
         viewBinding.googleImage.setOnClickListener {
-            //googleSignIn()
+           // googleSignIn()
         }
 
         viewBinding.instagramImage.setOnClickListener {
-            facebookSignIn()
+           // facebookSignIn()
         }
     }
 
@@ -390,17 +404,64 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
 
+    fun googleSignIn() {
+// Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(requireActivity().getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        mAuth = FirebaseAuth.getInstance()
+        signIn()
+        Log.e(TAG, "googleSignIn")
+    }
+
+    fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        requireActivity().startActivityForResult(signInIntent, RC_SIGN_IN)
+
+    }
+
+    fun handleGoogleSignin(task: Task<GoogleSignInAccount>) {
+        Log.e(TAG, "handleGoogleSignin")
+        try {
+            // Google Sign In was successful, authenticate with Firebase
+            val account = task.getResult(ApiException::class.java)!!
+            Log.d("MainActivity", "firebaseAuthWithGoogle:" + account.id)
+
+
+            firstnameOb.set(account.givenName)
+            lastNameOb.set(account.familyName)
+            emailOb.set(account.email)
+
+            Log.e(TAG, "gt"+firstnameOb.toString())
+            Log.e(TAG,"gt"+lastNameOb.toString())
+            Log.e(TAG,"gt"+emailOb.toString())
+
+            //callSocialLoginApi()
+        } catch (e: ApiException) {
+            // Google Sign In failed, update UI appropriately
+            Log.e("MainActivity", "Google sign in failed", e)
+        }
+
+    }
+
 
 
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.e(TAG, "onActivityResult "+requestCode+ " "+resultCode)
+
         super.onActivityResult(requestCode, resultCode, data)
         //SignInMethod for Google
         if (requestCode == RC_SIGN_IN)
         {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            //model!!.handleGoogleSignin(task)
+            Log.e(TAG, "firebaseAuthWithGoogle:" + task.isSuccessful)
+            //handleGoogleSignin(task)
 //             vm!!.callSocialLoginApi()
 
         } else {
@@ -423,5 +484,22 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                 sharedPref.setString("fcmToken", ""+fcmToken)
                 Log.e("device_Token", " " + fcmToken)
             })
+    }
+
+
+    fun printHashKey(pContext: Context) {
+        try {
+            val info: PackageInfo = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val hashKey = String(Base64.encode(md.digest(), 0))
+                Log.i(TAG, "printHashKey() Hash Key: $hashKey")
+            }
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e(TAG, "printHashKey()", e)
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, "printHashKey()", e)
+        }
     }
 }

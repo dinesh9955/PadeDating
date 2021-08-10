@@ -137,17 +137,20 @@
                 android:layout_marginHorizontal="@dimen/_18sdp">
 
                 <ImageView
+                    android:id="@+id/facebookImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_facebook_button" />
 
                 <ImageView
+                    android:id="@+id/googleImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_18sdp"
                     android:src="@drawable/ic_google_button" />
 
                 <ImageView
+                    android:id="@+id/instagramImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_instagram_button" />

@@ -199,7 +199,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                 aboutMeVM.doYouDrink.value = "NO"
             })
 
-            viewBinding.rbSmokeSomeTimes.setOnClickListener(View.OnClickListener {
+            viewBinding.rbDrinkSomeTimes.setOnClickListener(View.OnClickListener {
                 viewBinding.rbDrinkYes.isChecked = false
                 viewBinding.rbDrinkNo.isChecked = false
                 viewBinding.rbDrinkSomeTimes.isChecked = true

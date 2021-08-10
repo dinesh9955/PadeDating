@@ -2,10 +2,12 @@
     <string name="app_name">Pade Dating App</string>
     <!-- TODO: Remove or change this placeholder text -->
 
+<!--    <string name="default_web_client_id2" translatable="false">895724588358-o2c90ujfg96c9moq6mo063ks2sdipk9c.apps.googleusercontent.com</string>-->
+
     <string name="google_maps_key">AIzaSyAuptk-VCeLs864df80F1PIzsxL5RM9F1c</string>
 
-    <string name="facebook_app_id">512666313257337</string>
-    <string name="fb_login_protocol_scheme">fb512666313257337</string>
+    <string name="facebook_app_id">969039326599146</string>
+    <string name="fb_login_protocol_scheme">fb969039326599146</string>
 
 <!--    <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>-->
 

@@ -266,7 +266,7 @@
                 android:textColor="@color/colorBlack"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_20sdp"
-                android:text="16-30"
+                android:text="18-30"
                 app:layout_constraintEnd_toEndOf="parent"
 
                 />
@@ -277,7 +277,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:corner_radius="10"
-            app:min_value="16"
+            app:min_value="18"
             app:max_value="70"
             app:steps="1"
             android:layout_marginTop="@dimen/_10sdp"
