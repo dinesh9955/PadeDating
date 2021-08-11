@@ -22,6 +22,7 @@ class SignUpVM(
     private val coroutinesManager: CoroutinesManager,
     private val signUpRepo: SignUpRepo
 ) : ViewModel() {
+    var socialResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
     var loginResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
     var sendOtpResponse = SingleLiveEvent<Resource<ResultModel<OtpData>>>()
 
@@ -98,4 +99,20 @@ class SignUpVM(
             )
         }
     }
+
+
+
+
+    fun callSocialApi(toRequestBody: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            socialResponse.postValue(Resource.loading(null))
+            socialResponse.postValue(
+                    signUpRepo.socialUser(toRequestBody)
+                    )
+
+        }
+    }
+
+
+
 }

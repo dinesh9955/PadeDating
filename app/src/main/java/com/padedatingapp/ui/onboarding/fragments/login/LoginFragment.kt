@@ -31,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
@@ -40,9 +41,13 @@ import com.padedatingapp.databinding.FragmentLoginBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
+import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
+import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import java.security.MessageDigest
@@ -67,7 +72,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var mAuth: FirebaseAuth
 
-
+    var idOb = ObservableField("")
     var firstnameOb = ObservableField("")
     var lastNameOb = ObservableField("")
     var emailOb = ObservableField("")
@@ -184,55 +189,69 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
 
-                if (sharedPref.getBoolean(AppConstants.REMEMBER_ME)) {
-                    sharedPref.setBoolean(AppConstants.REMEMBER_ME,true)
-                    sharedPref.setString(AppConstants.USER_EMAIL, it.data.email)
-                    sharedPref.setString(AppConstants.USER_PHONE, it.data.phoneNo)
-                    sharedPref.setInt(
-                        AppConstants.USER_COUNTRY_CODE,
-                        it.data.countryCode.replace("+", "").toInt()
-                    )
-                    sharedPref.setString(
-                        AppConstants.USER_PASSWORD,
-                        viewBinding.etPassword.text.toString()
-                    )
-                }
-                else{
-                    sharedPref.setBoolean(AppConstants.REMEMBER_ME,false)
-                    sharedPref.setString(AppConstants.USER_EMAIL, "")
-                    sharedPref.setString(AppConstants.USER_PHONE, "")
-                    sharedPref.setInt(
-                        AppConstants.USER_COUNTRY_CODE,
-                        viewBinding.ccp.selectedCountryCode.replace("+","").toInt()
-                    )
-                }
-                when (it.data!!.profileStatus) {
-                    1 -> {
-                        findNavController().navigate(LoginFragmentDirections.actionToUploadPhoto("login"))
-                    }
-                    2 -> {
-                        findNavController().navigate(
-                            LoginFragmentDirections.actionToSignUpAboutFragment(
-                                "Sign Up", "login"
-                            )
+
+                if(it.data?.dateofbirth.equals("")){
+                    sharedPref.setString(AppConstants.SOCIAL_FN, it.data?.firstName?:"")
+                    sharedPref.setString(AppConstants.SOCIAL_LN, it.data?.lastName?:"")
+
+                    Log.e(NewAccountFragment.TAG, "sentSocialResponseF "+it.data?.firstName?:"")
+                    Log.e(NewAccountFragment.TAG, "sentSocialResponseL "+it.data?.lastName?:"")
+
+                    findNavController().navigate(LoginFragmentDirections.actionToCreateNewAccount(email = it.data?.email?:"",phone = it.data?.phoneNo?:"",countryCode = it.data?.countryCode?:""))
+
+                }else{
+                    if (sharedPref.getBoolean(AppConstants.REMEMBER_ME)) {
+                        sharedPref.setBoolean(AppConstants.REMEMBER_ME,true)
+                        sharedPref.setString(AppConstants.USER_EMAIL, it.data.email)
+                        sharedPref.setString(AppConstants.USER_PHONE, it.data.phoneNo)
+                        sharedPref.setInt(
+                                AppConstants.USER_COUNTRY_CODE,
+                                it.data.countryCode.replace("+", "").toInt()
+                        )
+                        sharedPref.setString(
+                                AppConstants.USER_PASSWORD,
+                                viewBinding.etPassword.text.toString()
                         )
                     }
-                    3 -> {
-                        toast(it.message)
-                        sharedPref.setString(AppConstants.USER_ID, it.data._id)
-                        sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
-                        startActivity(Intent(requireContext(), HomeActivity::class.java))
-                        requireActivity().finish()
+                    else{
+                        sharedPref.setBoolean(AppConstants.REMEMBER_ME,false)
+                        sharedPref.setString(AppConstants.USER_EMAIL, "")
+                        sharedPref.setString(AppConstants.USER_PHONE, "")
+                        sharedPref.setInt(
+                                AppConstants.USER_COUNTRY_CODE,
+                                viewBinding.ccp.selectedCountryCode.replace("+","").toInt()
+                        )
                     }
+                    when (it.data!!.profileStatus) {
+                        1 -> {
+                            findNavController().navigate(LoginFragmentDirections.actionToUploadPhoto("login"))
+                        }
+                        2 -> {
+                            findNavController().navigate(
+                                    LoginFragmentDirections.actionToSignUpAboutFragment(
+                                            "Sign Up", "login"
+                                    )
+                            )
+                        }
+                        3 -> {
+                            toast(it.message)
+                            sharedPref.setString(AppConstants.USER_ID, it.data._id)
+                            sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+                            startActivity(Intent(requireContext(), HomeActivity::class.java))
+                            requireActivity().finish()
+                        }
 
-                    0 -> {
-                        toast(it.message)
-                        sharedPref.setString(AppConstants.USER_ID, it.data._id)
-                        sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
-                        startActivity(Intent(requireContext(), HomeActivity::class.java))
-                        requireActivity().finish()
+//                        0 -> {
+//                            toast(it.message)
+//                            sharedPref.setString(AppConstants.USER_ID, it.data._id)
+//                            sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+//                            startActivity(Intent(requireContext(), HomeActivity::class.java))
+//                            requireActivity().finish()
+//                        }
                     }
                 }
+
+
             } else {
                 toast(data.message)
             }
@@ -274,7 +293,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
         viewBinding.facebookImage.setOnClickListener {
-           // facebookSignIn()
+           facebookSignIn()
         }
 
         viewBinding.googleImage.setOnClickListener {
@@ -394,11 +413,12 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         Log.e("call", "FacebookLogin profile: $pic")
         Log.e("call", "FacebookLogin email: $Email")
 
+        idOb.set(id)
         firstnameOb.set(firstName)
         lastNameOb.set(lastname)
         emailOb.set(Email)
 
-        // callSocialLoginApi()
+         callSocialLoginApi()
     }
 
 
@@ -487,9 +507,9 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     }
 
 
-    fun printHashKey(pContext: Context) {
+    fun printHashKey(context: Context) {
         try {
-            val info: PackageInfo = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES)
+            val info: PackageInfo = context.getPackageManager().getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
             for (signature in info.signatures) {
                 val md: MessageDigest = MessageDigest.getInstance("SHA")
                 md.update(signature.toByteArray())
@@ -502,4 +522,25 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             Log.e(TAG, "printHashKey()", e)
         }
     }
+
+
+
+
+
+    fun callSocialLoginApi(){
+        val jsonObj = JsonObject()
+        jsonObj.addProperty("facebookId", ""+idOb.get())
+        jsonObj.addProperty("email", ""+emailOb.get())
+        jsonObj.addProperty("firstName", ""+firstnameOb.get())
+        jsonObj.addProperty("lastName", ""+lastNameOb.get())
+        jsonObj.addProperty("deviceType", "ANDROID")
+        jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
+        FirebaseInstanceId.getInstance().getToken();
+        Log.e("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
+        loginVM.callSocialApi(
+                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        )
+    }
+
+
 }

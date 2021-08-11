@@ -15,4 +15,9 @@ class LoginRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun login(requestBody: RequestBody): Resource<ResultModel<UserModel>> {
         return handleException { padeApi.login(requestBody) }
     }
+
+
+    suspend fun socialUser(requestBody: RequestBody): Resource<ResultModel<UserModel>> {
+        return handleException { padeApi.socialUser(requestBody) }
+    }
 }

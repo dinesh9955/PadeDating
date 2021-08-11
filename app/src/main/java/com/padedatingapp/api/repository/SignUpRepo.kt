@@ -18,6 +18,11 @@ class SignUpRepo @Inject constructor(private val padeApi: PadeDatingApi) {
         return handleException { padeApi.registerUser(requestBody) }
     }
 
+    suspend fun socialUser(requestBody: RequestBody): Resource<ResultModel<UserModel>> {
+        return handleException { padeApi.socialUser(requestBody) }
+    }
+
+
     suspend fun sendOtp(requestBody: RequestBody): Resource<ResultModel<OtpData>> {
         return handleException { padeApi.sendOtp(requestBody) }
     }

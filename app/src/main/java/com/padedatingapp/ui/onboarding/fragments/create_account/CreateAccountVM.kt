@@ -34,10 +34,11 @@ class CreateAccountVM(
     var lastName = MutableLiveData<String>("")
     var userName = MutableLiveData<String>("")
     var phone = MutableLiveData<String>("")
-    var counrtyCode = MutableLiveData<String>("")
+  //  var counrtyCode = MutableLiveData<String>("")
     var password = MutableLiveData<String>("")
     var confirmPassword = MutableLiveData<String>("")
     var dob = MutableLiveData<String>("")
+    var dobLast = MutableLiveData<String>("")
     var gender = MutableLiveData<String>("")
     var country = MutableLiveData<String>("")
     var city = MutableLiveData<String>("")
@@ -57,6 +58,8 @@ class CreateAccountVM(
     var UpperCasePatten: Pattern = Pattern.compile("[A-Z]")
     var lowerCasePatten: Pattern = Pattern.compile("[a-z]")
     var digitCasePatten: Pattern = Pattern.compile("[0-9]")
+
+
 
     fun validate() {
         when {
@@ -123,12 +126,12 @@ class CreateAccountVM(
                 jsonObj.addProperty("email", email.value)
                 jsonObj.addProperty("countryCode", countryCode)
                 jsonObj.addProperty("phoneNo", phoneNo.value)
-                jsonObj.addProperty("dateofbirth", dob.value)
+                jsonObj.addProperty("dateofbirth", dobLast.value)
                 jsonObj.addProperty("city", city.value)
                 jsonObj.addProperty("country", country.value)
                 jsonObj.addProperty("state", state.value)
                 jsonObj.addProperty("password", password.value)
-                jsonObj.addProperty("username", userName.value)
+
                 jsonObj.addProperty("address", address.value)
                 jsonObj.addProperty("latitude", latitude.value.toString())
                 jsonObj.addProperty("longitude", longitude.value.toString())

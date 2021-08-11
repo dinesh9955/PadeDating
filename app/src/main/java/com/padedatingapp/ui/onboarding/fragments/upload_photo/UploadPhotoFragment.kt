@@ -53,6 +53,7 @@ import java.io.File
 
 class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
     UploadImageAdapter.OnItemClickListener {
+
     private val sharedPref by inject<SharedPref>()
     private var from = "sign_up"
     private var progressDialog: CustomProgressDialog? = null
@@ -61,6 +62,7 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
     var isProfileClick = false
 
     companion object {
+        var TAG = "UploadPhotoFragment"
         private val REQUIRED_GALLERY_PERMISSIONS =
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -86,7 +88,12 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
 
     private fun initComponents() {
         from = arguments?.getString("from", "sign_up").toString()
+
+
+
         uploadPhotoVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+
+        Log.e(TAG, "USER_TOKEN11 "+sharedPref.getString(AppConstants.USER_TOKEN))
 
         viewBinding.header.tvTitle.text = getString(R.string.upload_photo)
 

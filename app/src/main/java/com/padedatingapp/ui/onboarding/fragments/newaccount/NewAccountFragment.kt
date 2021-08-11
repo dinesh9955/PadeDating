@@ -41,7 +41,12 @@ import kotlinx.android.synthetic.main.fragment_new_account.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import com.google.android.gms.tasks.OnCompleteListener
-
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.padedatingapp.ui.main.HomeActivity
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
@@ -62,6 +67,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
     lateinit var mAuth: FirebaseAuth
 
 
+    var idOb = ObservableField("")
     var firstnameOb = ObservableField("")
     var lastNameOb = ObservableField("")
     var emailOb = ObservableField("")
@@ -124,7 +130,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
 
         viewBinding.facebookImage.setOnClickListener {
-           // facebookSignIn()
+            facebookSignIn()
         }
 
         viewBinding.googleImage.setOnClickListener {
@@ -155,6 +161,15 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
                 "sentOtpResponse"
             )
         }
+
+        signUpVM.socialResponse.observe(viewLifecycleOwner) {
+            getLiveData(
+                    it,
+                    "sentSocialResponse"
+            )
+        }
+
+
     }
 
 
@@ -181,6 +196,14 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
                         Log.e(TAG, "sentOtpResponse "+data.toString())
                         onSendOtpResponse(data)
                     }
+
+                    "sentSocialResponse" -> {
+                        var data = response.data as ResultModel<UserModel>
+
+                        Log.e(TAG, "sentSocialResponse "+data.toString())
+                        sentSocialResponse(data)
+                    }
+
                 }
             }
             Resource.Status.ERROR -> {
@@ -212,8 +235,76 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         }
     }
 
-    private fun onSendOtpResponse(data: ResultModel<OtpData>?) {
 
+    private fun sentSocialResponse(data: ResultModel<UserModel>?) {
+        Log.e(TAG, "sentSocialResponse")
+        data?.let {
+            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                if(it.data?.dateofbirth.equals("")){
+                    sharedPref.setString(AppConstants.SOCIAL_FN, it.data?.firstName?:"")
+                    sharedPref.setString(AppConstants.SOCIAL_LN, it.data?.lastName?:"")
+
+                    Log.e(TAG, "sentSocialResponseF "+it.data?.firstName?:"")
+                    Log.e(TAG, "sentSocialResponseL "+it.data?.lastName?:"")
+                    it.data?.accessToken?.let { it1 ->
+                        sharedPref.setString(AppConstants.USER_TOKEN,
+                            it1
+                        )
+                    }
+                    findNavController().navigate(NewAccountFragmentDirections.actionToCreateNewAccount(email = it.data?.email?:"",phone = it.data?.phoneNo?:"",countryCode = it.data?.countryCode?:""))
+
+                }else{
+                    it.data?.accessToken?.let { it1 ->
+                        sharedPref.setString(AppConstants.USER_TOKEN,
+                            it1
+                        )
+                    }
+                    when (it.data!!.profileStatus) {
+                        1 -> {
+
+                            findNavController().navigate(NewAccountFragmentDirections.actionToUploadPhoto("login"))
+                        }
+                        2 -> {
+                            findNavController().navigate(
+                                NewAccountFragmentDirections.actionToSignUpAboutFragment(
+                                    "Sign Up", "login"
+                                )
+                            )
+                        }
+                        3 -> {
+                            toast(it.message)
+                            sharedPref.setString(AppConstants.USER_ID, it.data._id)
+                            sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+                            startActivity(Intent(requireContext(), HomeActivity::class.java))
+                            requireActivity().finish()
+                        }
+
+//                        0 -> {
+//                            toast(it.message)
+//                            sharedPref.setString(AppConstants.USER_ID, it.data._id)
+//                            sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+//                            startActivity(Intent(requireContext(), HomeActivity::class.java))
+//                            requireActivity().finish()
+//                        }
+                    }
+
+
+//                    toast(it.message)
+//                    it.data?.let { it1 -> sharedPref.setString(AppConstants.USER_ID, it1._id) }
+//                    sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+//                    startActivity(Intent(requireContext(), HomeActivity::class.java))
+//                    requireActivity().finish()
+                }
+
+
+            } else {
+                toast(data.message)
+            }
+        }
+    }
+
+
+    private fun onSendOtpResponse(data: ResultModel<OtpData>?) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 when (signUpVM.verificationType) {
@@ -240,8 +331,11 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
             }
         }
 
-
     }
+
+
+
+
 
     private fun showAccountVerificationChoice() = try {
         val dialogView = layoutInflater.inflate(R.layout.dialog_account_verification_type, null)
@@ -351,11 +445,12 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         Log.e("call", "FacebookLogin profile: $pic")
         Log.e("call", "FacebookLogin email: $Email")
 
+        idOb.set(id)
         firstnameOb.set(firstName)
         lastNameOb.set(lastname)
         emailOb.set(Email)
 
-        // callSocialLoginApi()
+         callSocialLoginApi()
     }
 
 
@@ -392,9 +487,9 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
             lastNameOb.set(account.familyName)
             emailOb.set(account.email)
 
-            Log.e(LoginFragment.TAG, "gt"+firstnameOb.toString())
-            Log.e(LoginFragment.TAG,"gt"+lastNameOb.toString())
-            Log.e(LoginFragment.TAG,"gt"+emailOb.toString())
+            Log.e(TAG, "gt"+firstnameOb.toString())
+            Log.e(TAG,"gt"+lastNameOb.toString())
+            Log.e(TAG,"gt"+emailOb.toString())
 
             //callSocialLoginApi()
         } catch (e: ApiException) {
@@ -445,4 +540,27 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         super.onResume()
         requireActivity().hideKeyboard()
     }
+
+
+
+
+    fun callSocialLoginApi(){
+        val jsonObj = JsonObject()
+        jsonObj.addProperty("facebookId", ""+idOb.get())
+        jsonObj.addProperty("email", ""+emailOb.get())
+//        jsonObj.addProperty("facebookId", "1234561")
+//        jsonObj.addProperty("email", "dinesh@gmail.com")
+        jsonObj.addProperty("firstName", ""+firstnameOb.get())
+        jsonObj.addProperty("lastName", ""+lastNameOb.get())
+        jsonObj.addProperty("deviceType", "ANDROID")
+        jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
+        FirebaseInstanceId.getInstance().getToken();
+        Log.e("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
+        signUpVM.callSocialApi(
+                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        )
+    }
+
+
+
 }

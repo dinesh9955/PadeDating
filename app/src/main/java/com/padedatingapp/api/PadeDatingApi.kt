@@ -15,6 +15,13 @@ interface PadeDatingApi {
         @Body body: RequestBody
     ): ResultModel<UserModel>
 
+
+    @POST(NetworkUrls.SOCIAL_USER)
+    suspend fun socialUser(
+            @Body body: RequestBody
+    ): ResultModel<UserModel>
+
+
     @POST(NetworkUrls.VERIFY_OTP)
     suspend fun verifyOtp(
         @Body body: RequestBody

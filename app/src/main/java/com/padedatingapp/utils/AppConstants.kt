@@ -10,4 +10,7 @@ object AppConstants {
     const val USER_PASSWORD = "user_password"
     const val USER_PHONE = "user_phone"
     const val USER_COUNTRY_CODE = "user_country_code"
+
+    const val SOCIAL_FN = "SOCIAL_FN"
+    const val SOCIAL_LN = "SOCIAL_LN"
 }

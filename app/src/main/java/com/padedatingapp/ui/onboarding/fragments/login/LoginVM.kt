@@ -148,6 +148,20 @@ class LoginVM(
 
 
 
+    fun callSocialApi(toRequestBody: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            loginResponse.postValue(Resource.loading(null))
+            loginResponse.postValue(
+                    loginRepo.socialUser(toRequestBody)
+            )
+
+        }
+    }
+
+
+
+
+
 //    fun onClicks(type: String) {
 //        when (type) {
 //            "facebook" -> {

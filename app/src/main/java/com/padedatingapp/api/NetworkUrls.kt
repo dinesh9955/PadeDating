@@ -2,6 +2,7 @@ package com.padedatingapp.api
 
 object NetworkUrls {
     const val BASE_URL = "http://dev.webdevelopmentsolution.net:3004/"
+    const val SOCIAL_USER = "api/v1/user/socialLogin"
     const val REGISTER_USER = "api/v1/user/register"
     const val VERIFY_OTP = "api/v1/user/verifyOtp"
     const val SEND_OTP = "api/v1/user/sendOtp"

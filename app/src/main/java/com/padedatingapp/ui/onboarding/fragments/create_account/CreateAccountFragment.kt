@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.coroutineScope
@@ -32,6 +33,7 @@ import com.padedatingapp.databinding.FragmentCreateAccountBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.UsernameResponse
+import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.formatDate
 import com.padedatingapp.utils.hideKeyboard
@@ -45,10 +47,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
 import java.util.*
 
+
 class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>() {
 
     companion object {
         private const val SELECT_ADDRESS_REQUEST_CODE = 1003
+        var TAG = "CreateAccountFragment"
     }
 
     private val sharedPref by inject<SharedPref>()
@@ -58,18 +62,31 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
     private val createAccountVM by inject<CreateAccountVM>()
 
     override fun layoutId(): Int = R.layout.fragment_create_account
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.vm = createAccountVM
         viewBinding.lifecycleOwner = this
         progressDialog = CustomProgressDialog(requireContext())
         initComponents()
+
+
+
     }
 
     private fun initComponents() {
         createAccountVM.countryCode = ccp.selectedCountryCodeWithPlus
         createAccountVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
         viewBinding.tvTitle.text = getString(R.string.sign_up)
+
+
+//        Log.e(NewAccountFragment.TAG, "sentSocialResponseF "+sharedPref.getString(AppConstants.SOCIAL_FN))
+//        Log.e(NewAccountFragment.TAG, "sentSocialResponseL "+sharedPref.getString(AppConstants.SOCIAL_LN))
+
+        createAccountVM.firstName.value = sharedPref.getString(AppConstants.SOCIAL_FN)
+        createAccountVM.lastName.value = sharedPref.getString(AppConstants.SOCIAL_LN)
+
+
 
         getArgumentsData()
         setUpListeners()
@@ -86,11 +103,11 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         }
 
         viewBinding.ivHideShowPass.setOnClickListener {
-            togglePasswordVisibility(requireContext(),viewBinding.etPassword,viewBinding.ivHideShowPass)
+            togglePasswordVisibility(requireContext(), viewBinding.etPassword, viewBinding.ivHideShowPass)
         }
 
         viewBinding.ivHideShowConfPass.setOnClickListener {
-            togglePasswordVisibility(requireContext(),viewBinding.etConfPassword,viewBinding.ivHideShowConfPass)
+            togglePasswordVisibility(requireContext(), viewBinding.etConfPassword, viewBinding.ivHideShowConfPass)
         }
 
         createAccountVM._errorMessage.observe(viewLifecycleOwner) {
@@ -113,27 +130,27 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                             jsonObj.addProperty("username", it.toString())
                             Log.d("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
                             createAccountVM.callCheckUsernameApi(
-                                jsonObj.toString()
-                                    .toRequestBody("application/json".toMediaTypeOrNull())
+                                    jsonObj.toString()
+                                            .toRequestBody("application/json".toMediaTypeOrNull())
                             )
                         }
                     } else {
                         viewBinding.tvIsUsernameAvailable.isVisible = true
                         viewBinding.tvIsUsernameAvailable.text = getString(R.string.not_available)
                         viewBinding.tvIsUsernameAvailable.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.colorRed
-                            )
+                                ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.colorRed
+                                )
                         )
                     }
                 } else {
                     viewBinding.tvIsUsernameAvailable.text = getString(R.string.not_available)
                     viewBinding.tvIsUsernameAvailable.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.colorRed
-                        )
+                            ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.colorRed
+                            )
                     )
                 }
             }
@@ -182,7 +199,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
     private fun onSetupProfileResponse(data: ResultModel<UserModel>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
-                sharedPref.setString(AppConstants.USER_TOKEN,it.data?.accessToken!!)
+                sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
                 findNavController().navigate(CreateAccountFragmentDirections.actionToUploadPhoto())
             } else {
                 toast(data.message)
@@ -200,10 +217,10 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                     createAccountVM.isUsernameAvailable.set(true)
                     viewBinding.tvIsUsernameAvailable.text = getString(R.string._available)
                     viewBinding.tvIsUsernameAvailable.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.quantum_googgreen
-                        )
+                            ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.quantum_googgreen
+                            )
                     )
 
                 } else {
@@ -211,10 +228,10 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                     createAccountVM.isUsernameAvailable.set(false)
                     viewBinding.tvIsUsernameAvailable.text = getString(R.string.not_available)
                     viewBinding.tvIsUsernameAvailable.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.colorRed
-                        )
+                            ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.colorRed
+                            )
                     )
 
                 }
@@ -224,10 +241,10 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                 createAccountVM.isUsernameAvailable.set(false)
                 viewBinding.tvIsUsernameAvailable.text = getString(R.string.not_available)
                 viewBinding.tvIsUsernameAvailable.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.colorRed
-                    )
+                        ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorRed
+                        )
                 )
                 toast(data.message)
             }
@@ -240,7 +257,42 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         createAccountVM.email.value = arguments?.getString("email")
         viewBinding.etPhone.setText(arguments?.getString("phone", ""))
         viewBinding.etEmail.setText(arguments?.getString("email"))
-        viewBinding.ccp.setCountryForPhoneCode(createAccountVM.countryCode.replace("+", "").toInt())
+        if(createAccountVM.countryCode.contains("+")){
+            viewBinding.ccp.setCountryForPhoneCode(createAccountVM.countryCode.replace("+", "").toInt())
+        }
+
+        if(arguments?.getString("countryCode").toString().length == 0){
+            viewBinding.ccp.setFocusableInTouchMode(true);
+            viewBinding.ccp.setClickable(true);
+            viewBinding.ccp.setFocusable(true);
+        }else{
+            viewBinding.ccp.setFocusableInTouchMode(false);
+            viewBinding.ccp.setClickable(false);
+            viewBinding.ccp.setFocusable(false);
+        }
+        
+        if(arguments?.getString("phone").toString().length == 0){
+            viewBinding.etPhone.setFocusableInTouchMode(true);
+            viewBinding.etPhone.setClickable(true);
+            viewBinding.etPhone.setFocusable(true);
+        }else{
+            viewBinding.etPhone.setFocusableInTouchMode(false);
+            viewBinding.etPhone.setClickable(false);
+            viewBinding.etPhone.setFocusable(false);
+        }
+
+        if(arguments?.getString("email").toString().length == 0){
+            viewBinding.etEmail.setFocusableInTouchMode(true);
+            viewBinding.etEmail.setClickable(true);
+            viewBinding.etEmail.setFocusable(true);
+        }else{
+            viewBinding.etEmail.setFocusableInTouchMode(false);
+            viewBinding.etEmail.setClickable(false);
+            viewBinding.etEmail.setFocusable(false);
+        }
+
+
+
     }
 
     private fun setUpListeners() {
@@ -274,7 +326,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
 
         viewBinding.cbTandC.setOnCheckedChangeListener { buttonView, isChecked ->
             createAccountVM.termsConditionCheck.set(
-                isChecked
+                    isChecked
             )
         }
     }
@@ -282,7 +334,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
     private fun showAddressOverlay() {
         val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
         val intent = object : Autocomplete.IntentBuilder(
-            AutocompleteActivityMode.FULLSCREEN, fields
+                AutocompleteActivityMode.FULLSCREEN, fields
         ) {}
             .setHint("Address")
             .build(requireContext())
@@ -310,9 +362,9 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                             val addresses: List<Address>
                             val geocoder = Geocoder(requireContext(), Locale.getDefault())
                             addresses = geocoder.getFromLocation(
-                                place.latLng?.latitude!!,
-                                place.latLng?.longitude!!,
-                                1
+                                    place.latLng?.latitude!!,
+                                    place.latLng?.longitude!!,
+                                    1
                             )
                             // val address: String = addresses[0].getAddressLine(0)
                             createAccountVM.latitude.value = addresses[0].latitude
@@ -328,7 +380,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
                             createAccountVM.cityAndCountry.value = str
                             viewBinding.tvLocation.text = addresses[0].getAddressLine(0)
                             viewBinding.tvCountry.text = createAccountVM.cityAndCountry.value
-                          requireActivity().hideKeyboard()
+                            requireActivity().hideKeyboard()
                         } catch (e: Exception) {
                             Log.e("CreateAccountFragment", "GeoCoder Exception: $e")
                         }
@@ -352,6 +404,12 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         picker.addOnPositiveButtonClickListener {
             viewBinding.tvDateOfBorth.text = formatDate(it)
             createAccountVM.dob.value = viewBinding.tvDateOfBorth.text.toString()
+
+            createAccountVM.dobLast.value = viewBinding.tvDateOfBorth.text.toString().split("/")[2]
+
+
+
+            Log.e(TAG , "tvDateOfBorth "+viewBinding.tvDateOfBorth.text)
         }
     }
 
