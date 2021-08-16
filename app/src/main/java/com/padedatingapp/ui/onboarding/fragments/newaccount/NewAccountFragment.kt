@@ -134,7 +134,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         }
 
         viewBinding.googleImage.setOnClickListener {
-            //googleSignIn()
+           // googleSignIn()
         }
 
         viewBinding.instagramImage.setOnClickListener {
@@ -215,6 +215,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
             }
         }
     }
+
 
     private fun onRegisterUserResponse(data: ResultModel<UserModel>?) {
         data?.let {
@@ -450,7 +451,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         lastNameOb.set(lastname)
         emailOb.set(Email)
 
-         callSocialLoginApi()
+        callSocialLoginApi("facebook")
     }
 
 
@@ -465,50 +466,60 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
+        signOut()
+
         mAuth = FirebaseAuth.getInstance()
         signIn()
     }
 
     fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
-        (context as Activity).startActivityForResult(signInIntent, RC_SIGN_IN)
+        requireActivity().startActivityForResult(signInIntent, RC_SIGN_IN)
 
     }
 
     fun handleGoogleSignin(task: Task<GoogleSignInAccount>) {
-
+        Log.e(LoginFragment.TAG, "handleGoogleSignin")
         try {
             // Google Sign In was successful, authenticate with Firebase
             val account = task.getResult(ApiException::class.java)!!
             Log.d("MainActivity", "firebaseAuthWithGoogle:" + account.id)
 
-
+            idOb.set(account.id)
             firstnameOb.set(account.givenName)
             lastNameOb.set(account.familyName)
             emailOb.set(account.email)
 
-            Log.e(TAG, "gt"+firstnameOb.toString())
-            Log.e(TAG,"gt"+lastNameOb.toString())
-            Log.e(TAG,"gt"+emailOb.toString())
+            Log.e(LoginFragment.TAG, "gt" + idOb.get().toString())
+            Log.e(LoginFragment.TAG, "gt" + firstnameOb.get().toString())
+            Log.e(LoginFragment.TAG, "gt" + lastNameOb.get().toString())
+            Log.e(LoginFragment.TAG, "gt" + emailOb.get().toString())
 
-            //callSocialLoginApi()
+            callSocialLoginApi("google")
+
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
-            Log.w("MainActivity", "Google sign in failed", e)
+            Log.e("MainActivity", "Google sign in failed", e)
         }
 
     }
 
 
-
-
+    private fun signOut() {
+        if(googleSignInClient != null){
+            googleSignInClient.signOut();
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.e(TAG, "onActivityResult " + requestCode + " " + resultCode)
+
         super.onActivityResult(requestCode, resultCode, data)
         //SignInMethod for Google
         if (requestCode == RC_SIGN_IN)
         {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Log.e(TAG, "firebaseAuthWithGoogle:" + task.isSuccessful)
             handleGoogleSignin(task)
 //             vm!!.callSocialLoginApi()
 
@@ -544,12 +555,14 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
 
 
 
-    fun callSocialLoginApi(){
+    fun callSocialLoginApi(type : String){
         val jsonObj = JsonObject()
-        jsonObj.addProperty("facebookId", ""+idOb.get())
-        jsonObj.addProperty("email", ""+emailOb.get())
-//        jsonObj.addProperty("facebookId", "1234561")
-//        jsonObj.addProperty("email", "dinesh@gmail.com")
+        if(type.equals("facebook")){
+            jsonObj.addProperty("facebookId", "" + idOb.get())
+        }else if(type.equals("google")){
+            jsonObj.addProperty("googleId", "" + idOb.get())
+        }
+        jsonObj.addProperty("email", "" + emailOb.get())
         jsonObj.addProperty("firstName", ""+firstnameOb.get())
         jsonObj.addProperty("lastName", ""+lastNameOb.get())
         jsonObj.addProperty("deviceType", "ANDROID")

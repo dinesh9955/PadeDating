@@ -42,7 +42,6 @@ import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
-import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
@@ -125,9 +124,9 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
         viewBinding.ivHideShowPass.setOnClickListener {
             togglePasswordVisibility(
-                requireContext(),
-                viewBinding.etPassword,
-                viewBinding.ivHideShowPass
+                    requireContext(),
+                    viewBinding.etPassword,
+                    viewBinding.ivHideShowPass
             )
         }
 
@@ -143,8 +142,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
         loginVM.loginResponse.observe(viewLifecycleOwner) {
             getLiveData(
-                it,
-                "loginResponse"
+                    it,
+                    "loginResponse"
             )
         }
 
@@ -164,8 +163,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                 when (type) {
                     "loginResponse" -> {
                         val data = response.data as ResultModel<UserModel>
-                        Log.e(TAG, "dataAA "+response.data)
-                        Log.e(TAG, "dataBB "+data.toString())
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
                         onLoginResponse(data)
                     }
                 }
@@ -182,7 +181,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
     private fun onLoginResponse(data: ResultModel<UserModel>) {
 
-        Log.e(TAG, "onLoginResponse "+data.data.toString())
+        Log.e(TAG, "onLoginResponse " + data.data.toString())
 
         data?.let {
 
@@ -191,17 +190,19 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
                 if(it.data?.dateofbirth.equals("")){
-                    sharedPref.setString(AppConstants.SOCIAL_FN, it.data?.firstName?:"")
-                    sharedPref.setString(AppConstants.SOCIAL_LN, it.data?.lastName?:"")
+                    sharedPref.setString(AppConstants.SOCIAL_FN, it.data?.firstName ?: "")
+                    sharedPref.setString(AppConstants.SOCIAL_LN, it.data?.lastName ?: "")
 
-                    Log.e(NewAccountFragment.TAG, "sentSocialResponseF "+it.data?.firstName?:"")
-                    Log.e(NewAccountFragment.TAG, "sentSocialResponseL "+it.data?.lastName?:"")
+                    Log.e(NewAccountFragment.TAG, "sentSocialResponseF " + it.data?.firstName ?: "")
+                    Log.e(NewAccountFragment.TAG, "sentSocialResponseL " + it.data?.lastName ?: "")
 
-                    findNavController().navigate(LoginFragmentDirections.actionToCreateNewAccount(email = it.data?.email?:"",phone = it.data?.phoneNo?:"",countryCode = it.data?.countryCode?:""))
+                    findNavController().navigate(LoginFragmentDirections.actionToCreateNewAccount(email = it.data?.email
+                            ?: "", phone = it.data?.phoneNo
+                            ?: "", countryCode = it.data?.countryCode ?: ""))
 
                 }else{
                     if (sharedPref.getBoolean(AppConstants.REMEMBER_ME)) {
-                        sharedPref.setBoolean(AppConstants.REMEMBER_ME,true)
+                        sharedPref.setBoolean(AppConstants.REMEMBER_ME, true)
                         sharedPref.setString(AppConstants.USER_EMAIL, it.data.email)
                         sharedPref.setString(AppConstants.USER_PHONE, it.data.phoneNo)
                         sharedPref.setInt(
@@ -214,12 +215,12 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                         )
                     }
                     else{
-                        sharedPref.setBoolean(AppConstants.REMEMBER_ME,false)
+                        sharedPref.setBoolean(AppConstants.REMEMBER_ME, false)
                         sharedPref.setString(AppConstants.USER_EMAIL, "")
                         sharedPref.setString(AppConstants.USER_PHONE, "")
                         sharedPref.setInt(
                                 AppConstants.USER_COUNTRY_CODE,
-                                viewBinding.ccp.selectedCountryCode.replace("+","").toInt()
+                                viewBinding.ccp.selectedCountryCode.replace("+", "").toInt()
                         )
                     }
                     when (it.data!!.profileStatus) {
@@ -297,7 +298,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
 
         viewBinding.googleImage.setOnClickListener {
-           // googleSignIn()
+//            googleSignIn()
         }
 
         viewBinding.instagramImage.setOnClickListener {
@@ -360,17 +361,17 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         LoginManager.getInstance()
             .logInWithReadPermissions(context as Activity, listOf("email", "public_profile"))
         LoginManager.getInstance().registerCallback(callbackManager, object :
-            FacebookCallback<LoginResult> {
+                FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
                 fcmToken = result?.accessToken?.token.toString()
                 Log.e("Facebook............", " id : " + result?.accessToken?.token)
 
                 //added new
                 val graph: GraphRequest =
-                    GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
-                        Log.e("data of fb ", " all data facebook $`object` response  $response")
-                        getFacebookData(`object`!!)
-                    }
+                        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken()) { `object`, response ->
+                            Log.e("data of fb ", " all data facebook $`object` response  $response")
+                            getFacebookData(`object`!!)
+                        }
                 val bundle: Bundle = Bundle()
                 bundle.putString("fields", "id,first_name,last_name,email,gender")
                 graph.parameters = bundle
@@ -418,13 +419,14 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         lastNameOb.set(lastname)
         emailOb.set(Email)
 
-         callSocialLoginApi()
+         callSocialLoginApi("facebook")
     }
 
 
 
 
     fun googleSignIn() {
+
 // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(requireActivity().getString(R.string.default_web_client_id))
@@ -432,6 +434,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        signOut()
 
         mAuth = FirebaseAuth.getInstance()
         signIn()
@@ -451,16 +455,18 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             val account = task.getResult(ApiException::class.java)!!
             Log.d("MainActivity", "firebaseAuthWithGoogle:" + account.id)
 
-
+            idOb.set(account.id)
             firstnameOb.set(account.givenName)
             lastNameOb.set(account.familyName)
             emailOb.set(account.email)
 
-            Log.e(TAG, "gt"+firstnameOb.toString())
-            Log.e(TAG,"gt"+lastNameOb.toString())
-            Log.e(TAG,"gt"+emailOb.toString())
+            Log.e(TAG, "gt" + idOb.get().toString())
+            Log.e(TAG, "gt" + firstnameOb.get().toString())
+            Log.e(TAG, "gt" + lastNameOb.get().toString())
+            Log.e(TAG, "gt" + emailOb.get().toString())
 
-            //callSocialLoginApi()
+            callSocialLoginApi("google")
+
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
             Log.e("MainActivity", "Google sign in failed", e)
@@ -469,11 +475,17 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     }
 
 
+    private fun signOut() {
+        if(googleSignInClient != null){
+            googleSignInClient.signOut();
+        }
 
+
+    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.e(TAG, "onActivityResult "+requestCode+ " "+resultCode)
+        Log.e(TAG, "onActivityResult " + requestCode + " " + resultCode)
 
         super.onActivityResult(requestCode, resultCode, data)
         //SignInMethod for Google
@@ -481,7 +493,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             Log.e(TAG, "firebaseAuthWithGoogle:" + task.isSuccessful)
-            //handleGoogleSignin(task)
+            handleGoogleSignin(task)
 //             vm!!.callSocialLoginApi()
 
         } else {
@@ -501,7 +513,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                 }
                 // Get new Instance ID token
                 fcmToken = task.result?.token!!
-                sharedPref.setString("fcmToken", ""+fcmToken)
+                sharedPref.setString("fcmToken", "" + fcmToken)
                 Log.e("device_Token", " " + fcmToken)
             })
     }
@@ -527,12 +539,16 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
 
-    fun callSocialLoginApi(){
+    fun callSocialLoginApi(type : String){
         val jsonObj = JsonObject()
-        jsonObj.addProperty("facebookId", ""+idOb.get())
-        jsonObj.addProperty("email", ""+emailOb.get())
-        jsonObj.addProperty("firstName", ""+firstnameOb.get())
-        jsonObj.addProperty("lastName", ""+lastNameOb.get())
+        if(type.equals("facebook")){
+            jsonObj.addProperty("facebookId", "" + idOb.get())
+        }else if(type.equals("google")){
+            jsonObj.addProperty("googleId", "" + idOb.get())
+        }
+        jsonObj.addProperty("email", "" + emailOb.get())
+        jsonObj.addProperty("firstName", "" + firstnameOb.get())
+        jsonObj.addProperty("lastName", "" + lastNameOb.get())
         jsonObj.addProperty("deviceType", "ANDROID")
         jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
         FirebaseInstanceId.getInstance().getToken();
