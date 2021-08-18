@@ -255,6 +255,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         val ivUserOne = dialogView.findViewById<ShapeableImageView>(R.id.ivUserOne)
         val ivUserTwo = dialogView.findViewById<ShapeableImageView>(R.id.ivUserTwo)
 
+
         Glide.with(requireActivity()).load(userObject.image)
                 .apply(options).into(ivUserOne)
         tvUserOneName.text = userObject.firstName + " "+userObject.lastName
@@ -285,21 +286,21 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     override fun onCardSwiped(direction: Direction?) {
         Log.e("MeetMeFragment", "onCardSwiped: "+direction.toString())
 
-        if(direction?.equals("Left")!!){
-            val jsonObj = JsonObject()
-            jsonObj.addProperty("action", "dislike")
-            meetMeVM.callMeetMeLikeApi(
-                    meetMeData._id,
-                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-            )
-        } else if(direction?.equals("Right")!!){
-            val jsonObj = JsonObject()
-            jsonObj.addProperty("action", "like")
-            meetMeVM.callMeetMeLikeApi(
-                    meetMeData._id,
-                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
-            )
-        }
+//        if(direction?.equals("Left")!!){
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("action", "dislike")
+//            meetMeVM.callMeetMeLikeApi(
+//                    meetMeData._id,
+//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//            )
+//        } else if(direction?.equals("Right")!!){
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("action", "like")
+//            meetMeVM.callMeetMeLikeApi(
+//                    meetMeData._id,
+//                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//            )
+//        }
 
 
     }
@@ -465,16 +466,18 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 //            jsonObj.addProperty("limit", 4)
 //            jsonObj.addProperty("page", 1)
         }else{
+
             jsonObj.addProperty("gender", userObject.interestedIn)
 //            jsonObj.addProperty("distance",10)
 //            jsonObj.addProperty("age", 25)
-            jsonObj.addProperty("lat", userObject.latitude)
-            jsonObj.addProperty("long", userObject.longitude)
+//            jsonObj.addProperty("lat", userObject.latitude)
+//            jsonObj.addProperty("long", userObject.longitude)
           //  jsonObj.addProperty("limit", 4)
          //   jsonObj.addProperty("page", 1)
             //Log.e(TAG , "placeLat "+placeLat+" "+placeLng)
 
            // var dd = sharedPref.getString("address")
+            Log.e(TAG , "interestedIn "+userObject.interestedIn)
             Log.e(TAG , "placeLat "+userObject.address)
             Log.e(TAG , "placeLat "+userObject.latitude)
             Log.e(TAG , "placeLat "+userObject.longitude)

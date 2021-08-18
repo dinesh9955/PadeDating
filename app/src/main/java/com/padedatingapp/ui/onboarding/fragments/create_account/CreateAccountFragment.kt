@@ -405,7 +405,7 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
             viewBinding.tvDateOfBorth.text = formatDate(it)
             createAccountVM.dob.value = viewBinding.tvDateOfBorth.text.toString()
 
-            createAccountVM.dobLast.value = viewBinding.tvDateOfBorth.text.toString().split("/")[2]
+          //  createAccountVM.dobLast.value = viewBinding.tvDateOfBorth.text.toString().split("/")[2]
 
 
 

@@ -285,7 +285,14 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
             viewBinding.etLastName.setText(userObject.lastName)
             viewBinding.etPhone.setText(userObject.phoneNo)
             viewBinding.etEmail.setText(userObject.email)
-            editProfileVM.gender.value = userObject.gender.substring(0, 1).toUpperCase() + userObject.gender.substring(1).toLowerCase()
+
+            Log.e(TAG, "userObject.gender "+userObject.gender)
+
+            if(!userObject.gender.equals("")){
+                editProfileVM.gender.value = userObject.gender.substring(0, 1).toUpperCase() + userObject.gender.substring(1).toLowerCase()
+            }
+
+
             viewBinding.tvAddress.setText(userObject.address)
 
             editProfileVM.firstName.value = userObject.firstName
@@ -297,7 +304,11 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
             editProfileVM.country.value = userObject.country
             editProfileVM.latitude.value = userObject.latitude.toDouble()
             editProfileVM.longitude.value = userObject.longitude.toDouble()
-            viewBinding.ccp.setCountryForPhoneCode(userObject.countryCode.replace("+", "").toInt())
+            if(!userObject.countryCode.equals("")){
+                viewBinding.ccp.setCountryForPhoneCode(userObject.countryCode.replace("+", "").toInt())
+            }
+
+
             for (doc in userObject.docImage) {
                 editProfileVM.list.add(ImageModel(doc.source, doc.type, doc.thumb))
             }

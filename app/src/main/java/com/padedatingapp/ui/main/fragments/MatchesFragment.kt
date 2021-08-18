@@ -28,7 +28,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
 
 class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
-    PeopleWhoLikedAdapter.OnItemClickListener {
+    PeopleWhoLikedAdapter.OnItemClickListener, PeopleWhoLikedAdapter.OnItemClickListenerData {
 
     companion object {
         var TAG = "MatchesFragment"
@@ -66,7 +66,7 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 //        }
       //  var adapter = PeopleWhoLikedAdapter(this)
 
-        adapter = PeopleWhoLikedAdapter(this)
+        adapter = PeopleWhoLikedAdapter(this, this)
 
         //adapter.submitList(list)
 
@@ -222,4 +222,13 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
         super.onResume()
         requireActivity().hideKeyboard()
     }
+
+
+
+
+    override fun onItemClickData(model: MeetMeData) {
+//        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model))
+        findNavController().navigate(MatchesFragmentDirections.actionToOtherProfile(model))
+    }
+
 }

@@ -1,7 +1,10 @@
 package com.padedatingapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,9 +14,10 @@ import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemWhoLikedBinding
 import com.padedatingapp.model.DummyModel
 import com.padedatingapp.model.MeetMeData
+import com.padedatingapp.ui.main.fragments.MeetMeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 
-class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
+class PeopleWhoLikedAdapter(private val listener: OnItemClickListener, private val listener2: OnItemClickListenerData) :
     ListAdapter<MeetMeData, PeopleWhoLikedAdapter.UploadItemViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
@@ -33,6 +37,12 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
                 tvName.text = model.firstName+" "+model.lastName+", "+model.age
                 tvProfileType.text = model.work
             }
+
+
+            binding.ivSeeMore.setOnClickListener(View.OnClickListener {
+               // findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model))
+                listener2.onItemClickData(getItem(adapterPosition))
+            })
         }
     }
 
@@ -70,5 +80,13 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener) :
     interface OnItemClickListener {
         fun onItemClick(model: MeetMeData)
     }
+
+    interface OnItemClickListenerData {
+        fun onItemClickData(model: MeetMeData)
+    }
+
+
+
+
 
 }

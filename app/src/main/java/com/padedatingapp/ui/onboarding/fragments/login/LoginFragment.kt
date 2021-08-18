@@ -205,10 +205,13 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                         sharedPref.setBoolean(AppConstants.REMEMBER_ME, true)
                         sharedPref.setString(AppConstants.USER_EMAIL, it.data.email)
                         sharedPref.setString(AppConstants.USER_PHONE, it.data.phoneNo)
-                        sharedPref.setInt(
-                                AppConstants.USER_COUNTRY_CODE,
-                                it.data.countryCode.replace("+", "").toInt()
-                        )
+                        if(!it.data.countryCode.equals("")){
+                            sharedPref.setInt(
+                                    AppConstants.USER_COUNTRY_CODE,
+                                    it.data.countryCode.replace("+", "").toInt()
+                            )
+                        }
+
                         sharedPref.setString(
                                 AppConstants.USER_PASSWORD,
                                 viewBinding.etPassword.text.toString()
@@ -298,7 +301,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         }
 
         viewBinding.googleImage.setOnClickListener {
-//            googleSignIn()
+            googleSignIn()
         }
 
         viewBinding.instagramImage.setOnClickListener {
@@ -391,6 +394,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
 
 
+
     private fun getFacebookData(jsonObject: JSONObject) {
 
         val id: String = jsonObject.getString("id")
@@ -466,6 +470,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
             Log.e(TAG, "gt" + emailOb.get().toString())
 
             callSocialLoginApi("google")
+
+
 
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately

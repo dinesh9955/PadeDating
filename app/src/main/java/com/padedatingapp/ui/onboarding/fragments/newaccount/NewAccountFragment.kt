@@ -134,7 +134,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         }
 
         viewBinding.googleImage.setOnClickListener {
-           // googleSignIn()
+            googleSignIn()
         }
 
         viewBinding.instagramImage.setOnClickListener {

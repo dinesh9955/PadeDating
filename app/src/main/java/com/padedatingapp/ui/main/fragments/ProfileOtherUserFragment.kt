@@ -74,7 +74,16 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
         tvAboutDesc.text = person.description
         tvEmployementType.text = person.work
 
+
+        if(person.isApproved == true){
+            imageViewThik.visibility = View.VISIBLE
+        }else{
+            imageViewThik.visibility = View.INVISIBLE
+        }
+
+
         adapter2.submitList(person.docImage)
+
 
     }
 
