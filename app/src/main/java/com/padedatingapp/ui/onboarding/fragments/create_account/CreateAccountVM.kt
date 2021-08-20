@@ -21,7 +21,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.regex.Pattern
 
 class CreateAccountVM(
-    private val resourceProvider: ResourceProvider,
+    val resourceProvider: ResourceProvider,
     private val coroutinesManager: CoroutinesManager,
     private val signUpRepo: SignUpRepo
 ) : ViewModel() {
@@ -105,6 +105,9 @@ class CreateAccountVM(
             dob.value.toString().trim().isEmpty() -> {
                 _errorMessage.value = resourceProvider.getString(R.string.please_select_date_of_birth)
             }
+
+
+
             gender.value.toString().trim().isEmpty() -> {
                 _errorMessage.value = resourceProvider.getString(R.string.please_select_gender)
             }

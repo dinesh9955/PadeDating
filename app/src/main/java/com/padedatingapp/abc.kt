@@ -13,6 +13,7 @@ import java.io.*
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.ExperimentalTime
 
 class abc : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class abc : AppCompatActivity() {
     val REQUEST_ID_MULTIPLE_PERMISSIONS = 1999
 
 
+    @ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.chat)
@@ -32,6 +34,22 @@ class abc : AppCompatActivity() {
             .penaltyLog()
             .build()
         StrictMode.setThreadPolicy(policy)
+
+        val now = Calendar.getInstance()
+
+        val now2 = Calendar.getInstance()
+
+        now2.set(2004, 7, 22)
+
+        val max: Long =
+            (now.getTimeInMillis() - now2.getTimeInMillis()) / (365 * 24 * 60 * 60 * 1000L)
+
+
+        if(max >= 18){
+            Log.e(TAG, "days11 " + max)
+        }else{
+            Log.e(TAG, "days22 " + max)
+        }
 
 
 
@@ -49,13 +67,20 @@ class abc : AppCompatActivity() {
 
 
     @Suppress("UNCHECKED_CAST")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
             REQUEST_ID_MULTIPLE_PERMISSIONS -> {
-                if (Utility.checkAdditionPermissionsCheck(this@abc,
-                        permissions as Array<String>, grantResults, REQUEST_ID_MULTIPLE_PERMISSIONS)) {
+                if (Utility.checkAdditionPermissionsCheck(
+                        this@abc,
+                        permissions as Array<String>, grantResults, REQUEST_ID_MULTIPLE_PERMISSIONS
+                    )
+                ) {
                     getLogin()
                 }
             }
@@ -108,16 +133,16 @@ class abc : AppCompatActivity() {
 
                 fileName = params.get(0)?.substring(params.get(0)!!.lastIndexOf('/').plus(1))
 
-                Log.e(TAG, "folderCC "+fileName)
+                Log.e(TAG, "folderCC " + fileName)
 
                 fileName = timestamp + "_" + fileName
 
-                Log.e(TAG, "folderBB "+fileName)
+                Log.e(TAG, "folderBB " + fileName)
 
                 folder = Environment.getExternalStorageDirectory()
                     .toString() + File.separator + "SIR/"
 
-                Log.e(TAG, "folderAA "+folder)
+                Log.e(TAG, "folderAA " + folder)
 
                 val directory = File(folder)
 
@@ -192,8 +217,9 @@ class abc : AppCompatActivity() {
 //                context.startActivity(intentShareFile);
                 context.startActivity(
                     Intent.createChooser(
-                        intentShareFile, "Share")
+                        intentShareFile, "Share"
                     )
+                )
 
             }
         }

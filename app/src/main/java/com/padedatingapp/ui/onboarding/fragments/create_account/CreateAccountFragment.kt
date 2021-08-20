@@ -25,6 +25,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
 import com.padedatingapp.R
+import com.padedatingapp.abc
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
@@ -402,12 +403,30 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
         picker.show(childFragmentManager, picker.toString())
         picker.addOnNegativeButtonClickListener { picker.dismiss() }
         picker.addOnPositiveButtonClickListener {
-            viewBinding.tvDateOfBorth.text = formatDate(it)
-            createAccountVM.dob.value = viewBinding.tvDateOfBorth.text.toString()
+
+            val now2 = Calendar.getInstance()
+
+            now2.set(formatDate(it).toString().split("/")[2].toInt(), formatDate(it).toString().split("/")[1].toInt(), formatDate(it).toString().split("/")[0].toInt())
+
+            val max: Long =
+                (now.getTimeInMillis() - now2.getTimeInMillis()) / (365 * 24 * 60 * 60 * 1000L)
+
+            if(max >= 18){
+                Log.e(abc.TAG, "days11 " + max)
+                viewBinding.tvDateOfBorth.text = formatDate(it)
+                createAccountVM.dob.value = viewBinding.tvDateOfBorth.text.toString()
+            }else{
+                Log.e(abc.TAG, "days22 " + max)
+                createAccountVM._errorMessage.value = createAccountVM.resourceProvider.getString(R.string.please_enter_dob_18)
+                viewBinding.tvDateOfBorth.text = ""
+                createAccountVM.dob.value = ""
+            }
+
+          //  Log.e(TAG , "tvDateOfBorthCCC "+formatDate(it).toString().split("/")[2])
+
+
 
           //  createAccountVM.dobLast.value = viewBinding.tvDateOfBorth.text.toString().split("/")[2]
-
-
 
             Log.e(TAG , "tvDateOfBorth "+viewBinding.tvDateOfBorth.text)
         }

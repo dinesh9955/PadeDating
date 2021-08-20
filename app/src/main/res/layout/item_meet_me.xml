@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardViewRoot"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_300sdp"
+        android:layout_height="@dimen/_290sdp"
         android:layout_margin="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardBackgroundColor="@color/colorWhite"
@@ -54,7 +54,7 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:drawableStart="@drawable/ic_user_loc"
                 android:text="1.5 miles away"
-                android:layout_marginBottom="@dimen/_20sdp" />
+                android:layout_marginBottom="@dimen/_10sdp" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

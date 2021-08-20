@@ -107,6 +107,9 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         printHashKey(requireContext())
 
         initComponents()
+
+
+
     }
 
     private fun initComponents() {

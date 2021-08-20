@@ -258,6 +258,7 @@
 
     <string name="phone_length_should_be_greater_than_7_characters">Phone length should be greater than 7</string>
     <string name="email_should_not_contain_white_spaces">Email should not contain White Spaces</string>
+    <string name="please_enter_dob_18">Date Of Birth allowed 18 years old</string>
     <string name="please_enter_first_name">Please enter First Name</string>
     <string name="please_enter_last_name">Please enter Last Name</string>
     <string name="please_enter_valid_email">Please enter valid Email</string>

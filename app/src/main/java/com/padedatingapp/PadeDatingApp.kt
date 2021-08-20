@@ -2,6 +2,8 @@ package com.padedatingapp
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.facebook.FacebookSdk
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
@@ -36,6 +38,7 @@ class PadeDatingApp : Application() {
                     AppModule.appModule(this@PadeDatingApp),
                     AppModule.networkModule,
                     AppModule.RemoteApiModule))
+
         }
       /*  ProcessLifecycleOwner
             .get()
@@ -52,6 +55,10 @@ class PadeDatingApp : Application() {
         }
 
        // initializeSocket(applicationContext)
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
 
