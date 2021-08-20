@@ -235,7 +235,6 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
             session.publish(publisher);
 
-
         }
 
         @Override
@@ -331,7 +330,7 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                     return;
                 }
 
-                //initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
+//                initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
                 if(callUser != null){
                     Log.e(TAG, "callUser.getData().getApikey() "+callUser.getData().getApikey());
                     Log.e(TAG, "callUser.getData().getSessionId() "+callUser.getData().getSessionId());

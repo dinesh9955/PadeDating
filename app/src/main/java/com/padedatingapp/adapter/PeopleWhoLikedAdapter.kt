@@ -1,5 +1,6 @@
 package com.padedatingapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +15,25 @@ import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemWhoLikedBinding
 import com.padedatingapp.model.DummyModel
 import com.padedatingapp.model.MeetMeData
-import com.padedatingapp.ui.main.fragments.MeetMeFragmentDirections
+//import com.padedatingapp.ui.main.fragments.MeetMeFragmentDirections
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 
 class PeopleWhoLikedAdapter(private val listener: OnItemClickListener, private val listener2: OnItemClickListenerData) :
     ListAdapter<MeetMeData, PeopleWhoLikedAdapter.UploadItemViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
+
+
     inner class UploadItemViewHolder(private val binding: ItemWhoLikedBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+
         init {
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
+              //  var list = MeetMeData()
+                var list = getItem(adapterPosition)
+                Log.e(TAG, "getItem "+list.firstName+list.lastName)
             }
         }
 
@@ -60,6 +68,9 @@ class PeopleWhoLikedAdapter(private val listener: OnItemClickListener, private v
     }
 
     companion object {
+
+        var TAG = "PeopleWhoLikedAdapter"
+
         private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<MeetMeData>() {
             override fun areItemsTheSame(
                 oldItem: MeetMeData,

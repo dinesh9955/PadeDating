@@ -207,6 +207,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                                 adapter.notifyDataSetChanged()
 
                                 adapter1.submitList(list_data)
+                                adapter1.updateList(userObject._id)
                                 adapter1.notifyDataSetChanged()
 
                             } else {

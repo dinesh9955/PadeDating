@@ -65,7 +65,6 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     lateinit var gso: GoogleSignInOptions
     lateinit var callbackManager: CallbackManager
     val RC_SIGN_IN=120
-    var jsonObject: FacebookEventObject? = null
 
 
     lateinit var googleSignInClient: GoogleSignInClient

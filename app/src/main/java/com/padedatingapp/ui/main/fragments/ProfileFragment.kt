@@ -8,6 +8,7 @@ import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
+import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentProfileBinding
@@ -61,6 +62,12 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
                 AppConstants.USER_PASSWORD,
                 pass
             )
+
+            sharedPref.setString(AppConstants.USER_OBJECT , "")
+
+            val mApplication: PadeDatingApp = requireActivity().applicationContext as PadeDatingApp
+            mApplication.destroySocketListener()
+
             startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
         }

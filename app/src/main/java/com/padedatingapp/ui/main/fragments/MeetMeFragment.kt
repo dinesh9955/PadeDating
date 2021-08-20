@@ -620,7 +620,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
        // Log.e(TAG, "myFoodHistoryA "+model?.firstName)
 
 
-        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model))
+        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model._id))
     }
 
 

@@ -32,6 +32,7 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
 import com.padedatingapp.model.ChatIDModel
+import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
@@ -108,11 +109,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         viewBinding.lifecycleOwner = this
 
 
-
+        removeListerners()
         initComponents()
         initObservables()
-        initializeSockets()
-        joinRoom()
+
+
+            initializeSockets()
+            joinRoom()
+
     }
 
 
@@ -148,10 +152,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
         senderId = ""+userObject._id
+        Log.e(TAG, "senderId "+senderId)
+
         receiverId = ""+person.receiverID
         Log.e(TAG, "receiverId "+receiverId)
 
 
+
+
+        tvName.setOnClickListener {
+            findNavController().navigate(ChatFragmentDirections.actionToOtherProfile(person.receiverID))
+        }
+//        ivUserImageHeader.setOnClickListener {
+//            findNavController().navigate(ChatFragmentDirections.actionToOtherProfile(person.receiverID))
+//        }
 
 
         val options = RequestOptions()
@@ -193,12 +207,15 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //        }
 //        var adapter = ChatListAdapter(this)
         adapter = ChatListAdapter(this)
+
+        adapter.updateList(userObject._id)
         adapter.submitList(main_list)
         adapter.notifyDataSetChanged()
         viewBinding.rvMessageList.adapter = adapter
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.stackFromEnd = true
         viewBinding.rvMessageList.layoutManager = layoutManager
+
 
 
 
@@ -259,11 +276,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun sendMessage(type : String ) {
+
+        Log.e(TAG, "userObject._id "+userObject._id)
+        Log.e(TAG, "person.receiverID "+person.receiverID)
+
         val json = JSONObject()
         json.put("type", type)
-        json.put("id",  senderId)
-        json.put("partner", receiverId)
-//        json.put("bookingId", bookingId?:"")
+        json.put("id",  userObject._id)
+        json.put("partner", person.receiverID)
 
         if(type == "text")
             json.put("message", viewBinding.etTypingMessage.text.toString())
@@ -436,7 +456,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
                 adapter.updateList(userObject._id)
                 adapter.submitList(main_list)
-                 adapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
 
 //                if(list.size == 0){
 //                    viewBinding.likeFloating.visibility = View.GONE
@@ -510,18 +530,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //                val json = JSONObject()
 //                json.put("token", userObject.accessToken?:"")
                 socket.emit("room")
-
-//                Handler().postDelayed({
-//
-//                    roomJoined = true
-//                    if (unsendMessageList?.size ?: 0 > 0) {
-//                        for (i in 0 until unsendMessageList?.size!!)
-//                            socket.emit("sendMessage",
-//                                    JSONObject(PadeDatingApp.gson.toJson(unsendMessageList?.get(i)))
-//                            )
-//                    }
-//                    unsendMessageList?.clear()
-//                }, 500)
+                roomJoined = true
             }
         }
         onDisconnect = Emitter.Listener {
@@ -537,6 +546,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         onNewMessage = Emitter.Listener { args ->
             activity?.runOnUiThread {
+
                 val data: JSONObject = args[0] as JSONObject
 
                 Log.e("onNewMe ", "message $data")
@@ -548,42 +558,16 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
                 main_list.add(chat_message)
 
-               viewBinding.rvMessageList.scrollToPosition(main_list.size - 1)
+                viewBinding.rvMessageList.scrollToPosition(main_list.size - 1)
 
                 adapter.updateList(userObject._id)
                 adapter.submitList(main_list)
 
 
-
-
                 adapter?.notifyDataSetChanged()
 
-//                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), DataItem::class.java)
-//
-//                if (chat_message?.type.equals("text")) {
-//                    if (chat_message?.sender!!.equals(userObject._id)){//(context as BaseActivity).user_obj?.id)) {
-//                        chat_message.typeText = 0
-//                        main_list.add(chat_message)
-//                    } else {
-//                        chat_message.typeText = 1
-//                        main_list.add(chat_message)
-//                    }
-//                }
-//                else
-//                {
-//                    if (chat_message?.sender!!.equals( person.receiverID)){//(context as BaseActivity).user_obj?.id)) {
-//                        chat_message.typeText = 0
-//                        main_list.add(chat_message)
-//                    } else {
-//                        chat_message.typeText = 1
-//                        main_list.add(chat_message)
-//                    }
-//                }
-//                adapter?.notifyDataSetChanged()
+                Log.e("onNewMeXX ", "message $data")
 
-
-//                if (main_list.size > 0)
-//                    binding.rvRecycler.scrollToPosition(main_list.size - 1)
             }
         }
 
@@ -596,6 +580,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         AppSocketListener.getInstance().addOnHandler(SocketUrls.NEW_MESSAGES  , onNewMessage )
     }
 
+    private fun removeListerners() {
+        AppSocketListener.getInstance().restartSocket()
+    }
 
     private fun joinRoom() {
 //        val json = JSONObject()

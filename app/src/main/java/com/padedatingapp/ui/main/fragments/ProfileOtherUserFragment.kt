@@ -1,22 +1,39 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.padedatingapp.R
+import com.padedatingapp.adapter.ChatListAdapter
 import com.padedatingapp.adapter.OtherUserImagesAdapter
+import com.padedatingapp.api.Resource
+import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
+import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentProfileOtherUserBinding
-import com.padedatingapp.model.DocImage
-import com.padedatingapp.model.DummyModel
-import com.padedatingapp.model.MeetMeData
+import com.padedatingapp.model.*
+import com.padedatingapp.ui.main.HomeActivity
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
+import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
+import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
+import com.padedatingapp.vm.MeetMeVM
+import com.padedatingapp.vm.ProfileOtherVM
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.koin.android.ext.android.inject
 
 class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBinding>(),
     OtherUserImagesAdapter.OnItemClickListener {
@@ -26,34 +43,44 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
     }
 
 
+
+    private val profileOtherVM by inject<ProfileOtherVM>()
+    private var progressDialog: CustomProgressDialog? = null
+    private val sharedPref by inject<SharedPref>()
+
+    var userID = ""
+
+
+    private lateinit var adapter2 : OtherUserImagesAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val bundle = arguments
-//
-//        var person  = bundle?.getParcelable<MeetMeData>("meetMeModel") as MeetMeData
-//
-//        Log.e(TAG, "myFoodHistory "+person?.firstName)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = CustomProgressDialog(requireContext())
+
+        viewBinding.lifecycleOwner = this
+
         initComponents()
+        initObservables()
     }
 
     private fun initComponents() {
-      viewBinding.ivBack.setOnClickListener {
-          findNavController().popBackStack()
+        profileOtherVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+
+
+        viewBinding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
       }
 
-        //var list = ArrayList<DummyModel>()
-//        repeat(3) {
-//            list.add(DummyModel())
-//        }
 
-        var adapter2 = OtherUserImagesAdapter(this)
-//        adapter2.submitList(list)
+
+        adapter2 = OtherUserImagesAdapter(this)
+
         adapter2.notifyDataSetChanged()
         viewBinding.rvImagesList.adapter = adapter2
         viewBinding.rvImagesList.layoutManager = LinearLayoutManager(requireContext()).also {
@@ -62,27 +89,14 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
 
 
         val bundle = arguments
+        userID  = bundle?.getString("meetMeModel").toString()
 
-        var person  = bundle?.getParcelable<MeetMeData>("meetMeModel") as MeetMeData
-
-        Log.e(TAG, "myFoodHistory "+person?.firstName)
-
-        Glide.with(requireActivity()).load(person?.image)
-                .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
-
-        tvOtherUserName.text = person.firstName+" "+person.lastName+", "+person.age
-        tvAboutDesc.text = person.description
-        tvEmployementType.text = person.work
+//
+//        var person  = bundle?.getParcelable<MeetMeData>("meetMeModel") as MeetMeData
+//
+//        Log.e(TAG, "myFoodHistory "+person?.firstName)
 
 
-        if(person.isApproved == true){
-            imageViewThik.visibility = View.VISIBLE
-        }else{
-            imageViewThik.visibility = View.INVISIBLE
-        }
-
-
-        adapter2.submitList(person.docImage)
 
 
     }
@@ -100,4 +114,91 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
         super.onResume()
         requireActivity().hideKeyboard()
     }
+
+
+    private fun initObservables() {
+        profileOtherVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
+
+//        meetMeVM.optionChoosen.observe(viewLifecycleOwner) {
+//            showDropDownDialog(it)
+//        }
+
+        profileOtherVM.meetMeResponse.observe(viewLifecycleOwner) {
+            getLiveData(it, "userResponse")
+        }
+
+
+
+
+
+        profileOtherVM.callMeetMeApi(""+userID)
+
+
+
+
+
+    }
+
+
+
+    private fun getLiveData(response: Resource<ResultModel<*>>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "userResponse" -> {
+                        val data = response.data as ResultModel<MeetMeData>
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
+                       // onLoginResponse(data)
+
+                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+
+                            if(response.data != null){
+                                Glide.with(requireActivity()).load(response.data.data?.image)
+                                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+
+                                tvOtherUserName.text = response.data.data?.firstName+" "+ (response.data.data?.lastName) +", "+response.data.data?.age
+                                tvAboutDesc.text = response.data.data?.description
+                                tvEmployementType.text = response.data.data?.work
+
+
+                                if(response.data.data?.isApproved == true){
+                                    imageViewThik.visibility = View.VISIBLE
+                                }else{
+                                    imageViewThik.visibility = View.INVISIBLE
+                                }
+
+
+                                adapter2.submitList(response.data.data?.docImage)
+                            }
+
+
+                        }
+
+
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+
 }

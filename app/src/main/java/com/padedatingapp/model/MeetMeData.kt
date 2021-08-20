@@ -23,7 +23,7 @@ data class MeetMeData(
     val description: String,
     val deviceToken: String,
     val deviceType: String,
-    val docImage: List<DocImage>,
+    val docImage: ArrayList<DocImage>,
     val doyoudrink: String,
     val doyousmoke: String,
     val educationLevel: String,

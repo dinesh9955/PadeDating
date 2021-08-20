@@ -198,7 +198,8 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
 
     override fun onItemClick(model: MeetMeData) {
-        Log.e("Matches Fragment", "onItemClick: " )
+        Log.e(TAG, "onItemClick: " +model.firstName+model.lastName)
+
 
         var userObject =
                 Gson().fromJson(
@@ -228,7 +229,7 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
     override fun onItemClickData(model: MeetMeData) {
 //        findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model))
-        findNavController().navigate(MatchesFragmentDirections.actionToOtherProfile(model))
+        findNavController().navigate(MatchesFragmentDirections.actionToOtherProfile(model._id))
     }
 
 }

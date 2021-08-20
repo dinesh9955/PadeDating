@@ -51,6 +51,7 @@ object AppModule {
         viewModel { MyMatchesVM(get(), get(), get()) }
         viewModel { ChatUserVM(get(), get(), get()) }
         viewModel { ChatVM(get(), get(), get()) }
+        viewModel { ProfileOtherVM(get(), get(), get()) }
 
     }
 
@@ -66,6 +67,8 @@ object AppModule {
         single { GiftCardRepo(get()) }
         single { HomeRepo(get()) }
         single { ChatRepo(get()) }
+        single { ProfileOtherRepo(get()) }
+
 
         factory {
             createWebService<PadeDatingApi>(

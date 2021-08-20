@@ -16,8 +16,14 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
     ListAdapter<ChatUsersData, MatchesAtChatAdapter.MatchesViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
+
+    lateinit var myId: String;
+
     inner class MatchesViewHolder(private val binding: ItemMatchesAtChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+
+
         init {
              binding.root.setOnClickListener {
                  listener.onItemClick(getItem(adapterPosition))
@@ -26,8 +32,18 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
 
         fun bind(model: ChatUsersData) {
             binding.apply {
-                Glide.with(binding.root).load(model.sentTo.image)
-                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivPhoto)
+                if(!model.sentBy._id.equals(myId)){
+                    Glide.with(binding.root).load(model.sentBy.image)
+                            .into(ivPhoto)
+                }
+                if(!model.sentTo._id.equals(myId)){
+                    Glide.with(binding.root).load(model.sentTo.image)
+                            .into(ivPhoto)
+                }
+
+
+//                Glide.with(binding.root).load(model.sentTo.image)
+//                        .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivPhoto)
             }
         }
     }
@@ -66,5 +82,14 @@ class MatchesAtChatAdapter(private val listener: OnItemClickListener) :
     interface OnItemClickListener {
         fun onItemClick(model: ChatUsersData)
     }
+
+
+
+    fun updateList(myId2: String) {
+        myId = myId2
+        notifyDataSetChanged()
+    }
+
+
 
 }

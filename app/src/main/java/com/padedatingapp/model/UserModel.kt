@@ -15,6 +15,7 @@ class UserModel (
     val description: String,
     val deviceToken: String,
     val deviceType: String,
+    val age: Int,
     val docImage: ArrayList<ImageModel>,
     val docNumber: String,
     val doyoudrink: String,

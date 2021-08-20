@@ -26,6 +26,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
     lateinit var myId: String;
 
+
     inner class MyMessagesViewHolder(private val binding: ItemChatOtherUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -131,19 +132,20 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
     }
 
     companion object {
+
         private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<ChatUsersData>() {
             override fun areItemsTheSame(
                 oldItem: ChatUsersData,
                 newItem: ChatUsersData
             ): Boolean {
-                TODO("Not yet implemented")
+                return true
             }
 
             override fun areContentsTheSame(
                 oldItem: ChatUsersData,
                 newItem: ChatUsersData
             ): Boolean {
-                TODO("Not yet implemented")
+                return true
             }
         }
     }

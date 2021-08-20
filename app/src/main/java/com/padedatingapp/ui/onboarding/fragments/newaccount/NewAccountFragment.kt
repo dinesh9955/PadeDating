@@ -33,7 +33,6 @@ import com.padedatingapp.databinding.FragmentNewAccountBinding
 import com.padedatingapp.model.OtpData
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
-import com.padedatingapp.ui.onboarding.fragments.login.FacebookEventObject
 import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -44,7 +43,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.ui.main.HomeActivity
-import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -60,7 +58,6 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
     lateinit var gso: GoogleSignInOptions
     lateinit var callbackManager: CallbackManager
     val RC_SIGN_IN=120
-    var jsonObject: FacebookEventObject? = null
 
 
     lateinit var googleSignInClient: GoogleSignInClient
