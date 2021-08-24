@@ -112,19 +112,12 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                     var cms: Double = inc * 2.54
 
 
-                    aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                    aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                 }
 
 
 
 
-
-                var fit: Int = userObject.height.split(" ")[0].toInt() * 12
-                var inc: Int = userObject.height.split(" ")[1].toInt() + fit
-                var cms: Double = inc * 2.54
-
-
-                aboutMeVM.etCm.value = "Height in cm: "+cms.toString()
 
 
                 aboutMeVM.doYouSmoke.value = userObject.doyousmoke.toUpperCase()
@@ -408,7 +401,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                             var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
                             var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
                             var cms: Double = inc * 2.54
-                            aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                         }.show()
 
                 }
@@ -421,7 +414,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                             var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
                             var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
                             var cms: Double = inc * 2.54
-                            aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                         }.show()
                 }
                 "education" -> {
