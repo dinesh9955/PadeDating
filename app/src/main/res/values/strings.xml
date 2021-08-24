@@ -75,9 +75,10 @@
     </string-array>
 
     <string-array name="education_array">
-        <item>Graduate</item>
+        <item>High School</item>
+        <item>Under Graduate</item>
         <item>Post Graduate</item>
-        <item>Other</item>
+        <item>Prefer Not to Say</item>
     </string-array>
 
 
@@ -159,6 +160,7 @@
     <string name="submit">Submit</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="private_secondary_images_or_videos">Private/Secondary Images or Videos</string>
+    <string name="job_title">What is your job title</string>
     <string name="about_me">About Me</string>
     <string name="lorem_ipsum_about_me">Add something about you</string>
     <string name="origin_or_ethnicity">Origin / Ethnicity</string>
@@ -289,6 +291,7 @@
     <string name="please_select_origin_ethnicity">Please select Origin/Ethnicity</string>
     <string name="please_select_work">Please select Work</string>
     <string name="please_select_dating_pref">Please select Dating Preference</string>
+    <string name="please_select_job_title">Please select job title</string>
     <string name="please_select_religous_beliefs">Please select Religious Beliefs</string>
     <string name="please_select_childern">Please select your childern</string>
     <string name="password_recovery">Password Recovery</string>

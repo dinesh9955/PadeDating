@@ -140,7 +140,8 @@
                     android:id="@+id/facebookImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_facebook_button" />
+                    android:src="@drawable/ic_facebook_button"
+                    android:layout_marginHorizontal="@dimen/_18sdp"/>
 
                 <ImageView
                     android:id="@+id/googleImage"
@@ -153,7 +154,8 @@
                     android:id="@+id/instagramImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_instagram_button" />
+                    android:src="@drawable/ic_instagram_button"
+                    android:visibility="gone"/>
             </TableRow>
 
             <TableRow

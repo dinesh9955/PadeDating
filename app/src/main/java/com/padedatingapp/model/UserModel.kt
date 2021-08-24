@@ -53,8 +53,8 @@ class UserModel (
     val work: String,
     var profileStatus:Int,
     val interestedIn: String,
-    val totalPoints: String
-
+    val totalPoints: String,
+    val childern: String
 
 )
 

@@ -28,6 +28,7 @@ class AboutMeVM(
     var token = ""
 
     var etAboutMe = MutableLiveData("")
+   // var etJobTitle = MutableLiveData("")
     var religiousBeliefs = MutableLiveData("")
     var childern = MutableLiveData("")
     var work = MutableLiveData("")
@@ -41,6 +42,8 @@ class AboutMeVM(
     var optionChoosen =  SingleLiveEvent<String>()
     var feet =  MutableLiveData("2")
     var inches =  MutableLiveData("0")
+
+    var etCm = MutableLiveData("")
 
 //    var male = MutableLiveData("")
 //    var female = MutableLiveData("")
@@ -56,7 +59,6 @@ class AboutMeVM(
 
     fun onClick(type: String) {
        when(type){
-
            "ethnicity"->{optionChoosen.value = "ethnicity"}
            "work"->{optionChoosen.value = "work"}
            "education"->{optionChoosen.value = "education"}
@@ -72,39 +74,47 @@ class AboutMeVM(
                        errorMessage.value = resourceProvider.getString(R.string.about_me)
                    }
 
-                   originEthnicity.value.toString().trim().isEmpty() -> {
-                       errorMessage.value = resourceProvider.getString(R.string.please_select_origin_ethnicity)
-                   }
-                   educationLevel.value.toString().trim().isEmpty() -> {
-                       errorMessage.value = resourceProvider.getString(R.string.please_enter_education_level)
-                   }
-
-                   work.value.toString().trim().isEmpty() -> {
-                       errorMessage.value = resourceProvider.getString(R.string.please_select_work)
-                   }
+//                   originEthnicity.value.toString().trim().isEmpty() -> {
+//                       errorMessage.value = resourceProvider.getString(R.string.please_select_origin_ethnicity)
+//                   }
 
                    datingPreference.value.toString().trim().isEmpty() -> {
                        errorMessage.value = resourceProvider.getString(R.string.please_select_dating_pref)
                    }
 
+                   educationLevel.value.toString().trim().isEmpty() -> {
+                       errorMessage.value = resourceProvider.getString(R.string.please_enter_education_level)
+                   }
+
+//                   work.value.toString().trim().isEmpty() -> {
+//                       errorMessage.value = resourceProvider.getString(R.string.please_select_work)
+//                   }
+
+
+
+                   work.value.toString().trim().isEmpty() -> {
+                       errorMessage.value = resourceProvider.getString(R.string.please_select_job_title)
+                   }
+
                    religiousBeliefs.value.toString().trim().isEmpty() -> {
                        errorMessage.value = resourceProvider.getString(R.string.please_select_religous_beliefs)
                    }
-//
-//                   childern.value.toString().trim().isEmpty() -> {
-//                       errorMessage.value = resourceProvider.getString(R.string.please_select_childern)
-//                   }
+
+                   childern.value.toString().trim().isEmpty() -> {
+                       errorMessage.value = resourceProvider.getString(R.string.please_select_childern)
+                   }
 
                    else ->{
                        val jsonObj = JsonObject()
                        jsonObj.addProperty("description", "${etAboutMe.value}")
                        jsonObj.addProperty("height", "${feet.value} ${inches.value}")
-                       jsonObj.addProperty("ethnicity", originEthnicity.value)
+                     //  jsonObj.addProperty("ethnicity", originEthnicity.value)
                        jsonObj.addProperty("educationLevel", educationLevel.value)
+                      // jsonObj.addProperty("work", work.value)
                        jsonObj.addProperty("work", work.value)
                        jsonObj.addProperty("datingPreference", datingPreference.value)
                        jsonObj.addProperty("religiousBelief", religiousBeliefs.value)
-                     //  jsonObj.addProperty("childern", childern.value)
+                       jsonObj.addProperty("childern", childern.value)
                        jsonObj.addProperty("doyoudrink", doYouDrink.value)
                        jsonObj.addProperty("doyousmoke", doYouSmoke.value)
                        jsonObj.addProperty("interestedIn", interesedIn.value)

@@ -452,10 +452,14 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         if(filter.equals("filter")){
             var interest = sharedPref.getString("interest")
             var address = sharedPref.getString("address")
-            var employment = sharedPref.getString("employment")
+            var dating_prefences = sharedPref.getString("dating_prefences")
+//            var employment = sharedPref.getString("employment")
             var age = sharedPref.getInt("age")
             var distance = sharedPref.getInt("distance")
 
+
+            jsonObj.addProperty("interest", interest)
+            jsonObj.addProperty("datingPreference", dating_prefences)
             jsonObj.addProperty("gender", interest)
             jsonObj.addProperty("distance",distance)
             jsonObj.addProperty("age", age)

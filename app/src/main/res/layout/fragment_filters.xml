@@ -217,6 +217,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:text="@string/Employment"
+            android:visibility="gone"
             />
 
 
@@ -227,7 +228,7 @@
             android:fontFamily="@font/rubik"
             android:textSize="15sp"
             android:textColor="@color/colorBlack"
-
+            android:visibility="gone"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@id/textEmployment"
             android:layout_marginHorizontal="@dimen/_20sdp"

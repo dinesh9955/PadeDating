@@ -96,14 +96,35 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                     aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
                 }
 
-//            if(!userObject.religiousBelief.equals("")){
-//                aboutMeVM.religiousBeliefs.value = userObject.religiousBelief.substring(0, 1).toUpperCase() + userObject.religiousBelief.substring(1).toLowerCase()
-//            }
+                if(!userObject.childern.equals("")){
+                    aboutMeVM.childern.value = userObject.childern.substring(0, 1).toUpperCase() + userObject.childern.substring(1).toLowerCase()
+                }
 
                 if(!userObject.height.equals("")){
                     aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
-                    aboutMeVM.inches.value = userObject.height.split(" ")[0].toUpperCase()
+                    aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
+
+                   // aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
+
+
+                    var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                    var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                    var cms: Double = inc * 2.54
+
+
+                    aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                 }
+
+
+
+
+
+                var fit: Int = userObject.height.split(" ")[0].toInt() * 12
+                var inc: Int = userObject.height.split(" ")[1].toInt() + fit
+                var cms: Double = inc * 2.54
+
+
+                aboutMeVM.etCm.value = "Height in cm: "+cms.toString()
 
 
                 aboutMeVM.doYouSmoke.value = userObject.doyousmoke.toUpperCase()
@@ -352,7 +373,7 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                         }.show()
                 }
                 "dating_pref" -> {
-                    list = resources.getStringArray(R.array.dating_pref_array)
+                    list = resources.getStringArray(R.array.dating_prefences_array)
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.dating_pref))
                         .setItems(list) { _, which ->
@@ -384,6 +405,10 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                         .setTitle(resources.getString(R.string.feet))
                         .setItems(list) { _, which ->
                             aboutMeVM.feet.value = list[which]
+                            var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                            var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                            var cms: Double = inc * 2.54
+                            aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                         }.show()
 
                 }
@@ -393,6 +418,10 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                         .setTitle(resources.getString(R.string.inch))
                         .setItems(list) { _, which ->
                             aboutMeVM.inches.value = list[which]
+                            var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                            var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                            var cms: Double = inc * 2.54
+                            aboutMeVM.etCm.value = "Height in cm: "+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
                         }.show()
                 }
                 "education" -> {

@@ -53,25 +53,25 @@
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints" />
-
+                    tools:ignore="MissingConstraints"
+                    android:layout_marginTop="@dimen/_10sdp"/>
 
 
                 <TextView
-                    android:id="@+id/tvOrigin"
+                    android:id="@+id/tvDatingPref"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="@dimen/_18sdp"
                     android:layout_marginTop="15dp"
-                    android:textColor="@color/colorBlack"
                     android:background="@drawable/bg_round_edge_white"
                     android:drawableEnd="@drawable/ic_dropdown"
                     android:fontFamily="@font/rubik"
-                    android:text="@={vm.originEthnicity}"
                     android:gravity="center_vertical|start"
-                    android:hint="@string/origin_or_ethnicity"
+                    android:text="@={vm.datingPreference}"
+                    android:textColor="@color/colorBlack"
+                    android:hint="@string/dating_pref"
                     android:maxLines="1"
-                    android:onClick="@{()->vm.onClick(`ethnicity`)}"
+                    android:onClick="@{()->vm.onClick(`dating_pref`)}"
                     android:paddingHorizontal="@dimen/_18sdp"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -80,6 +80,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/etAboutMe" />
+
+
 
                 <EditText
                     android:id="@+id/tvEducationLevel"
@@ -106,7 +108,58 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvOrigin" />
+                    app:layout_constraintTop_toBottomOf="@id/tvDatingPref" />
+
+
+
+                <EditText
+                    android:id="@+id/etJobTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:fontFamily="@font/rubik"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/job_title"
+                    android:text="@={vm.work}"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvEducationLevel"/>
+
+
+
+                <TextView
+                    android:id="@+id/tvOrigin"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:background="@drawable/bg_round_edge_white"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:fontFamily="@font/rubik"
+                    android:text="@={vm.originEthnicity}"
+                    android:gravity="center_vertical|start"
+                    android:hint="@string/origin_or_ethnicity"
+                    android:maxLines="1"
+                    android:onClick="@{()->vm.onClick(`ethnicity`)}"
+                    android:paddingHorizontal="@dimen/_18sdp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etJobTitle"
+                    />
+
 
 
                 <TextView
@@ -128,35 +181,11 @@
                     android:singleLine="true"
                     android:textAlignment="viewStart"
                     android:textSize="15sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvEducationLevel" />
+                    app:layout_constraintTop_toBottomOf="@id/tvOrigin" />
 
-                <TextView
-                    android:id="@+id/tvDatingPref"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginHorizontal="@dimen/_18sdp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/bg_round_edge_white"
-                    android:drawableEnd="@drawable/ic_dropdown"
-                    android:fontFamily="@font/rubik"
-                    android:gravity="center_vertical|start"
-                    android:text="@={vm.datingPreference}"
-                    android:textColor="@color/colorBlack"
-
-                    android:hint="@string/dating_pref"
-                    android:maxLines="1"
-                    android:onClick="@{()->vm.onClick(`dating_pref`)}"
-                    android:paddingHorizontal="@dimen/_18sdp"
-                    android:singleLine="true"
-                    android:textAlignment="viewStart"
-                    android:textSize="15sp"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvWork" />
 
                 <TextView
                     android:id="@+id/tvReligious"
@@ -180,7 +209,7 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDatingPref" />
+                    app:layout_constraintTop_toBottomOf="@id/tvWork" />
 
 
                 <TextView
@@ -202,7 +231,6 @@
                     android:singleLine="true"
                     android:textAlignment="viewStart"
                     android:textSize="15sp"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvReligious"
@@ -286,6 +314,25 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvChildern" />
 
+
+
+
+                <TextView
+                    android:id="@+id/textHightCm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/rubik"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@={vm.etCm}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFeet" />
+
+
                 <TextView
                     android:id="@+id/textDoYouSmoke"
                     android:layout_width="wrap_content"
@@ -299,7 +346,7 @@
                     android:textSize="15sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFeet" />
+                    app:layout_constraintTop_toBottomOf="@id/textHightCm" />
 
                 <RadioGroup
                     android:id="@+id/rgSmoke"
