@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1038386550237-jrv6v5tg1m7v5nctv6kfe00ahab2h3ki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.padedatingapp",
+            "certificate_hash": "07b78e6b2ecbc4070e8c0c001c33b2516ab1851a"
+          }
+        },
+        {
           "client_id": "1038386550237-rogmudchi5lvtk65teib4t6o6q8otj4s.apps.googleusercontent.com",
           "client_type": 3
         }

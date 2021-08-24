@@ -79,15 +79,15 @@ class LoginVM(
                         _errorMessage.value =
                             resourceProvider.getString(R.string.email_should_not_contain_white_spaces)
                     }
-//                    email.value.toString().trim().isEmpty() || !email.value.toString()
-//                        .matches(Regex(emailPattern)) -> {
-//                        _errorMessage.value =
-//                            resourceProvider.getString(R.string.please_enter_valid_email)
-//                    }
-//                    password.value.toString().trim().isEmpty() -> {
-//                        _errorMessage.value =
-//                            resourceProvider.getString(R.string.please_enter_valid_password)
-//                    }
+                    email.value.toString().trim().isEmpty() || !email.value.toString()
+                        .matches(Regex(emailPattern)) -> {
+                        _errorMessage.value =
+                            resourceProvider.getString(R.string.please_enter_valid_email)
+                    }
+                    password.value.toString().trim().isEmpty() -> {
+                        _errorMessage.value =
+                            resourceProvider.getString(R.string.please_enter_valid_password)
+                    }
                     else -> {
                         val jsonObj = JsonObject()
                         jsonObj.addProperty("email", email.value)
@@ -112,15 +112,15 @@ class LoginVM(
                             resourceProvider.getString(R.string.please_enter_valid_phone_number)
 
                     }
-//                    phoneNo.value.toString().length < 7 -> {
-//                        _errorMessage.value =
-//                            resourceProvider.getString(R.string.phone_length_should_be_greater_than_7_characters)
-//
-//                    }
-//                    password.value.toString().trim().isEmpty() -> {
-//                        _errorMessage.value =
-//                            resourceProvider.getString(R.string.please_enter_valid_password)
-//                    }
+                    phoneNo.value.toString().length < 7 -> {
+                        _errorMessage.value =
+                            resourceProvider.getString(R.string.phone_length_should_be_greater_than_7_characters)
+
+                    }
+                    password.value.toString().trim().isEmpty() -> {
+                        _errorMessage.value =
+                            resourceProvider.getString(R.string.please_enter_valid_password)
+                    }
                     else-> {
                         val jsonObj = JsonObject()
                         jsonObj.addProperty("phoneNo", phoneNo.value)

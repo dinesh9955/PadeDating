@@ -12,6 +12,7 @@ import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.OtpData
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,7 +24,7 @@ class ForgotPasswordVM(
     private val forgotPasswordRepo: ForgotPasswordRepo
 ) : ViewModel() {
     var verifyOtpResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
-    var forgotPasswordResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+    var forgotPasswordResponse = SingleLiveEvent<Resource<OtpForgotMain>>()
     var sendOtpResponse = SingleLiveEvent<Resource<ResultModel<OtpData>>>()
     var countryCode = ""
     var verificationType = "phone"
@@ -77,7 +78,6 @@ class ForgotPasswordVM(
                     else -> callForgotPasswordApi()
                 }
             }
-
         }
     }
 

@@ -3,6 +3,7 @@ package com.padedatingapp.api
 import com.padedatingapp.model.*
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.user.UpdateModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -70,7 +71,7 @@ interface PadeDatingApi {
     @POST(NetworkUrls.FORGOT_PASSWORD)
     suspend fun forgotPassword(
         @Body body: RequestBody
-    ): ResultModel<UserModel>
+    ): OtpForgotMain
 
     @POST(NetworkUrls.RESET_PASSWORD)
     suspend fun resetPassword(

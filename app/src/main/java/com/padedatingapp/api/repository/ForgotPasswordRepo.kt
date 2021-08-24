@@ -4,6 +4,7 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.*
+import com.padedatingapp.model.otp.OtpForgotMain
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +20,7 @@ class ForgotPasswordRepo @Inject constructor(private val padeApi: PadeDatingApi)
         return handleException { padeApi.verifyOtp(requestBody)}
     }
 
-    suspend fun forgotPassword(requestBody: RequestBody): Resource<ResultModel<UserModel>> {
+    suspend fun forgotPassword(requestBody: RequestBody): Resource<OtpForgotMain> {
         return handleException { padeApi.forgotPassword(requestBody)}
     }
 

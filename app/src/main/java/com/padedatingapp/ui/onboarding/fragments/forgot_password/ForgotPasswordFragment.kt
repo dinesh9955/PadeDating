@@ -16,6 +16,7 @@ import com.padedatingapp.databinding.FragmentForgotPasswordBinding
 import com.padedatingapp.model.OtpData
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.getFormattedCountDownTimer
 import com.padedatingapp.utils.hideKeyboard
@@ -107,8 +108,12 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
 
     private fun initObservables() {
         forgotPasswordVM._errorMessage.observe(viewLifecycleOwner) {
-            if (it != "")
-                toast(it)
+            if (it != ""){
+//                if(!it.equals("null")){
+                    toast(it)
+//                }
+            }
+
         }
         forgotPasswordVM.sendOtpResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "sendOtpResponse")
@@ -119,7 +124,10 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
         }
 
         forgotPasswordVM.forgotPasswordResponse.observe(viewLifecycleOwner) {
-            getLiveData(it, "forgotPasswordResponse")
+            getLiveDataForgot(it, "forgotPasswordResponse")
+           // toast(it.data.toString())
+
+
         }
     }
 
@@ -141,7 +149,44 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
                     }
 
                     "forgotPasswordResponse" -> {
+                        var data = response.data as? ResultModel<OtpData>
+                       // onForgotPasswordResponse(data)
+                    }
+
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+
+    }
+
+
+
+    private fun getLiveDataForgot(response: Resource<OtpForgotMain>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+                when (type) {
+                    "sendOtpResponse" -> {
+                        var data = response.data as? ResultModel<OtpData>
+                        onSendOtpResponse(data)
+                    }
+                    "verifyOtpResponse" -> {
                         var data = response.data as? ResultModel<UserModel>
+                        onVerifyOtpResponse(data)
+                    }
+
+                    "forgotPasswordResponse" -> {
+                        var data = response.data as? OtpForgotMain
                         onForgotPasswordResponse(data)
                     }
 
@@ -158,7 +203,10 @@ class ForgotPasswordFragment : DataBindingFragment<FragmentForgotPasswordBinding
 
     }
 
-    private fun onForgotPasswordResponse(data: ResultModel<UserModel>?) {
+
+
+
+    private fun onForgotPasswordResponse(data: OtpForgotMain?) {
         data?.let {
             if (it.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && it.success) {
                 viewBinding.otpView.setText("")
