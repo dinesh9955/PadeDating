@@ -8,7 +8,7 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.remote.NetworkConnectionInterceptor
 import com.padedatingapp.api.repository.*
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.ui.main.fragments.edit_profile.EditProfileVM
+import com.padedatingapp.vm.EditProfileVM
 import com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeVM
 import com.padedatingapp.ui.onboarding.fragments.create_account.CreateAccountVM
 import com.padedatingapp.ui.onboarding.fragments.forgot_password.ForgotPasswordVM
@@ -52,6 +52,8 @@ object AppModule {
         viewModel { ChatUserVM(get(), get(), get()) }
         viewModel { ChatVM(get(), get(), get()) }
         viewModel { ProfileOtherVM(get(), get(), get()) }
+        viewModel { ChangePasswordVM(get(), get(), get()) }
+
 
     }
 

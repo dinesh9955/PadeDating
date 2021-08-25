@@ -337,7 +337,7 @@
                 android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:padding="@dimen/_10sdp"
-                android:text="@string/settings"
+                android:text="@string/change_password"
                 android:textColor="@color/colorBlack"
                 android:textSize="15sp"
                 android:textStyle="normal" />

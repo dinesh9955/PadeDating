@@ -171,6 +171,15 @@
         </action>
 
         <action
+            android:id="@+id/action_to_changePassword_fragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
             android:id="@+id/action_to_edit_profile_fragment"
             app:destination="@id/editProfileFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -351,8 +360,14 @@
     </fragment>
 
     <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password"></fragment>
+
+
+    <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.padedatingapp.ui.main.fragments.edit_profile.EditProfileFragment"
+        android:name="com.padedatingapp.ui.main.fragments.EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile"></fragment>
 
 

@@ -79,6 +79,14 @@ interface PadeDatingApi {
         @Body body: RequestBody
     ): ResultModel<UserModel>
 
+    @POST(NetworkUrls.CHANGE_PASSWORD)
+    suspend fun changePassword(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): OtpForgotMain
+
+
+
     @POST(NetworkUrls.StaffByCategory)
     suspend fun staffByCategory(
         @Header("Authorization") token: String,

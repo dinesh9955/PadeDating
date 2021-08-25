@@ -28,5 +28,7 @@ class ForgotPasswordRepo @Inject constructor(private val padeApi: PadeDatingApi)
         return handleException { padeApi.resetPassword(token, requestBody)}
     }
 
-
+    suspend fun changePassword(token:String,requestBody: RequestBody): Resource<OtpForgotMain> {
+        return handleException { padeApi.changePassword(token, requestBody)}
+    }
 }

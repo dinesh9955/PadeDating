@@ -11,6 +11,7 @@ object NetworkUrls {
     const val UPLOAD_FILE = "api/v1/user/uploadFile"
     const val CHECK_USERNAME = "api/v1/user/checkusername"
     const val RESET_PASSWORD = "api/v1/user/resetPassword"
+    const val CHANGE_PASSWORD = "api/v1/user/changePassword"
     const val PROFILE_SETUP = "api/v1/user/profileSetup" //create new account
     const val StaffByCategory = "api/v1/Customer/StaffByCategory" //create new account
     const val giftCards = "api/v1/admin/giftCards"

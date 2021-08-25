@@ -21,9 +21,9 @@ class PlayerActivity : DataBindingActivity<ActivityPlayerBinding>() {
     private lateinit var simpleExoPlayer: SimpleExoPlayer
     private lateinit var mediaDataSourceFactory: DataSource.Factory
     override fun layoutId(): Int = R.layout.activity_player
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       
     }
 
     private fun initPlayerComponents() {

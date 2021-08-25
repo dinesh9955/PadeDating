@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.padedatingapp.ui.main.fragments.edit_profile.EditProfileVM" />
+            type="com.padedatingapp.vm.EditProfileVM" />
     </data>
 
     <RelativeLayout

@@ -93,6 +93,12 @@
             android:name=".CustomCameraActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".xyz"
+            android:screenOrientation="portrait" >
+
+        </activity>
+
 
         <activity
             android:name=".ui.MainActivity"

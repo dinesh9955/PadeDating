@@ -35,6 +35,10 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment("Edit Info"))
         }
 
+        viewBinding.tvSetting.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionToChangePasswordFragment())
+        }
+
         viewBinding.tvLogout.setOnClickListener {
             var email = ""
             var phone = ""
