@@ -54,7 +54,7 @@ class PadeDatingApp : Application() {
             Log.e(TAG, "getMessage3 " + e.message)
         }
 
-       // initializeSocket(applicationContext)
+        initializeSocket(applicationContext)
 
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
