@@ -16,13 +16,14 @@ public class SocketUrls {
 
     public static final String socketConnection = "socket.connection";
     public static final String connectionFailure = "failedToConnect";
-    public static final String CHAT_SERVER_URL = "http://dev.webdevelopmentsolution.net:3004/";
+    public static final String CHAT_SERVER_URL = "https://dev.webdevelopmentsolution.net:3004/";
     public static final String NEW_MESSAGES="newMessage";
     public static final String SEND_MESSAGE="sendMessage";
+    public static final String JOIN_ROOM = "room";
 
     public static final String UPDATE_LOCATION="updateLocation";  //SP
     public static final String LAT_LONG_UPDATES="updateLocations"; //CU
-    public static final String JOIN_ROOM = "room";
+
 
 
 

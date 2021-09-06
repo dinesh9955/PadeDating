@@ -109,7 +109,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         viewBinding.lifecycleOwner = this
 
 
-        removeListerners()
+
+
+        AppSocketListener.getInstance().restartSocket()
+
         initComponents()
         initObservables()
 
@@ -399,6 +402,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         if (isConnected) {
             if (!socket.connected()) {
                 socket.connect()
+
                 Log.e("Socket", " socket ${socket.connected()}")
             }
         } else {
@@ -530,19 +534,23 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //                val json = JSONObject()
 //                json.put("token", userObject.accessToken?:"")
                 socket.emit("room")
+            //    socket.emit("online", "true")
                 roomJoined = true
+                Log.e(TAG, "")
             }
         }
-        onDisconnect = Emitter.Listener {
-            activity?.runOnUiThread {
-                Log.e("onDisconnect", "onDisconnect")
-                //showMessage(data.toString())
-                //addUser = false
-                roomJoined = false
-                socket.connect()
-                Log.e("Socket", " socket ${socket.connected()}")
-            }
-        }
+
+
+//        onDisconnect = Emitter.Listener {
+//            activity?.runOnUiThread {
+//                Log.e("onDisconnect", "onDisconnect")
+//                //showMessage(data.toString())
+//                //addUser = false
+//                roomJoined = false
+//                socket.connect()
+//                Log.e("Socket", " socket ${socket.connected()}")
+//            }
+//        }
 
         onNewMessage = Emitter.Listener { args ->
             activity?.runOnUiThread {

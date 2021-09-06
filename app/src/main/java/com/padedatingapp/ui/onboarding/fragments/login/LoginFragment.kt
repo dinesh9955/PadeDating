@@ -487,8 +487,6 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
         if(googleSignInClient != null){
             googleSignInClient.signOut();
         }
-
-
     }
 
 

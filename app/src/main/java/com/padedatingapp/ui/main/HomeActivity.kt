@@ -13,6 +13,7 @@ import com.padedatingapp.base.DataBindingActivity
 import com.padedatingapp.databinding.ActivityHomeBinding
 import com.padedatingapp.extensions.onNavDestinationSelected
 import com.padedatingapp.model.ChatIDModel
+import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.ui.main.fragments.ChatFragment
 import com.padedatingapp.ui.main.fragments.MessagesFragment
 import com.padedatingapp.ui.main.fragments.MessagesFragmentDirections
@@ -34,6 +35,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         mApplication.initializeSocket(applicationContext)
 
         initComponents()
+
+        AppSocketListener.getInstance().restartSocket()
     }
 
     private fun initComponents() {

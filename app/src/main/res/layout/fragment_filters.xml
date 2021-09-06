@@ -269,7 +269,7 @@
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:text="18-30"
                 app:layout_constraintEnd_toEndOf="parent"
-
+                android:visibility="gone"
                 />
 
 

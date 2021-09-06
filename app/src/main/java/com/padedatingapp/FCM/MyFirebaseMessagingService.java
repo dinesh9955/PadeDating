@@ -73,11 +73,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData());
 
-                String body = json.getString("body");
+                Log.e(TAG, "DatajsonPayload: " + json.toString());
 
-                String data = json.getString("data");
+                String body = json.getString("rawMsg");
+//
+//                String data = json.getString("data");
 
-                JSONObject jsonObject = new JSONObject(data);
+                JSONObject jsonObject = new JSONObject(json.toString());
 
                 Log.e(TAG, "Data Payload1: " + jsonObject.toString());
 
