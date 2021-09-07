@@ -27,6 +27,7 @@ import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
 import com.padedatingapp.R;
 import com.padedatingapp.base.BaseActivity;
+import com.padedatingapp.model.CallData;
 import com.padedatingapp.model.call.CallUser;
 import com.padedatingapp.ui.call.network.APIService;
 import com.padedatingapp.ui.call.network.GetSessionResponse;
@@ -62,7 +63,7 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
     private FrameLayout publisherViewContainer;
     private FrameLayout subscriberViewContainer;
 
-    CallUser callUser;
+    CallData callUser;
 
     TextView textViewCall;
     ImageView imageViewAudio, imageViewVideo;
@@ -103,26 +104,26 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
         Bundle bundle = getIntent().getExtras();
 
-        callUser = (CallUser) bundle.getSerializable("key");
+        callUser = (CallData) bundle.getSerializable("key");
 
 
         if(callUser != null){
-            if(callUser.getData().getCallType().equalsIgnoreCase("audio")){
+            if(callUser.getCallType().equalsIgnoreCase("audio")){
                 linearLayoutAudio.setVisibility(View.VISIBLE);
                 linearLayoutVideo.setVisibility(View.GONE);
-            } else if(callUser.getData().getCallType().equalsIgnoreCase("video")){
+            } else if(callUser.getCallType().equalsIgnoreCase("video")){
                 linearLayoutAudio.setVisibility(View.GONE);
                 linearLayoutVideo.setVisibility(View.VISIBLE);
             }
 
-            textViewUser.setText(""+callUser.getData().getUser2().getFirstName()+" "+callUser.getData().getUser2().getLastName());
+            textViewUser.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
 
            // options.placeholder(R.drawable.user_circle_1179465)
             RequestOptions options = new RequestOptions();
             options.centerCrop();
             options.placeholder(R.drawable.user_circle_1179465);
 
-            Glide.with(VideoCallActivity.this).load(callUser.getData().getUser2().getImage())
+            Glide.with(VideoCallActivity.this).load(callUser.getUser2Image())
                     .apply(options).into(imageViewUser);
 
         }
@@ -332,11 +333,11 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
 //                initializeSession(OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN);
                 if(callUser != null){
-                    Log.e(TAG, "callUser.getData().getApikey() "+callUser.getData().getApikey());
-                    Log.e(TAG, "callUser.getData().getSessionId() "+callUser.getData().getSessionId());
-                    Log.e(TAG, "callUser.getData().getToken() "+callUser.getData().getToken());
+                    Log.e(TAG, "callUser.getData().getApikey() "+callUser.getApikey());
+                    Log.e(TAG, "callUser.getData().getSessionId() "+callUser.getSessionId());
+                    Log.e(TAG, "callUser.getData().getToken() "+callUser.getToken());
 
-                    initializeSession(callUser.getData().getApikey(), callUser.getData().getSessionId(), callUser.getData().getToken());
+                    initializeSession(callUser.getApikey(), callUser.getSessionId(), callUser.getToken());
                 }
 
             }

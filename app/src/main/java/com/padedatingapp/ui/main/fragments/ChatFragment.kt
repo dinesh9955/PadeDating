@@ -31,6 +31,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
+import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.UserModel
@@ -527,16 +528,30 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                         val data = response.data as CallUser
                         Log.e(TAG, "dataAAC "+data.toString())
 
+                        val dataCallData = CallData()
+                        dataCallData.apikey = data.data.apikey
+                        dataCallData.sessionId = data.data.sessionId
+                        dataCallData.token = data.data.token
+                        dataCallData.user1FirstName = data.data.user1.firstName
+                        dataCallData.user1LastName = data.data.user1.lastName
+                        dataCallData.user1Image = data.data.user1.image
+                        dataCallData.user2FirstName = data.data.user2.firstName
+                        dataCallData.user2LastName = data.data.user2.lastName
+                        dataCallData.user2Image = data.data.user2.image
+
+
                         if(data.data.callType.equals("audio")){
+                            dataCallData.callType = "audio"
                             var intent = Intent(requireContext(), VideoCallActivity::class.java)
                             var bundle = Bundle()
-                            bundle.putSerializable("key", data);
+                            bundle.putSerializable("key", dataCallData);
                             intent.putExtras(bundle)
                             startActivity(intent)
                         }else if(data.data.callType.equals("video")){
+                            dataCallData.callType = "video"
                             var intent = Intent(requireContext(), VideoCallActivity::class.java)
                             var bundle = Bundle()
-                            bundle.putSerializable("key", data);
+                            bundle.putSerializable("key", dataCallData);
                             intent.putExtras(bundle)
                             startActivity(intent)
                         }

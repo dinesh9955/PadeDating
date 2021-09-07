@@ -365,7 +365,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:text="10km-30km"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
         <TextView
             android:id="@+id/textmaxDistance"

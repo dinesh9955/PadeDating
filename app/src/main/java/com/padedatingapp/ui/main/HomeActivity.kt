@@ -13,6 +13,7 @@ import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingActivity
 import com.padedatingapp.databinding.ActivityHomeBinding
 import com.padedatingapp.extensions.onNavDestinationSelected
+import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.sockets.AppSocketListener
@@ -100,13 +101,27 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
             }
 
             if (type.equals("VIDEO_CALL", ignoreCase = true)) {
-                val gson = Gson()
-                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
-                val topicData = topic.data
-                topicData.callType = "video"
+                val callData2 = JSONObject(jsonObject.getString("callData"))
+                val user1 = JSONObject(jsonObject.getString("user1"))
+                val user2 = JSONObject(jsonObject.getString("user2"))
+                val dataCallData = CallData()
+                dataCallData.apikey = callData2.getString("apikey")
+                dataCallData.sessionId = callData2.getString("sessionId")
+                dataCallData.token = callData2.getString("token")
+                dataCallData.user1FirstName = user1.getString("firstName")
+                dataCallData.user1LastName = user1.getString("lastName")
+                dataCallData.user1Image = user1.getString("image")
+                dataCallData.user2FirstName = user2.getString("firstName")
+                dataCallData.user2LastName = user2.getString("lastName")
+                dataCallData.user2Image = user2.getString("image")
+
+//                val gson = Gson()
+//                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
+//                val topicData = topic.data
+                dataCallData.callType = "video"
                 var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
                 var bundle = Bundle()
-                bundle.putSerializable("key", topic);
+                bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)
                 startActivity(intent)
 
