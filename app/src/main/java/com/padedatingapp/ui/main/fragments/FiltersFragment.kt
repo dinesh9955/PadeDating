@@ -112,6 +112,8 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             if (minValue != null && maxValue != null) {
                 age = maxValue.toInt()
                 viewBinding.tvAge.text = "${minValue.toInt()} - ${maxValue.toInt()}"
+                viewBinding.textminAge.text = "${minValue.toInt()}"
+                viewBinding.textmaxAge.text = "${maxValue.toInt()}"
             }
         }
 
@@ -119,6 +121,8 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
             if (minValue != null && maxValue != null) {
                 distance = maxValue.toInt()
                 viewBinding.tvDistance.text = "${minValue.toInt()}km - ${maxValue.toInt()}km"
+                viewBinding.textminDistance.text = "${minValue.toInt()}"
+                viewBinding.textmaxDistance.text = "${maxValue.toInt()}"
             }
         }
 

@@ -325,7 +325,8 @@
                 android:text="@string/prefrence"
                 android:textColor="@color/colorBlack"
                 android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tvSetting"

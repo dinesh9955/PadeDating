@@ -6,8 +6,8 @@ import java.io.Serializable
 
 
 data class Data(
-    val apikey: String,
-    val callType: String,
+    var apikey: String,
+    var callType: String,
     val sessionId: String,
     val token: String,
     val user1: User1,

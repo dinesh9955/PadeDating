@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.legacy.content.WakefulBroadcastReceiver;
 
 
+import com.google.gson.Gson;
 import com.padedatingapp.R;
 import com.padedatingapp.ui.main.HomeActivity;
 
@@ -52,8 +53,13 @@ public class MyReciever extends WakefulBroadcastReceiver
 
 //        pref.SavePref(context11);
 
-        Log.e(TAG, "onReceive: " );
+        Log.e(TAG, "onReceive: " + intent.getAction());
 
+        Gson gson = new Gson();
+
+        String ff = gson.toJson(intent);
+
+        Log.e(TAG, "onReceiveff: " + ff);
       // pref.SavePref(context11);
 
 

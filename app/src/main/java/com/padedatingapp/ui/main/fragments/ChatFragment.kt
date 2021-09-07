@@ -120,6 +120,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             initializeSockets()
             joinRoom()
 
+
     }
 
 
@@ -141,7 +142,40 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
 
 
-        if(person.equals("VIDEO_CALL")){
+        if(person.type.equals("VIDEO_CALL")){
+
+            var dataCall : CallUser? = null
+
+            var data = dataCall?.data
+
+            data?.apikey = ""
+            data?.apikey = ""
+            data?.apikey = ""
+            data?.apikey = ""
+            data?.apikey = ""
+
+            Log.e(TAG, "dataAAC "+data.toString())
+
+
+            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+            var bundle = Bundle()
+            bundle.putSerializable("key", data);
+            intent.putExtras(bundle)
+            startActivity(intent)
+
+//            if(data.data.callType.equals("audio")){
+//                var intent = Intent(requireContext(), VideoCallActivity::class.java)
+//                var bundle = Bundle()
+//                bundle.putSerializable("key", data);
+//                intent.putExtras(bundle)
+//                startActivity(intent)
+//            }else if(data.data.callType.equals("video")){
+//                var intent = Intent(requireContext(), VideoCallActivity::class.java)
+//                var bundle = Bundle()
+//                bundle.putSerializable("key", data);
+//                intent.putExtras(bundle)
+//                startActivity(intent)
+//            }
 
 //            var data : CallUser
 //            data.data.apikey = person.

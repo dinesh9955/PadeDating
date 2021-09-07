@@ -75,17 +75,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Log.e(TAG, "DatajsonPayload: " + json.toString());
 
-                String body = json.getString("rawMsg");
-//
-//                String data = json.getString("data");
-
-                JSONObject jsonObject = new JSONObject(json.toString());
-
-                Log.e(TAG, "Data Payload1: " + jsonObject.toString());
-
-             //   String type = jsonObject.getString("type");
-
-                sendNotification(getApplicationContext(), body, jsonObject);
+                if(json.getString("type").equalsIgnoreCase("VIDEO_CALL")){
+                    String body = "Someone calling you";
+                    JSONObject jsonObject = new JSONObject(json.toString());
+                    Log.e(TAG, "Data Payload1: " + jsonObject.toString());
+                    sendNotification(getApplicationContext(), body, jsonObject);
+                }else if(json.getString("type").equalsIgnoreCase("AUDIO_CALL")){
+                    String body = "Someone calling you";
+                    JSONObject jsonObject = new JSONObject(json.toString());
+                    Log.e(TAG, "Data Payload2: " + jsonObject.toString());
+                    sendNotification(getApplicationContext(), body, jsonObject);
+                }else if(json.getString("type").equalsIgnoreCase("TEXT_CHAT")){
+                    String body = json.getString("rawMsg");
+                    JSONObject jsonObject = new JSONObject(json.toString());
+                    Log.e(TAG, "Data Payload3: " + jsonObject.toString());
+                    sendNotification(getApplicationContext(), body, jsonObject);
+                }
 
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
