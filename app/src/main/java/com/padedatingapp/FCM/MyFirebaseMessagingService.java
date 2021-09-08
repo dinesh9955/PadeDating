@@ -80,11 +80,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload1: " + jsonObject.toString());
                     sendNotification(getApplicationContext(), body, jsonObject);
+                    Intent intent1 = new Intent("OPEN_NEW_ACTIVITY1");
+                    Bundle bundleObject = new Bundle();
+                    bundleObject.putString("key" , jsonObject.toString());
+                    bundleObject.putString("type" , "VIDEO_CALL");
+                    intent1.putExtras(bundleObject);
+                    sendBroadcast(intent1);
                 }else if(json.getString("type").equalsIgnoreCase("AUDIO_CALL")){
                     String body = "Someone calling you";
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload2: " + jsonObject.toString());
                     sendNotification(getApplicationContext(), body, jsonObject);
+                    Intent intent1 = new Intent("OPEN_NEW_ACTIVITY1");
+                    Bundle bundleObject = new Bundle();
+                    bundleObject.putString("key" , jsonObject.toString());
+                    bundleObject.putString("type" , "AUDIO_CALL");
+                    intent1.putExtras(bundleObject);
+                    sendBroadcast(intent1);
                 }else if(json.getString("type").equalsIgnoreCase("TEXT_CHAT")){
                     String body = json.getString("rawMsg");
                     JSONObject jsonObject = new JSONObject(json.toString());
