@@ -33,14 +33,12 @@ import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
 import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
-import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
-import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity
 import com.padedatingapp.ui.chats.ConnectivityReceiver
 import com.padedatingapp.utils.AppConstants
@@ -64,6 +62,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     companion object{
         var TAG = "ChatFragment"
     }
+
+
+
 
     private lateinit var dialog: Dialog
 
@@ -127,10 +128,13 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun initComponents() {
+
+
+
         userObject =
                 Gson().fromJson(
-                        sharedPref.getString(AppConstants.USER_OBJECT),
-                        UserModel::class.java
+                    sharedPref.getString(AppConstants.USER_OBJECT),
+                    UserModel::class.java
                 )
         chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
 
@@ -139,7 +143,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
         val bundle = arguments
-        Log.e(TAG, "bundleAA "+bundle.toString())
+        Log.e(TAG, "bundleAA " + bundle.toString())
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
 
 
@@ -155,7 +159,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             data?.apikey = ""
             data?.apikey = ""
 
-            Log.e(TAG, "dataAAC "+data.toString())
+            Log.e(TAG, "dataAAC " + data.toString())
 
 
             var intent = Intent(requireContext(), VideoCallActivity::class.java)
@@ -190,10 +194,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
         senderId = ""+userObject._id
-        Log.e(TAG, "senderId "+senderId)
+        Log.e(TAG, "senderId " + senderId)
 
         receiverId = ""+person.receiverID
-        Log.e(TAG, "receiverId "+receiverId)
+        Log.e(TAG, "receiverId " + receiverId)
 
 
 
@@ -260,7 +264,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         viewBinding.ivBack.setOnClickListener {
             requireActivity().hideKeyboard()
 
-            Log.e(TAG , "personZZ "+person.type)
+            Log.e(TAG, "personZZ " + person.type)
 
             if(person.type.equals("VIDEO_CALL") || person.type.equals("TEXT_CHAT")){
                 activity?.finish()
@@ -280,7 +284,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         jsonObj.addProperty("callType", "audio")
             jsonObj.addProperty("partner", receiverId)
             chatVM.callApi(
-                      jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
         }
 
@@ -290,7 +294,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             jsonObj.addProperty("callType", "video")
             jsonObj.addProperty("partner", receiverId)
             chatVM.callApi(
-                    jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
         }
 
@@ -300,7 +304,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 sendMessage("text")
                 viewBinding.etTypingMessage.setText("")
             }else{
-                Toast.makeText(context,"Please input String ",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Please input String ", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -313,14 +317,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
-    private fun sendMessage(type : String ) {
+    private fun sendMessage(type: String) {
 
-        Log.e(TAG, "userObject._id "+userObject._id)
-        Log.e(TAG, "person.receiverID "+person.receiverID)
+        Log.e(TAG, "userObject._id " + userObject._id)
+        Log.e(TAG, "person.receiverID " + person.receiverID)
 
         val json = JSONObject()
         json.put("type", type)
-        json.put("id",  userObject._id)
+        json.put("id", userObject._id)
         json.put("partner", person.receiverID)
 
         if(type == "text")
@@ -328,7 +332,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
        // else
             //json.put("media", sendImage)
 
-        Log.e(TAG , "AppSocketListener "+AppSocketListener.getInstance().isSocketConnected)
+        Log.e(TAG, "AppSocketListener " + AppSocketListener.getInstance().isSocketConnected)
 
         if(AppSocketListener.getInstance().isSocketConnected){
             AppSocketListener.getInstance().emit(SocketUrls.SEND_MESSAGE, json)
@@ -373,8 +377,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
         chatVM.chatHistoryApi(
-                receiverId
-              //  jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            receiverId
+            //  jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
         )
 
 
@@ -442,7 +446,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             }
         } else {
             val messageToUser = getString(R.string.check_internet)
-            Toast.makeText(context,"" +messageToUser,Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "" + messageToUser, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -467,7 +471,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 when (type) {
                     "ChatHistory" -> {
                         val data = response.data as ChatUsers
-                        Log.e(TAG, "dataAAB "+data.toString())
+                        Log.e(TAG, "dataAAB " + data.toString())
                         onMeetMeResponse(data)
                     }
                 }
@@ -489,7 +493,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 main_list = data.data as ArrayList<ChatUsersData>
-                Log.e(MeetMeFragment.TAG, "listAA "+main_list.size)
+                Log.e(MeetMeFragment.TAG, "listAA " + main_list.size)
 
                 Collections.reverse(main_list)
 
@@ -526,7 +530,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 when (type) {
                     "Call" -> {
                         val data = response.data as CallUser
-                        Log.e(TAG, "dataAAC "+data.toString())
+                        Log.e(TAG, "dataAAC " + data.toString())
 
                         val dataCallData = CallData()
                         dataCallData.apikey = data.data.apikey
@@ -540,14 +544,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                         dataCallData.user2Image = data.data.user2.image
 
 
-                        if(data.data.callType.equals("audio")){
+                        if (data.data.callType.equals("audio")) {
                             dataCallData.callType = "audio"
                             var intent = Intent(requireContext(), VideoCallActivity::class.java)
                             var bundle = Bundle()
                             bundle.putSerializable("key", dataCallData);
                             intent.putExtras(bundle)
                             startActivity(intent)
-                        }else if(data.data.callType.equals("video")){
+                        } else if (data.data.callType.equals("video")) {
                             dataCallData.callType = "video"
                             var intent = Intent(requireContext(), VideoCallActivity::class.java)
                             var bundle = Bundle()
@@ -608,7 +612,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
                 Log.e("onNewMe ", "message $data")
 
-                val chat_message = PadeDatingApp.gson.fromJson(data.toString(), ChatUsersData::class.java)
+                val chat_message = PadeDatingApp.gson.fromJson(
+                    data.toString(),
+                    ChatUsersData::class.java
+                )
 
 
 
@@ -634,7 +641,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun callListerners() {
-        AppSocketListener.getInstance().addOnHandler(SocketUrls.NEW_MESSAGES  , onNewMessage )
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.NEW_MESSAGES, onNewMessage)
     }
 
     private fun removeListerners() {
@@ -646,8 +653,6 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //        json.put("token", userObject.accessToken?:"")
         AppSocketListener.getInstance().emit(SocketUrls.JOIN_ROOM)
     }
-
-
 
 
 
@@ -670,6 +675,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //                    .start(requireActivity(), this)
 //        }
 //    }
+
 
 
 }

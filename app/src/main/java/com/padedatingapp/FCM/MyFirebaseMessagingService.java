@@ -17,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.padedatingapp.R;
 import com.padedatingapp.ui.main.HomeActivity;
+import com.propertyonthespot.utils.Utility;
 
 import org.json.JSONObject;
 
@@ -79,7 +80,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String body = "Someone calling you";
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload1: " + jsonObject.toString());
-                    sendNotification(getApplicationContext(), body, jsonObject);
+                    if (!Utility.INSTANCE.isRunning(getApplicationContext())) {
+                        sendNotification(getApplicationContext(), body, jsonObject);
+                    }
                     Intent intent1 = new Intent("OPEN_NEW_ACTIVITY1");
                     Bundle bundleObject = new Bundle();
                     bundleObject.putString("key" , jsonObject.toString());
@@ -90,7 +93,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String body = "Someone calling you";
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload2: " + jsonObject.toString());
-                    sendNotification(getApplicationContext(), body, jsonObject);
+                    if (!Utility.INSTANCE.isRunning(getApplicationContext())) {
+                        sendNotification(getApplicationContext(), body, jsonObject);
+                    }
                     Intent intent1 = new Intent("OPEN_NEW_ACTIVITY1");
                     Bundle bundleObject = new Bundle();
                     bundleObject.putString("key" , jsonObject.toString());
@@ -101,7 +106,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String body = json.getString("rawMsg");
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload3: " + jsonObject.toString());
-                    sendNotification(getApplicationContext(), body, jsonObject);
+//                    if (!Utility.INSTANCE.isRunning(getApplicationContext())) {
+                        sendNotification(getApplicationContext(), body, jsonObject);
+//                    }
                 }
 
             } catch (Exception e) {

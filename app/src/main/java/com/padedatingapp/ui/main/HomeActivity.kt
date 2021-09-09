@@ -182,6 +182,65 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
             val bundleObject = intent.extras
             val type = bundleObject!!.getString("type")
             Log.e(TAG, "typeAAA "+type)
+
+            if (type.equals("VIDEO_CALL", ignoreCase = true)) {
+                var res = intent.getStringExtra("key")
+                val jsonObject = JSONObject(res)
+                val callData2 = JSONObject(jsonObject.getString("callData"))
+                val user1 = JSONObject(jsonObject.getString("user1"))
+                val user2 = JSONObject(jsonObject.getString("user2"))
+                val dataCallData = CallData()
+                dataCallData.apikey = callData2.getString("apikey")
+                dataCallData.sessionId = callData2.getString("sessionId")
+                dataCallData.token = callData2.getString("token")
+                dataCallData.user1FirstName = user1.getString("firstName")
+                dataCallData.user1LastName = user1.getString("lastName")
+                dataCallData.user1Image = user1.getString("image")
+                dataCallData.user2FirstName = user2.getString("firstName")
+                dataCallData.user2LastName = user2.getString("lastName")
+                dataCallData.user2Image = user2.getString("image")
+
+//                val gson = Gson()
+//                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
+//                val topicData = topic.data
+                dataCallData.callType = "video"
+                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                var bundle = Bundle()
+                bundle.putSerializable("key", dataCallData);
+                intent.putExtras(bundle)
+                startActivity(intent)
+
+            }
+
+            if (type.equals("AUDIO_CALL", ignoreCase = true)) {
+                var res = intent.getStringExtra("key")
+                val jsonObject = JSONObject(res)
+                val callData2 = JSONObject(jsonObject.getString("callData"))
+                val user1 = JSONObject(jsonObject.getString("user1"))
+                val user2 = JSONObject(jsonObject.getString("user2"))
+                val dataCallData = CallData()
+                dataCallData.apikey = callData2.getString("apikey")
+                dataCallData.sessionId = callData2.getString("sessionId")
+                dataCallData.token = callData2.getString("token")
+                dataCallData.user1FirstName = user1.getString("firstName")
+                dataCallData.user1LastName = user1.getString("lastName")
+                dataCallData.user1Image = user1.getString("image")
+                dataCallData.user2FirstName = user2.getString("firstName")
+                dataCallData.user2LastName = user2.getString("lastName")
+                dataCallData.user2Image = user2.getString("image")
+
+//                val gson = Gson()
+//                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
+//                val topicData = topic.data
+                dataCallData.callType = "audio"
+                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                var bundle = Bundle()
+                bundle.putSerializable("key", dataCallData);
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+
         }
     }
 

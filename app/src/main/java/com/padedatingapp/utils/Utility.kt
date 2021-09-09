@@ -7,13 +7,10 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
-import android.database.Cursor
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -24,7 +21,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-
 import android.text.format.Formatter
 import android.util.Log
 import android.util.Patterns
@@ -33,9 +29,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-
-
-
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -391,7 +384,10 @@ object Utility {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
             for (permission in permissions) {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale((context as Activity?)!!, permission)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            (context as Activity?)!!,
+                            permission
+                        )) {
                         ActivityCompat.requestPermissions(
                             (context as Activity?)!!,
                             arrayOf(
@@ -424,12 +420,27 @@ object Utility {
         val camera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
         val writeExternalStorage =
             ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        val readExternalStorage = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-        val coarseLocartion = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-        val fineLocartion = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+        val readExternalStorage = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        val coarseLocartion = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        val fineLocartion = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
         val callPhone = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-        val readContacts = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-        val recordAudio = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+        val readContacts = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.READ_CONTACTS
+        )
+        val recordAudio = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.RECORD_AUDIO
+        )
 
 
         val listPermissionsNeeded = ArrayList<String>()
@@ -509,7 +520,10 @@ object Utility {
                 return true
             } else {
                 //  Log.d(TAG, "Please allow access to all asked permissions. Due to the nature of the friendlywagon app, access to these areas on your mobile devices are necessary  for the app to function properly.");
-                if (ActivityCompat.shouldShowRequestPermissionRationale(splashScreen, Manifest.permission.CAMERA) ||
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        splashScreen,
+                        Manifest.permission.CAMERA
+                    ) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(
                         splashScreen,
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -526,7 +540,10 @@ object Utility {
                         splashScreen,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(splashScreen, Manifest.permission.CALL_PHONE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        splashScreen,
+                        Manifest.permission.CALL_PHONE
+                    ) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(
                         splashScreen,
                         Manifest.permission.READ_CONTACTS
@@ -562,7 +579,11 @@ object Utility {
     }
 
 
-    private fun showDialogOK(splashScreen: Activity, message: String, okListener: DialogInterface.OnClickListener) {
+    private fun showDialogOK(
+        splashScreen: Activity,
+        message: String,
+        okListener: DialogInterface.OnClickListener
+    ) {
         AlertDialog.Builder(splashScreen)
             .setMessage(message)
             .setPositiveButton("OK", okListener)
@@ -612,7 +633,10 @@ object Utility {
 
 
     fun isEmptyNull(address: String?): String {
-        return if (address != null && !address.isEmpty() && !address.equals("null", ignoreCase = true)) {
+        return if (address != null && !address.isEmpty() && !address.equals(
+                "null",
+                ignoreCase = true
+            )) {
             address
         } else {
             ""
@@ -972,7 +996,11 @@ object Utility {
             bitmap =
                 Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
         } else {
-            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         }
 
         val canvas = Canvas(bitmap!!)
@@ -1065,7 +1093,10 @@ object Utility {
         if (responseCode.length > 0) {
             if (responseCode.length > 1) {
                 val jsonObjectInString = gson.toJson(responseCode).replace("\\", "")
-                jsonObjectInStringSub = jsonObjectInString.substring(1, jsonObjectInString.length - 1)
+                jsonObjectInStringSub = jsonObjectInString.substring(
+                    1,
+                    jsonObjectInString.length - 1
+                )
                 return jsonObjectInStringSub
             }
         }
@@ -1116,7 +1147,11 @@ object Utility {
     object BitmapTool {
         fun toOvalBitmap(bitmap: Bitmap?): Bitmap? {
             if (bitmap != null) {
-                val output = Bitmap.createBitmap(bitmap.height, bitmap.width, Bitmap.Config.ARGB_8888)
+                val output = Bitmap.createBitmap(
+                    bitmap.height,
+                    bitmap.width,
+                    Bitmap.Config.ARGB_8888
+                )
                 val canvas = Canvas(output)
                 val paint = Paint()
                 paint.isAntiAlias = true
@@ -1401,6 +1436,8 @@ object Utility {
 
         return null
     }
+
+
 
 
 }

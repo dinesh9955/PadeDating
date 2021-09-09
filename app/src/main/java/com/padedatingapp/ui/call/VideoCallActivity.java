@@ -111,9 +111,11 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
             if(callUser.getCallType().equalsIgnoreCase("audio")){
                 linearLayoutAudio.setVisibility(View.VISIBLE);
                 linearLayoutVideo.setVisibility(View.GONE);
+                imageViewVideo.setImageResource(R.drawable.ic_video_off);
             } else if(callUser.getCallType().equalsIgnoreCase("video")){
                 linearLayoutAudio.setVisibility(View.GONE);
                 linearLayoutVideo.setVisibility(View.VISIBLE);
+                imageViewVideo.setImageResource(R.drawable.ic_video_on);
             }
 
             textViewUser.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
@@ -143,14 +145,14 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
             public void onClick(View v) {
                 if(imageViewAudio.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_mic_on).getConstantState()))
                 {
-                    imageViewAudio.setImageResource(R.drawable.ic_video_off);
-                 //   linearLayoutAudio.setVisibility(View.VISIBLE);
-                   // linearLayoutVideo.setVisibility(View.GONE);
+                    imageViewAudio.setImageResource(R.drawable.group_111726);
+//                    linearLayoutAudio.setVisibility(View.VISIBLE);
+//                    linearLayoutVideo.setVisibility(View.GONE);
                     booleanAudio = false;
                 }else{
                     imageViewAudio.setImageResource(R.drawable.ic_mic_on);
-                  //  linearLayoutAudio.setVisibility(View.GONE);
-                   // linearLayoutVideo.setVisibility(View.VISIBLE);
+//                    linearLayoutAudio.setVisibility(View.GONE);
+//                    linearLayoutVideo.setVisibility(View.VISIBLE);
                     booleanAudio = true;
                 }
             }
@@ -159,14 +161,14 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
         imageViewVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imageViewVideo.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_video_off).getConstantState()))
+                if(imageViewVideo.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_video_on).getConstantState()))
                 {
-                    imageViewVideo.setImageResource(R.drawable.ic_mic_on);
+                    imageViewVideo.setImageResource(R.drawable.ic_video_off);
                     linearLayoutAudio.setVisibility(View.VISIBLE);
                     linearLayoutVideo.setVisibility(View.GONE);
                     booleanVideo = false;
                 }else{
-                    imageViewVideo.setImageResource(R.drawable.ic_video_off);
+                    imageViewVideo.setImageResource(R.drawable.ic_video_on);
                     linearLayoutAudio.setVisibility(View.GONE);
                     linearLayoutVideo.setVisibility(View.VISIBLE);
                     booleanVideo = true;
