@@ -7,61 +7,61 @@
 
     android:background="@drawable/rectangle_gradient_bg"
     android:orientation="vertical"
-  >
+    >
 
 
-        <LinearLayout
-            android:id="@+id/layout_call"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical"
-            android:layout_above="@+id/layout_bottom"
-            android:visibility="gone">
+    <LinearLayout
+        android:id="@+id/layout_call"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_above="@+id/layout_bottom"
+        android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/ivPorfilePic"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_120sdp"
-                android:src="@drawable/ic_password_unvisible"
+        <ImageView
+            android:id="@+id/ivPorfilePic"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:src="@drawable/ic_password_unvisible"
 
-                />
+            />
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/rubik_medium"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="#ffffff"
-                android:gravity="center_horizontal"
-                android:text="Carolyn Glover"
-                android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivPorfilePic"
-                />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:gravity="center_horizontal"
+            android:text="Carolyn Glover"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPorfilePic"
+            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/rubic_light"
-                android:textStyle="normal"
-                android:textSize="25sp"
-                android:textColor="#ffffff"
-                android:text="8:20"
-                android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
-                android:visibility="gone"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubic_light"
+            android:textStyle="normal"
+            android:textSize="25sp"
+            android:textColor="#ffffff"
+            android:text="8:20"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            android:visibility="gone"
+            />
 
 
-        </LinearLayout>
+    </LinearLayout>
 
 
 
@@ -142,7 +142,7 @@
             android:paddingHorizontal="@dimen/_30sdp"
             app:backgroundTint="@null"
             android:layout_centerHorizontal="true"
-           />
+            />
 
 
         <ImageView

@@ -12,6 +12,7 @@
         android:layout_margin="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constant1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
@@ -48,6 +49,20 @@
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_dummy_user"
             />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="12 PM"
+            android:textColor="@color/colorBlack"
+            android:textSize="10sp"
+            android:layout_below="@+id/constant1"
+
+            android:layout_marginLeft="@dimen/_20sdp"
+            />
+
     </RelativeLayout>
 
 </layout>

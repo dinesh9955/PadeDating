@@ -5,16 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemChatBinding
 import com.padedatingapp.databinding.ItemChatOtherUserBinding
-import com.padedatingapp.model.Doc
 import com.padedatingapp.model.chat.ChatUsersData
-import org.koin.android.ext.android.inject
-import java.util.ArrayList
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatListAdapter(private val listener: OnItemClickListener) :
     ListAdapter<ChatUsersData, RecyclerView.ViewHolder>(
@@ -42,6 +41,12 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
                 options.placeholder(R.drawable.user_circle_1179465)
                 Glide.with(binding.root).load(model.sentBy.image)
                         .apply(options).into(ivUserImage)
+
+                val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+                val date: Date = dateFormat.parse(model.sentAt)
+                val formatter: DateFormat = SimpleDateFormat("HH:mm a")
+                val dateStr: String = formatter.format(date)
+                tvTime.text = dateStr.toUpperCase()
             }
         }
     }
@@ -60,6 +65,12 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
                 options.placeholder(R.drawable.user_circle_1179465)
                 Glide.with(binding.root).load(model.sentBy.image)
                         .apply(options).into(ivUserImage)
+
+                val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+                val date: Date = dateFormat.parse(model.sentAt)
+                val formatter: DateFormat = SimpleDateFormat("HH:mm a")
+                val dateStr: String = formatter.format(date)
+                tvTime.text = dateStr.toUpperCase()
             }
         }
     }
