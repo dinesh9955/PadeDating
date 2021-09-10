@@ -177,6 +177,7 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
         });
 
 
+
         requestPermissions();
     }
 

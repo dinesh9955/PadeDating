@@ -47,6 +47,10 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
                 val formatter: DateFormat = SimpleDateFormat("HH:mm a")
                 val dateStr: String = formatter.format(date)
                 tvTime.text = dateStr.toUpperCase()
+
+                ivDelete.setOnClickListener {
+                    listener.onItemClick(model)
+                }
             }
         }
     }
@@ -71,6 +75,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
                 val formatter: DateFormat = SimpleDateFormat("HH:mm a")
                 val dateStr: String = formatter.format(date)
                 tvTime.text = dateStr.toUpperCase()
+
             }
         }
     }
@@ -163,6 +168,7 @@ class ChatListAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(model: ChatUsersData)
+        //fun onItemDelete(model: ChatUsersData)
     }
 
 

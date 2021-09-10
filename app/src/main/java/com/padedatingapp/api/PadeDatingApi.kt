@@ -2,12 +2,13 @@ package com.padedatingapp.api
 
 import com.padedatingapp.model.*
 import com.padedatingapp.model.call.CallUser
+import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.otp.OtpForgotMain
-import com.padedatingapp.model.user.UpdateModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
+
 
 interface PadeDatingApi {
 
@@ -19,7 +20,7 @@ interface PadeDatingApi {
 
     @POST(NetworkUrls.SOCIAL_USER)
     suspend fun socialUser(
-            @Body body: RequestBody
+        @Body body: RequestBody
     ): ResultModel<UserModel>
 
 
@@ -36,7 +37,7 @@ interface PadeDatingApi {
 
     @POST(NetworkUrls.PROFILE_SETUP)
     suspend fun profileSetUp(
-        @Header("Authorization") token:String,
+        @Header("Authorization") token: String,
         @Body body: RequestBody
     ): ResultModel<UserModel>
 
@@ -50,7 +51,7 @@ interface PadeDatingApi {
 
     @POST(NetworkUrls.CHECK_USERNAME)
     suspend fun checkUsername(
-        @Header("Authorization") token:String,
+        @Header("Authorization") token: String,
         @Body body: RequestBody
     ): ResultModel<UsernameResponse>
 
@@ -65,7 +66,7 @@ interface PadeDatingApi {
         @Header("Authorization") token: String,
         @Part source: MultipartBody.Part?,
         @Part thumb: MultipartBody.Part?,
-        @Part("type") type:RequestBody
+        @Part("type") type: RequestBody
     ): ResultModel<ImageUploadResponse>
 
     @POST(NetworkUrls.FORGOT_PASSWORD)
@@ -104,32 +105,32 @@ interface PadeDatingApi {
 
     @POST(NetworkUrls.explore)
     suspend fun meetMe(
-            @Header("Authorization") token: String,
-            @Body body: RequestBody
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
     ): MeetMe
 
 
     @GET(NetworkUrls.matches)
     suspend fun myMatches(
-            @Header("Authorization") token: String
+        @Header("Authorization") token: String
 //            @Query("limit") limit: String,
 //            @Query("page") page: String
-           // @Body body: RequestBody
+        // @Body body: RequestBody
     ): MyMatches
 
 
-    @PUT(NetworkUrls.profile+"{id}")
+    @PUT(NetworkUrls.profile + "{id}")
     suspend fun meetMeLike(
-            @Path("id") id: String,
-            @Header("Authorization") token: String,
-            @Body body: RequestBody
+        @Path("id") id: String,
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
     ): LikeModel
 
 
 
     @GET(NetworkUrls.chats)
     suspend fun chatUserList(
-            @Header("Authorization") token: String,
+        @Header("Authorization") token: String,
 //            @Body body: RequestBody
     ): ChatUsers
 
@@ -140,26 +141,35 @@ interface PadeDatingApi {
 //            @Query("/chats/:user") receiverID: String
 //    ): ChatUsers
 
-    @GET(NetworkUrls.chatsuser+"{user}")
+
+    @GET(NetworkUrls.chatsuser + "{user}")
     suspend fun chatHistory(
         @Header("Authorization") token: String,
-        @Path( "user") filter: String,
+        @Path("user") filter: String,
     ): ChatUsers
 
 
+    @DELETE(NetworkUrls.deleteMessages + "{id}")
+    suspend fun deleteChat(
+        @Header("Authorization") token: String,
+        @Path("id") _id: String,
+    ): ChatDelete
 
-    @GET(NetworkUrls.users+"{id}")
+
+
+
+    @GET(NetworkUrls.users + "{id}")
     suspend fun oneUser(
-            @Header("Authorization") token: String,
-            @Path( "id") filter: String,
+        @Header("Authorization") token: String,
+        @Path("id") filter: String,
     ): ResultModel<MeetMeData>
 
 
 
     @POST(NetworkUrls.makeCall)
     suspend fun call(
-            @Header("Authorization") token: String,
-            @Body body: RequestBody
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
     ): CallUser
 
 

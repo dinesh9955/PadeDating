@@ -22,5 +22,6 @@ object NetworkUrls {
     const val chatsuser = "api/v1/user/chats/"
     const val makeCall = "api/v1/user/makeCall/"
     const val users = "api/v1/user/users/"
+    const val deleteMessages = "api/v1/user/messages/"
 
 }

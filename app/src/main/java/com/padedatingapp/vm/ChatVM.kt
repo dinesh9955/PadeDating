@@ -7,6 +7,7 @@ import com.padedatingapp.api.repository.ChatRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.call.CallUser
+import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class ChatVM(
         private val coroutinesManager: CoroutinesManager,
         private val aboutMeRepo: ChatRepo
 ) : ViewModel() {
+    var deleteMessageResponse = SingleLiveEvent<Resource<ChatDelete>>()
     var loginResponse = SingleLiveEvent<Resource<ChatUsers>>()
     var callUserResponse = SingleLiveEvent<Resource<CallUser>>()
 
@@ -38,6 +40,14 @@ class ChatVM(
         coroutinesManager.ioScope.launch {
             loginResponse.postValue(Resource.loading(null))
             loginResponse.postValue(aboutMeRepo.chatHistory("Bearer $token", receiverID!!))
+        }
+    }
+
+
+    fun deleteChatApi(receiverID: String?) {
+        coroutinesManager.ioScope.launch {
+            deleteMessageResponse.postValue(Resource.loading(null))
+            deleteMessageResponse.postValue(aboutMeRepo.deleteChat("Bearer $token", receiverID!!))
         }
     }
 

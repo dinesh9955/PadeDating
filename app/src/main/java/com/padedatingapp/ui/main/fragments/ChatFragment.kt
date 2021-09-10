@@ -35,6 +35,7 @@ import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.call.CallUser
+import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
@@ -402,6 +403,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     override fun onItemClick(model: ChatUsersData) {
         Log.e("BuyPremiumFragment", "onItemClick: ")
+        chatVM.deleteChatApi(
+            "613afdc0e13bed066a2fee80"
+            //  jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        )
+
+        chatVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
+
+        chatVM.deleteMessageResponse.observe(viewLifecycleOwner) {
+            getDeleteMessage(it, "DeleteMessage")
+        }
     }
 
     override fun onResume() {
@@ -559,6 +574,39 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                             intent.putExtras(bundle)
                             startActivity(intent)
                         }
+
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+    private fun getDeleteMessage(response: Resource<ChatDelete>?, type: String) {
+
+        Log.e(TAG, "response?.status "+response?.status)
+
+
+
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "DeleteMessage" -> {
+                        val data = response.data as ChatDelete
+                        Log.e(TAG, "dataAACChatDelete " + data.toString())
 
                     }
                 }
