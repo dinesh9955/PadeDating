@@ -40,7 +40,9 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
+import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity
+import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.chats.ConnectivityReceiver
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -148,50 +150,50 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
 
 
-        if(person.type.equals("VIDEO_CALL")){
-
-            var dataCall : CallUser? = null
-
-            var data = dataCall?.data
-
-            data?.apikey = ""
-            data?.apikey = ""
-            data?.apikey = ""
-            data?.apikey = ""
-            data?.apikey = ""
-
-            Log.e(TAG, "dataAAC " + data.toString())
-
-
-            var intent = Intent(requireContext(), VideoCallActivity::class.java)
-            var bundle = Bundle()
-            bundle.putSerializable("key", data);
-            intent.putExtras(bundle)
-            startActivity(intent)
-
-//            if(data.data.callType.equals("audio")){
-//                var intent = Intent(requireContext(), VideoCallActivity::class.java)
-//                var bundle = Bundle()
-//                bundle.putSerializable("key", data);
-//                intent.putExtras(bundle)
-//                startActivity(intent)
-//            }else if(data.data.callType.equals("video")){
-//                var intent = Intent(requireContext(), VideoCallActivity::class.java)
-//                var bundle = Bundle()
-//                bundle.putSerializable("key", data);
-//                intent.putExtras(bundle)
-//                startActivity(intent)
-//            }
-
-//            var data : CallUser
-//            data.data.apikey = person.
-
+//        if(person.type.equals("VIDEO_CALL")){
+//
+//            var dataCall : CallUser? = null
+//
+//            var data = dataCall?.data
+//
+//            data?.apikey = ""
+//            data?.apikey = ""
+//            data?.apikey = ""
+//            data?.apikey = ""
+//            data?.apikey = ""
+//
+//            Log.e(TAG, "dataAAC " + data.toString())
+//
+//
 //            var intent = Intent(requireContext(), VideoCallActivity::class.java)
 //            var bundle = Bundle()
 //            bundle.putSerializable("key", data);
 //            intent.putExtras(bundle)
 //            startActivity(intent)
-        }
+//
+////            if(data.data.callType.equals("audio")){
+////                var intent = Intent(requireContext(), VideoCallActivity::class.java)
+////                var bundle = Bundle()
+////                bundle.putSerializable("key", data);
+////                intent.putExtras(bundle)
+////                startActivity(intent)
+////            }else if(data.data.callType.equals("video")){
+////                var intent = Intent(requireContext(), VideoCallActivity::class.java)
+////                var bundle = Bundle()
+////                bundle.putSerializable("key", data);
+////                intent.putExtras(bundle)
+////                startActivity(intent)
+////            }
+//
+////            var data : CallUser
+////            data.data.apikey = person.
+//
+////            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+////            var bundle = Bundle()
+////            bundle.putSerializable("key", data);
+////            intent.putExtras(bundle)
+////            startActivity(intent)
+//        }
 
 
         senderId = ""+userObject._id
@@ -217,6 +219,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         Glide.with(requireActivity()).load(userObject.image)
                 .apply(options).into(viewBinding.ivUserOne)
         viewBinding.tvUserOneName.text = userObject.firstName + " "+userObject.lastName
+
+
+        Log.e(TAG, "userObject.image "+userObject.image)
+        Log.e(TAG, "userObject.image2 "+person.receiverImage)
 
         Glide.with(requireActivity()).load(person.receiverImage)
                 .apply(options).into(viewBinding.ivUserTwo)
@@ -404,7 +410,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     override fun onItemClick(model: ChatUsersData) {
         Log.e("BuyPremiumFragment", "onItemClick: ")
         chatVM.deleteChatApi(
-            "613afdc0e13bed066a2fee80"
+            model._id
             //  jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
         )
 
@@ -561,14 +567,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
                         if (data.data.callType.equals("audio")) {
                             dataCallData.callType = "audio"
-                            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+                            var intent = Intent(requireContext(), AudioCallActivity::class.java)
                             var bundle = Bundle()
                             bundle.putSerializable("key", dataCallData);
                             intent.putExtras(bundle)
                             startActivity(intent)
                         } else if (data.data.callType.equals("video")) {
                             dataCallData.callType = "video"
-                            var intent = Intent(requireContext(), VideoCallActivity::class.java)
+                            var intent = Intent(requireContext(), VideoCallActivity2::class.java)
                             var bundle = Bundle()
                             bundle.putSerializable("key", dataCallData);
                             intent.putExtras(bundle)
@@ -607,7 +613,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                     "DeleteMessage" -> {
                         val data = response.data as ChatDelete
                         Log.e(TAG, "dataAACChatDelete " + data.toString())
-
+                        chatVM.chatHistoryApi(
+                            receiverId
+                        )
                     }
                 }
             }

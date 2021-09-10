@@ -18,7 +18,9 @@ import com.padedatingapp.extensions.onNavDestinationSelected
 import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.sockets.AppSocketListener
+import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity
+import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.main.fragments.ChatFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
@@ -120,7 +122,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data
                 dataCallData.callType = "video"
-                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                dataCallData.callFrom = "notification"
+                var intent = Intent(this@HomeActivity, VideoCallActivity2::class.java)
                 var bundle = Bundle()
                 bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)
@@ -147,7 +150,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data
                 dataCallData.callType = "audio"
-                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                dataCallData.callFrom = "notification"
+                var intent = Intent(this@HomeActivity, AudioCallActivity::class.java)
                 var bundle = Bundle()
                 bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)
@@ -204,7 +208,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data
                 dataCallData.callType = "video"
-                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                dataCallData.callFrom = "notification"
+                var intent = Intent(this@HomeActivity, VideoCallActivity2::class.java)
                 var bundle = Bundle()
                 bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)
@@ -233,7 +238,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data
                 dataCallData.callType = "audio"
-                var intent = Intent(this@HomeActivity, VideoCallActivity::class.java)
+                dataCallData.callFrom = "notification"
+                var intent = Intent(this@HomeActivity, AudioCallActivity::class.java)
                 var bundle = Bundle()
                 bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)

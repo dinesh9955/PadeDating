@@ -1,5 +1,6 @@
 package com.padedatingapp.ui.call;
 
+
 import android.Manifest;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -8,10 +9,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 //import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,15 +29,16 @@ import com.opentok.android.SubscriberKit;
 import com.padedatingapp.R;
 import com.padedatingapp.base.BaseActivity;
 import com.padedatingapp.model.CallData;
+import com.padedatingapp.model.call.CallUser;
 import com.padedatingapp.ui.call.network.APIService;
 import com.padedatingapp.ui.call.network.GetSessionResponse;
 
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -43,7 +47,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class AudioCallActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+
+public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = VideoCallActivity.class.getSimpleName();
 
@@ -62,7 +67,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     CallData callUser;
 
     TextView textViewCall;
-    ImageView imageViewAudio, imageViewVideo;
+    ImageView imageViewAudio, imageViewVideo, publisher_containerView;
 
     ImageView imageViewCallPic, imageViewCallCancel;
 
@@ -88,6 +93,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
         publisherViewContainer = findViewById(R.id.publisher_container);
         subscriberViewContainer = findViewById(R.id.subscriber_container);
+
+        publisher_containerView = findViewById(R.id.publisher_containerView);
 
         linearLayoutAudio = findViewById(R.id.layout_call);
         linearLayoutVideo = findViewById(R.id.layout_call_2);
@@ -132,6 +139,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
                     imageViewAudio.setVisibility(View.GONE);
                     imageViewVideo.setVisibility(View.GONE);
 
+                    publisher_containerView.setVisibility(View.GONE);
+                    publisherViewContainer.setVisibility(View.VISIBLE);
                     requestPermissions();
                 }
             });
@@ -149,14 +158,23 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
                 linearLayoutAudio.setVisibility(View.VISIBLE);
                 linearLayoutVideo.setVisibility(View.GONE);
                 imageViewVideo.setImageResource(R.drawable.ic_video_off);
-                imageViewAudio.setVisibility(View.GONE);
-                imageViewVideo.setVisibility(View.GONE);
             } else if(callUser.getCallType().equalsIgnoreCase("video")){
                 linearLayoutAudio.setVisibility(View.GONE);
                 linearLayoutVideo.setVisibility(View.VISIBLE);
-                imageViewAudio.setVisibility(View.GONE);
-                imageViewVideo.setVisibility(View.GONE);
                 imageViewVideo.setImageResource(R.drawable.ic_video_on);
+                RequestOptions options = new RequestOptions();
+                Glide.with(VideoCallActivity2.this).load(callUser.getUser2Image())
+                        .apply(options).into(publisher_containerView);
+
+
+                if(callUser.getCallFrom().equalsIgnoreCase("notification")){
+                    publisher_containerView.setVisibility(View.VISIBLE);
+                    publisherViewContainer.setVisibility(View.GONE);
+                }else{
+                    publisher_containerView.setVisibility(View.GONE);
+                    publisherViewContainer.setVisibility(View.VISIBLE);
+                }
+
             }
 
             textViewUser.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
@@ -166,7 +184,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             options.centerCrop();
             options.placeholder(R.drawable.user_circle_1179465);
 
-            Glide.with(AudioCallActivity.this).load(callUser.getUser2Image())
+            Glide.with(VideoCallActivity2.this).load(callUser.getUser2Image())
                     .apply(options).into(imageViewUser);
 
         }
@@ -280,7 +298,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         public void onConnected(Session session) {
             Log.d(TAG, "onConnected: Connected to session: " + session.getSessionId());
 
-            publisher = new Publisher.Builder(AudioCallActivity.this).build();
+            publisher = new Publisher.Builder(VideoCallActivity2.this).build();
             publisher.setPublisherListener(publisherListener);
             publisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
 
@@ -307,7 +325,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             Log.d(TAG, "onStreamReceived: New Stream Received " + stream.getStreamId() + " in session: " + session.getSessionId());
 
             if (subscriber == null) {
-                subscriber = new Subscriber.Builder(AudioCallActivity.this, stream).build();
+                subscriber = new Subscriber.Builder(VideoCallActivity2.this, stream).build();
                 subscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
                 subscriber.setSubscriberListener(subscriberListener);
 
@@ -454,7 +472,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
     private void initRetrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logging.setLevel(Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)

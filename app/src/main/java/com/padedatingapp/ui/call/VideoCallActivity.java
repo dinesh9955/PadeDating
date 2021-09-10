@@ -68,6 +68,8 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
     TextView textViewCall;
     ImageView imageViewAudio, imageViewVideo;
 
+    ImageView imageViewCallPic, imageViewCallCancel;
+
     LinearLayout linearLayoutAudio, linearLayoutVideo;
 
     ImageView imageViewUser;
@@ -101,6 +103,9 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
         textViewCall = findViewById(R.id.tvEndCall);
         imageViewVideo = findViewById(R.id.ivVideoOffOn);
 
+        imageViewCallPic = findViewById(R.id.ivCallPic);
+        imageViewCallCancel = findViewById(R.id.ivCallCancel);
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -108,6 +113,42 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
 
         if(callUser != null){
+            if(callUser.getCallFrom().equalsIgnoreCase("notification")){
+                textViewCall.setVisibility(View.GONE);
+
+                imageViewCallPic.setVisibility(View.VISIBLE);
+                imageViewCallCancel.setVisibility(View.VISIBLE);
+
+                imageViewAudio.setVisibility(View.GONE);
+                imageViewVideo.setVisibility(View.GONE);
+            }else{
+                requestPermissions();
+            }
+
+            imageViewCallPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    textViewCall.setVisibility(View.VISIBLE);
+
+                    imageViewCallPic.setVisibility(View.GONE);
+                    imageViewCallCancel.setVisibility(View.GONE);
+
+                    imageViewAudio.setVisibility(View.VISIBLE);
+                    imageViewVideo.setVisibility(View.VISIBLE);
+
+                    requestPermissions();
+                }
+            });
+
+            imageViewCallCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+
+
+
             if(callUser.getCallType().equalsIgnoreCase("audio")){
                 linearLayoutAudio.setVisibility(View.VISIBLE);
                 linearLayoutVideo.setVisibility(View.GONE);
@@ -133,9 +174,15 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
         Log.e(TAG ,"callUser "+callUser.toString());
 
+
+
+
         textViewCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (session != null) {
+                    session.disconnect();
+                }
                 onBackPressed();
             }
         });
@@ -155,7 +202,10 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 //                    linearLayoutVideo.setVisibility(View.VISIBLE);
                     booleanAudio = true;
                 }
+
+                requestPermissions();
             }
+
         });
 
         imageViewVideo.setOnClickListener(new View.OnClickListener() {
@@ -173,22 +223,18 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
                     linearLayoutVideo.setVisibility(View.VISIBLE);
                     booleanVideo = true;
                 }
+                session.setSessionListener(sessionListener);
+                //requestPermissions();
             }
+
         });
 
 
 
-        requestPermissions();
+
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
 
-        if (session != null) {
-            session.onPause();
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -196,6 +242,16 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
         if (session != null) {
             session.onResume();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (session != null) {
+            session.onPause();
         }
     }
 
@@ -228,8 +284,8 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
             publisher.setPublisherListener(publisherListener);
             publisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
 
-           // publisher.setPublishAudio(booleanAudio);
-//            publisher.setPublishVideo(booleanVideo);
+            publisher.setPublishAudio(booleanAudio);
+            publisher.setPublishVideo(booleanVideo);
 
             publisherViewContainer.addView(publisher.getView());
 
@@ -257,6 +313,18 @@ public class VideoCallActivity extends BaseActivity implements EasyPermissions.P
 
 //                subscriber.setSubscribeToAudio(booleanAudio);
 //                subscriber.setSubscribeToVideo(booleanVideo);
+
+                if(subscriber.getSubscribeToVideo() == true){
+                    subscriber.setSubscribeToVideo(true);
+                }else{
+                    subscriber.setSubscribeToVideo(false);
+                }
+
+                if(subscriber.getSubscribeToAudio() == true){
+                    subscriber.setSubscribeToAudio(true);
+                }else{
+                    subscriber.setSubscribeToAudio(false);
+                }
 
                 session.subscribe(subscriber);
                 subscriberViewContainer.addView(subscriber.getView());
