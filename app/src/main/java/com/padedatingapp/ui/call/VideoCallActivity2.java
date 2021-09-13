@@ -74,10 +74,11 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
     LinearLayout linearLayoutAudio, linearLayoutVideo;
 
     ImageView imageViewUser;
-    TextView textViewUser;
+    TextView textViewUser, textViewUser2;
 
     boolean booleanAudio = true;
     boolean booleanVideo = true;
+
 
     @Override
     public int layoutId() {
@@ -101,6 +102,8 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         imageViewUser = findViewById(R.id.ivPorfilePic);
         textViewUser = findViewById(R.id.tvName);
+        textViewUser2 = findViewById(R.id.tvName2);
+
 
         imageViewAudio = findViewById(R.id.ivMinOnOff);
         textViewCall = findViewById(R.id.tvEndCall);
@@ -136,10 +139,10 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                     imageViewCallPic.setVisibility(View.GONE);
                     imageViewCallCancel.setVisibility(View.GONE);
 
-                    imageViewAudio.setVisibility(View.GONE);
-                    imageViewVideo.setVisibility(View.GONE);
+                    imageViewAudio.setVisibility(View.VISIBLE);
+                    imageViewVideo.setVisibility(View.VISIBLE);
 
-                    publisher_containerView.setVisibility(View.GONE);
+                  //  publisher_containerView.setVisibility(View.GONE);
                     publisherViewContainer.setVisibility(View.VISIBLE);
                     requestPermissions();
                 }
@@ -168,16 +171,17 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
 
                 if(callUser.getCallFrom().equalsIgnoreCase("notification")){
-                    publisher_containerView.setVisibility(View.VISIBLE);
+                 //   publisher_containerView.setVisibility(View.VISIBLE);
                     publisherViewContainer.setVisibility(View.GONE);
                 }else{
-                    publisher_containerView.setVisibility(View.GONE);
+                 //   publisher_containerView.setVisibility(View.GONE);
                     publisherViewContainer.setVisibility(View.VISIBLE);
                 }
 
             }
 
             textViewUser.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
+            textViewUser2.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
 
             // options.placeholder(R.drawable.user_circle_1179465)
             RequestOptions options = new RequestOptions();
@@ -221,7 +225,8 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                     booleanAudio = true;
                 }
 
-                requestPermissions();
+                publisher.setPublishAudio(booleanAudio);
+             //   subscriber.setSubscribeToAudio(booleanAudio);
             }
 
         });
@@ -232,17 +237,20 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                 if(imageViewVideo.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_video_on).getConstantState()))
                 {
                     imageViewVideo.setImageResource(R.drawable.ic_video_off);
-                    linearLayoutAudio.setVisibility(View.VISIBLE);
-                    linearLayoutVideo.setVisibility(View.GONE);
+//                    linearLayoutAudio.setVisibility(View.VISIBLE);
+//                    linearLayoutVideo.setVisibility(View.GONE);
                     booleanVideo = false;
                 }else{
                     imageViewVideo.setImageResource(R.drawable.ic_video_on);
-                    linearLayoutAudio.setVisibility(View.GONE);
-                    linearLayoutVideo.setVisibility(View.VISIBLE);
+//                    linearLayoutAudio.setVisibility(View.GONE);
+//                    linearLayoutVideo.setVisibility(View.VISIBLE);
                     booleanVideo = true;
                 }
-                session.setSessionListener(sessionListener);
+               // session.setSessionListener(sessionListener);
                 //requestPermissions();
+
+                publisher.setPublishVideo(booleanVideo);
+                //subscriber.setSubscribeToVideo(booleanVideo);
             }
 
         });
@@ -276,34 +284,23 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
 
 
-    private PublisherKit.PublisherListener publisherListener = new PublisherKit.PublisherListener() {
-        @Override
-        public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
-            Log.d(TAG, "onStreamCreated: Publisher Stream Created. Own stream " + stream.getStreamId());
-        }
 
-        @Override
-        public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
-            Log.d(TAG, "onStreamDestroyed: Publisher Stream Destroyed. Own stream " + stream.getStreamId());
-        }
-
-        @Override
-        public void onError(PublisherKit publisherKit, OpentokError opentokError) {
-            finishWithMessage("PublisherKit onError: " + opentokError.getMessage());
-        }
-    };
 
     private Session.SessionListener sessionListener = new Session.SessionListener() {
         @Override
         public void onConnected(Session session) {
-            Log.d(TAG, "onConnected: Connected to session: " + session.getSessionId());
+            Log.e(TAG, "onConnected: Connected to session: " + session.getSessionId());
 
             publisher = new Publisher.Builder(VideoCallActivity2.this).build();
             publisher.setPublisherListener(publisherListener);
+
             publisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
 
-            publisher.setPublishAudio(booleanAudio);
-            publisher.setPublishVideo(booleanVideo);
+           // publisher.setPublishAudio(booleanAudio);
+//            publisher.setPublishVideo(booleanVideo);
+
+//            publisher.publishAudio(false);
+//            publisher.subscribeToAudio(booleanVideo);
 
             publisherViewContainer.addView(publisher.getView());
 
@@ -317,32 +314,32 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         @Override
         public void onDisconnected(Session session) {
-            Log.d(TAG, "onDisconnected: Disconnected from session: " + session.getSessionId());
+            Log.e(TAG, "onDisconnected: Disconnected from session: " + session.getSessionId());
         }
 
         @Override
         public void onStreamReceived(Session session, Stream stream) {
-            Log.d(TAG, "onStreamReceived: New Stream Received " + stream.getStreamId() + " in session: " + session.getSessionId());
+            Log.e(TAG, "onStreamReceived: New Stream Received " + stream.getStreamId() + " in session: " + session.getSessionId());
 
             if (subscriber == null) {
                 subscriber = new Subscriber.Builder(VideoCallActivity2.this, stream).build();
                 subscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
                 subscriber.setSubscriberListener(subscriberListener);
 
-//                subscriber.setSubscribeToAudio(booleanAudio);
-//                subscriber.setSubscribeToVideo(booleanVideo);
+                subscriber.setSubscribeToAudio(subscriber.getSubscribeToAudio());
+                subscriber.setSubscribeToVideo(subscriber.getSubscribeToVideo());
 
-                if(subscriber.getSubscribeToVideo() == true){
-                    subscriber.setSubscribeToVideo(true);
-                }else{
-                    subscriber.setSubscribeToVideo(false);
-                }
+//                if(subscriber.getSubscribeToVideo() == true){
+//                    subscriber.setSubscribeToVideo(true);
+//                }else{
+//                    subscriber.setSubscribeToVideo(false);
+//                }
 
-                if(subscriber.getSubscribeToAudio() == true){
-                    subscriber.setSubscribeToAudio(true);
-                }else{
-                    subscriber.setSubscribeToAudio(false);
-                }
+//                if(subscriber.getSubscribeToAudio() == true){
+//                    subscriber.setSubscribeToAudio(true);
+//                }else{
+//                    subscriber.setSubscribeToAudio(false);
+//                }
 
                 session.subscribe(subscriber);
                 subscriberViewContainer.addView(subscriber.getView());
@@ -351,7 +348,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         @Override
         public void onStreamDropped(Session session, Stream stream) {
-            Log.d(TAG, "onStreamDropped: Stream Dropped: " + stream.getStreamId() + " in session: " + session.getSessionId());
+            Log.e(TAG, "onStreamDropped: Stream Dropped: " + stream.getStreamId() + " in session: " + session.getSessionId());
             onBackPressed();
         }
 
@@ -361,15 +358,40 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
         }
     };
 
+
+
+
+    private PublisherKit.PublisherListener publisherListener = new PublisherKit.PublisherListener() {
+        @Override
+        public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
+            Log.e(TAG, "onStreamCreated: Publisher Stream Created. Own stream " + stream.getStreamId());
+            publisher.setPublishAudio(booleanAudio);
+//            publisher.setPublishVideo(booleanVideo);
+        }
+
+        @Override
+        public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
+            Log.e(TAG, "onStreamDestroyed: Publisher Stream Destroyed. Own stream " + stream.getStreamId());
+        }
+
+        @Override
+        public void onError(PublisherKit publisherKit, OpentokError opentokError) {
+            finishWithMessage("PublisherKit onError: " + opentokError.getMessage());
+        }
+    };
+
+
     SubscriberKit.SubscriberListener subscriberListener = new SubscriberKit.SubscriberListener() {
         @Override
         public void onConnected(SubscriberKit subscriberKit) {
-            Log.d(TAG, "onConnected: Subscriber connected. Stream: " + subscriberKit.getStream().getStreamId());
+            Log.e(TAG, "onConnected: Subscriber connected. Stream: " + subscriberKit.getStream().getStreamId());
+//            subscriber.setSubscribeToAudio(booleanAudio);
+//            subscriber.setSubscribeToVideo(booleanVideo);
         }
 
         @Override
         public void onDisconnected(SubscriberKit subscriberKit) {
-            Log.d(TAG, "onDisconnected: Subscriber disconnected. Stream: " + subscriberKit.getStream().getStreamId());
+            Log.e(TAG, "onDisconnected: Subscriber disconnected. Stream: " + subscriberKit.getStream().getStreamId());
         }
 
         @Override
@@ -377,6 +399,9 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
             finishWithMessage("SubscriberKit onError: " + opentokError.getMessage());
         }
     };
+
+
+
 
 
     @Override
@@ -387,7 +412,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Log.d(TAG, "onPermissionsGranted:" + requestCode + ": " + perms);
+        Log.e(TAG, "onPermissionsGranted:" + requestCode + ": " + perms);
     }
 
     @Override
@@ -522,7 +547,10 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
             publisher.destroy();
         }
 
-        session.disconnect();
+        if(session != null){
+            session.disconnect();
+        }
+
     }
 
 

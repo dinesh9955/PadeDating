@@ -69,7 +69,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     LinearLayout linearLayoutAudio, linearLayoutVideo;
 
     ImageView imageViewUser;
-    TextView textViewUser;
+    TextView textViewUser, textViewUser2;
 
     boolean booleanAudio = true;
     boolean booleanVideo = true;
@@ -94,6 +94,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
         imageViewUser = findViewById(R.id.ivPorfilePic);
         textViewUser = findViewById(R.id.tvName);
+        textViewUser2 = findViewById(R.id.tvName2);
 
         imageViewAudio = findViewById(R.id.ivMinOnOff);
         textViewCall = findViewById(R.id.tvEndCall);
@@ -160,7 +161,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             }
 
             textViewUser.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
-
+            textViewUser2.setText(""+callUser.getUser2FirstName()+" "+callUser.getUser2LastName());
             // options.placeholder(R.drawable.user_circle_1179465)
             RequestOptions options = new RequestOptions();
             options.centerCrop();
@@ -504,7 +505,9 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             publisher.destroy();
         }
 
-        session.disconnect();
+        if(session != null){
+            session.disconnect();
+        }
     }
 
 

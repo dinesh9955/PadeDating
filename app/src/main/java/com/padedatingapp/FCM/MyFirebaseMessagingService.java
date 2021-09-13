@@ -52,8 +52,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        Gson gson = new Gson();
 //        String json = gson.toJson(remoteMessage);
 
-//        Log.e(TAG, "onMessageReceived: " + json);
-
+         Log.e(TAG, "onMessageReceived: Noti" + remoteMessage.getNotification());
+        Log.e(TAG, "onMessageReceived: Data" + remoteMessage.getData());
        // sendNotification(getApplicationContext(), "hhhh");
 
 //        if (remoteMessage == null)

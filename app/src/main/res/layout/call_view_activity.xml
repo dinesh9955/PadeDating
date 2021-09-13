@@ -10,6 +10,8 @@
   >
 
 
+
+
         <LinearLayout
             android:id="@+id/layout_call"
             android:layout_width="match_parent"
@@ -186,6 +188,20 @@
             android:visibility="gone"
             />
 
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik_medium"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_centerHorizontal="true"
+        />
+
 </RelativeLayout>
