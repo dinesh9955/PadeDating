@@ -12,7 +12,8 @@
 
 
 
-        <LinearLayout
+
+    <LinearLayout
             android:id="@+id/layout_call"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -203,5 +204,32 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_centerHorizontal="true"
         />
+
+    <ImageView
+        android:id="@+id/ivSwitchCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_switch_camera"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+
+    <ImageView
+        android:id="@+id/ivChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_call_chat"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+
+
 
 </RelativeLayout>

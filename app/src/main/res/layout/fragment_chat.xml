@@ -256,7 +256,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <EditText
+            <com.vanniktech.emoji.EmojiEditText
                 android:id="@+id/etTypingMessage"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -264,11 +264,14 @@
                 android:paddingVertical="10dp"
                 android:clickable="false"
                 android:paddingBottom="10dp"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
                 android:hint="Type a message..."
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/blank"
                 android:textColorHint="#717e99"
                 android:layout_centerVertical="true"
+
                 android:layout_toLeftOf="@+id/ivChatSend"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"

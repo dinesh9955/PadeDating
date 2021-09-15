@@ -64,7 +64,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     TextView textViewCall;
     ImageView imageViewAudio, imageViewVideo;
 
-    ImageView imageViewCallPic, imageViewCallCancel;
+    ImageView imageViewCallPic, imageViewCallCancel, imageViewCameraSwitch, imageViewChat;
 
     LinearLayout linearLayoutAudio, linearLayoutVideo;
 
@@ -89,12 +89,16 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         publisherViewContainer = findViewById(R.id.publisher_container);
         subscriberViewContainer = findViewById(R.id.subscriber_container);
 
+        imageViewCameraSwitch = findViewById(R.id.ivSwitchCamera);
+        imageViewChat = findViewById(R.id.ivChat);
+
         linearLayoutAudio = findViewById(R.id.layout_call);
         linearLayoutVideo = findViewById(R.id.layout_call_2);
 
         imageViewUser = findViewById(R.id.ivPorfilePic);
         textViewUser = findViewById(R.id.tvName);
         textViewUser2 = findViewById(R.id.tvName2);
+        textViewUser2.setVisibility(View.GONE);
 
         imageViewAudio = findViewById(R.id.ivMinOnOff);
         textViewCall = findViewById(R.id.tvEndCall);
@@ -141,6 +145,23 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
+                }
+            });
+
+
+            imageViewCameraSwitch.setVisibility(View.GONE);
+            imageViewCameraSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    publisher.swapCamera();
+                }
+            });
+
+
+            imageViewChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    publisher.swapCamera();
                 }
             });
 
@@ -285,8 +306,9 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             publisher.setPublisherListener(publisherListener);
             publisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE, BaseVideoRenderer.STYLE_VIDEO_FILL);
 
-            publisher.setPublishAudio(booleanAudio);
-            publisher.setPublishVideo(booleanVideo);
+            publisher.setPublishVideo(false);
+
+          //  publisher.setAudioFallbackEnabled(false);
 
             publisherViewContainer.addView(publisher.getView());
 
@@ -315,17 +337,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 //                subscriber.setSubscribeToAudio(booleanAudio);
 //                subscriber.setSubscribeToVideo(booleanVideo);
 
-                if(subscriber.getSubscribeToVideo() == true){
-                    subscriber.setSubscribeToVideo(true);
-                }else{
-                    subscriber.setSubscribeToVideo(false);
-                }
+                subscriber.setSubscribeToVideo(subscriber.getSubscribeToVideo());
 
-                if(subscriber.getSubscribeToAudio() == true){
-                    subscriber.setSubscribeToAudio(true);
-                }else{
-                    subscriber.setSubscribeToAudio(false);
-                }
 
                 session.subscribe(subscriber);
                 subscriberViewContainer.addView(subscriber.getView());

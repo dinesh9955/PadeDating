@@ -3,6 +3,7 @@ package com.padedatingapp.ui.onboarding.fragments.about_me
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
@@ -119,6 +120,8 @@ class AboutMeVM(
                        jsonObj.addProperty("doyousmoke", doYouSmoke.value)
                        jsonObj.addProperty("interestedIn", interesedIn.value)
                        jsonObj.addProperty("profileStatus", 3)
+                       jsonObj.addProperty("deviceType", "ANDROID")
+                       jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
 
                        Log.d("ABOUT_ME_RQST_BODY_DATA", "validateInputs: $jsonObj")
                        callUpdateProfileApi(

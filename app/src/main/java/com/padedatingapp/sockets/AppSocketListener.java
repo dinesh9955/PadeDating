@@ -71,7 +71,7 @@ public class AppSocketListener implements SocketListener {
             }
 
         }
-            };
+    };
 
 
     public void initialize(Context applicationContext) {

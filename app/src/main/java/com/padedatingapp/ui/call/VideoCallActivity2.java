@@ -69,7 +69,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
     TextView textViewCall;
     ImageView imageViewAudio, imageViewVideo, publisher_containerView;
 
-    ImageView imageViewCallPic, imageViewCallCancel;
+    ImageView imageViewCallPic, imageViewCallCancel, imageViewCameraSwitch, imageViewChat;
 
     LinearLayout linearLayoutAudio, linearLayoutVideo;
 
@@ -97,6 +97,10 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         publisher_containerView = findViewById(R.id.publisher_containerView);
 
+        imageViewCameraSwitch = findViewById(R.id.ivSwitchCamera);
+        imageViewChat = findViewById(R.id.ivChat);
+
+
         linearLayoutAudio = findViewById(R.id.layout_call);
         linearLayoutVideo = findViewById(R.id.layout_call_2);
 
@@ -117,6 +121,8 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         callUser = (CallData) bundle.getSerializable("key");
 
+
+      //  requestPermissions();
 
         if(callUser != null){
             if(callUser.getCallFrom().equalsIgnoreCase("notification")){
@@ -155,6 +161,21 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                 }
             });
 
+            imageViewCameraSwitch.setVisibility(View.GONE);
+            imageViewCameraSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    publisher.swapCamera();
+                }
+            });
+
+
+            imageViewChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    publisher.swapCamera();
+                }
+            });
 
 
             if(callUser.getCallType().equalsIgnoreCase("audio")){
@@ -206,6 +227,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                     session.disconnect();
                 }
                 onBackPressed();
+
             }
         });
 
@@ -307,6 +329,18 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
             if (publisher.getView() instanceof GLSurfaceView) {
                 ((GLSurfaceView) publisher.getView()).setZOrderOnTop(true);
             }
+
+//            publisher = new Publisher.Builder(VideoCallActivity2.this)
+//                    .name("Bob")
+//                    .audioTrack(true)
+//                    .frameRate(Publisher.CameraCaptureFrameRate.FPS_7)
+//                    .resolution(Publisher.CameraCaptureResolution.LOW)
+//                    .videoTrack(false)
+////                    .capturer(mCapturer)
+////                    .renderer(mRenderer)
+//                    .build();
+
+
 
             session.publish(publisher);
 
@@ -534,24 +568,44 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
 
 
-    protected void onCallForDestroy() {
+//    protected void onCallForDestroy() {
+//        if (subscriber != null) {
+//            subscriberViewContainer.removeAllViews();
+//            session.unsubscribe(subscriber);
+//            subscriber.destroy();
+//        }
+//
+//        if (publisher != null) {
+//            publisherViewContainer.removeView(publisher.getView());
+//            session.unpublish(publisher);
+//            publisher.destroy();
+//        }
+//
+//        if(session != null){
+//            session.disconnect();
+//        }
+//
+//    }
+
+
+    private void onCallForDestroy() {
+        if (session == null) {
+            return;
+        }
+
         if (subscriber != null) {
-            subscriberViewContainer.removeAllViews();
+            subscriberViewContainer.removeView(subscriber.getView());
             session.unsubscribe(subscriber);
-            subscriber.destroy();
+            subscriber = null;
         }
 
         if (publisher != null) {
             publisherViewContainer.removeView(publisher.getView());
             session.unpublish(publisher);
-            publisher.destroy();
+            publisher = null;
         }
-
-        if(session != null){
-            session.disconnect();
-        }
+        session.disconnect();
 
     }
-
 
 }

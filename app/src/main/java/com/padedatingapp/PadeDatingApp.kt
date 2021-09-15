@@ -11,8 +11,12 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.padedatingapp.di.AppModule
 import com.padedatingapp.sockets.AppSocketListener
+import com.vanniktech.emoji.EmojiManager
+import com.vanniktech.emoji.EmojiProvider
+import com.vanniktech.emoji.google.GoogleEmojiProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+
 
 class PadeDatingApp : Application() {
     companion object {
@@ -34,10 +38,13 @@ class PadeDatingApp : Application() {
         startKoin {
             androidContext(applicationContext)
           Places.initialize(this@PadeDatingApp, getString(R.string.google_maps_key))
-            modules(listOf(
+            modules(
+                listOf(
                     AppModule.appModule(this@PadeDatingApp),
                     AppModule.networkModule,
-                    AppModule.RemoteApiModule))
+                    AppModule.RemoteApiModule
+                )
+            )
 
         }
       /*  ProcessLifecycleOwner
@@ -55,6 +62,8 @@ class PadeDatingApp : Application() {
         }
 
         initializeSocket(applicationContext)
+
+        EmojiManager.install(GoogleEmojiProvider())
 
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 

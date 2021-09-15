@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.api.Resource
@@ -140,6 +141,8 @@ class CreateAccountVM(
                 jsonObj.addProperty("latitude", latitude.value.toString())
                 jsonObj.addProperty("longitude", longitude.value.toString())
                 jsonObj.addProperty("profileStatus", 1)
+                jsonObj.addProperty("deviceType", "ANDROID")
+                jsonObj.addProperty("deviceToken", FirebaseInstanceId.getInstance().getToken())
 
                 Log.d("REGISTER_RQST_BODY_DATA", "validateInputs: $jsonObj")
                 callSetupProfileApi(

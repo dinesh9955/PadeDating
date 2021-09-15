@@ -269,7 +269,8 @@
             android:textColor="@color/colorBlack"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:text="0"/>
+            android:text="0"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textmaxAge"
@@ -284,7 +285,7 @@
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:text="70"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="visible"
+            android:visibility="gone"
             />
 
             <TextView
