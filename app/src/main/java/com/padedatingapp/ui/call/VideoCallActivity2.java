@@ -227,7 +227,6 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                     session.disconnect();
                 }
                 onBackPressed();
-
             }
         });
 
@@ -250,7 +249,6 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                 publisher.setPublishAudio(booleanAudio);
              //   subscriber.setSubscribeToAudio(booleanAudio);
             }
-
         });
 
         imageViewVideo.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,10 @@ import com.padedatingapp.di.AppModule
 import com.padedatingapp.sockets.AppSocketListener
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.EmojiProvider
+//import com.vanniktech.emoji.facebook.FacebookEmojiProvider
 import com.vanniktech.emoji.google.GoogleEmojiProvider
+//import com.vanniktech.emoji.ios.IosEmojiProvider
+//import com.vanniktech.emoji.twitter.TwitterEmojiProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -64,7 +67,10 @@ class PadeDatingApp : Application() {
         initializeSocket(applicationContext)
 
         EmojiManager.install(GoogleEmojiProvider())
-
+//        EmojiManager.install(IosEmojiProvider())
+//        EmojiManager.install(TwitterEmojiProvider())
+////        EmojiManager.install(GoogleCompatEmojiProvider())
+//        EmojiManager.install(FacebookEmojiProvider())
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

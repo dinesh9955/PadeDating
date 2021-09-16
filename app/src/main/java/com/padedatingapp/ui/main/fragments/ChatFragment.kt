@@ -1,15 +1,16 @@
 package com.padedatingapp.ui.main.fragments
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.util.TypedValue
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -41,12 +42,16 @@ import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
-import com.padedatingapp.ui.call.VideoCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.chats.ConnectivityReceiver
+import com.padedatingapp.ui.chats.PageTransformer
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
+import com.vanniktech.emoji.EmojiImageView
+import com.vanniktech.emoji.EmojiPopup
+import com.vanniktech.emoji.emoji.Emoji
+import com.vanniktech.emoji.listeners.*
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -81,7 +86,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     private lateinit var adapter: ChatListAdapter
 
-
+    var emojiPopup: EmojiPopup? = null
+    var heightDiff: Int = 0
 
     var block : Boolean = false
 
@@ -113,8 +119,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         viewBinding.vm = chatVM
         viewBinding.lifecycleOwner = this
 
+        val mRootWindow: Window = activity?.window!!
+        val mRootView: View = mRootWindow.getDecorView().findViewById(android.R.id.content)
+        val r: Resources = resources
+        val px = Math.round( TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36f, r.getDisplayMetrics())
+        )
+        emojiPopup = EmojiPopup.Builder.fromRootView(mainView).build(etTypingMessage)
+        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
+            heightDiff = mRootView.getRootView().getHeight() - mRootView.getHeight()
 
-
+            if (emojiPopup != null) {
+                emojiPopup?.dismiss();
+            }
+            emojiPopup?.setPopupWindowHeight(heightDiff - (px * 2))
+        })
 
         AppSocketListener.getInstance().restartSocket()
 
@@ -221,8 +239,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         viewBinding.tvUserOneName.text = userObject.firstName + " "+userObject.lastName
 
 
-        Log.e(TAG, "userObject.image "+userObject.image)
-        Log.e(TAG, "userObject.image2 "+person.receiverImage)
+        Log.e(TAG, "userObject.image " + userObject.image)
+        Log.e(TAG, "userObject.image2 " + person.receiverImage)
 
         Glide.with(requireActivity()).load(person.receiverImage)
                 .apply(options).into(viewBinding.ivUserTwo)
@@ -248,7 +266,13 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             viewBinding.llChatOptions.visibility = View.GONE
         }
 
-
+        ivEmoji.setOnClickListener { ignore ->
+            val keyboard: InputMethodManager =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            if (keyboard.isAcceptingText()) {
+                emojiPopup!!.toggle()
+            }
+        }
 
         //var list = ArrayList<DummyModel>()
 //        repeat(32) {
@@ -316,11 +340,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         }
 
 
-
-
-
     }
-
 
 
 
@@ -598,7 +618,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     private fun getDeleteMessage(response: Resource<ChatDelete>?, type: String) {
 
-        Log.e(TAG, "response?.status "+response?.status)
+        Log.e(TAG, "response?.status " + response?.status)
 
 
 

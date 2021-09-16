@@ -226,8 +226,13 @@ dependencies {
 
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-    implementation 'com.vanniktech:emoji-material:0.7.0'
+
+//    implementation 'com.vanniktech:emoji-material:0.7.0'
     implementation 'com.vanniktech:emoji-google:0.7.0'
+//    implementation 'com.vanniktech:emoji-ios:0.7.0'
+//    implementation 'com.vanniktech:emoji-facebook:0.7.0'
+//    implementation 'com.vanniktech:emoji-twitter:0.7.0'
+//    implementation 'com.vanniktech:emoji:0.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

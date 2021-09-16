@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorLightGrey">
@@ -142,8 +143,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vTopbar"
-
-
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -256,27 +255,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+
             <com.vanniktech.emoji.EmojiEditText
                 android:id="@+id/etTypingMessage"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="11dp"
+                android:layout_toLeftOf="@+id/ivChatSend"
                 android:background="@drawable/round_corner_search_bg"
-                android:paddingVertical="10dp"
                 android:clickable="false"
-                android:paddingBottom="10dp"
-                android:drawablePadding="@dimen/_10sdp"
-                android:paddingLeft="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_30sdp"
                 android:hint="Type a message..."
-                android:paddingHorizontal="20dp"
+                android:layout_centerVertical="true"
+                android:paddingVertical="10dp"
+                android:paddingLeft="@dimen/_30sdp"
+                android:paddingBottom="10dp"
                 android:textColor="@color/blank"
                 android:textColorHint="#717e99"
+                android:inputType="textMultiLine|textShortMessage"
+                android:maxLines="3"/>
+
+            <ImageView
+                android:id="@+id/ivEmoji"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:src="@drawable/ic_chat_emoji"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-
-                android:layout_toLeftOf="@+id/ivChatSend"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 />
-
 
             <ImageView
                 android:id="@+id/ivChatSend"
