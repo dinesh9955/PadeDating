@@ -2,6 +2,7 @@ package com.padedatingapp.ui.main.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
@@ -13,13 +14,22 @@ import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentProfileBinding
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.sockets.AppSocketListener
+import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.MainActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
 
 class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     private val sharedPref by inject<SharedPref>()
+
+    companion object{
+        var TAG = "ProfileFragment"
+    }
+
+    private lateinit var userObject : UserModel
 
     override fun layoutId(): Int = R.layout.fragment_profile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,6 +38,13 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     }
 
     private fun initComponents() {
+        userObject =
+        Gson().fromJson(
+            sharedPref.getString(AppConstants.USER_OBJECT),
+            UserModel::class.java
+        )
+
+
         viewBinding.tvBecomePremium.setOnClickListener {
             findNavController().navigate(R.id.action_to_buy_premium)
         }
@@ -40,6 +57,12 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
         }
 
         viewBinding.tvLogout.setOnClickListener {
+
+            Log.e(TAG, "tvLogout")
+            val json = JSONObject()
+            json.put("partner", userObject._id)
+            AppSocketListener.getInstance().emit(SocketUrls.OFFLINE, json)
+
             var email = ""
             var phone = ""
             var pass = ""

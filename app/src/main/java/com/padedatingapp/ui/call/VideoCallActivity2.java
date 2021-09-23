@@ -87,6 +87,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
     boolean booleanAudio = true;
     boolean booleanVideo = true;
+
     private Emitter.Listener onConnect = null;
     private Emitter.Listener callDiscount = null;
     private Socket socket = null;

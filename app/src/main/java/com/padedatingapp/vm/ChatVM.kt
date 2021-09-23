@@ -6,6 +6,8 @@ import com.padedatingapp.api.Resource
 import com.padedatingapp.api.repository.ChatRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
+import com.padedatingapp.model.MeetMeData
+import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
@@ -21,6 +23,8 @@ class ChatVM(
     var deleteMessageResponse = SingleLiveEvent<Resource<ChatDelete>>()
     var loginResponse = SingleLiveEvent<Resource<ChatUsers>>()
     var callUserResponse = SingleLiveEvent<Resource<CallUser>>()
+
+    var meetMeResponse = SingleLiveEvent<Resource<ResultModel<MeetMeData>>>()
 
     var token = ""
 
@@ -60,6 +64,13 @@ class ChatVM(
         }
     }
 
+
+    fun callMeetMeApi(body: String) {
+        coroutinesManager.ioScope.launch {
+            meetMeResponse.postValue(Resource.loading(null))
+            meetMeResponse.postValue(aboutMeRepo.oneUser("Bearer $token", body))
+        }
+    }
 
 
 

@@ -26,13 +26,20 @@ import com.opentok.android.SubscriberKit;
 import com.padedatingapp.R;
 import com.padedatingapp.base.BaseActivity;
 import com.padedatingapp.model.CallData;
+import com.padedatingapp.sockets.AppSocketListener;
+import com.padedatingapp.sockets.SocketUrls;
 import com.padedatingapp.ui.call.network.APIService;
 import com.padedatingapp.ui.call.network.GetSessionResponse;
+import com.padedatingapp.ui.chats.ConnectivityReceiver;
 
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -43,8 +50,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class AudioCallActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
-
+public class AudioCallActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, ConnectivityReceiver.ConnectivityReceiverListener{
     private static final String TAG = VideoCallActivity.class.getSimpleName();
 
     private static final int PERMISSIONS_REQUEST_CODE = 124;
@@ -73,6 +79,11 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
     boolean booleanAudio = true;
     boolean booleanVideo = true;
+
+    private Emitter.Listener onConnect = null;
+    private Emitter.Listener callDiscount = null;
+    private Socket socket = null;
+
 
     @Override
     public int layoutId() {
@@ -112,6 +123,9 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
         callUser = (CallData) bundle.getSerializable("key");
 
+        AppSocketListener.getInstance().restartSocket();
+
+        initializeSockets();
 
         if(callUser != null){
             if(callUser.getCallFrom().equalsIgnoreCase("notification")){
@@ -144,7 +158,14 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             imageViewCallCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onBackPressed();
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("partner", callUser.getReceiverID());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, json);
+//                    onBackPressed();
                 }
             });
 
@@ -202,10 +223,17 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         textViewCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (session != null) {
-                    session.disconnect();
+//                if (session != null) {
+//                    session.disconnect();
+//                }
+//                onBackPressed();
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("partner", callUser.getReceiverID());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                onBackPressed();
+                AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, json);
             }
         });
 
@@ -520,6 +548,62 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
         if(session != null){
             session.disconnect();
+        }
+    }
+
+
+
+    private void initializeSockets() {
+        Log.e(TAG, "initializeSockets");
+
+
+
+//        onConnect = new Emitter.Listener() {
+//            @Override
+//            public void call(Object... args) {
+//               // socket.emit(SocketUrls.CallDisconnect);
+//                socket.emit(SocketUrls.CallDisconnect);
+////                String data = (String) args[0];
+////                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+//            }
+//        };
+
+        callDiscount = new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                //   Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "callDisconnectAAA "+data);
+                if(data.toString().contains("disconnectd")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    });
+                }
+            }
+        };
+
+
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount);
+//        AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect);
+        // AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount);
+
+    }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isConnected) {
+            if (!socket.connected()) {
+                socket.connect();
+
+                Log.e("Socket", " socket ${socket.connected()}");
+            }
+        } else {
+            Log.e("Socket", " socket ${socket.notconnected()}");
+
         }
     }
 

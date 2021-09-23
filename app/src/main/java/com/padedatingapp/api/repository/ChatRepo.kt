@@ -3,9 +3,7 @@ package com.padedatingapp.api.repository
 import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
-import com.padedatingapp.model.LikeModel
-import com.padedatingapp.model.MeetMe
-import com.padedatingapp.model.MyMatches
+import com.padedatingapp.model.*
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
@@ -31,6 +29,10 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
 
     suspend fun deleteChat(token: String, receiverID: String): Resource<ChatDelete> {
         return handleException { padeApi.deleteChat(token, receiverID) }
+    }
+
+    suspend fun oneUser(token: String, requestBody: String): Resource<ResultModel<MeetMeData>> {
+        return handleException { padeApi.oneUser(token, requestBody) }
     }
 
 

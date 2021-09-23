@@ -32,9 +32,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
-import com.padedatingapp.model.CallData
-import com.padedatingapp.model.ChatIDModel
-import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.*
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
@@ -55,6 +53,7 @@ import com.vanniktech.emoji.listeners.*
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -84,6 +83,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     private val chatVM by inject<ChatVM>()
     private var progressDialog: CustomProgressDialog? = null
 
+
+
     private lateinit var adapter: ChatListAdapter
 
     var emojiPopup: EmojiPopup? = null
@@ -108,6 +109,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     lateinit var onNewMessage: Emitter.Listener
     lateinit var onDisconnect: Emitter.Listener
     lateinit var error: Emitter.Listener
+    lateinit var onlineStatus: Emitter.Listener
+    lateinit var offlineStatus: Emitter.Listener
 //    lateinit var callDiscount: Emitter.Listener
 
     override fun layoutId(): Int = R.layout.fragment_chat
@@ -138,7 +141,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         initComponents()
         initObservables()
-
+        initObservablesOnline()
 
             initializeSockets()
             joinRoom()
@@ -166,6 +169,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         val bundle = arguments
         Log.e(TAG, "bundleAA " + bundle.toString())
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
+
+
+     //   viewBinding.isOnline.text =
 
 
 //        if(person.type.equals("VIDEO_CALL")){
@@ -728,6 +734,22 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //        }
 
 
+        onlineStatus = Emitter.Listener { args ->
+            activity?.runOnUiThread {
+                val data: JSONObject = args[0] as JSONObject
+
+                Log.e("onlineStatus ", "message $data")
+            }
+        }
+
+        offlineStatus = Emitter.Listener { args ->
+            activity?.runOnUiThread {
+                val data: JSONObject = args[0] as JSONObject
+
+                Log.e("offlineStatus ", "message $data")
+            }
+        }
+
         callListerners()
 
     }
@@ -735,7 +757,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     private fun callListerners() {
         AppSocketListener.getInstance().addOnHandler(SocketUrls.NEW_MESSAGES, onNewMessage)
-//        AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount)
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.ONLINE, onlineStatus)
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.OFFLINE, offlineStatus)
+
+        val json = JSONObject()
+        json.put("partner", person.receiverID)
+
+            AppSocketListener.getInstance().emit(SocketUrls.OFFLINE, json)
+
     }
 
     private fun removeListerners() {
@@ -769,6 +798,98 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //                    .start(requireActivity(), this)
 //        }
 //    }
+
+
+
+
+
+    private fun initObservablesOnline() {
+        chatVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
+
+//        meetMeVM.optionChoosen.observe(viewLifecycleOwner) {
+//            showDropDownDialog(it)
+//        }
+
+        chatVM.meetMeResponse.observe(viewLifecycleOwner) {
+            getLiveDataOnline(it, "userResponse")
+        }
+
+
+
+
+
+        chatVM.callMeetMeApi(""+receiverId)
+
+
+
+
+
+    }
+
+
+
+    private fun getLiveDataOnline(response: Resource<ResultModel<*>>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "userResponse" -> {
+                        val data = response.data as ResultModel<MeetMeData>
+                        Log.e(ProfileOtherUserFragment.TAG, "dataAA " + response.data)
+                        Log.e(ProfileOtherUserFragment.TAG, "dataBB " + data.toString())
+                        // onLoginResponse(data)
+
+                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+
+                            if(response.data != null){
+
+                               // viewBinding.isOnline.text = response.data.data?.isOnline
+
+//                                Glide.with(requireActivity()).load(response.data.data?.image)
+//                                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+//
+//                                tvOtherUserName.text = response.data.data?.firstName+" "+ (response.data.data?.lastName) +", "+response.data.data?.age
+//                                tvAboutDesc.text = response.data.data?.description
+//                                tvEmployementType.text = response.data.data?.work
+//
+//
+//                                if(response.data.data?.isApproved == true){
+//                                    imageViewThik.visibility = View.VISIBLE
+//                                }else{
+//                                    imageViewThik.visibility = View.INVISIBLE
+//                                }
+//
+//
+//                                adapter2.submitList(response.data.data?.docImage)
+                            }
+
+
+                        }
+
+
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
 
 
 

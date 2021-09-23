@@ -25,7 +25,8 @@ public class SocketUrls {
     public static final String LAT_LONG_UPDATES="updateLocations"; //CU
 
     public static final String CallDisconnect  = "callDisconnect";
-
+    public static final String ONLINE  = "online";
+    public static final String OFFLINE  = "offline";
 
 //    static let joinRoom = "joinRoom"
 //    static let getMessage = "getMessage"
