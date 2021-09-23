@@ -851,7 +851,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
                             if(response.data != null){
 
-                               // viewBinding.isOnline.text = response.data.data?.isOnline
+                                if(response.data.data?.isOnline == true){
+                                    viewBinding.isOnline.text = "Online"
+                                }else{
+                                    viewBinding.isOnline.text = "Offline"
+                                }
+
 
 //                                Glide.with(requireActivity()).load(response.data.data?.image)
 //                                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
