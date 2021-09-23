@@ -17,4 +17,6 @@ class CallData : Serializable{
     var user2LastName: String = ""
     var user2Image: String = ""
     var callFrom: String = ""
+    var senderID: String = ""
+    var receiverID: String = ""
 }

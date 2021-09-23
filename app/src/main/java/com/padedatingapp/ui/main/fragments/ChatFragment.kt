@@ -108,7 +108,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     lateinit var onNewMessage: Emitter.Listener
     lateinit var onDisconnect: Emitter.Listener
     lateinit var error: Emitter.Listener
-
+//    lateinit var callDiscount: Emitter.Listener
 
     override fun layoutId(): Int = R.layout.fragment_chat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -368,6 +368,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //            mApplication.initializeSocket(requireActivity())
         }
 
+
+     //   AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, json)
+
     }
 
 
@@ -580,10 +583,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                         dataCallData.user1FirstName = data.data.user1.firstName
                         dataCallData.user1LastName = data.data.user1.lastName
                         dataCallData.user1Image = data.data.user1.image
+                        dataCallData.senderID = data.data.user1._id
                         dataCallData.user2FirstName = data.data.user2.firstName
                         dataCallData.user2LastName = data.data.user2.lastName
                         dataCallData.user2Image = data.data.user2.image
-
+                        dataCallData.user2Image = data.data.user2.image
+                        dataCallData.receiverID = data.data.user2._id
 
                         if (data.data.callType.equals("audio")) {
                             dataCallData.callType = "audio"
@@ -711,6 +716,18 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             }
         }
 
+
+//        callDiscount = Emitter.Listener { args ->
+//            activity?.runOnUiThread {
+//
+//                val data: JSONObject = args[0] as JSONObject
+//
+//                Log.e("callDiscountAA ", "message $data")
+//
+//            }
+//        }
+
+
         callListerners()
 
     }
@@ -718,6 +735,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     private fun callListerners() {
         AppSocketListener.getInstance().addOnHandler(SocketUrls.NEW_MESSAGES, onNewMessage)
+//        AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount)
     }
 
     private fun removeListerners() {

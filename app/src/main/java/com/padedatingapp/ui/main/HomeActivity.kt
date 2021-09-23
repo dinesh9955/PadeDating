@@ -114,9 +114,14 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 dataCallData.user1FirstName = user1.getString("firstName")
                 dataCallData.user1LastName = user1.getString("lastName")
                 dataCallData.user1Image = user1.getString("image")
+                dataCallData.senderID = user1.getString("_id")
                 dataCallData.user2FirstName = user2.getString("firstName")
                 dataCallData.user2LastName = user2.getString("lastName")
                 dataCallData.user2Image = user2.getString("image")
+                dataCallData.receiverID = user2.getString("_id")
+
+//                Log.e(TAG, "_idAA "+user1.getString("_id"))
+//                Log.e(TAG, "_idBB "+user2.getString("_id"))
 
 //                val gson = Gson()
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
@@ -142,9 +147,11 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 dataCallData.user1FirstName = user1.getString("firstName")
                 dataCallData.user1LastName = user1.getString("lastName")
                 dataCallData.user1Image = user1.getString("image")
+                dataCallData.senderID = user1.getString("_id")
                 dataCallData.user2FirstName = user2.getString("firstName")
                 dataCallData.user2LastName = user2.getString("lastName")
                 dataCallData.user2Image = user2.getString("image")
+                dataCallData.receiverID = user2.getString("_id")
 
 //                val gson = Gson()
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
@@ -200,10 +207,11 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 dataCallData.user1FirstName = user1.getString("firstName")
                 dataCallData.user1LastName = user1.getString("lastName")
                 dataCallData.user1Image = user1.getString("image")
+                dataCallData.senderID = user1.getString("_id")
                 dataCallData.user2FirstName = user2.getString("firstName")
                 dataCallData.user2LastName = user2.getString("lastName")
                 dataCallData.user2Image = user2.getString("image")
-
+                dataCallData.receiverID = user2.getString("_id")
 //                val gson = Gson()
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data
@@ -230,10 +238,11 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 dataCallData.user1FirstName = user1.getString("firstName")
                 dataCallData.user1LastName = user1.getString("lastName")
                 dataCallData.user1Image = user1.getString("image")
+                dataCallData.senderID = user1.getString("_id")
                 dataCallData.user2FirstName = user2.getString("firstName")
                 dataCallData.user2LastName = user2.getString("lastName")
                 dataCallData.user2Image = user2.getString("image")
-
+                dataCallData.receiverID = user2.getString("_id")
 //                val gson = Gson()
 //                val topic = gson.fromJson(jsonObject.toString(), CallUser::class.java)
 //                val topicData = topic.data

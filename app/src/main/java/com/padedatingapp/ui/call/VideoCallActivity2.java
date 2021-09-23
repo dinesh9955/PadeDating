@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,12 +31,20 @@ import com.padedatingapp.R;
 import com.padedatingapp.base.BaseActivity;
 import com.padedatingapp.model.CallData;
 import com.padedatingapp.model.call.CallUser;
+import com.padedatingapp.sockets.AppSocketListener;
+import com.padedatingapp.sockets.SocketUrls;
 import com.padedatingapp.ui.call.network.APIService;
 import com.padedatingapp.ui.call.network.GetSessionResponse;
+import com.padedatingapp.ui.chats.ConnectivityReceiver;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
@@ -48,7 +57,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 
-public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.PermissionCallbacks , ConnectivityReceiver.ConnectivityReceiverListener{
 
     private static final String TAG = VideoCallActivity.class.getSimpleName();
 
@@ -78,7 +87,9 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
     boolean booleanAudio = true;
     boolean booleanVideo = true;
-
+    private Emitter.Listener onConnect = null;
+    private Emitter.Listener callDiscount = null;
+    private Socket socket = null;
 
     @Override
     public int layoutId() {
@@ -121,7 +132,15 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
         callUser = (CallData) bundle.getSerializable("key");
 
+//        AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect);
+//        if (!socket.connected()) {
+//            socket.connect();
+//            socket.emit(SocketUrls.CallDisconnect);
+//        }
 
+        AppSocketListener.getInstance().restartSocket();
+
+        initializeSockets();
       //  requestPermissions();
 
         if(callUser != null){
@@ -153,14 +172,29 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                     requestPermissions();
                 }
             });
-
+//===============================================================================================
             imageViewCallCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onBackPressed();
+                 //   socket.emit(SocketUrls.CallDisconnect, callUser.getSenderID());
+//                    AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, callUser.getSenderID());
+//                    JSONObject json = new JSONObject();
+//                    try {
+//                        json.put("partner", callUser.getSenderID());
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("partner", callUser.getReceiverID());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, json);
+                   // onBackPressed();
                 }
             });
-
+//===============================================================================================
             imageViewCameraSwitch.setVisibility(View.GONE);
             imageViewCameraSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -219,16 +253,25 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
 
 
 
-
+//===============================================================================================
         textViewCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (session != null) {
-                    session.disconnect();
-                }
-                onBackPressed();
+//                socket.emit(SocketUrls.CallDisconnect, callUser.getSenderID());
+//                if (session != null) {
+//                    session.disconnect();
+//                }
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("partner", callUser.getReceiverID());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect, json);
+//                onBackPressed();
             }
         });
+//===============================================================================================
 
         imageViewAudio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,6 +442,8 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
             Log.e(TAG, "onStreamCreated: Publisher Stream Created. Own stream " + stream.getStreamId());
             publisher.setPublishAudio(booleanAudio);
 //            publisher.setPublishVideo(booleanVideo);
+//            subscriber.getSession();
+//            Log.e(TAG, "subscriber.getSession():  " + subscriber.getSession());
         }
 
         @Override
@@ -605,5 +650,63 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
         session.disconnect();
 
     }
+
+
+
+    private void initializeSockets() {
+        Log.e(TAG, "initializeSockets");
+
+
+
+//        onConnect = new Emitter.Listener() {
+//            @Override
+//            public void call(Object... args) {
+//               // socket.emit(SocketUrls.CallDisconnect);
+//                socket.emit(SocketUrls.CallDisconnect);
+////                String data = (String) args[0];
+////                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+//            }
+//        };
+
+        callDiscount = new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+             //   Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "callDisconnectAAA "+data);
+                if(data.toString().contains("disconnectd")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    });
+                }
+            }
+        };
+
+
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount);
+//        AppSocketListener.getInstance().emit(SocketUrls.CallDisconnect);
+       // AppSocketListener.getInstance().addOnHandler(SocketUrls.CallDisconnect, callDiscount);
+
+    }
+
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isConnected) {
+            if (!socket.connected()) {
+                socket.connect();
+
+                Log.e("Socket", " socket ${socket.connected()}");
+            }
+        } else {
+            Log.e("Socket", " socket ${socket.notconnected()}");
+
+        }
+    }
+
+
 
 }
