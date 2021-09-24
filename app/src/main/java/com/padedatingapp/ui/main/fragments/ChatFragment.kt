@@ -42,13 +42,10 @@ import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.chats.ConnectivityReceiver
-import com.padedatingapp.ui.chats.PageTransformer
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
-import com.vanniktech.emoji.EmojiImageView
 import com.vanniktech.emoji.EmojiPopup
-import com.vanniktech.emoji.emoji.Emoji
 import com.vanniktech.emoji.listeners.*
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -56,6 +53,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONException
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -125,7 +123,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         val mRootWindow: Window = activity?.window!!
         val mRootView: View = mRootWindow.getDecorView().findViewById(android.R.id.content)
         val r: Resources = resources
-        val px = Math.round( TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36f, r.getDisplayMetrics())
+        val px = Math.round(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                36f,
+                r.getDisplayMetrics()
+            )
         )
         emojiPopup = EmojiPopup.Builder.fromRootView(mainView).build(etTypingMessage)
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
@@ -162,7 +165,15 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 )
         chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
 
-
+        if (userObject != null) {
+            val json = JSONObject()
+            try {
+                json.put("partner", userObject._id)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+            AppSocketListener.getInstance().emit(SocketUrls.ONLINE, json)
+        }
 
 
 
@@ -822,7 +833,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
-        chatVM.callMeetMeApi(""+receiverId)
+        chatVM.callMeetMeApi("" + receiverId)
 
 
 
@@ -843,18 +854,30 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 when (type) {
                     "userResponse" -> {
                         val data = response.data as ResultModel<MeetMeData>
-                        Log.e(ProfileOtherUserFragment.TAG, "dataAA " + response.data)
-                        Log.e(ProfileOtherUserFragment.TAG, "dataBB " + data.toString())
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
                         // onLoginResponse(data)
 
                         if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
 
-                            if(response.data != null){
+                            if (response.data != null) {
 
-                                if(response.data.data?.isOnline == true){
+                                if (response.data.data?.isOnline == true) {
                                     viewBinding.isOnline.text = "Online"
-                                }else{
+                                    viewBinding.isOnline.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.ic_online,
+                                        0,
+                                        0,
+                                        0
+                                    );
+                                } else {
                                     viewBinding.isOnline.text = "Offline"
+                                    viewBinding.isOnline.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.ic_offline,
+                                        0,
+                                        0,
+                                        0
+                                    );
                                 }
 
 

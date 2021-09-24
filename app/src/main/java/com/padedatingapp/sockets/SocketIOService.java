@@ -11,6 +11,8 @@ import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.birimo.birimosports.utils.SharedPref;
+import com.google.gson.Gson;
+import com.padedatingapp.model.UserModel;
 import com.padedatingapp.utils.AppConstants;
 
 import org.json.JSONException;
@@ -35,7 +37,7 @@ public class SocketIOService extends Service {
 
 
     SharedPref sharedPref = null;
-
+    UserModel userModel = null;
     public void setAppConnectedToService(Boolean appConnectedToService) {
         try
         {
@@ -84,6 +86,9 @@ public class SocketIOService extends Service {
     public void onCreate() {
         super.onCreate();
         sharedPref = new SharedPref(getApplication());
+
+        userModel = new Gson().fromJson(sharedPref.getString(AppConstants.USER_OBJECT), UserModel.class);
+
         try
         {
             Log.e("SocketIOServiceonCreate", "try");
@@ -99,6 +104,19 @@ public class SocketIOService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (userModel != null){
+            JSONObject json = new JSONObject();
+            try {
+                json.put("partner", userModel.get_id());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AppSocketListener.getInstance().emit(SocketUrls.OFFLINE, json);
+        }
+
+
+
         try
         {
             closeSocketSession();
