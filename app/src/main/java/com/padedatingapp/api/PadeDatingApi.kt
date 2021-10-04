@@ -5,6 +5,7 @@ import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.otp.OtpForgotMain
+import com.padedatingapp.model.plans.PlanModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -117,6 +118,16 @@ interface PadeDatingApi {
 //            @Query("page") page: String
         // @Body body: RequestBody
     ): MyMatches
+
+
+
+    @GET(NetworkUrls.plans)
+    suspend fun plans(
+        @Header("Authorization") token: String
+//            @Query("limit") limit: String,
+//            @Query("page") page: String
+        // @Body body: RequestBody
+    ): PlanModel
 
 
     @PUT(NetworkUrls.profile + "{id}")

@@ -3,6 +3,7 @@ package com.padedatingapp.adapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -10,11 +11,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.padedatingapp.R
 import com.padedatingapp.databinding.ItemPremiumPackstBinding
-import com.padedatingapp.model.Doc
-import com.padedatingapp.model.DummyModel
+//import com.padedatingapp.model.DummyModel
+import com.padedatingapp.model.plans.Doc
 
 class PremiumPacksAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<DummyModel, PremiumPacksAdapter.PremiumPacksViewHolder>(
+    ListAdapter<Doc, PremiumPacksAdapter.PremiumPacksViewHolder>(
         DELIVERY_ITEM_COMPARATOR
     ) {
     inner class PremiumPacksViewHolder(private val binding: ItemPremiumPackstBinding) :
@@ -29,9 +30,14 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
              }
         }
 
-        fun bind(model: DummyModel) {
+        fun bind(model: Doc) {
             binding.apply {
                 this.clItemPacks.background = getDrawable(binding.root.context, adapterPosition)!!
+                tvPackName.text = model.name
+                tvPackValidity.text = ""+model.type + " months"
+                tvPackValidity.visibility = View.VISIBLE
+
+                tvPackPrice.text = model.price.units +" "+ model.price.amount
             }
         }
     }
@@ -50,17 +56,17 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
     }
 
     companion object {
-        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<DummyModel>() {
+        private val DELIVERY_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Doc>() {
             override fun areItemsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: Doc,
+                newItem: Doc
             ): Boolean {
                 TODO("Not yet implemented")
             }
 
             override fun areContentsTheSame(
-                oldItem: DummyModel,
-                newItem: DummyModel
+                oldItem: Doc,
+                newItem: Doc
             ): Boolean {
                 TODO("Not yet implemented")
             }
@@ -68,7 +74,7 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(model: DummyModel)
+        fun onItemClick(model: Doc)
     }
 
     fun getDrawable(context: Context, pos: Int): Drawable? =
@@ -81,7 +87,7 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
         }
 
 
-    fun updateData(arrayList2: ArrayList<DummyModel>) {
+    fun updateData(arrayList2: ArrayList<Doc>) {
        // alName = arrayList2
         notifyDataSetChanged()
     }

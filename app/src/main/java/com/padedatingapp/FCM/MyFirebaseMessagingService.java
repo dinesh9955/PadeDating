@@ -106,9 +106,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String body = json.getString("rawMsg");
                     JSONObject jsonObject = new JSONObject(json.toString());
                     Log.e(TAG, "Data Payload3: " + jsonObject.toString());
-//                    if (!Utility.INSTANCE.isRunning(getApplicationContext())) {
+                    if (!Utility.INSTANCE.isRunning(getApplicationContext())) {
                         sendNotification(getApplicationContext(), body, jsonObject);
-//                    }
+                    }
                 }
 
             } catch (Exception e) {

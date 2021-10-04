@@ -1,6 +1,7 @@
 package com.padedatingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.stripe.android.Stripe;
+import com.stripe.android.TokenCallback;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
+import com.stripe.android.view.CardInputWidget;
 
 import org.w3c.dom.Text;
 
@@ -102,11 +108,74 @@ public class xyz extends AppCompatActivity {
                 Log.e(TAG, "sssssDD "+sssssDD);
                 textView.setText(sssss);
 
+
+                CardInputWidget cardInputWidget = new CardInputWidget(xyz.this);
+                cardInputWidget.setCardNumber("4242424242424242");
+                cardInputWidget.setCvcCode("546");
+                cardInputWidget.setExpiryDate(5,22);
+              //  cardInputWidget.setPostalCodeRequired(false);
+                Card card = cardInputWidget.getCard();
+
+//                PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
+//
+//                PaymentMethodCreateParams.Card.Builder paymentBuilder = new PaymentMethodCreateParams.Card.Builder();
+//                paymentBuilder.setNumber("4242 4242 4242 4242");
+//                paymentBuilder.setExpiryMonth(03));
+//                paymentBuilder.setExpiryYear(23));
+//                paymentBuilder.setCvc("123");
+//
+//                ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(PaymentMethodCreateParams.create(paymentBuilder.build()), paymentIntentClientSecret);
+
+                Stripe stripe = new Stripe(xyz.this, "pk_test_inM99ehBADdrzRTf3wa3ggu2");
+
+                stripe.createToken(
+                        new Card("4242424242424242", 12, 2022, "123"),
+                        tokenCallback
+                );
+
+
+//                stripe.createToken(
+//                        card,
+//                        new TokenCallback() {
+//                            public void onSuccess(Token token) {
+//                                // Send token to your own web service
+//                                MyServer.chargeToken(token);
+//                            }
+//                            public void onError(Exception error) {
+//                                Toast.makeText(getContext(),
+//                                        error.getLocalizedMessage(),
+//                                        Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//                );
+//
+//
+//                Intent tokenServiceIntent = TokenIntentService.createTokenIntent(
+//                        mActivity,
+//                        cardToSave.getNumber(),
+//                        cardToSave.getExpMonth(),
+//                        cardToSave.getExpYear(),
+//                        cardToSave.getCVC(),
+//                        mPublishableKey);
+//                mActivity.startService(tokenServiceIntent);
             }
         });
 
 
     }
+
+
+    TokenCallback tokenCallback = new TokenCallback() {
+        @Override
+        public void onError(Exception error) {
+            Log.e(TAG , "onError "+error.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Token token) {
+            Log.e(TAG , "onSuccess "+token);
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private ArrayList<LocationsModel> getLocations(ArrayList<LocationsModel> locationsModels) {

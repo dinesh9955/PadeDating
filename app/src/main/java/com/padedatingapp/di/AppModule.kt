@@ -53,6 +53,7 @@ object AppModule {
         viewModel { ChatVM(get(), get(), get()) }
         viewModel { ProfileOtherVM(get(), get(), get()) }
         viewModel { ChangePasswordVM(get(), get(), get()) }
+        viewModel { BuyPremiumVM(get(), get(), get()) }
 
 
     }

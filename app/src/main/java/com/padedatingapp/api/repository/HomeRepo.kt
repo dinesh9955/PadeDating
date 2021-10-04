@@ -4,6 +4,7 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.*
+import com.padedatingapp.model.plans.PlanModel
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,5 +27,8 @@ class HomeRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     }
 
 
+    suspend fun plans(token: String, requestBody: RequestBody): Resource<PlanModel> {
+        return handleException { padeApi.plans(token) }
+    }
 
 }

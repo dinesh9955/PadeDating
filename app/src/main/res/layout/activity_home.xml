@@ -38,10 +38,10 @@
         <com.fxn.BubbleTabBar
             android:id="@+id/bottom_menu"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:padding="7dp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_5sdp"
             app:bubbletab_custom_font="@font/rubik"
-            app:bubbletab_title_size="14sp"
+            app:bubbletab_title_size="@dimen/_10sdp"
             app:background="@drawable/bg_round_edge_top_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:bubbletab_menuResource="@menu/home_menu">

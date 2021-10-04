@@ -267,6 +267,12 @@
                 app:argType="string"
                 android:defaultValue="Buy Premium"
                 />
+            <argument
+                android:name="planData"
+                app:nullable="false"
+                app:argType="com.padedatingapp.model.plans.Doc"
+                />
+
         </action>
     </fragment>
 

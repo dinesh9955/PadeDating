@@ -13,11 +13,17 @@ import androidx.navigation.fragment.findNavController
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentBuyGiftBinding
+import com.padedatingapp.model.ChatIDModel
+import com.padedatingapp.model.plans.Doc
 import com.padedatingapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.header_layout.view.*
+import kotlinx.android.synthetic.main.item_premium_packst.*
 
 
 class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
+
+    private lateinit var planData: Doc
+
     override fun layoutId(): Int = R.layout.fragment_buy_gift
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +32,19 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
     private fun initComponents() {
 
+      //  val bundle = arguments
+
         var title = arguments?.getString("title","")
+
+//        var title = arguments?.getString("title","")
+
+        planData  = arguments?.getParcelable<Doc>("planData") as Doc
+
+        tvPackName.text = planData.name
+        tvPackValidity.text = ""+planData.type + " months"
+        tvPackValidity.visibility = View.VISIBLE
+
+        tvPackPrice.text = planData.price.units +" "+ planData.price.amount
 
         viewBinding.header.tvTitle.text = title
         viewBinding.header.ivBack.setOnClickListener {

@@ -233,6 +233,10 @@ dependencies {
 //    implementation 'com.vanniktech:emoji-facebook:0.7.0'
 //    implementation 'com.vanniktech:emoji-twitter:0.7.0'
 //    implementation 'com.vanniktech:emoji:0.7.0'
+//    implementation "com.stripe:stripeterminal:2.3.1"
+//    implementation 'com.stripe:stripe-android:6.1.2'
+//    implementation 'com.stripe:stripe-android:16.1.0'
+    implementation 'com.github.driivz:stripe-android:8.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

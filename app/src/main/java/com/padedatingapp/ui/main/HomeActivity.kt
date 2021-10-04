@@ -67,6 +67,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         }
 
 
+      //  viewBinding.bottomMenu.setSelectedWithId(bottom_menu[2].id, false)
+
         val bundle = intent.extras
         if (bundle != null) {
             var res = bundle.getString("key")
@@ -169,7 +171,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
            // viewBinding.bottomMenu.setSelectedWithId(bottom_menu[2].id, false)
 
 
-
+            //viewBinding.bottomMenu.setSelectedWithId(bottom_menu[2].id, false)
 
 
             //navController.navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
