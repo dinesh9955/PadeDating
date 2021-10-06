@@ -1,9 +1,13 @@
 package com.padedatingapp
+//import com.vanniktech.emoji.facebook.FacebookEmojiProvider
+//import com.vanniktech.emoji.ios.IosEmojiProvider
+//import com.vanniktech.emoji.twitter.TwitterEmojiProvider
 import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
+import androidx.multidex.MultiDex
 import com.facebook.FacebookSdk
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
@@ -12,11 +16,7 @@ import com.google.gson.Gson
 import com.padedatingapp.di.AppModule
 import com.padedatingapp.sockets.AppSocketListener
 import com.vanniktech.emoji.EmojiManager
-import com.vanniktech.emoji.EmojiProvider
-//import com.vanniktech.emoji.facebook.FacebookEmojiProvider
 import com.vanniktech.emoji.google.GoogleEmojiProvider
-//import com.vanniktech.emoji.ios.IosEmojiProvider
-//import com.vanniktech.emoji.twitter.TwitterEmojiProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -32,6 +32,7 @@ class PadeDatingApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
 
         FacebookSdk.sdkInitialize(applicationContext)
 
@@ -102,5 +103,9 @@ class PadeDatingApp : Application() {
     }
 
 
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
 }

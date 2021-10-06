@@ -19,7 +19,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -236,7 +236,17 @@ dependencies {
 //    implementation "com.stripe:stripeterminal:2.3.1"
 //    implementation 'com.stripe:stripe-android:6.1.2'
 //    implementation 'com.stripe:stripe-android:16.1.0'
-    implementation 'com.github.driivz:stripe-android:8.1.0'
+
+
+    implementation 'com.stripe:stripe-android:1.0.4'
+//    implementation 'com.github.driivz:stripe-android:8.1.0'
+//    implementation 'com.stripe:stripe-android:17.2.0'
+//    implementation "com.stripe:stripe-java:17.2.0"
+
+    implementation 'com.android.support:multidex:1.0.3'
+//    implementation 'com.stripe:stripe-android:14.2.1'
+//    https://stackoverflow.com/questions/37404570/stripe-payment-gateway-in-android
+//    https://github.com/stripe/stripe-android/releases?after=v7.0.0
 }
 
 apply plugin: 'com.google.gms.google-services'

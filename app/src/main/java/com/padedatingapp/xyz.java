@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +17,34 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+//import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
-import com.stripe.android.view.CardInputWidget;
+//import com.stripe.android.view.CardInputWidget;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.model.Charge;
+//import com.stripe.android.Stripe;
+////import com.stripe.android.TokenCallback;
+//import com.stripe.android.TokenCallback;
+//import com.stripe.android.model.Card;
+//import com.stripe.android.model.PaymentIntent;
+//import com.stripe.android.model.Token;
+//import com.stripe.Stripe;
+//import com.stripe.exception.StripeException;
+//import com.stripe.model.Card;
+//import com.stripe.model.Charge;
+//import com.stripe.model.SetupIntent;
+//import com.stripe.model.Token;
+//import com.stripe.model.terminal.ConnectionToken;
+//import com.stripe.param.ChargeCreateParams;
+//import com.stripe.param.terminal.ConnectionTokenCreateParams;
+//import com.stripe.android.view.CardInputWidget;
+//import com.stripe.exception.StripeException;
+//import com.stripe.model.Charge;
+//import com.stripe.param.ChargeCreateParams;
+//import com.stripe.param.PaymentIntentCreateParams;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +54,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class xyz extends AppCompatActivity {
 
@@ -63,10 +89,80 @@ public class xyz extends AppCompatActivity {
 
 //        generateNoteOnSD(xyz.this , "track.txt", "");
 
+     //   CardInputWidget cardInputWidget = new CardInputWidget();
+
+
+
+     //   card = cardInputWidget.getCard();
+
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+
+      //  PaymentConfiguration.init(xyz.this, "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM");
+
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+
+
+                final String publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2";
+
+                Card card = new Card("4242424242424242", 12, 2022, "123");
+
+                Stripe stripe = null;
+                try {
+                    stripe = new Stripe(publishableApiKey);
+                } catch (AuthenticationException e) {
+                    e.printStackTrace();
+                }
+                stripe.createToken(card, publishableApiKey, new TokenCallback() {
+                    @Override
+                    public void onError(Exception error) {
+                        Log.e(TAG, "onError "+error.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(Token token) {
+                        Log.e(TAG, "onSuccess "+token.getId());
+                        com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp";
+                        try {
+                            final Map<String, Object> chargeParams = new HashMap<String, Object>();
+                            chargeParams.put("amount", 500); // amount in cents, again
+                            chargeParams.put("currency", "usd");
+                            chargeParams.put("source", token.getId());
+                            chargeParams.put("description", "Example charge");
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Charge charge = null;
+                                    try {
+                                        charge = Charge.create(chargeParams);
+                                        Log.e(TAG, "onSuccessCharge "+charge.getId());
+                                        String xx = new Gson().toJson(charge);
+                                        Log.e(TAG, "onSuccessChargeGson "+xx);
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Log.e(TAG, "onSuccessERRoR "+e.getMessage());
+                                    }
+                                    System.out.println("Charge Log :" + charge);
+                                }
+                            }).start();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+
 //                if(!pref.getAddress().equalsIgnoreCase("")){
 //                    mainModel = new Gson().fromJson(pref.getAddress(), MainModel.class);
 //                    ArrayList<LocationsModel> loc = new ArrayList<>();
@@ -109,12 +205,12 @@ public class xyz extends AppCompatActivity {
                 textView.setText(sssss);
 
 
-                CardInputWidget cardInputWidget = new CardInputWidget(xyz.this);
-                cardInputWidget.setCardNumber("4242424242424242");
-                cardInputWidget.setCvcCode("546");
-                cardInputWidget.setExpiryDate(5,22);
+//                CardInputWidget cardInputWidget = new CardInputWidget(xyz.this);
+//                cardInputWidget.setCardNumber("4242424242424242");
+//                cardInputWidget.setCvcCode("546");
+//                cardInputWidget.setExpiryDate(5,22);
               //  cardInputWidget.setPostalCodeRequired(false);
-                Card card = cardInputWidget.getCard();
+               // Card card = cardInputWidget.getCard();
 
 //                PaymentMethodCreateParams params = cardInputWidget.getPaymentMethodCreateParams();
 //
@@ -126,13 +222,41 @@ public class xyz extends AppCompatActivity {
 //
 //                ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(PaymentMethodCreateParams.create(paymentBuilder.build()), paymentIntentClientSecret);
 
-                Stripe stripe = new Stripe(xyz.this, "pk_test_inM99ehBADdrzRTf3wa3ggu2");
+//                Stripe stripe = new Stripe(xyz.this, "pk_test_inM99ehBADdrzRTf3wa3ggu2");
+//
+//                stripe.createToken(
+//                        new Card("4242424242424242", 12, 2022, "123"),
+//                        tokenCallback
+//                );
 
-                stripe.createToken(
-                        new Card("4242424242424242", 12, 2022, "123"),
-                        tokenCallback
-                );
 
+                //com.stripe.Stripe.apiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2";
+
+//                PaymentIntentCreateParams params =
+//                        PaymentIntentCreateParams.builder()
+//                                .setAmount(1000L)
+//                                .setCurrency("usd")
+//                                .addPaymentMethodType("card")
+//                                .setReceiptEmail("jenny.rosen@example.com")
+//                                .build();
+//
+//                PaymentIntent paymentIntent = PaymentIntent.create(params);
+
+//                ChargeCreateParams params =
+//                        ChargeCreateParams.builder()
+//                                .setAmount(999L)
+//                                .setCurrency("usd")
+//                                .setDescription("Example charge")
+//                                .setSource(com.stripe.Stripe.apiKey)
+//                                .setStatementDescriptor("Custom descriptor")
+//                                .build();
+//                try {
+//                    Charge charge = Charge.create(params);
+//                    Log.e(TAG, "charge.getCreated() "+charge.getCreated());
+//                } catch (StripeException e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "StripeException "+e.getMessage());
+//                }
 
 //                stripe.createToken(
 //                        card,
@@ -158,6 +282,76 @@ public class xyz extends AppCompatActivity {
 //                        cardToSave.getCVC(),
 //                        mPublishableKey);
 //                mActivity.startService(tokenServiceIntent);
+
+               // Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp";
+
+//                Map<String, Object> params = new HashMap<>();
+//                params.put("customer", customer.getId());
+//                SetupIntent setupIntent = SetupIntent.create(params);
+//                String clientSecret = setupIntent.getClientSecret();
+
+
+//                Card card = new Card("4242424242424242", 12, 2022, "123");
+//
+//
+//                Card card = new Card("4242424242424242", 12, 2022, "123");
+
+
+//                Stripe.apiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2";
+//                ConnectionTokenCreateParams params =
+//                        ConnectionTokenCreateParams.builder()
+//                                .build();
+//
+//                try {
+//                    ConnectionToken connectionToken = ConnectionToken.create(params);
+//                    Log.e(TAG, "charge.getCreated() "+connectionToken.getSecret());
+//                } catch (StripeException e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "StripeException22 "+e.getMessage());
+//                }
+//
+//                Stripe.apiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2";
+
+// `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/cards/collecting/web#create-token
+//                Map<String, Object> params = new HashMap<>();
+//                params.put("amount", 2000);
+//                params.put("currency", "usd");
+//                params.put("source", "tok_visa");
+//                params.put(
+//                        "description",
+//                        "Charge for jenny.rosen@example.com"
+//                );
+//
+//                try {
+//                    Charge charge = Charge.create(params);
+//                    Log.e(TAG, "charge.getCreated() "+charge.getCreated());
+//                } catch (StripeException e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "StripeException "+e.getMessage());
+//                }
+
+
+
+
+//                Stripe stripe = new Stripe(StripeActivity.this, "put key here");
+//                stripe.createToken(carToSave, new TokenCallback() {
+//                    @Override
+//                    public void onError(Exception error) {
+//                        // Show localized error message
+//                        Log.d(TAG, "onError");
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(Token token) {
+//                        //do charge with token
+//
+//                        Log.d(TAG, token.getId());//token
+//
+//
+//
+//                    }
+//                });
             }
         });
 
@@ -165,17 +359,39 @@ public class xyz extends AppCompatActivity {
     }
 
 
-    TokenCallback tokenCallback = new TokenCallback() {
-        @Override
-        public void onError(Exception error) {
-            Log.e(TAG , "onError "+error.getMessage());
-        }
-
-        @Override
-        public void onSuccess(Token token) {
-            Log.e(TAG , "onSuccess "+token);
-        }
-    };
+//    TokenCallback tokenCallback = new TokenCallback() {
+//        @Override
+//        public void onError(Exception error) {
+//            Log.e(TAG , "onError "+error.getMessage());
+//        }
+//
+//        @Override
+//        public void onSuccess(Token token) {
+//            Log.e(TAG , "onSuccess "+token.getId());
+//            Stripe stripe = new Stripe(xyz.this, "pk_test_inM99ehBADdrzRTf3wa3ggu2");
+////
+////// Token is created using Checkout or Elements!
+////// Get the payment token ID submitted by the form:
+////            String token = request.getParameter("stripeToken");
+////
+//            ChargeCreateParams params =
+//                    ChargeCreateParams.builder()
+//                            .setAmount(999L)
+//                            .setCurrency("usd")
+//                            .setDescription("Example charge")
+//                            .setSource("card_123")
+//                            .setStatementDescriptor("Custom descriptor")
+//                            .build();
+//
+//            try {
+//                Charge charge = Charge.create(params);
+//                Log.e(TAG, "charge.getCreated() "+charge.getCreated());
+//            } catch (StripeException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "StripeException "+e.getMessage());
+//            }
+//        }
+//    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private ArrayList<LocationsModel> getLocations(ArrayList<LocationsModel> locationsModels) {

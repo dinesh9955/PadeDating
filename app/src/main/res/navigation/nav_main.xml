@@ -160,8 +160,7 @@
         <action
             android:id="@+id/action_to_sign_up_about_fragment"
             app:destination="@id/signupAboutMeFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
+
             app:launchSingleTop="true" >
             <argument
                 android:name="title"
