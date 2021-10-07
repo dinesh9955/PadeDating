@@ -26,6 +26,7 @@ import com.padedatingapp.databinding.FragmentBuyGiftBinding
 import com.padedatingapp.model.AllGiftCard
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.plans.Doc
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -79,6 +80,8 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                 UserModel::class.java
             )
 
+        buyGiftVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+
       //  val bundle = arguments
 
         var title = arguments?.getString("title", "")
@@ -126,9 +129,26 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                     etExpiryDate.text.toString().split("/")[0],
                     etExpiryDate.text.toString().split("/")[1],
                     etCVV.text.toString(),
-                    userObject.totalPoints
+                    userObject.totalPoints,
+                    planData.name,
+                    planData.price.amount
                 )
             }
+
+
+//            var packageName = planData._id
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("package", packageName)
+//            jsonObj.addProperty("stripeToken", "")
+//            jsonObj.addProperty("card", "card_1JhuEiIuz09BIRfIE5PC8gO5")
+//            jsonObj.addProperty("points", "")
+
+
+
+//            buyGiftVM.paymentAPI(
+//                jsonObj.toString()
+//                    .toRequestBody("application/json".toMediaTypeOrNull())
+//            )
 
 
         }
@@ -196,10 +216,13 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         expMonth: String,
         expYear: String,
         cvv: String,
-        points: String
+        points: String,
+        planName: String,
+        planAmount: Int
     ) {
-        val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
-
+        progressDialog?.show()
+        val publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM"
+       // val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
 
 //        val card = Card(etCardHolderName.text.toString(),
 //            etCardNumber.text.toString().toInt(),
@@ -228,38 +251,12 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
             override fun onSuccess(token: Token) {
                 Log.e(TAG, "onSuccess " + token.id)
-                com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp"
-                try {
-                    Thread {
-                        try {
-                            val customerParams: MutableMap<String, Any> =
-                                HashMap()
-                            customerParams["email"] = "dnkumar.chauhan@gmail.com"
-                            customerParams["source"] = token.id
-                            val customer = Customer.create(customerParams)
-                            val chargeParams: MutableMap<String, Any> =
-                                HashMap()
-                            chargeParams["amount"] = 500 // amount in cents, again
-                            chargeParams["currency"] = "usd"
-                            // chargeParams.put("source", token.getId());
-                            chargeParams["description"] = "Example charge"
-                            chargeParams["customer"] = customer.id
-                            //                                        chargeParams.put("email", "paying.user@example.com");
-                            val charge = Charge.create(chargeParams)
-                            Log.e(TAG, "onSuccessCharge " + charge.source.id)
-                            val xx = Gson().toJson(charge)
-                            Log.e(TAG, "onSuccessChargeGson $xx")
-
-
-                            var packageName = planData._id
-                            // var packageName = planData._id
-//                            planData
-
-
+                progressDialog?.dismiss()
+                var packageName = planData._id
                             val jsonObj = JsonObject()
                             jsonObj.addProperty("package", packageName)
                             jsonObj.addProperty("stripeToken", token.id)
-                            jsonObj.addProperty("card", charge.source.id)
+                            jsonObj.addProperty("card", "")
 
                             if (cbLoyaltyPoints.isChecked == true){
                                 jsonObj.addProperty("points", ""+points)
@@ -267,22 +264,68 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                                 jsonObj.addProperty("points", "")
                             }
 
-
-
-                            buyGiftVM.callUpdateProfileApi(
+                            buyGiftVM.paymentAPI(
                                 jsonObj.toString()
                                     .toRequestBody("application/json".toMediaTypeOrNull())
                             )
 
-                        } catch (e: java.lang.Exception) {
-                            e.printStackTrace()
-                            Log.e(TAG, "onSuccessERRoR " + e.message)
-                        }
-                        //System.out.println("Charge Log :" + charge);
-                    }.start()
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
+
+                //com.stripe.Stripe.apiKey = "sk_test_51CiPu1Iuz09BIRfI5m3yq1y0mOq9wxctHpfRlYfT4hps7TaTfTfSjRKxd3zDBXi2j7KIPeEfgo8OfBXT6g2XrBl700FU6gNyLJ"
+//                com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp"
+//                try {
+//                    Thread {
+//                        try {
+//                            val customerParams: MutableMap<String, Any> =
+//                                HashMap()
+//                            customerParams["email"] = "dnkumar.chauhan@gmail.com"
+//                            customerParams["source"] = token.id
+//                            val customer = Customer.create(customerParams)
+//                            val chargeParams: MutableMap<String, Any> =
+//                                HashMap()
+//                            chargeParams["amount"] = planAmount * 100 // amount in cents, again
+//                            chargeParams["currency"] = "usd"
+//                            // chargeParams.put("source", token.getId());
+//                            chargeParams["description"] = ""+planName
+//                            chargeParams["customer"] = customer.id
+//                            //                                        chargeParams.put("email", "paying.user@example.com");
+//                            val charge = Charge.create(chargeParams)
+//                            Log.e(TAG, "onSuccessCharge " + charge.source.id)
+//                            val xx = Gson().toJson(charge)
+//                            Log.e(TAG, "onSuccessChargeGson $xx")
+//
+//
+//                            var packageName = planData._id
+//                            // var packageName = planData._id
+////                            planData
+//
+//
+//                            val jsonObj = JsonObject()
+//                            jsonObj.addProperty("package", packageName)
+//                            jsonObj.addProperty("stripeToken", token.id)
+//                            jsonObj.addProperty("card", charge.source.id)
+//
+//                            if (cbLoyaltyPoints.isChecked == true){
+//                                jsonObj.addProperty("points", ""+points)
+//                            }else{
+//                                jsonObj.addProperty("points", "")
+//                            }
+//
+//
+//
+//                            buyGiftVM.callUpdateProfileApi(
+//                                jsonObj.toString()
+//                                    .toRequestBody("application/json".toMediaTypeOrNull())
+//                            )
+//
+//                        } catch (e: java.lang.Exception) {
+//                            e.printStackTrace()
+//                            Log.e(TAG, "onSuccessERRoR " + e.message)
+//                        }
+//                        //System.out.println("Charge Log :" + charge);
+//                    }.start()
+//                } catch (e: java.lang.Exception) {
+//                    e.printStackTrace()
+//                }
             }
         })
     }
@@ -304,9 +347,12 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
     }
 
 
-    private fun getLiveData(response: Resource<ResultModel<AllGiftCard>>?, type: String) {
+    private fun getLiveData(response: Resource<BlockUserModel>?, type: String) {
 
         Log.e(TAG, "onViewCreated12")
+
+//        val data = response?.data as BlockUserModel
+//        Log.e(TAG, "userObjectAAXXx "+data.toString())
 
         when (response?.status) {
             Resource.Status.LOADING -> {
@@ -317,9 +363,10 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
                 when (type) {
                     "BuyGiftCardList" -> {
-//                        val data = response.data as ResultModel<AllGiftCard>
-//
-//                        Log.e(BuyGiftCardsListFragment.TAG, "userObjectAA "+data.toString())
+                        val data = response.data?.message
+                        Log.e(TAG, "userObjectAA "+data.toString())
+
+                        findNavController().popBackStack()
 //
 //                        onSetGiftCardListResponse(data)
                     }

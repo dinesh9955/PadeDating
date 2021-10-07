@@ -5,6 +5,7 @@ import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.AllGiftCard
 import com.padedatingapp.model.ResultModel
+import com.padedatingapp.model.blockUser.BlockUserModel
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ class GiftCardRepo @Inject constructor(private val padeApi: PadeDatingApi) {
         return handleException { padeApi.giftCards(token) }
     }
 
-    suspend fun paymentAPI(token: String, toRequestBody: RequestBody): Resource<ResultModel<AllGiftCard>> {
+    suspend fun paymentAPI(token: String, toRequestBody: RequestBody): Resource<BlockUserModel> {
         return handleException { padeApi.payment(token, toRequestBody) }
     }
 

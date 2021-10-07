@@ -8,6 +8,7 @@ import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.AllGiftCard
 import com.padedatingapp.model.ResultModel
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -18,7 +19,7 @@ class BuyGiftVM(
     private val coroutinesManager: CoroutinesManager,
     private val aboutMeRepo: GiftCardRepo
 ) : ViewModel() {
-    var loginResponsePayment = SingleLiveEvent<Resource<ResultModel<AllGiftCard>>>()
+    var loginResponsePayment = SingleLiveEvent<Resource<BlockUserModel>>()
 
     var file: File? = null
     var token = ""
@@ -26,7 +27,7 @@ class BuyGiftVM(
     var errorMessage =  MutableLiveData("")
 
 
-    fun callUpdateProfileApi(toRequestBody: RequestBody) {
+    fun paymentAPI(toRequestBody: RequestBody) {
         coroutinesManager.ioScope.launch {
             loginResponsePayment.postValue(Resource.loading(null))
             loginResponsePayment.postValue(aboutMeRepo.paymentAPI("Bearer $token", toRequestBody))

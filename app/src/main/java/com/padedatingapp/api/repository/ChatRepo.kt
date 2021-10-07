@@ -4,9 +4,11 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.*
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.reasons.ReasonModel
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,6 +29,14 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
         return handleException { padeApi.call(token, receiverID) }
     }
 
+    suspend fun blockUser(token: String, receiverID: String): Resource<BlockUserModel> {
+        return handleException { padeApi.blockUser(token, receiverID) }
+    }
+
+    suspend fun unblockUser(token: String, receiverID: String): Resource<BlockUserModel> {
+        return handleException { padeApi.unblockUser(token, receiverID) }
+    }
+
     suspend fun deleteChat(token: String, receiverID: String): Resource<ChatDelete> {
         return handleException { padeApi.deleteChat(token, receiverID) }
     }
@@ -35,5 +45,9 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
         return handleException { padeApi.oneUser(token, requestBody) }
     }
 
+
+    suspend fun reasonApi(token: String): Resource<ReasonModel> {
+        return handleException { padeApi.reason(token) }
+    }
 
 }

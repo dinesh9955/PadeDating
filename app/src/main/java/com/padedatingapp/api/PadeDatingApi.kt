@@ -1,11 +1,13 @@
 package com.padedatingapp.api
 
 import com.padedatingapp.model.*
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.plans.PlanModel
+import com.padedatingapp.model.reasons.ReasonModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -96,11 +98,7 @@ interface PadeDatingApi {
     ): ResultModel<UserModel>
 
 
-    @POST(NetworkUrls.payment)
-    suspend fun payment(
-        @Header("Authorization") token: String,
-        @Body body: RequestBody
-    ): ResultModel<AllGiftCard>
+
 
 
     @GET(NetworkUrls.giftCards)
@@ -191,5 +189,28 @@ interface PadeDatingApi {
     ): CallUser
 
 
+    @PUT(NetworkUrls.blockUser+ "{id}")
+    suspend fun blockUser(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): BlockUserModel
+
+    @PUT(NetworkUrls.unblockUser+ "{id}")
+    suspend fun unblockUser(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+    ): BlockUserModel
+
+    @POST(NetworkUrls.payment)
+    suspend fun payment(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): BlockUserModel
+
+
+    @GET(NetworkUrls.reasons)
+    suspend fun reason(
+        @Header("Authorization") token: String,
+    ): ReasonModel
 
 }

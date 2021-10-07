@@ -6,14 +6,17 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -22,6 +25,7 @@ import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.flexhelp.model.MessageItem
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.PadeDatingApp
@@ -33,10 +37,13 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChatBinding
 import com.padedatingapp.model.*
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
+import com.padedatingapp.model.reasons.ReasonModel
+import com.padedatingapp.model.reasons.Value
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
@@ -49,6 +56,8 @@ import com.vanniktech.emoji.EmojiPopup
 import com.vanniktech.emoji.listeners.*
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.bottomsheet_gift_card_purchased.*
+import kotlinx.android.synthetic.main.bottomsheet_report.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -69,7 +78,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     }
 
 
-
+    lateinit var list : List<Value>
 
     private lateinit var dialog: Dialog
 
@@ -145,7 +154,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         initComponents()
         initObservables()
         initObservablesOnline()
-
+        initObservablesBlockUser()
+        initObservablesReason()
             initializeSockets()
             joinRoom()
 
@@ -155,8 +165,6 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
     private fun initComponents() {
-
-
 
         userObject =
                 Gson().fromJson(
@@ -182,53 +190,6 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         person  = bundle?.getSerializable("meetMeModelChat") as ChatIDModel
 
 
-     //   viewBinding.isOnline.text =
-
-
-//        if(person.type.equals("VIDEO_CALL")){
-//
-//            var dataCall : CallUser? = null
-//
-//            var data = dataCall?.data
-//
-//            data?.apikey = ""
-//            data?.apikey = ""
-//            data?.apikey = ""
-//            data?.apikey = ""
-//            data?.apikey = ""
-//
-//            Log.e(TAG, "dataAAC " + data.toString())
-//
-//
-//            var intent = Intent(requireContext(), VideoCallActivity::class.java)
-//            var bundle = Bundle()
-//            bundle.putSerializable("key", data);
-//            intent.putExtras(bundle)
-//            startActivity(intent)
-//
-////            if(data.data.callType.equals("audio")){
-////                var intent = Intent(requireContext(), VideoCallActivity::class.java)
-////                var bundle = Bundle()
-////                bundle.putSerializable("key", data);
-////                intent.putExtras(bundle)
-////                startActivity(intent)
-////            }else if(data.data.callType.equals("video")){
-////                var intent = Intent(requireContext(), VideoCallActivity::class.java)
-////                var bundle = Bundle()
-////                bundle.putSerializable("key", data);
-////                intent.putExtras(bundle)
-////                startActivity(intent)
-////            }
-//
-////            var data : CallUser
-////            data.data.apikey = person.
-//
-////            var intent = Intent(requireContext(), VideoCallActivity::class.java)
-////            var bundle = Bundle()
-////            bundle.putSerializable("key", data);
-////            intent.putExtras(bundle)
-////            startActivity(intent)
-//        }
 
 
         senderId = ""+userObject._id
@@ -277,10 +238,18 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         tvBlock.setOnClickListener {
             viewBinding.llChatOptions.visibility = View.GONE
+
+//            val jsonObj = JsonObject()
+//            jsonObj.addProperty("callType", "audio")
+//            jsonObj.addProperty("partner", receiverId)
+            chatVM.blockApi(receiverId!!)
+
+
         }
 
         tvReport.setOnClickListener {
             viewBinding.llChatOptions.visibility = View.GONE
+            showCongratsBottomSheet()
         }
 
         ivEmoji.setOnClickListener { ignore ->
@@ -355,6 +324,12 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 Toast.makeText(context, "Please input String ", Toast.LENGTH_LONG).show()
             }
         }
+
+
+//        val jsonObj = JsonObject()
+//        jsonObj.addProperty("callType", "video")
+//        jsonObj.addProperty("partner", receiverId)
+
 
 
     }
@@ -919,6 +894,198 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
+    private fun initObservablesBlockUser() {
+        chatVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
 
+        chatVM.blockUserResponse.observe(viewLifecycleOwner) {
+            getLiveDataBlockUser(it, "userResponse")
+        }
+
+
+    }
+
+
+
+
+//
+//    private fun getLiveDataBlockUser(response: Resource<BlockUserModel>?, s: String) {
+//
+//    }
+
+
+    private fun getLiveDataBlockUser(response: Resource<BlockUserModel>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "userResponse" -> {
+                        val data = response.data as BlockUserModel
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
+                        // onLoginResponse(data)
+//
+                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                            if (response.data != null) {
+                                toast(response.data.message)
+                                if (person.type.equals("VIDEO_CALL") || person.type.equals("TEXT_CHAT")) {
+                                    activity?.finish()
+                                } else {
+                                    findNavController().popBackStack()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+    private fun initObservablesReason() {
+        chatVM.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                toast(it)
+            }
+        }
+
+        chatVM.reasonModel.observe(viewLifecycleOwner) {
+            getLiveDataReason(it, "userResponse")
+        }
+
+        chatVM.reasonApi()
+    }
+
+
+
+    private fun getLiveDataReason(response: Resource<ReasonModel>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "userResponse" -> {
+                        val data = response.data as ReasonModel
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
+                        // onLoginResponse(data)
+//
+                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                            if (response.data != null) {
+                                //toast(response.data.message)
+                                Log.e(TAG, "dataAACC " + response.data.data)
+                                list = response.data.data.value
+                            }
+                        }
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+
+    private fun showCongratsBottomSheet() = try {
+//        val dialog = Dialog(requireActivity())
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.window?.setDimAmount(0f)
+//        dialog.setCancelable(false)
+//        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_report, null)
+//        dialog.setContentView(dialogView)
+//        dialog.window?.setLayout(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.MATCH_PARENT
+//        );
+
+//        val btnDone = dialogView.findViewById<TextView>(R.id.btnDone)
+//        val ivClose = dialogView.findViewById<ImageView>(R.id.ivClose)
+//
+//        ivClose?.setOnClickListener {
+//            dialog.dismiss()
+//            findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
+//        }
+//        btnDone?.setOnClickListener {
+//            dialog.dismiss()
+//            findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
+//        }
+
+     //   dialog.show()
+
+       var bottomSheetDialog4 = Dialog(requireContext())
+        val view: View = LayoutInflater.from(activity).inflate(R.layout.bottomsheet_report, null)
+        bottomSheetDialog4.setContentView(view)
+        bottomSheetDialog4.getWindow()?.getAttributes()!!.windowAnimations = R.style.DialogAnimation
+        val window: Window = bottomSheetDialog4.getWindow()!!
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        var reasonText = view.findViewById<TextView>(R.id.tvReason)
+        reasonText?.setOnClickListener {
+            requireActivity().hideKeyboard()
+            showDropDownDialog()
+            Log.e(TAG, "tvReason")
+        }
+
+        var btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+        var btnCancel = view.findViewById<Button>(R.id.btnCancel)
+
+        btnSubmit?.setOnClickListener {
+            dialog.dismiss()
+           // findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
+//            requireActivity().hideKeyboard()
+//            showDropDownDialog()
+        }
+
+        btnCancel?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+        bottomSheetDialog4.show()
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun showDropDownDialog() {
+        //val list = resources.getStringArray(R.array.gender_array)
+        val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Select Reason")
+            .setItems(array) { _, which ->
+//                viewBinding.tvGender.text = list[which]
+//                editProfileVM.gender.value = list[which]
+            }.show()
+    }
 
 }

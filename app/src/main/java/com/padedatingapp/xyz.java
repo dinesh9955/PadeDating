@@ -145,7 +145,6 @@ public class xyz extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 final String publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM";
 
                 Card card = new Card("4242424242424242", 12, 2022, "123");
@@ -171,23 +170,23 @@ public class xyz extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
-                                        Map<String, Object> customerParams = new HashMap<String, Object>();
-                                        customerParams.put("email", "dnkumar.chauhan@gmail.com");
-                                        customerParams.put("source", token.getId());
-                                        Customer customer = Customer.create(customerParams);
+//                                        Map<String, Object> customerParams = new HashMap<String, Object>();
+//                                        customerParams.put("email", "dnkumar.chauhan@gmail.com");
+//                                        customerParams.put("source", token.getId());
+//                                        Customer customer = Customer.create(customerParams);
 
-                                        final Map<String, Object> chargeParams = new HashMap<String, Object>();
-                                        chargeParams.put("amount", 500); // amount in cents, again
-                                        chargeParams.put("currency", "usd");
-                                       // chargeParams.put("source", token.getId());
-                                        chargeParams.put("description", "Example charge");
-                                        chargeParams.put("customer", customer.getId());
-//                                        chargeParams.put("email", "paying.user@example.com");
-
-                                        Charge charge = Charge.create(chargeParams);
-                                        Log.e(TAG, "onSuccessCharge "+charge.getId());
-                                        String xx = new Gson().toJson(charge);
-                                        Log.e(TAG, "onSuccessChargeGson "+xx);
+//                                        final Map<String, Object> chargeParams = new HashMap<String, Object>();
+//                                        chargeParams.put("amount", 500); // amount in cents, again
+//                                        chargeParams.put("currency", "usd");
+//                                        chargeParams.put("source", token.getId());
+//                                        chargeParams.put("description", "Example charge");
+//                                    //    chargeParams.put("customer", customer.getId());
+////                                        chargeParams.put("email", "paying.user@example.com");
+//
+//                                        Charge charge = Charge.create(chargeParams);
+//                                        Log.e(TAG, "onSuccessCharge "+charge.getId());
+//                                        String xx = new Gson().toJson(charge);
+//                                        Log.e(TAG, "onSuccessChargeGson "+xx);
 
                                     } catch (Exception e) {
                                         e.printStackTrace();

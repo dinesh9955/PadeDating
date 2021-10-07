@@ -50,7 +50,12 @@
         <item name="android:backgroundDimAmount">0.3</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
-ssvdx
+
+
+    </style>
+
+
+    <style name="DialogAnimation" parent="@android:style/Theme.Dialog">
 
     </style>
 

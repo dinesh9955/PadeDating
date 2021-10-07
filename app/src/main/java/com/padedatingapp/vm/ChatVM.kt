@@ -8,9 +8,11 @@ import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.ResultModel
+import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -23,6 +25,9 @@ class ChatVM(
     var deleteMessageResponse = SingleLiveEvent<Resource<ChatDelete>>()
     var loginResponse = SingleLiveEvent<Resource<ChatUsers>>()
     var callUserResponse = SingleLiveEvent<Resource<CallUser>>()
+    var blockUserResponse = SingleLiveEvent<Resource<BlockUserModel>>()
+    var reasonModel = SingleLiveEvent<Resource<ReasonModel>>()
+
 
     var meetMeResponse = SingleLiveEvent<Resource<ResultModel<MeetMeData>>>()
 
@@ -64,11 +69,33 @@ class ChatVM(
         }
     }
 
+    fun blockApi(receiverID: String) {
+        coroutinesManager.ioScope.launch {
+            blockUserResponse.postValue(Resource.loading(null))
+            blockUserResponse.postValue(aboutMeRepo.blockUser("Bearer $token", receiverID!!))
+        }
+    }
+
+
+    fun unblockApi(receiverID: String) {
+        coroutinesManager.ioScope.launch {
+            blockUserResponse.postValue(Resource.loading(null))
+            blockUserResponse.postValue(aboutMeRepo.blockUser("Bearer $token", receiverID!!))
+        }
+    }
+
 
     fun callMeetMeApi(body: String) {
         coroutinesManager.ioScope.launch {
             meetMeResponse.postValue(Resource.loading(null))
             meetMeResponse.postValue(aboutMeRepo.oneUser("Bearer $token", body))
+        }
+    }
+
+    fun reasonApi() {
+        coroutinesManager.ioScope.launch {
+            reasonModel.postValue(Resource.loading(null))
+            reasonModel.postValue(aboutMeRepo.reasonApi("Bearer $token"))
         }
     }
 
