@@ -24,4 +24,5 @@ object NetworkUrls {
     const val users = "api/v1/user/users/"
     const val deleteMessages = "api/v1/user/messages/"
     const val plans = "api/v1/user/packages/"
+    const val payment = "stripePay/payment"
 }

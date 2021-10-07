@@ -6,9 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import com.stripe.android.model.Token;
 //import com.stripe.android.view.CardInputWidget;
 import com.stripe.exception.AuthenticationException;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
 //import com.stripe.android.Stripe;
 ////import com.stripe.android.TokenCallback;
 //import com.stripe.android.TokenCallback;
@@ -68,6 +72,8 @@ public class xyz extends AppCompatActivity {
 
     MainModel mainModel = new MainModel();
 
+    EditText editText;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +85,35 @@ public class xyz extends AppCompatActivity {
 
         button = findViewById(R.id.button2);
         textView = findViewById(R.id.textView);
+        editText = findViewById(R.id.edit_query);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() == 2) {
+                    if(start==2 && before==1 && !s.toString().contains("/")){
+                        editText.setText(""+s.toString().charAt(0));
+                        editText.setSelection(1);
+                    }
+                    else {
+                        editText.setText(s + "/");
+                        editText.setSelection(3);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         mainModel.setTrip_id("1");
         mainModel.setStart_time(""+ Instant.now().toString());
@@ -111,7 +146,7 @@ public class xyz extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                final String publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2";
+                final String publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM";
 
                 Card card = new Card("4242424242424242", 12, 2022, "123");
 
@@ -130,19 +165,26 @@ public class xyz extends AppCompatActivity {
                     @Override
                     public void onSuccess(Token token) {
                         Log.e(TAG, "onSuccess "+token.getId());
-                        com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp";
+                        com.stripe.Stripe.apiKey = "sk_test_51CiPu1Iuz09BIRfI5m3yq1y0mOq9wxctHpfRlYfT4hps7TaTfTfSjRKxd3zDBXi2j7KIPeEfgo8OfBXT6g2XrBl700FU6gNyLJ";
                         try {
-                            final Map<String, Object> chargeParams = new HashMap<String, Object>();
-                            chargeParams.put("amount", 500); // amount in cents, again
-                            chargeParams.put("currency", "usd");
-                            chargeParams.put("source", token.getId());
-                            chargeParams.put("description", "Example charge");
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Charge charge = null;
                                     try {
-                                        charge = Charge.create(chargeParams);
+                                        Map<String, Object> customerParams = new HashMap<String, Object>();
+                                        customerParams.put("email", "dnkumar.chauhan@gmail.com");
+                                        customerParams.put("source", token.getId());
+                                        Customer customer = Customer.create(customerParams);
+
+                                        final Map<String, Object> chargeParams = new HashMap<String, Object>();
+                                        chargeParams.put("amount", 500); // amount in cents, again
+                                        chargeParams.put("currency", "usd");
+                                       // chargeParams.put("source", token.getId());
+                                        chargeParams.put("description", "Example charge");
+                                        chargeParams.put("customer", customer.getId());
+//                                        chargeParams.put("email", "paying.user@example.com");
+
+                                        Charge charge = Charge.create(chargeParams);
                                         Log.e(TAG, "onSuccessCharge "+charge.getId());
                                         String xx = new Gson().toJson(charge);
                                         Log.e(TAG, "onSuccessChargeGson "+xx);
@@ -151,7 +193,7 @@ public class xyz extends AppCompatActivity {
                                         e.printStackTrace();
                                         Log.e(TAG, "onSuccessERRoR "+e.getMessage());
                                     }
-                                    System.out.println("Charge Log :" + charge);
+                                    //System.out.println("Charge Log :" + charge);
                                 }
                             }).start();
 

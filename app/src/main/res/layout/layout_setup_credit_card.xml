@@ -37,6 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textSetupCreditCard"
         android:background="@drawable/bg_round_edge_white"
+
         />
 
     <EditText
@@ -56,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etCardHolderName"
         android:background="@drawable/bg_round_edge_white"
+
         />
 
     <EditText
@@ -65,7 +67,7 @@
         android:hint="@string/expiry_date"
         android:fontFamily="@font/rubik"
         android:textSize="16sp"
-        android:maxLength="10"
+        android:maxLength="7"
         android:layout_marginTop="@dimen/_10sdp"
         android:paddingVertical="@dimen/_10sdp"
         android:paddingHorizontal="@dimen/_18sdp"
@@ -74,6 +76,7 @@
         app:layout_constraintEnd_toStartOf="@id/etCVV"
         app:layout_constraintTop_toBottomOf="@id/etCardNumber"
         android:background="@drawable/bg_round_edge_white"
+        android:inputType="number"
         />
 
     <EditText

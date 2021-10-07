@@ -96,6 +96,13 @@ interface PadeDatingApi {
     ): ResultModel<UserModel>
 
 
+    @POST(NetworkUrls.payment)
+    suspend fun payment(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): ResultModel<AllGiftCard>
+
+
     @GET(NetworkUrls.giftCards)
     suspend fun giftCards(
         @Header("Authorization") token: String

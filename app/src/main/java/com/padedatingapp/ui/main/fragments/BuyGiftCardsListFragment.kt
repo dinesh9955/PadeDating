@@ -103,6 +103,8 @@ class BuyGiftCardsListFragment :  DataBindingFragment<FragmentBuyGiftCardsListBi
         }
     }
 
+
+
     private fun onSetGiftCardListResponse(data: ResultModel<AllGiftCard>) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {

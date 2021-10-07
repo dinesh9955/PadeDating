@@ -54,6 +54,8 @@ object AppModule {
         viewModel { ProfileOtherVM(get(), get(), get()) }
         viewModel { ChangePasswordVM(get(), get(), get()) }
         viewModel { BuyPremiumVM(get(), get(), get()) }
+        viewModel { BuyGiftVM(get(), get(), get()) }
+
 
 
     }

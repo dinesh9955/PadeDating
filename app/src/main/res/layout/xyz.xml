@@ -16,5 +16,16 @@
         android:text="TextView"
         android:layout_below="@+id/button2"/>
 
+    <EditText
+        android:id="@+id/edit_query"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:text=""
+        android:layout_below="@+id/textView"
+        android:inputType="number"
+        android:maxLength="7"
+        />
+
+
 
 </RelativeLayout>
