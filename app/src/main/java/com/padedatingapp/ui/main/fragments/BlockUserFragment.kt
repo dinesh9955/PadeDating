@@ -1,6 +1,11 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -11,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.birimo.birimosports.utils.SharedPref
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.padedatingapp.adapter.BlockUserAdapter
 import com.padedatingapp.R
-import com.padedatingapp.adapter.MessagesListAdapter
+import com.padedatingapp.adapter.BlockUserAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
@@ -27,8 +31,6 @@ import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.BlockUserVM
 import kotlinx.android.synthetic.main.fragment_messages.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
 
 class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUserAdapter.OnItemClickListener {
@@ -123,7 +125,7 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
 
         val jsonObj = JsonObject()
         jsonObj.addProperty("limit", 10)
-        jsonObj.addProperty("page",1)
+        jsonObj.addProperty("page", 1)
 
 
         chatVM.callBlockUserApi()
@@ -147,22 +149,24 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
                 when (type) {
                     "ChatUser" -> {
                         val data = response.data as BlockModel
-                        Log.e(MessagesFragment.TAG, "dataAA "+data.toString())
+                        Log.e(MessagesFragment.TAG, "dataAA " + data.toString())
                         data?.let {
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
-                                Log.e(MessagesFragment.TAG, "listAA "+data.data.size)
+                                Log.e(MessagesFragment.TAG, "listAA " + data.data.size)
                                 list_data = data.data as ArrayList<Data>
 
-                                if(list_data.size == 0){
+                                if (list_data.size == 0) {
                                     tvMsg.visibility = View.VISIBLE
-                                }else{
+                                } else {
                                     tvMsg.visibility = View.GONE
                                 }
 
 
                                 adapter1 = BlockUserAdapter(this)
                                 viewBinding.rvBlockUser.adapter = adapter1
-                                viewBinding.rvBlockUser.layoutManager = LinearLayoutManager(requireContext()).also {
+                                viewBinding.rvBlockUser.layoutManager = LinearLayoutManager(
+                                    requireContext()
+                                ).also {
                                     it.orientation = RecyclerView.HORIZONTAL
                                 }
 
@@ -200,7 +204,7 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
                 when (type) {
                     "ChatUser" -> {
                         val data = response.data as BlockUserModel
-                        Log.e(MessagesFragment.TAG, "dataAA "+data.toString())
+                        Log.e(MessagesFragment.TAG, "dataAA " + data.toString())
                         data?.let {
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                                 toast(data.message)
@@ -226,13 +230,40 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
 
 
     override fun onItemClick(model: Data) {
-        Log.e(TAG, "onItemClick_model "+model._id)
+        Log.e(TAG, "onItemClick_model " + model._id)
 //        val jsonObj = JsonObject()
 //        jsonObj.addProperty("limit", 10)
 //        jsonObj.addProperty("page",1)
 
-        chatVM.callUnBlockApi(model._id)
+
+
+        showDialogOK(requireActivity(),
+            "Do you want to unblock this user?",
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        dialog.dismiss()
+                        chatVM.callUnBlockApi(model._id)
+                    }
+                    DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
+                }
+            })
+
     }
 
+
+    private fun showDialogOK(
+        splashScreen: Activity,
+        message: String,
+        okListener: DialogInterface.OnClickListener
+    ) {
+        AlertDialog.Builder(splashScreen)
+            .setMessage(message)
+            .setPositiveButton("OK", okListener)
+             .setNegativeButton("CANCEL", okListener)
+//            .setCancelable(false)
+            .create()
+            .show()
+    }
 
 }

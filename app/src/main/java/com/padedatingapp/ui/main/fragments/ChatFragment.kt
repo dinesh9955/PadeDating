@@ -1,7 +1,10 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -247,8 +250,19 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 //            val jsonObj = JsonObject()
 //            jsonObj.addProperty("callType", "audio")
 //            jsonObj.addProperty("partner", receiverId)
-            chatVM.blockApi(receiverId!!)
 
+
+            showDialogOK(requireActivity(),
+                "Do you want to block this user?",
+                DialogInterface.OnClickListener { dialog, which ->
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            dialog.dismiss()
+                            chatVM.blockApi(receiverId!!)
+                        }
+                        DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
+                    }
+                })
 
         }
 
@@ -1124,6 +1138,21 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 reasonText!!.text = list[which].text
                 titleIdReport = list[which].id
             }.show()
+    }
+
+
+    private fun showDialogOK(
+        splashScreen: Activity,
+        message: String,
+        okListener: DialogInterface.OnClickListener
+    ) {
+        AlertDialog.Builder(splashScreen)
+            .setMessage(message)
+            .setPositiveButton("OK", okListener)
+            .setNegativeButton("CANCEL", okListener)
+//            .setCancelable(false)
+            .create()
+            .show()
     }
 
 }
