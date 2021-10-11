@@ -109,6 +109,11 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
             }
         })
 
+
+
+        tvBlockUsers.setOnClickListener {
+            findNavController().navigate(MessagesFragmentDirections.actionToBlockUser())
+        }
     }
 
     private fun filterData(toString: String) {

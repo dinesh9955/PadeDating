@@ -55,7 +55,7 @@ object AppModule {
         viewModel { ChangePasswordVM(get(), get(), get()) }
         viewModel { BuyPremiumVM(get(), get(), get()) }
         viewModel { BuyGiftVM(get(), get(), get()) }
-
+        viewModel { BlockUserVM(get(), get(), get()) }
 
 
     }

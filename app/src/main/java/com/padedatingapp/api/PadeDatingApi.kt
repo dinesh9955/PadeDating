@@ -1,6 +1,7 @@
 package com.padedatingapp.api
 
 import com.padedatingapp.model.*
+import com.padedatingapp.model.blockUser.BlockModel
 import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
@@ -221,5 +222,11 @@ interface PadeDatingApi {
         @Body body: RequestBody
     ): ReportUserModel
 
+
+
+    @GET(NetworkUrls.blockedUsers)
+    suspend fun blockUsers(
+        @Header("Authorization") token: String,
+    ): BlockModel
 
 }

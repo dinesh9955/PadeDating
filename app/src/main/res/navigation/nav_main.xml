@@ -245,7 +245,35 @@
                 app:nullable="false"
                 />
         </action>
+
+
+        <action
+            android:id="@+id/action_to_block_user"
+            app:destination="@id/blockUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" >
+
+
+        </action>
+
     </fragment>
+
+
+
+    <fragment
+        android:id="@+id/blockUserFragment"
+        android:name="com.padedatingapp.ui.main.fragments.BlockUserFragment"
+        tools:layout="@layout/fragment_block">
+
+
+    </fragment>
+
+
+
+
 
     <fragment
         android:id="@+id/buyPremiumFragment"

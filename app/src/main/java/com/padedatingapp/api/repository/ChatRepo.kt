@@ -4,6 +4,7 @@ import com.padedatingapp.api.PadeDatingApi
 import com.padedatingapp.api.Resource
 import com.padedatingapp.extensions.handleException
 import com.padedatingapp.model.*
+import com.padedatingapp.model.blockUser.BlockModel
 import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
@@ -55,5 +56,11 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun reasonApi(token: String): Resource<ReasonModel> {
         return handleException { padeApi.reason(token) }
     }
+
+
+    suspend fun blockUsersApi(token: String): Resource<BlockModel> {
+        return handleException { padeApi.blockUsers(token) }
+    }
+
 
 }
