@@ -14,6 +14,8 @@ import com.padedatingapp.databinding.FragmentWelcomeBinding
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
+import com.patchoguefd.settings.WebActivity
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.koin.android.ext.android.inject
 
 class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
@@ -36,6 +38,13 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
         } else{
 
         }
+
+        tvTandC.setOnClickListener {
+            val intent = Intent(context, WebActivity::class.java)
+            context?.startActivity(intent)
+        }
+
+
             //findNavController().navigate(R.id.action_welcome_to_login)
     }
 

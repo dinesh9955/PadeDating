@@ -30,4 +30,6 @@ object NetworkUrls {
     const val reasons = "api/v1/user/reasons/"
     const val reportUser = "api/v1/user/reportUser/"
     const val blockedUsers = "api/v1/user/blockedUsers/"
+    const val privacyPolicy = "api/v1/user/cms/"
+
 }

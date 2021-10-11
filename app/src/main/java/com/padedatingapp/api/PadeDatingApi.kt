@@ -8,6 +8,7 @@ import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.plans.PlanModel
+import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
 import okhttp3.MultipartBody
@@ -228,5 +229,12 @@ interface PadeDatingApi {
     suspend fun blockUsers(
         @Header("Authorization") token: String,
     ): BlockModel
+
+
+
+    @GET(NetworkUrls.privacyPolicy)
+    suspend fun privacyPolicy(
+        @Header("Authorization") token: String,
+    ): PrivacyPolicyModel
 
 }

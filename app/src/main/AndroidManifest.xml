@@ -133,7 +133,6 @@
             android:name=".ui.call.AudioCallActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
-
         </activity>
 
 
@@ -211,6 +210,12 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="default_channel_id"/>
 
+
+        <activity
+            android:name="com.patchoguefd.settings.WebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
 
 
     </application>

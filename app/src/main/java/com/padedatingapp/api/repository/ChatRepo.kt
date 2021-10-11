@@ -9,6 +9,7 @@ import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
 import okhttp3.RequestBody
@@ -60,6 +61,10 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
 
     suspend fun blockUsersApi(token: String): Resource<BlockModel> {
         return handleException { padeApi.blockUsers(token) }
+    }
+
+    suspend fun privacyPolicyApi(token: String): Resource<PrivacyPolicyModel> {
+        return handleException { padeApi.privacyPolicy(token) }
     }
 
 
