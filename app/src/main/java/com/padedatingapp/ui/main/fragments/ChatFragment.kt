@@ -12,10 +12,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
@@ -44,6 +41,7 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reasons.Value
+import com.padedatingapp.model.reportUser.ReportUserModel
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
@@ -76,6 +74,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     companion object{
         var TAG = "ChatFragment"
     }
+
+    var titleIdReport = ""
+    var descriptionReport = ""
 
 
     lateinit var list : List<Value>
@@ -120,7 +121,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     lateinit var offlineStatus: Emitter.Listener
 //    lateinit var callDiscount: Emitter.Listener
 
+    var reasonText: TextView?=null
+
     override fun layoutId(): Int = R.layout.fragment_chat
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -164,6 +168,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initComponents() {
 
         userObject =
@@ -968,6 +973,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             getLiveDataReason(it, "userResponse")
         }
 
+        chatVM.reportUserResponse.observe(viewLifecycleOwner) {
+            getLiveDataReportUser(it, "userResponse")
+        }
+
         chatVM.reasonApi()
     }
 
@@ -1009,35 +1018,46 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     }
 
 
+    private fun getLiveDataReportUser(response: Resource<ReportUserModel>?, type: String) {
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
 
-
-    private fun showCongratsBottomSheet() = try {
-//        val dialog = Dialog(requireActivity())
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.window?.setDimAmount(0f)
-//        dialog.setCancelable(false)
-//        val dialogView = layoutInflater.inflate(R.layout.bottomsheet_report, null)
-//        dialog.setContentView(dialogView)
-//        dialog.window?.setLayout(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.MATCH_PARENT
-//        );
-
-//        val btnDone = dialogView.findViewById<TextView>(R.id.btnDone)
-//        val ivClose = dialogView.findViewById<ImageView>(R.id.ivClose)
+                when (type) {
+                    "userResponse" -> {
+                        val data = response.data as ReportUserModel
+                        Log.e(TAG, "dataAA " + response.data)
+                        Log.e(TAG, "dataBB " + data.toString())
+                        // onLoginResponse(data)
 //
-//        ivClose?.setOnClickListener {
-//            dialog.dismiss()
-//            findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
-//        }
-//        btnDone?.setOnClickListener {
-//            dialog.dismiss()
-//            findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
-//        }
+                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                            if (response.data != null) {
+                                Log.e(TAG, "dataAACC " + response.data.message)
+                                toast(response.data.message)
+                            }
+                        }
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
 
-     //   dialog.show()
 
+
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun showCongratsBottomSheet() = try {
        var bottomSheetDialog4 = Dialog(requireContext())
         val view: View = LayoutInflater.from(activity).inflate(R.layout.bottomsheet_report, null)
         bottomSheetDialog4.setContentView(view)
@@ -1045,7 +1065,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         val window: Window = bottomSheetDialog4.getWindow()!!
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        var reasonText = view.findViewById<TextView>(R.id.tvReason)
+        reasonText = view.findViewById<TextView>(R.id.tvReason)
+        var descriptionText = view.findViewById<EditText>(R.id.etDescription)
         reasonText?.setOnClickListener {
             requireActivity().hideKeyboard()
             showDropDownDialog()
@@ -1056,14 +1077,24 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         var btnCancel = view.findViewById<Button>(R.id.btnCancel)
 
         btnSubmit?.setOnClickListener {
-            dialog.dismiss()
-           // findNavController().popBackStack(R.id.buyGiftCardsListFragment, true)
-//            requireActivity().hideKeyboard()
+            bottomSheetDialog4.dismiss()
+            requireActivity().hideKeyboard()
 //            showDropDownDialog()
+//            titleIdReport = ""
+//            descriptionReport = ""
+            val jsonObj = JsonObject()
+            jsonObj.addProperty("target", receiverId)
+            jsonObj.addProperty("reportedIssue", titleIdReport)
+            jsonObj.addProperty("description", descriptionText.text.toString())
+
+            chatVM.reportUserApi(
+                jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            )
+
         }
 
         btnCancel?.setOnClickListener {
-            dialog.dismiss()
+            bottomSheetDialog4.dismiss()
         }
 
 
@@ -1078,13 +1109,20 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun showDropDownDialog() {
+        var index = 0
+        val array = arrayOfNulls<String>(list.size)
+        for (value in list) {
+            array[index] = value.text
+            index++
+        }
+
         //val list = resources.getStringArray(R.array.gender_array)
-        val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
-        MaterialAlertDialogBuilder(requireContext())
+       // val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
+       MaterialAlertDialogBuilder(requireContext())
             .setTitle("Select Reason")
             .setItems(array) { _, which ->
-//                viewBinding.tvGender.text = list[which]
-//                editProfileVM.gender.value = list[which]
+                reasonText!!.text = list[which].text
+                titleIdReport = list[which].id
             }.show()
     }
 

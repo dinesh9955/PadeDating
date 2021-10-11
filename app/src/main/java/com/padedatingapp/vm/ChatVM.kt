@@ -13,6 +13,7 @@ import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.reasons.ReasonModel
+import com.padedatingapp.model.reportUser.ReportUserModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -27,6 +28,7 @@ class ChatVM(
     var callUserResponse = SingleLiveEvent<Resource<CallUser>>()
     var blockUserResponse = SingleLiveEvent<Resource<BlockUserModel>>()
     var reasonModel = SingleLiveEvent<Resource<ReasonModel>>()
+    var reportUserResponse = SingleLiveEvent<Resource<ReportUserModel>>()
 
 
     var meetMeResponse = SingleLiveEvent<Resource<ResultModel<MeetMeData>>>()
@@ -100,5 +102,12 @@ class ChatVM(
     }
 
 
+
+    fun reportUserApi(receiverID: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            reportUserResponse.postValue(Resource.loading(null))
+            reportUserResponse.postValue(aboutMeRepo.reportUser("Bearer $token", receiverID!!))
+        }
+    }
 
 }

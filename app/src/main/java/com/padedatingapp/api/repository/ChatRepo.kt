@@ -9,6 +9,7 @@ import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.reasons.ReasonModel
+import com.padedatingapp.model.reportUser.ReportUserModel
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -28,6 +29,11 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun call(token: String, receiverID: RequestBody): Resource<CallUser> {
         return handleException { padeApi.call(token, receiverID) }
     }
+
+    suspend fun reportUser(token: String, receiverID: RequestBody): Resource<ReportUserModel> {
+        return handleException { padeApi.reportUser(token, receiverID) }
+    }
+
 
     suspend fun blockUser(token: String, receiverID: String): Resource<BlockUserModel> {
         return handleException { padeApi.blockUser(token, receiverID) }

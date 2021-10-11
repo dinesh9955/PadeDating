@@ -8,6 +8,7 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.plans.PlanModel
 import com.padedatingapp.model.reasons.ReasonModel
+import com.padedatingapp.model.reportUser.ReportUserModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -212,5 +213,13 @@ interface PadeDatingApi {
     suspend fun reason(
         @Header("Authorization") token: String,
     ): ReasonModel
+
+
+    @POST(NetworkUrls.reportUser)
+    suspend fun reportUser(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): ReportUserModel
+
 
 }

@@ -28,5 +28,5 @@ object NetworkUrls {
     const val blockUser = "api/v1/user/blockUser/"
     const val unblockUser = "api/v1/user/unblockUser/"
     const val reasons = "api/v1/user/reasons/"
-
+    const val reportUser = "api/v1/user/reportUser/"
 }
