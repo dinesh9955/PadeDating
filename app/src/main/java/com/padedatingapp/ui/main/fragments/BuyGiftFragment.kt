@@ -73,7 +73,6 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
     private fun initComponents() {
 
-
         var userObject =
             Gson().fromJson(
                 sharedPref.getString(AppConstants.USER_OBJECT),

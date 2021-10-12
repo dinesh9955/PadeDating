@@ -4,6 +4,7 @@ package com.padedatingapp
 //import com.vanniktech.emoji.twitter.TwitterEmojiProvider
 import android.app.Application
 import android.content.Context
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
@@ -19,6 +20,8 @@ import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import java.io.UnsupportedEncodingException
+import java.net.URLDecoder
 
 
 class PadeDatingApp : Application() {
@@ -26,7 +29,14 @@ class PadeDatingApp : Application() {
          var mAppLang = "en"
         lateinit var gson: Gson
         var TAG = "PadeDatingApp"
+
+        private val FIRST_LAUNCH = "FIRST_LAUNCH"
+        private val REFERRER_DATE = "REFERRER_DATE"
+        private val REFERRER_DATA = "REFERRER_DATA"
+
     }
+
+
 
     var crashlytics: FirebaseCrashlytics? = null
 
@@ -107,5 +117,50 @@ class PadeDatingApp : Application() {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+
+
+    object referrerFriend{
+        @JvmStatic
+        public fun setReferrerData(context: Context, data: String?) {
+            val sp = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+            if (!sp.contains(REFERRER_DATA)) {
+                sp.edit().putString(REFERRER_DATA, data).apply()
+            }
+        }
+
+        @JvmStatic
+        fun getReferrerDataRaw(context: Context): String? {
+            val sp = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+            return if (!sp.contains(REFERRER_DATA)) {
+                "Undefined"
+            } else sp.getString(REFERRER_DATA, null)
+        }
+
+        @JvmStatic
+        fun getReferrerDataDecoded(context: Context): String? {
+            val sp = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+            val raw = sp.getString(REFERRER_DATA, null) ?: return null
+            try {
+                val url = URLDecoder.decode(raw, "utf-8")
+                return try {
+                    val url2x = URLDecoder.decode(url, "utf-8")
+                    if (raw == url2x) {
+                        null
+                    } else url2x
+                } catch (uee: UnsupportedEncodingException) {
+                    // not URL 2x encoded but URL encoded
+                    if (raw == url) {
+                        null
+                    } else url
+                }
+            } catch (uee: UnsupportedEncodingException) {
+                // not URL encoded
+            }
+            return null
+        }
+    }
+
+
 
 }

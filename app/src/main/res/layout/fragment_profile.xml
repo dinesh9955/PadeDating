@@ -177,7 +177,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/textLiked"
                     app:layout_constraintTop_toBottomOf="@id/vDivider"
-                    android:text="@string/followers" />
+                    android:text="@string/matches" />
 
                 <TextView
                     android:id="@+id/tvLikesCount"

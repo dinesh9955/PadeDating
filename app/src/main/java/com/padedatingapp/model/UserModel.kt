@@ -54,6 +54,8 @@ class UserModel (
     var profileStatus:Int,
     val interestedIn: String,
     val totalPoints: String,
+    val totalLikes: String,
+    val totalMatched: String,
     val childern: String
 
 )

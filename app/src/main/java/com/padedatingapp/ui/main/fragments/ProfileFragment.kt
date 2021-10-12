@@ -19,6 +19,7 @@ import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.MainActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
+import kotlinx.android.synthetic.main.fragment_profile.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 
@@ -44,6 +45,8 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             UserModel::class.java
         )
 
+        tvLikesCount.text = userObject.totalLikes
+        tvFollowerCount.text = userObject.totalMatched
 
         viewBinding.tvBecomePremium.setOnClickListener {
             findNavController().navigate(R.id.action_to_buy_premium)
