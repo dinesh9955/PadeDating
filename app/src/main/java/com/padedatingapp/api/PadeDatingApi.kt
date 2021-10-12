@@ -184,6 +184,12 @@ interface PadeDatingApi {
     ): ResultModel<MeetMeData>
 
 
+    @GET(NetworkUrls.users + "{id}")
+    suspend fun profile(
+        @Header("Authorization") token: String,
+        @Path("id") filter: String,
+    ): ResultModel<UserModel>
+
 
     @POST(NetworkUrls.makeCall)
     suspend fun call(

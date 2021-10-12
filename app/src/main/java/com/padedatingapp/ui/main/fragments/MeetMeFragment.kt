@@ -38,6 +38,9 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
 import com.padedatingapp.model.*
+import com.padedatingapp.ui.main.HomeActivity
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
+import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
 //import com.padedatingapp.ui.MeetMeFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -45,6 +48,7 @@ import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.bottomsheet_perfect_match.*
+import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -151,6 +155,10 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         //adapter.notifyDataSetChanged()
 
         initializeCard()
+
+
+        meetMeVM.callProfileApi(""+userObject._id)
+
 
 
     }
@@ -286,20 +294,22 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     override fun onCardSwiped(direction: Direction?) {
         Log.e("MeetMeFragment", "onCardSwiped: "+direction.toString())
 
-        if(direction?.equals("Left")!!){
+        if(direction.toString()?.equals("Left")!!){
             val jsonObj = JsonObject()
             jsonObj.addProperty("action", "dislike")
             meetMeVM.callMeetMeLikeApi(
                     meetMeData._id,
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
-        } else if(direction?.equals("Right")!!){
+            dislike()
+        } else if(direction.toString()?.equals("Right")!!){
             val jsonObj = JsonObject()
             jsonObj.addProperty("action", "like")
             meetMeVM.callMeetMeLikeApi(
                     meetMeData._id,
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
+            like()
         }
 
 
@@ -326,6 +336,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
            // viewBinding.cStack.swipe()
             Log.e("MeetMeFragment", "setOnClickListener: "+position)
 
+
+
             meetMeData = list[position]
 
             val jsonObj = JsonObject()
@@ -336,6 +348,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
 
+            like()
 
 //            var chatIDModel = ChatIDModel()
 //            if(meetMeData != null){
@@ -358,6 +371,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                     list[position]._id,
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
+
+            dislike()
         }
 
     }
@@ -426,6 +441,11 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             if (it != "") {
                 toast(it)
             }
+        }
+
+
+        meetMeVM.userModelResponse.observe(viewLifecycleOwner) {
+            getLiveDataProfile(it, "Profile")
         }
 
 //        meetMeVM.optionChoosen.observe(viewLifecycleOwner) {
@@ -568,12 +588,12 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                                         }
 
                                     }else{
-                                        like()
+                                       // like()
                                     }
                                 }
 
                                 if(data.data.dislikedBy.size != 0){
-                                    dislike()
+                                    //dislike()
                                 }
 
 
@@ -627,6 +647,84 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         findNavController().navigate(MeetMeFragmentDirections.actionToOtherProfile(model._id))
     }
 
+
+
+
+
+
+    private fun getLiveDataProfile(response: Resource<ResultModel<*>>?, type: String) {
+
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "Profile" -> {
+                        val data = response.data as ResultModel<UserModel>
+                        Log.e(TAG, "dataAAZZ " + response.data)
+                        Log.e(TAG, "dataBBZZ " + data.toString())
+
+                        //sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(data.data))
+                         onLoginResponse(data)
+
+//                        if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+//
+//                            if(response.data != null){
+//                                Glide.with(requireActivity()).load(response.data.data?.image)
+//                                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
+//
+//                                tvOtherUserName.text = response.data.data?.firstName+" "+ (response.data.data?.lastName) +", "+response.data.data?.age
+//                                tvAboutDesc.text = response.data.data?.description
+//                                tvEmployementType.text = response.data.data?.work
+//
+//
+//                                if(response.data.data?.isApproved == true){
+//                                    imageViewThik.visibility = View.VISIBLE
+//                                }else{
+//                                    imageViewThik.visibility = View.INVISIBLE
+//                                }
+//
+//
+//                                adapter2.submitList(response.data.data?.docImage)
+//                            }
+//
+//
+//                        }
+
+
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+
+    private fun onLoginResponse(data: ResultModel<UserModel>) {
+
+        Log.e(TAG, "onLoginResponse " + data.data.toString())
+
+        data?.let {
+
+            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
+               // sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+                Log.e(TAG, "dataBBZZXX " + Gson().toJson(it.data))
+            } else {
+                toast(data.message)
+            }
+        }
+    }
 
 
 }

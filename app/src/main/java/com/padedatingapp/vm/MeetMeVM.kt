@@ -10,10 +10,7 @@ import com.padedatingapp.api.repository.AboutMeRepo
 import com.padedatingapp.api.repository.HomeRepo
 import com.padedatingapp.event.SingleLiveEvent
 import com.padedatingapp.manager.CoroutinesManager
-import com.padedatingapp.model.LikeModel
-import com.padedatingapp.model.MeetMe
-import com.padedatingapp.model.ResultModel
-import com.padedatingapp.model.UserModel
+import com.padedatingapp.model.*
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -28,6 +25,8 @@ class MeetMeVM(
 ) : ViewModel() {
     var meetMeResponse = SingleLiveEvent<Resource<MeetMe>>()
     var likeModelResponse = SingleLiveEvent<Resource<LikeModel>>()
+    var userModelResponse = SingleLiveEvent<Resource<ResultModel<UserModel>>>()
+
 
     var token = ""
 
@@ -52,5 +51,20 @@ class MeetMeVM(
     }
 
 
+    fun callProfileApi(body: String) {
+        coroutinesManager.ioScope.launch {
+            userModelResponse.postValue(Resource.loading(null))
+            userModelResponse.postValue(aboutMeRepo.oneProfile("Bearer $token", body))
+        }
+    }
+
+
+
+//    fun callProfileApi(body: String) {
+//        coroutinesManager.ioScope.launch {
+//            userModelResponse.postValue(Resource.loading(null))
+//            userModelResponse.postValue(aboutMeRepo.profile("Bearer $token", body))
+//        }
+//    }
 
 }

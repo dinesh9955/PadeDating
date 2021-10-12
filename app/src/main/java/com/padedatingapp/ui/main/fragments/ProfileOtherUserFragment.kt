@@ -135,7 +135,7 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
 
 
 
-        profileOtherVM.callMeetMeApi(""+userID)
+        profileOtherVM.callProfileApi(""+userID)
 
 
 

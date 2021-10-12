@@ -27,7 +27,7 @@ class ProfileOtherVM(
 
 
 
-    fun callMeetMeApi(body: String) {
+    fun callProfileApi(body: String) {
         coroutinesManager.ioScope.launch {
             meetMeResponse.postValue(Resource.loading(null))
             meetMeResponse.postValue(profileOtherRepo.oneUser("Bearer $token", body))

@@ -31,4 +31,9 @@ class HomeRepo @Inject constructor(private val padeApi: PadeDatingApi) {
         return handleException { padeApi.plans(token) }
     }
 
+
+    suspend fun oneProfile(token: String, requestBody: String): Resource<ResultModel<UserModel>> {
+        return handleException { padeApi.profile(token, requestBody) }
+    }
+
 }

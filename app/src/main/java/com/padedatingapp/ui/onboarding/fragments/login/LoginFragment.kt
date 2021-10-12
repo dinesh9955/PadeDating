@@ -195,8 +195,8 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
                     sharedPref.setString(AppConstants.SOCIAL_FN, it.data?.firstName ?: "")
                     sharedPref.setString(AppConstants.SOCIAL_LN, it.data?.lastName ?: "")
 
-                    Log.e(NewAccountFragment.TAG, "sentSocialResponseF " + it.data?.firstName ?: "")
-                    Log.e(NewAccountFragment.TAG, "sentSocialResponseL " + it.data?.lastName ?: "")
+                    Log.e(TAG, "sentSocialResponseF " + it.data?.firstName ?: "")
+                    Log.e(TAG, "sentSocialResponseL " + it.data?.lastName ?: "")
 
                     findNavController().navigate(LoginFragmentDirections.actionToCreateNewAccount(email = it.data?.email
                             ?: "", phone = it.data?.phoneNo
