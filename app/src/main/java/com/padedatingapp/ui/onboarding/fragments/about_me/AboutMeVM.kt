@@ -108,7 +108,8 @@ class AboutMeVM(
                    else ->{
                        val jsonObj = JsonObject()
                        jsonObj.addProperty("description", "${etAboutMe.value}")
-                       jsonObj.addProperty("height", "${feet.value} ${inches.value}")
+                       jsonObj.addProperty("height", "${feet.value}")
+                       jsonObj.addProperty("heightInCms", "${inches.value}")
                      //  jsonObj.addProperty("ethnicity", originEthnicity.value)
                        jsonObj.addProperty("educationLevel", educationLevel.value)
                       // jsonObj.addProperty("work", work.value)

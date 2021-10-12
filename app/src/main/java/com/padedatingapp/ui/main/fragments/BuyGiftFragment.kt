@@ -90,7 +90,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         planData  = arguments?.getParcelable<Doc>("planData") as Doc
 
         tvPackName.text = planData.name
-        tvPackValidity.text = ""+planData.type + " bundle"
+        tvPackValidity.text = ""+planData.type + " Bundle"
         tvPackValidity.visibility = View.VISIBLE
 
         tvPackPrice.text = planData.price.units +" "+ planData.price.amount

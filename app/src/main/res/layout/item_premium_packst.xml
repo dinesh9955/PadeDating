@@ -12,16 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginVertical="@dimen/_5sdp"
-        app:cardBackgroundColor="@color/colorWhite"
+        app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="5sp"
         app:cardElevation="2px"
-        app:cardForegroundColor="@android:color/transparent">
+        app:cardForegroundColor="@android:color/transparent"
+        >
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:id="@+id/clItemPacks"
-            android:background="@drawable/pattern_bg_golden">
+            android:background="@drawable/pattern_bg_golden"
+            >
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivCrown"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
@@ -84,5 +88,7 @@
                 app:layout_constraintStart_toEndOf="@id/tvPackName"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </com.google.android.material.card.MaterialCardView>
 </layout>

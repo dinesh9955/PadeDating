@@ -28,6 +28,7 @@ class UserModel (
     val gender: String,
     val googleId: String,
     val height: String,
+    val heightInCms: String,
     val image: String,
     val isActive: Boolean,
     val isApproved: Boolean,
@@ -56,6 +57,9 @@ class UserModel (
     val totalPoints: String,
     val totalLikes: String,
     val totalMatched: String,
+    val myReferralCode: String,
+    val friendReferralCode: String,
+    val stripeId: String,
     val childern: String
 
 )

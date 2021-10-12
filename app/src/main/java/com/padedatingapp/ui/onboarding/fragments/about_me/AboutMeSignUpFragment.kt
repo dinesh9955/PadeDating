@@ -101,18 +101,38 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                 }
 
                 if(!userObject.height.equals("")){
-                    aboutMeVM.feet.value = userObject.height.split(" ")[0].toUpperCase()
-                    aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
-
-                   // aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
+                    aboutMeVM.feet.value = userObject.height
+                    aboutMeVM.inches.value = userObject.heightInCms
 
 
-                    var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
-                    var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
-                    var cms: Double = inc * 2.54
 
 
-                    aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+//                    if(!userObject.heightInCms.equals("")){
+//                        aboutMeVM.inches.value = userObject.heightInCms
+//                    }
+//
+//
+//
+//
+//
+//                   // aboutMeVM.inches.value = userObject.height.split(" ")[1].toUpperCase()
+//
+//
+//                    var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+//                    var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+//                    var cms: Double = inc * 2.54
+//
+//
+//                    aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+
+
+                    try {
+                        var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                        var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                        var cms: Double = inc * 2.54
+                        aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                    }catch (ex : Exception){}
+
                 }
 
 
@@ -398,10 +418,14 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                         .setTitle(resources.getString(R.string.feet))
                         .setItems(list) { _, which ->
                             aboutMeVM.feet.value = list[which]
-                            var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
-                            var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
-                            var cms: Double = inc * 2.54
-                            aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            try {
+                                var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                                var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                                var cms: Double = inc * 2.54
+                                aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            }catch (ex : Exception){}
+
+
                         }.show()
 
                 }
@@ -411,10 +435,13 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                         .setTitle(resources.getString(R.string.inch))
                         .setItems(list) { _, which ->
                             aboutMeVM.inches.value = list[which]
-                            var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
-                            var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
-                            var cms: Double = inc * 2.54
-                            aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            try {
+                                var fit: Int = aboutMeVM.feet.value!!.toInt() * 12
+                                var inc: Int = aboutMeVM.inches.value!!.toInt() + fit
+                                var cms: Double = inc * 2.54
+                                aboutMeVM.etCm.value = ""+aboutMeVM.feet.value+"'"+aboutMeVM.inches.value+" ("+cms.toString()+" cm)"
+                            }catch (ex : Exception){}
+
                         }.show()
                 }
                 "education" -> {

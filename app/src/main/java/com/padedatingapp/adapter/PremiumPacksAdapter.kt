@@ -34,7 +34,7 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 this.clItemPacks.background = getDrawable(binding.root.context, adapterPosition)!!
                 tvPackName.text = model.name
-                tvPackValidity.text = ""+model.type + " bundle"
+                tvPackValidity.text = ""+model.type + " Bundle"
                 tvPackValidity.visibility = View.VISIBLE
 
                 tvPackPrice.text = model.price.units +" "+ model.price.amount
