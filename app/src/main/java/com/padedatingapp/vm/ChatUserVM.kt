@@ -19,6 +19,7 @@ class ChatUserVM(
         private val aboutMeRepo: ChatRepo
 ) : ViewModel() {
     var loginResponse = SingleLiveEvent<Resource<ChatUsers>>()
+    var myMatchesResponse = SingleLiveEvent<Resource<MyMatches>>()
     var token = ""
 
     var errorMessage =  MutableLiveData("")
@@ -32,5 +33,12 @@ class ChatUserVM(
         }
     }
 
+
+    fun callMyMatchesApi(body: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            myMatchesResponse.postValue(Resource.loading(null))
+            myMatchesResponse.postValue(aboutMeRepo.myMatches("Bearer $token", body))
+        }
+    }
 
 }

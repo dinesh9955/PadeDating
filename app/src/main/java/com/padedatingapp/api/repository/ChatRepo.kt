@@ -68,4 +68,8 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     }
 
 
+    suspend fun myMatches(token: String, requestBody: RequestBody): Resource<MyMatches> {
+        return handleException { padeApi.myMatches(token) }
+    }
+
 }

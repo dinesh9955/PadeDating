@@ -22,6 +22,8 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMessagesBinding
 import com.padedatingapp.model.ChatIDModel
+import com.padedatingapp.model.MeetMeData
+import com.padedatingapp.model.MyMatches
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.chat.ChatUsersData
@@ -40,6 +42,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
         var TAG = "MessagesFragment"
     }
 
+
     private val chatVM by inject<ChatUserVM>()
     private var progressDialog: CustomProgressDialog? = null
 
@@ -49,7 +52,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 
     private lateinit var adapter: MessagesListAdapter
     var list_data = ArrayList<ChatUsersData>()
-
+    var list = ArrayList<MeetMeData>()
     private lateinit var userObject : UserModel
 
     override fun layoutId(): Int = R.layout.fragment_messages
@@ -146,6 +149,10 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
             getLiveData(it, "ChatUser")
         }
 
+        chatVM.myMatchesResponse.observe(viewLifecycleOwner) {
+            getLiveDataMatches(it, "MyMatches")
+        }
+
         Log.e(TAG, "onViewCreated11")
 
 
@@ -154,9 +161,16 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
         jsonObj.addProperty("page",1)
 
 
+        chatVM.callMyMatchesApi(
+            jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        )
+
+
         chatVM.chatUserListApi(
                 jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
         )
+
+
 
 
     }
@@ -168,6 +182,80 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
+    }
+
+
+
+
+    private fun getLiveDataMatches(response: Resource<MyMatches>?, type: String) {
+
+        //Log.e(TAG, "onViewCreated12")
+
+        when (response?.status) {
+            Resource.Status.LOADING -> {
+                progressDialog?.show()
+            }
+            Resource.Status.SUCCESS -> {
+                progressDialog?.dismiss()
+
+                when (type) {
+                    "MyMatches" -> {
+                        val data = response.data as MyMatches
+                        Log.e(MatchesFragment.TAG, "dataAA "+data.toString())
+                        onMyMatchesResponse(data)
+                    }
+                }
+            }
+            Resource.Status.ERROR -> {
+                progressDialog?.dismiss()
+                toast(response.getErrorMessage().toString())
+            }
+            Resource.Status.CANCEL -> {
+                progressDialog?.dismiss()
+            }
+        }
+    }
+
+
+    private fun onMyMatchesResponse(data: MyMatches) {
+        data?.let {
+            if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
+                list = data.data as ArrayList<MeetMeData>
+                Log.e(MatchesFragment.TAG, "listAA "+list.size)
+//                adapter.updateData(list)
+//                adapter.notifyDataSetChanged()
+
+//                var adapter2 = PeopleWhoLikedAdapter(this)
+//                adapter2.submitList(list)
+//                adapter2.notifyDataSetChanged()
+//                viewBinding.rvImagesList.adapter = adapter2
+
+//                adapter1.submitList(list)
+//
+//                adapter1.notifyDataSetChanged()
+//                viewBinding.rvWhoLiked.adapter = adapter
+
+                if(list.size == 0){
+                    tvMatches.visibility = View.GONE
+//                    tvMessages.visibility = View.GONE
+//                    tvMsg.visibility = View.VISIBLE
+                }else{
+                    tvMatches.text = "Matches ("+list.size+")"
+                    tvMatches.visibility = View.VISIBLE
+//                    tvMessages.visibility = View.VISIBLE
+//                    tvMsg.visibility = View.GONE
+                }
+
+
+
+                adapter1.submitList(list)
+                adapter1.updateList(userObject._id)
+                adapter1.notifyDataSetChanged()
+
+            } else {
+                toast(data.message)
+            }
+        }
     }
 
 
@@ -195,12 +283,12 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                                 list_data = data.data as ArrayList<ChatUsersData>
 
                                 if(list_data.size == 0){
-                                    tvMatches.visibility = View.GONE
+                                    //tvMatches.visibility = View.GONE
                                     tvMessages.visibility = View.GONE
                                     tvMsg.visibility = View.VISIBLE
                                 }else{
-                                    tvMatches.text = "Matches ("+list_data.size+")"
-                                    tvMatches.visibility = View.VISIBLE
+                                   // tvMatches.text = "Matches ("+list_data.size+")"
+                                  //  tvMatches.visibility = View.VISIBLE
                                     tvMessages.visibility = View.VISIBLE
                                     tvMsg.visibility = View.GONE
                                 }
@@ -211,9 +299,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                                 adapter.updateList(userObject._id)
                                 adapter.notifyDataSetChanged()
 
-                                adapter1.submitList(list_data)
-                                adapter1.updateList(userObject._id)
-                                adapter1.notifyDataSetChanged()
+
 
                             } else {
                                 toast(data.message)
@@ -250,26 +336,12 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 
     override fun onItemClick(model: ChatUsersData) {
         var chatIDModel = ChatIDModel()
-//        chatIDModel.senderID = userObject._id
-//        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
-//        chatIDModel.senderImage = userObject.image
-
-
-
         if(!model.sentBy._id.equals(userObject._id)){
-//            Glide.with(binding.root).load(model.sentBy.image)
-//                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
-//            tvName.text = model.sentBy.firstName + " " + model.sentBy.lastName
-
             chatIDModel.receiverID = model.sentBy._id
             chatIDModel.receiverName = model.sentBy.firstName + " "+model.sentBy.lastName
             chatIDModel.receiverImage = model.sentBy.image
         }
         if(!model.sentTo._id.equals(userObject._id)){
-//            Glide.with(binding.root).load(model.sentTo.image)
-//                    .apply(RequestOptions().placeholder(R.drawable.user_place_holder)).into(ivUserPic)
-//            tvName.text = model.sentTo.firstName + " " + model.sentTo.lastName
-
             chatIDModel.receiverID = model.sentTo._id
             chatIDModel.receiverName = model.sentTo.firstName + " "+model.sentTo.lastName
             chatIDModel.receiverImage = model.sentTo.image
@@ -281,39 +353,29 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
     }
 
 
-//    override fun onItemClick(model: ChatUsersData) {
-////        findNavController().navigate(R.id.action_to_chat_fragment)
-//
-//        var chatIDModel = ChatIDModel()
-////        chatIDModel.senderID = userObject._id
-////        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
-////        chatIDModel.senderImage = userObject.image
-//
-////        chatIDModel.receiverID = model._id
-////        chatIDModel.receiverName = model.firstName + " "+model.lastName
-////        chatIDModel.receiverImage = model.image
-//
-//        findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
-//
-//    }
-//
-//
-//
-//
-//    override fun onItemClick(model: ChatUsersData) {
-//
-//        var chatIDModel = ChatIDModel()
-////        chatIDModel.senderID = userObject._id
-////        chatIDModel.senderName = userObject.firstName + " "+userObject.lastName
-////        chatIDModel.senderImage = userObject.image
-//
-//        chatIDModel.receiverID = model._id
-//        chatIDModel.receiverName = model.firstName + " "+model.lastName
-//        chatIDModel.receiverImage = model.image
-//
-//        findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
-//
-////        findNavController().navigate(MatchesFragmentDirections.actionToChat(chatIDModel))
-//
-//    }
+
+    override fun onItemClickMatch(model: MeetMeData) {
+        var chatIDModel = ChatIDModel()
+
+        chatIDModel.receiverID = model._id
+        chatIDModel.receiverName = model.firstName + " "+model.lastName
+        chatIDModel.receiverImage = model.image
+
+//        if(!model.sentBy._id.equals(userObject._id)){
+//            chatIDModel.receiverID = model.sentBy._id
+//            chatIDModel.receiverName = model.sentBy.firstName + " "+model.sentBy.lastName
+//            chatIDModel.receiverImage = model.sentBy.image
+//        }
+//        if(!model.sentTo._id.equals(userObject._id)){
+//            chatIDModel.receiverID = model.sentTo._id
+//            chatIDModel.receiverName = model.sentTo.firstName + " "+model.sentTo.lastName
+//            chatIDModel.receiverImage = model.sentTo.image
+//        }
+
+        Log.e(TAG, "receiverIDVV "+chatIDModel.receiverID)
+
+        findNavController().navigate(MessagesFragmentDirections.actionToChatFragment(chatIDModel))
+    }
+
+
 }

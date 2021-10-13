@@ -12,7 +12,6 @@
         android:layout_margin="4dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_dummy_user"
-        android:background="@color/colorWhite"
         android:orientation="vertical">
     </ImageView>
 </layout>
