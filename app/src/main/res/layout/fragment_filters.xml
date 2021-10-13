@@ -270,7 +270,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:text="0"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/textmaxAge"
@@ -283,9 +283,9 @@
             android:textColor="@color/colorBlack"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:text="70"
+            android:text="80"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
             <TextView
@@ -311,7 +311,7 @@
             android:layout_height="wrap_content"
             app:corner_radius="10"
             app:min_value="18"
-            app:max_value="70"
+            app:max_value="80"
             app:steps="1"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"

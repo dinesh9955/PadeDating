@@ -5,8 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.Size
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.isNotEmpty
+import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.stripe.android.*
 //import com.stripe.android.model.ConfirmPaymentIntentParams
 //import com.stripe.android.model.StripeIntent
@@ -18,6 +23,11 @@ class xyz1 : AppCompatActivity(){
         var TAG = "xyz1"
     }
 
+
+    private lateinit var detector: BarcodeDetector
+
+
+
 //    private  var paymentMethodId:String="pm_1HJJ6nAKcjKtlZOHN79JOkPe"
 //    private  val clientSecret:String="pi_1HJNNtAKcjKtlZOHbeYMvCLU_secret_FzF0mL6a94RkebcdJ5gvtHr0n"
 //    private  var paymentSession: PaymentSession?=null
@@ -25,6 +35,9 @@ class xyz1 : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.xyz1)
+
 
         // mainModel.setLocations(getLocations());
 
@@ -43,9 +56,25 @@ class xyz1 : AppCompatActivity(){
 //
 //        makePayment()
 
+
+        detector = BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build()
+        detector.setProcessor(processor)
+
     }
 
 
+    private val processor = object : Detector.Processor<Barcode> {
+        override fun release() {
+        }
+        override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
+            if (detections != null && detections.detectedItems.isNotEmpty()) {        val barcode = detections?.detectedItems
+                if (barcode?.size() ?: 0 > 0) {
+                    // show barcode content value
+                    Toast.makeText(this@xyz1,  barcode?.valueAt(0)?.displayValue ?: "", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
 //    fun initializeCustomerSession(context: Context?, EphemeralKeyRawJson:String){
 //

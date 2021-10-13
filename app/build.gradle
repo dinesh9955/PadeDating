@@ -247,6 +247,8 @@ dependencies {
 //    implementation 'com.stripe:stripe-android:14.2.1'
 //    https://stackoverflow.com/questions/37404570/stripe-payment-gateway-in-android
 //    https://github.com/stripe/stripe-android/releases?after=v7.0.0
+
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

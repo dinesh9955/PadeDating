@@ -477,21 +477,25 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             var age = sharedPref.getInt("age")
             var distance = sharedPref.getInt("distance")
 
+            Log.e(TAG , "interestedInF "+interest.toUpperCase())
+//            Log.e(TAG , "placeLat "+userObject.address)
+//            Log.e(TAG , "placeLat "+userObject.latitude)
+//            Log.e(TAG , "placeLat "+userObject.longitude)
 
-            jsonObj.addProperty("interest", interest)
-            jsonObj.addProperty("datingPreference", dating_prefences)
-            jsonObj.addProperty("gender", interest)
+         //   jsonObj.addProperty("interest", interest)
+          //  jsonObj.addProperty("datingPreference", dating_prefences)
+            jsonObj.addProperty("gender", interest.toUpperCase())
             jsonObj.addProperty("distance",distance)
             jsonObj.addProperty("age", age)
-            jsonObj.addProperty("lat", sharedPref.getString("placeLat"))
-            jsonObj.addProperty("long",sharedPref.getString("placeLng"))
+//            jsonObj.addProperty("lat", sharedPref.getString("placeLat"))
+//            jsonObj.addProperty("long",sharedPref.getString("placeLng"))
 
 
 //            jsonObj.addProperty("limit", 4)
 //            jsonObj.addProperty("page", 1)
         }else{
 
-            jsonObj.addProperty("gender", userObject.interestedIn)
+            jsonObj.addProperty("gender", userObject.interestedIn.toUpperCase())
 //            jsonObj.addProperty("distance",10)
 //            jsonObj.addProperty("age", 25)
 //            jsonObj.addProperty("lat", userObject.latitude)
@@ -718,7 +722,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
-               // sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
+                sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data))
                 Log.e(TAG, "dataBBZZXX " + Gson().toJson(it.data))
             } else {
                 toast(data.message)
