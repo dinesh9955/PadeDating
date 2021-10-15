@@ -279,8 +279,10 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                         Log.e(TAG, "dataAA "+data.toString())
                         data?.let {
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
-                                Log.e(TAG, "listAA "+data.data.size)
+                                //Log.e(TAG, "listAAXXX "+data.data.size)
                                 list_data = data.data as ArrayList<ChatUsersData>
+
+                                Log.e(TAG, "listAAXXX "+list_data.size)
 
                                 if(list_data.size == 0){
                                     //tvMatches.visibility = View.GONE
@@ -294,8 +296,11 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
                                 }
 
 
-
+                                adapter = MessagesListAdapter(this)
+                                viewBinding.rvMessageList.adapter = adapter
+                                viewBinding.rvMessageList.layoutManager = LinearLayoutManager(requireContext())
                                 adapter.submitList(list_data)
+                                //adapter.updateListData(list_data)
                                 adapter.updateList(userObject._id)
                                 adapter.notifyDataSetChanged()
 

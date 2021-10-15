@@ -14,6 +14,7 @@ import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.ui.main.fragments.MessagesFragment
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MessagesListAdapter(private val listener: MessagesFragment) :
     ListAdapter<ChatUsersData, MessagesListAdapter.MessagesViewHolder>(
@@ -112,5 +113,11 @@ class MessagesListAdapter(private val listener: MessagesFragment) :
         myId = myId2
         notifyDataSetChanged()
     }
+
+
+//    fun updateListData(myId2: ArrayList<ChatUsersData>) {
+//        myId = myId2
+//        notifyDataSetChanged()
+//    }
 
 }
