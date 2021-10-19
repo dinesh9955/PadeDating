@@ -30,6 +30,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MeetMeAdapter
 import com.padedatingapp.api.Resource
@@ -38,6 +39,9 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
 import com.padedatingapp.model.*
+import com.padedatingapp.model.chat.ChatUsersData
+import com.padedatingapp.sockets.AppSocketListener
+import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
 import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
@@ -47,10 +51,12 @@ import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.bottomsheet_perfect_match.*
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -60,6 +66,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
     var placeLat : Double = 0.0
     var placeLng : Double = 0.0
+
+    lateinit var locationStatus: Emitter.Listener
 
     private lateinit var userObject : UserModel
 
@@ -93,6 +101,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         initComponents()
         initObservables()
         setUserData()
+
     }
 
     private fun setUserData() {
@@ -160,6 +169,39 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         meetMeVM.callProfileApi(""+userObject._id)
 
 
+
+    }
+
+
+
+
+    private fun initializeSockets() {
+        Log.e(TAG, "initializeSockets")
+
+
+        locationStatus = Emitter.Listener { args ->
+            activity?.runOnUiThread {
+                val data: JSONObject = args[0] as JSONObject
+
+                Log.e("locationStatus ", "message $data")
+            }
+        }
+
+
+
+        callListerners()
+
+    }
+
+
+    private fun callListerners() {
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.LOCATION, locationStatus)
+
+        val json = JSONObject()
+        json.put("lat", ""+userObject.latitude)
+        json.put("long", ""+userObject.longitude)
+
+        AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
 
     }
 
@@ -493,6 +535,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 //            jsonObj.addProperty("limit", 4)
 //            jsonObj.addProperty("page", 1)
+
+           // initializeSockets()
         }else{
 
             jsonObj.addProperty("gender", userObject.interestedIn.toUpperCase())
@@ -510,7 +554,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             Log.e(TAG , "placeLat "+userObject.latitude)
             Log.e(TAG , "placeLat "+userObject.longitude)
 
-
+           // initializeSockets()
 
         }
 

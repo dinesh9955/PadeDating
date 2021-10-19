@@ -1,11 +1,16 @@
 package com.padedatingapp.ui.main
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
@@ -18,10 +23,12 @@ import com.padedatingapp.extensions.onNavDestinationSelected
 import com.padedatingapp.model.CallData
 import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.sockets.AppSocketListener
+import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.main.fragments.ChatFragment
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
 
@@ -30,6 +37,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     companion object{
         var TAG = "HomeActivity"
     }
+
+    lateinit var locationStatus: Emitter.Listener
 
     override fun layoutId(): Int = R.layout.activity_home
 
@@ -68,6 +77,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
 
       //  viewBinding.bottomMenu.setSelectedWithId(bottom_menu[2].id, false)
+
+        getLocation()
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -135,6 +146,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 bundle.putSerializable("key", dataCallData);
                 intent.putExtras(bundle)
                 startActivity(intent)
+
 
             }
 
@@ -261,6 +273,53 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         }
     }
 
+
+
+    @SuppressLint("ServiceCast")
+    fun getLocation() {
+
+        locationStatus = Emitter.Listener { args ->
+            runOnUiThread {
+                val data: JSONObject = args[0] as JSONObject
+
+                Log.e("locationStatus ", "message $data")
+            }
+        }
+
+        AppSocketListener.getInstance().addOnHandler(SocketUrls.LOCATION, locationStatus)
+
+
+        var locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+
+        var locationListener = object : LocationListener{
+
+
+            override fun onLocationChanged(location: Location) {
+                var latitute = location!!.latitude
+                var longitute = location!!.longitude
+
+                Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
+
+                val json = JSONObject()
+                json.put("lat", ""+latitute)
+                json.put("long", ""+longitute)
+
+                AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+            }
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+            }
+
+
+
+        }
+
+        try {
+            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+        } catch (ex:SecurityException) {
+            //Toast.makeText(applicationContext, "Fehler bei der Erfassung!", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

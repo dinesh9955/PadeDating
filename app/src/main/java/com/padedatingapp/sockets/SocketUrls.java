@@ -28,6 +28,8 @@ public class SocketUrls {
     public static final String ONLINE  = "online";
     public static final String OFFLINE  = "offline";
 
+    public static final String LOCATION  = "latLng";
+
 //    static let joinRoom = "joinRoom"
 //    static let getMessage = "getMessage"
 //    static let sendMessage = "sendMessage"

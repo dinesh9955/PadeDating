@@ -772,6 +772,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     }
 
+
+
     private fun removeListerners() {
         AppSocketListener.getInstance().restartSocket()
     }
