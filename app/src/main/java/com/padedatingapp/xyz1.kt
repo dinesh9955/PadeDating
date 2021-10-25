@@ -1,18 +1,20 @@
 package com.padedatingapp
 
-import android.content.Context
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.StrictMode
-import android.util.Log
+import android.os.SystemClock
 import android.widget.Toast
-import androidx.annotation.Size
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.isNotEmpty
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.stripe.android.*
+import kotlinx.android.synthetic.main.xyz1.*
+
+
 //import com.stripe.android.model.ConfirmPaymentIntentParams
 //import com.stripe.android.model.StripeIntent
 //import com.stripe.android.view.PaymentMethodsActivityStarter
@@ -23,6 +25,7 @@ class xyz1 : AppCompatActivity(){
         var TAG = "xyz1"
     }
 
+    private var time: CountDownTimer? = null
 
     private lateinit var detector: BarcodeDetector
 
@@ -57,9 +60,76 @@ class xyz1 : AppCompatActivity(){
 //        makePayment()
 
 
-        detector = BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build()
-        detector.setProcessor(processor)
+//        detector = BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build()
+//        detector.setProcessor(processor)
 
+        timer()
+
+
+
+    }
+
+
+
+    private fun timer(){
+
+        var sum: Long = 1 *  60 * 60 * 60 * 1000
+
+        time = object : CountDownTimer(sum, 1000) {
+            @SuppressLint("SetTextI18n")
+            override fun onTick(millisUntilFinished: Long)
+            {
+
+                var seconds = ""+millisUntilFinished % 60000 / 1000
+                var minutes = ""+millisUntilFinished / 60000
+
+                if (seconds.toInt() <= 9)
+                    seconds = "0"+seconds
+
+                if (minutes.toInt() <= 9)
+                    minutes = "0"+minutes
+
+
+                val countUp: Long = (SystemClock.elapsedRealtime() - chronometer.getBase()) / 1000
+                var sec = countUp % 60
+                var temp = countUp / 60
+                var mins = temp % 60
+                var hrs = temp / 60
+
+//                timerAndResend?.text = ""+minutes+":"+seconds
+
+                var sss = ""
+                var mmm = ""
+                var hhh = ""
+
+                if(sec.toString().length == 1){
+                    sss = "0"+sec
+                }else{
+                    sss = sec.toString()
+                }
+
+                if(mins.toString().length == 1){
+                    mmm = "0"+mins
+                }else{
+                    mmm = mins.toString()
+                }
+
+                if(hrs.toString().length == 1){
+                    hhh = "0"+hrs
+                }else{
+                    hhh = hrs.toString()
+                }
+
+                timerAndResend?.text = ""+hhh+":"+mmm+":"+sss
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+//                timerAndResend.setTextColor(Color.parseColor("#0b8793"))
+//                timerAndResend?.text = ""+getString(R.string.resend)
+//                timerAndResend?.isClickable = true
+            }
+        }.start()
     }
 
 
@@ -70,7 +140,11 @@ class xyz1 : AppCompatActivity(){
             if (detections != null && detections.detectedItems.isNotEmpty()) {        val barcode = detections?.detectedItems
                 if (barcode?.size() ?: 0 > 0) {
                     // show barcode content value
-                    Toast.makeText(this@xyz1,  barcode?.valueAt(0)?.displayValue ?: "", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@xyz1,
+                        barcode?.valueAt(0)?.displayValue ?: "",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

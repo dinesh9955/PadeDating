@@ -1089,8 +1089,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
             Log.e(TAG, "tvReason")
         }
 
-        var btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
-        var btnCancel = view.findViewById<Button>(R.id.btnCancel)
+        var btnSubmit = view!!.findViewById<Button>(R.id.btnSubmit)
+        var btnCancel = view!!.findViewById<Button>(R.id.btnCancel)
 
         btnSubmit?.setOnClickListener {
             bottomSheetDialog4.dismiss()

@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import com.fxn.OnBubbleClickListener
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
+import com.padedatingapp.SavePref
 import com.padedatingapp.base.DataBindingActivity
 import com.padedatingapp.databinding.ActivityHomeBinding
 import com.padedatingapp.extensions.onNavDestinationSelected
@@ -288,6 +289,16 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
         AppSocketListener.getInstance().addOnHandler(SocketUrls.LOCATION, locationStatus)
 
+        var pref = SavePref()
+        pref.SavePref(this@HomeActivity)
+
+        val json = JSONObject()
+        json.put("lat", ""+pref.latitude)
+        json.put("long", ""+pref.longitude)
+
+        AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+
+
 
         var locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
@@ -299,6 +310,9 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 var longitute = location!!.longitude
 
                 Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
+
+                pref.latitude = ""+latitute
+                pref.longitude = ""+longitute
 
                 val json = JSONObject()
                 json.put("lat", ""+latitute)
@@ -315,7 +329,18 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         }
 
         try {
-            locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+           // locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+            if(locationManager!!.getAllProviders().contains("network")) {
+                locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            }else{
+                if(locationManager!!.getAllProviders().contains("gps")) {
+                    locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+                }
+            }
+
+           // Log.e(TAG, "locationManager.getAllProviders() "+ locationManager!!.getAllProviders())
+
+
         } catch (ex:SecurityException) {
             //Toast.makeText(applicationContext, "Fehler bei der Erfassung!", Toast.LENGTH_SHORT).show()
         }

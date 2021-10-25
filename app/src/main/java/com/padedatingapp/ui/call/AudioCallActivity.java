@@ -3,8 +3,11 @@ package com.padedatingapp.ui.call;
 import android.Manifest;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +58,10 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
     private static final int PERMISSIONS_REQUEST_CODE = 124;
 
+    private CountDownTimer time = null;
+
+    TextView textViewTimerTxt;
+
     private Retrofit retrofit;
     private APIService apiService;
 
@@ -84,6 +91,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     private Emitter.Listener callDiscount = null;
     private Socket socket = null;
 
+    Chronometer chrono;
 
     @Override
     public int layoutId() {
@@ -118,6 +126,11 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         imageViewCallPic = findViewById(R.id.ivCallPic);
         imageViewCallCancel = findViewById(R.id.ivCallCancel);
 
+        chrono = (Chronometer) findViewById(R.id.chronometer);
+        textViewTimerTxt = (TextView) findViewById(R.id.timeTxt);
+
+
+        timer();
 
         Bundle bundle = getIntent().getExtras();
 
@@ -346,6 +359,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
             session.publish(publisher);
 
+
+
         }
 
         @Override
@@ -534,6 +549,10 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 
 
     protected void onCallForDestroy() {
+        if(time != null){
+            time.cancel();
+        }
+
         if (subscriber != null) {
             subscriberViewContainer.removeAllViews();
             session.unsubscribe(subscriber);
@@ -550,6 +569,63 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             session.disconnect();
         }
     }
+
+
+
+
+    private void timer(){
+
+        long sum = 8 *  60 * 60 * 60 * 1000;
+
+        time = new CountDownTimer(sum, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+//                long seconds = millisUntilFinished % 60000 / 1000;
+//                long minutes = millisUntilFinished / 60000;
+
+                long countUp = (SystemClock.elapsedRealtime() - chrono.getBase()) / 1000;
+                long sec = countUp % 60;
+                long temp = countUp / 60;
+                long mins = temp % 60;
+                long hrs = temp / 60;
+
+                String sss = "";
+                String mmm = "";
+                String hhh = "";
+
+                if(Long.toString(sec).toString().length() == 1){
+                    sss = "0"+sec;
+                }else{
+                    sss = ""+sec;
+                }
+
+                if(Long.toString(mins).toString().length() == 1){
+                    mmm = "0"+mins;
+                }else{
+                    mmm = ""+mins;
+                }
+
+                if(Long.toString(hrs).toString().length() == 1){
+                    hhh = "0"+hrs;
+                }else{
+                    hhh = ""+hrs;
+                }
+
+
+                textViewTimerTxt.setText(""+hhh+":"+mmm+":"+sss);
+
+                Log.e(TAG, "textViewTimerTxt "+""+hhh+":"+mmm+":"+sss);
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+    }
+
 
 
 

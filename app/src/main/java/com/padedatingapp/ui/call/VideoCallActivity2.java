@@ -196,7 +196,7 @@ public class VideoCallActivity2 extends BaseActivity implements EasyPermissions.
                 }
             });
 //===============================================================================================
-            imageViewCameraSwitch.setVisibility(View.GONE);
+            imageViewCameraSwitch.setVisibility(View.VISIBLE);
             imageViewCameraSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

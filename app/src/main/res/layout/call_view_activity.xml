@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
 
     android:background="@drawable/rectangle_gradient_bg"
-    android:orientation="vertical"
-  >
+    android:orientation="vertical">
 
 
 
@@ -22,7 +21,7 @@
             android:layout_centerHorizontal="true"
             android:orientation="vertical"
             android:layout_above="@+id/layout_bottom"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/ivPorfilePic"
@@ -53,16 +52,26 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/rubic_light"
                 android:textStyle="normal"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textColor="#ffffff"
-                android:text="8:20"
+                android:text=""
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvName"
-                android:visibility="gone"
+                android:visibility="visible"
+                android:id="@+id/timeTxt"
                 />
 
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:ignore="MissingConstraints"
+            android:visibility="gone"
+            />
 
         </LinearLayout>
 
