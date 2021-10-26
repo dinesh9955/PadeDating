@@ -99,7 +99,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         tvTaxAmount.text = planData.price.units +" "+ planData.price.amount
 
 
-        tvLoyalytPoints.text = userObject.totalPoints
+        tvLoyalytPoints.text = ""+userObject.totalPoints
 
 
         viewBinding.header.tvTitle.text = title
@@ -128,7 +128,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                     etExpiryDate.text.toString().split("/")[0],
                     etExpiryDate.text.toString().split("/")[1],
                     etCVV.text.toString(),
-                    userObject.totalPoints,
+                    ""+userObject.totalPoints,
                     planData.name,
                     planData.price.amount
                 )

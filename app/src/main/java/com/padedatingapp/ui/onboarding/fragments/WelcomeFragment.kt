@@ -22,6 +22,10 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
 
     var TAG = "WelcomeFragment"
 
+    companion object{
+        var isLogout = false
+    }
+
     private val sharedPref by inject<SharedPref>()
 
     override fun layoutId(): Int = R.layout.fragment_welcome
@@ -45,7 +49,13 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
         }
 
 
-            //findNavController().navigate(R.id.action_welcome_to_login)
+        if(isLogout == true){
+            findNavController().navigate(R.id.action_welcome_to_login)
+        }
+
+
+
+
     }
 
     private fun initPager() {
@@ -246,6 +256,15 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
+
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        isLogout = false
+    }
+
+
 
 }

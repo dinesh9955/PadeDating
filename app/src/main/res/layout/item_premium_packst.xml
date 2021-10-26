@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginVertical="@dimen/_5sdp"
-        app:cardBackgroundColor="@color/black"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="5sp"
         app:cardElevation="2px"
         app:cardForegroundColor="@android:color/transparent"

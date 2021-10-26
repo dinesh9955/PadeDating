@@ -310,7 +310,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
 
 
             for (doc in userObject.docImage) {
-                editProfileVM.list.add(ImageModel(doc.source, doc.type, doc.thumb))
+                editProfileVM.list.add(ImageModel(doc.source, doc.type, ""+doc.thumb))
             }
             if (editProfileVM.list.size < 10) {
                 editProfileVM.list.add(ImageModel("add", "image", ""))

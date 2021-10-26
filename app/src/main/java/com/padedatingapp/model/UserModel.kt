@@ -38,6 +38,7 @@ class UserModel (
     val isNewUser: Boolean,
     val isNotification: Boolean,
     val isPhoneVerified: Boolean,
+    val isSubscribed: Boolean,
     val lastName: String,
     val latitude: String,
     val likes: List<Any>,

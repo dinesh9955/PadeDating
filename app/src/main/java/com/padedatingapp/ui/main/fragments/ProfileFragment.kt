@@ -17,6 +17,7 @@ import com.padedatingapp.model.UserModel
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.MainActivity
+import com.padedatingapp.ui.onboarding.fragments.WelcomeFragment.Companion.isLogout
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -45,8 +46,16 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             UserModel::class.java
         )
 
-        tvLikesCount.text = userObject.totalLikes
-        tvFollowerCount.text = userObject.totalMatched
+        tvLikesCount.text = ""+userObject.totalLikes
+        tvFollowerCount.text = ""+userObject.totalMatched
+
+
+        if(userObject.isSubscribed == true){
+            tvPremium.visibility = View.VISIBLE
+        }else{
+            tvPremium.visibility = View.INVISIBLE
+        }
+
 
         viewBinding.tvBecomePremium.setOnClickListener {
             findNavController().navigate(R.id.action_to_buy_premium)
@@ -98,6 +107,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             val mApplication: PadeDatingApp = requireActivity().applicationContext as PadeDatingApp
             mApplication.destroySocketListener()
 
+            isLogout = true
             startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
         }
@@ -151,7 +161,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             Glide.with(requireContext()).load(userObject.image)
                 .placeholder(R.drawable.user_place_holder).into(viewBinding.ivPorfilePic)
 
-            viewBinding.tvCredits.text = userObject.totalPoints
+            viewBinding.tvCredits.text = ""+userObject.totalPoints
 
         } catch (e: JsonParseException) {
 

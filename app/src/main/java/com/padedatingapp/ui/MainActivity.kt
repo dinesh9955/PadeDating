@@ -10,6 +10,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.padedatingapp.FCM.ReferrerReceiver
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             } else {
             }
         }, 1000)
+
 
 
     }

@@ -130,7 +130,7 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         textViewTimerTxt = (TextView) findViewById(R.id.timeTxt);
 
 
-        timer();
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -139,6 +139,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         AppSocketListener.getInstance().restartSocket();
 
         initializeSockets();
+
+
 
         if(callUser != null){
             if(callUser.getCallFrom().equalsIgnoreCase("notification")){
@@ -156,6 +158,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
             imageViewCallPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
                     textViewCall.setVisibility(View.VISIBLE);
 
                     imageViewCallPic.setVisibility(View.GONE);
@@ -342,6 +346,8 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
         @Override
         public void onConnected(Session session) {
             Log.d(TAG, "onConnected: Connected to session: " + session.getSessionId());
+
+            timer();
 
             publisher = new Publisher.Builder(AudioCallActivity.this).build();
             publisher.setPublisherListener(publisherListener);
@@ -536,13 +542,19 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     @Override
     public void onBackPressed() {
         onCallForDestroy();
-        super.onBackPressed();
+        if(this != null){
+            super.onBackPressed();
+        }
+
     }
 
     @Override
     protected void onDestroy() {
         onCallForDestroy();
-        super.onDestroy();
+        if(this != null){
+            super.onDestroy();
+        }
+
     }
 
 
@@ -571,9 +583,11 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
     }
 
 
-
+    int milliseconds = 0;
 
     private void timer(){
+
+        time = null;
 
         long sum = 8 *  60 * 60 * 60 * 1000;
 
@@ -583,32 +597,40 @@ public class AudioCallActivity extends BaseActivity implements EasyPermissions.P
 //                long seconds = millisUntilFinished % 60000 / 1000;
 //                long minutes = millisUntilFinished / 60000;
 
-                long countUp = (SystemClock.elapsedRealtime() - chrono.getBase()) / 1000;
-                long sec = countUp % 60;
-                long temp = countUp / 60;
-                long mins = temp % 60;
-                long hrs = temp / 60;
+//                long countUp = (SystemClock.elapsedRealtime() - chrono.getBase()) / 1000;
+//                long sec = countUp % 60;
+//                long temp = countUp / 60;
+//                long mins = temp % 60;
+//                long hrs = temp / 60;
+
+
+                milliseconds = milliseconds + 1000;
+
+                int seconds = (milliseconds / 1000)  % 60;
+                int minutes = (milliseconds / (1000 * 60) % 60);
+                int hours = (milliseconds / (1000 * 60 * 60) % 24);
+
 
                 String sss = "";
                 String mmm = "";
                 String hhh = "";
 
-                if(Long.toString(sec).toString().length() == 1){
-                    sss = "0"+sec;
+                if(String.valueOf(seconds).toString().length() == 1){
+                    sss = "0"+seconds;
                 }else{
-                    sss = ""+sec;
+                    sss = ""+seconds;
                 }
 
-                if(Long.toString(mins).toString().length() == 1){
-                    mmm = "0"+mins;
+                if(String.valueOf(minutes).toString().length() == 1){
+                    mmm = "0"+minutes;
                 }else{
-                    mmm = ""+mins;
+                    mmm = ""+minutes;
                 }
 
-                if(Long.toString(hrs).toString().length() == 1){
-                    hhh = "0"+hrs;
+                if(String.valueOf(hours).toString().length() == 1){
+                    hhh = "0"+hours;
                 }else{
-                    hhh = ""+hrs;
+                    hhh = ""+hours;
                 }
 
 

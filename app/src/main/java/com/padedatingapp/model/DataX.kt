@@ -1,20 +1,14 @@
 package com.padedatingapp.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
-
-
-@Parcelize
-data class MeetMeData(
+data class DataX(
     val __v: Int,
     val _id: String,
     val accessToken: String,
     val address: String,
     val age: Int,
     val appleId: String,
-    val bearing:  @RawValue Any,
-    val blockedUsers:  @RawValue List<Any>,
+    val bearing: Any,
+    val blockedUsers: List<Any>,
     val childern: String,
     val city: String,
     val country: String,
@@ -25,7 +19,7 @@ data class MeetMeData(
     val description: String,
     val deviceToken: String,
     val deviceType: String,
-    val docImage:  @RawValue List<DocImage>,
+    val docImage: List<DocImageXX>,
     val doyoudrink: String,
     val doyousmoke: String,
     val educationLevel: String,
@@ -35,15 +29,15 @@ data class MeetMeData(
     val firstName: String,
     val friendReferralCode: String,
     val gender: String,
-    val geoPoint:  @RawValue GeoPoint,
+    val geoPoint: GeoPointXX,
     val googleId: String,
     val height: String,
-    val heightInCms:  @RawValue Any,
+    val heightInCms: Any,
     val image: String,
     val instagramId: String,
     val interestedIn: String,
     val isActive: Boolean,
-    val isAlreadyThere: @RawValue List<Any>,
+    val isAlreadyThere: List<Any>,
     val isApproved: Boolean,
     val isBlocked: Boolean,
     val isDeleted: Boolean,
@@ -64,9 +58,9 @@ data class MeetMeData(
     val profileStatus: Int,
     val religiousBelief: String,
     val state: String,
-    val stripeId:  @RawValue Any,
+    val stripeId: Any,
     val updatedAt: String,
     val username: String,
     val walletAmount: String,
     val work: String
-):Parcelable
+)

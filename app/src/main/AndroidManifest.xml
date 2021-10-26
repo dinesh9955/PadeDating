@@ -95,7 +95,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".xyz"
+            android:name=".xyz1"
             android:screenOrientation="portrait" >
 
         </activity>

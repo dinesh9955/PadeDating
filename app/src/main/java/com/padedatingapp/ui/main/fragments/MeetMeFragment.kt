@@ -490,9 +490,6 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             getLiveDataProfile(it, "Profile")
         }
 
-//        meetMeVM.optionChoosen.observe(viewLifecycleOwner) {
-//            showDropDownDialog(it)
-//        }
 
         meetMeVM.meetMeResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "MeetMe")
@@ -558,6 +555,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
         }
 
+        Log.e(TAG, "jsonObjAA "+jsonObj.toString())
 
         meetMeVM.callMeetMeApi(
                 jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
@@ -575,7 +573,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
     private fun getLiveData(response: Resource<MeetMe>?, type: String) {
 
-        //Log.e(TAG, "onViewCreated12")
+        Log.e(TAG, "onViewCreated12")
 
         when (response?.status) {
             Resource.Status.LOADING -> {
@@ -587,14 +585,14 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                 when (type) {
                     "MeetMe" -> {
                         val data = response.data as MeetMe
-                        Log.e(TAG, "dataAA "+data.toString())
+                        Log.e(TAG, "dataAACCCVVV "+data.toString())
                         onMeetMeResponse(data)
                     }
                 }
             }
             Resource.Status.ERROR -> {
                 progressDialog?.dismiss()
-                toast(response.getErrorMessage().toString())
+                     toast(response.getErrorMessage().toString())
             }
             Resource.Status.CANCEL -> {
                 progressDialog?.dismiss()

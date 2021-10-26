@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.StrictMode
-import android.os.SystemClock
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.isNotEmpty
@@ -63,12 +63,33 @@ class xyz1 : AppCompatActivity(){
 //        detector = BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build()
 //        detector.setProcessor(processor)
 
-        timer()
 
+
+        textScanResult.setOnClickListener {
+            timer()
+//            var seconds: Long = 1 * 60 * 60
+//
+//            var ss: Long = seconds % 60
+//            var mm: Long = seconds / 60
+//            var hh: Long = mm / 60
+//
+//            Log.e(TAG, "ss() " + ss)
+//            Log.e(TAG, "mm() " + mm)
+//            Log.e(TAG, "hh() " + hh)
+
+
+
+
+
+
+        }
 
 
     }
 
+
+    //var sum: Long = 1 *  60 * 60 * 60 * 1000
+    var milliseconds: Int = 0
 
 
     private fun timer(){
@@ -79,48 +100,79 @@ class xyz1 : AppCompatActivity(){
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long)
             {
+                milliseconds = milliseconds + 1000
+                val seconds = (milliseconds / 1000) as Int % 60
+                val minutes = (milliseconds / (1000 * 60) % 60)
+                val hours = (milliseconds / (1000 * 60 * 60) % 24)
 
-                var seconds = ""+millisUntilFinished % 60000 / 1000
-                var minutes = ""+millisUntilFinished / 60000
-
-                if (seconds.toInt() <= 9)
-                    seconds = "0"+seconds
-
-                if (minutes.toInt() <= 9)
-                    minutes = "0"+minutes
+                timerAndResend?.text = ""+hours+":"+minutes+":"+seconds
 
 
-                val countUp: Long = (SystemClock.elapsedRealtime() - chronometer.getBase()) / 1000
-                var sec = countUp % 60
-                var temp = countUp / 60
-                var mins = temp % 60
-                var hrs = temp / 60
+//                var seconds = ""+millisUntilFinished % 60000 / 1000
+//                var minutes = ""+millisUntilFinished / 60000
+//
+////                if (seconds.toInt() <= 9)
+////                    seconds = "0"+seconds
+////
+////                if (minutes.toInt() <= 9)
+////                    minutes = "0"+minutes
+//
+//
+               // Log.e(TAG , "chronometer.getBase() "+chronometer.getBase())
+//
+//                val countUp: Long = (SystemClock.elapsedRealtime() - chronometer.getBase()) / 1000
+
+//                seconds = seconds + 1000
+//
+//                var sec = seconds % 60
+//                var temp = seconds / 60
+//                var mins = temp % 60
+//                var hrs = temp / 60
 
 //                timerAndResend?.text = ""+minutes+":"+seconds
+//
+//                var sss = ""
+//                var mmm = ""
+//                var hhh = ""
+//
+//                if(sec.toString().length == 1){
+//                    sss = "0"+sec
+//                }else{
+//                    sss = sec.toString()
+//                }
+//
+//                if(mins.toString().length == 1){
+//                    mmm = "0"+mins
+//                }else{
+//                    mmm = mins.toString()
+//                }
+//
+//                if(hrs.toString().length == 1){
+//                    hhh = "0"+hrs
+//                }else{
+//                    hhh = hrs.toString()
+//                }
+//
+//                timerAndResend?.text = ""+hhh+":"+mmm+":"+sss
 
-                var sss = ""
-                var mmm = ""
-                var hhh = ""
+//                Log.e(TAG , "chronometer.getBase() "+chronometer.getBase())
+//
+//                seconds = seconds + 1000
+//                Log.e(TAG , "seconds() "+seconds)
+//
+//                var sss = ""+millisUntilFinished % 60000 / 1000
 
-                if(sec.toString().length == 1){
-                    sss = "0"+sec
-                }else{
-                    sss = sec.toString()
-                }
 
-                if(mins.toString().length == 1){
-                    mmm = "0"+mins
-                }else{
-                    mmm = mins.toString()
-                }
+//                seconds = seconds + 1
+//                Log.e(TAG, "seconds() " + seconds)
 
-                if(hrs.toString().length == 1){
-                    hhh = "0"+hrs
-                }else{
-                    hhh = hrs.toString()
-                }
+//                var sec = seconds % 60
+//                var temp = seconds / 60
+//                var mins = temp % 60
+//                var hrs = temp / 60
 
-                timerAndResend?.text = ""+hhh+":"+mmm+":"+sss
+
+
             }
 
             @SuppressLint("SetTextI18n")
