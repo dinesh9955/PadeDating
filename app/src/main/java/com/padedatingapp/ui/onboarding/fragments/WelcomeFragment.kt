@@ -11,10 +11,10 @@ import com.birimo.birimosports.utils.SharedPref
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.databinding.FragmentWelcomeBinding
+import com.padedatingapp.ui.WebActivity
 import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
-import com.patchoguefd.settings.WebActivity
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.koin.android.ext.android.inject
 

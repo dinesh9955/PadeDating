@@ -1,4 +1,4 @@
-package com.patchoguefd.settings
+package com.padedatingapp.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
