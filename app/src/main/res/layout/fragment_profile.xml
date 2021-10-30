@@ -375,7 +375,8 @@
                 android:text="@string/refer_a_friend"
                 android:textColor="@color/colorBlack"
                 android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
