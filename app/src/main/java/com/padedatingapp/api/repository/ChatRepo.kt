@@ -12,6 +12,7 @@ import com.padedatingapp.model.chat.ChatUsers
 import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
+import com.padedatingapp.model.slider.SliderModel
 import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -71,5 +72,12 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun myMatches(token: String, requestBody: RequestBody): Resource<MyMatches> {
         return handleException { padeApi.myMatches(token) }
     }
+
+
+    suspend fun sliderImages(): Resource<SliderModel> {
+        return handleException { padeApi.sliderImages() }
+    }
+
+
 
 }

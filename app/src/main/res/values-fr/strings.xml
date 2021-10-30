@@ -1,0 +1,302 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Pade Dating App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--    <string name="default_web_client_id2" translatable="false">895724588358-o2c90ujfg96c9moq6mo063ks2sdipk9c.apps.googleusercontent.com</string>-->
+
+    <string name="google_maps_key">AIzaSyAuptk-VCeLs864df80F1PIzsxL5RM9F1c</string>
+
+    <string name="facebook_app_id">1922404488283201</string>
+    <string name="fb_login_protocol_scheme">fb1922404488283201</string>
+
+    <!--    <string name="google_maps_key">AIzaSyBSwVgQ8VCUgCxdx886-jaROwjaRrg8oE4</string>-->
+
+    <string name="title_settings_dialog">Autorisations requises</string>
+    <string name="rationale_video_app">Cette application a besoin d\'accéder à votre caméra et à votre micro pour passer des appels vidéo</string>
+
+
+    <string-array name="dating_prefences_array">
+        <item>Insulaire du Pacifique</item>
+        <item>Inde américaine</item>
+        <item>D\'ascendance noire/africaine</item>
+        <item>Asie de l\'Est</item>
+        <item>Hispanique/Latino</item>
+        <item>Moyen-Orient</item>
+        <item>Insulaire du Pacifique</item>
+        <item>Asiatique du Sud</item>
+        <item>Blanc/Caucasien</item>
+    </string-array>
+
+
+
+    <string-array name="dating_pref_array">
+        <item>Ingénieur</item>
+        <item>Aventurier</item>
+        <item>Docteur</item>
+        <item>Modèle</item>
+        <item>Dents</item>
+    </string-array>
+
+    <string-array name="gender_array">
+        <item>Homme</item>
+        <item>Femme</item>
+        <item>Autre</item>
+    </string-array>
+
+    <string-array name="work_array">
+        <item>Étudiant</item>
+        <item>Employé</item>
+        <item>Stagiaire</item>
+        <item>Indépendant</item>
+    </string-array>
+
+
+    <string-array name="ethnicity_array">
+        <item>Américain</item>
+        <item>latin</item>
+        <item>Autre</item>
+    </string-array>
+
+    <string-array name="religious_array">
+        <item>Bouddhiste</item>
+        <item>Catholique</item>
+        <item>Chrétien</item>
+        <item>Hindou</item>
+        <item>Juif</item>
+        <item>Musulman</item>
+        <item>Spirituel</item>
+        <item>Agnostique</item>
+        <item>Athée</item>
+        <item>Autre</item>
+        <item>Je préfère ne pas dire</item>
+    </string-array>
+
+    <string-array name="education_array">
+        <item>Lycée</item>
+        <item>Sous Diplômé</item>
+        <item>Post-diplôme</item>
+        <item>Je préfère ne pas dire</item>
+    </string-array>
+
+
+    <string-array name="childern_array">
+        <item>Je n\'ai pas d\'enfant</item>
+        <item>Avoir des enfants</item>
+        <item>Je préfère ne pas dire</item>
+    </string-array>
+
+    <string-array name="feet_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="inches_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Bonjour fragment vierge</string>
+    <string name="next">Suivant</string>
+    <string name="terms_and_conditions">Conditions générales</string>
+    <string name="welcome_user">Bienvenue à l\'utilisateur</string>
+    <string name="email">E-mail</string>
+    <string name="phone">Téléphone</string>
+    <string name="or">Ou</string>
+    <string name="verify_account_by">Vérifier le compte par :</string>
+    <string name="email_address">Adresse e-mail</string>
+    <string name="phone_number">Numéro de téléphone</string>
+    <string name="cancel">Annuler</string>
+    <string name="verifying_phone_number">Vérification du numéro de téléphone</string>
+    <string name="please_enter_the_verification_code_sent_to">Veuillez saisir le code de vérification envoyé à</string>
+    <string name="verify">Vérifier</string>
+    <string name="resend">Renvoyer</string>
+    <string name="sign_in_to_continue">Bonjour, connectez-vous pour continuer !</string>
+    <string name="enter_phone_number">Entrez le numéro de téléphone</string>
+    <string name="password">Mot de passe</string>
+    <string name="get_started">Commencer</string>
+    <string name="login">Connexion</string>
+    <string name="continue_with_email">Continuer avec l\'e-mail</string>
+    <string name="continue_with_phone">Continuer avec le numéro de téléphone</string>
+    <string name="enter_email_address">Entrez l\'adresse e-mail</string>
+    <string name="remember_me">Se souvenir de moi</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="sign_up">S\'inscrire</string>
+    <string name="create_new_account">Créer un nouveau compte</string>
+    <string name="create_an_account_to_continue">Créez un compte pour continuer !</string>
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="date_of_birth">Date de naissance</string>
+    <string name="gender">Sexe</string>
+    <string name="city_country">Ville, Pays</string>
+    <string name="location">Emplacement</string>
+
+    <string name="by_creating_an_account_you_agree_to_our_term_and_conditions">En créant un compte, vous acceptez nos conditions générales</string>
+    <string name="upload_photo">Télécharger une photo</string>
+    <string name="add_a_profile_pic_desc">Ajoutez une photo de profil afin que vous et votre ami puissiez vous identifier</string>
+    <string name="add_a_photo">Ajouter une photo</string>
+    <string name="note_the_video_cannot_be_longer">Remarque : La vidéo ne peut pas durer plus de 30 secondes</string>
+    <string name="submit">Envoyer</string>
+    <string name="skip_for_now">Ignorer pour l\'instant</string>
+    <string name="private_secondaire_images_or_videos" tools:ignore="ExtraTranslation">Images ou vidéos privées/secondaires</string>
+    <string name="job_title">Quel est l\'intitulé de votre poste</string>
+    <string name="about_me">À propos de moi</string>
+    <string name="lorem_ipsum_about_me">Ajoutez quelque chose sur vous</string>
+    <string name="origin_or_ethnicity">Origine/Ethnie</string>
+    <string name="hint_DatingPrefences">Préférences de rencontres</string>
+    <string name="education_lavel">Niveau d\'éducation</string>
+    <string name="work">Travail</string>
+    <string name="dating_pref">Préférence de rencontre</string>
+    <string name="religious_beliefs">Croyances religieuses</string>
+    <string name="childern">Et vos enfants</string>
+    <string name="height">Hauteur :</string>
+    <string name="inch">Dans</string>
+    <string name="feet">Ft</string>
+    <string name="do_you_smoke">Fumez-vous ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="do_you_drink">Buvez-vous</string>
+    <string name="interested_in">Intéressé par</string>
+    <string name="set_your_password">Définissez votre mot de passe</string>
+    <string name="old_password">Ancien mot de passe</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="reset_password">Réinitialiser le mot de passe</string>
+    <string name="_8_characters_n_1_symbols">• Plus de 8 caractères\n• 1 symbole</string>
+    <string name="_1_uppercase_n_1_number">• 1 majuscule \n • 1 chiffre</string>
+    <string name="enter_mobile_number_desc">Entrez le numéro de mobile associé à votre compte pour réinitialiser votre mot de passe.</string>
+    <string name="enter_email_address_desc">Entrez l\'adresse e-mail associée à votre compte pour réinitialiser votre mot de passe.</string>
+    <string name="enter_four_digit_code">Entrez le code à 4 chiffres. Nous vous enverrons un SMS sur </string>
+    <string name="open_camera_to_capture_image">Ouvrir la caméra pour capturer l\'image</string>
+    <string name="photos">Photos</string>
+    <string name="camera">Caméra</string>
+    <string name="browse_images_from_gallery">Parcourir les images de la galerie</string>
+    <string name="meet_me">RENCONTREZ-MOI</string>
+    <string name="profile">PROFIL</string>
+    <string name="chat">CHAT</string>
+    <string name="matches">MATCHS</string>
+    <string name="pade">PADE</string>
+    <string name="my_matches">MES MATCHS</string>
+    <string name="home">Accueil</string>
+    <string name="matches_lower_case">Correspondances</string>
+    <string name="people_whoe_like">Les gens qui m\'aimaient</string>
+    <string name="student">Étudiant</string>
+    <string name="inbox">Boîte de réception</string>
+    <string name="search_messages">Rechercher...</string>
+    <string name="messages">Messages</string>
+    <string name="messages_caps">MESSAGES</string>
+    <string name="followers">Abonnés</string>
+    <string name="liked">Aimé</string>
+    <string name="premium">Premium</string>
+    <string name="buy_gift">Acheter un cadeau</string>
+    <string name="gift_cards">Cartes-cadeaux</string>
+    <string name="prefrence">Préférence</string>
+    <string name="settings">Paramètres</string>
+    <string name="change_password">Modifier le mot de passe</string>
+    <string name="refer_a_friend">Parrainer un ami</string>
+    <string name="become_premium">Devenir membre Premium</string>
+    <string name="about">À propos</string>
+    <string name="images">Images</string>
+    <string name="get_more_followers">Obtenir plus d\'abonnés</string>
+    <string name="get_more_likes">Obtenez plus de likes</string>
+    <string name="get_more_views">Obtenir plus de vues</string>
+    <string name="recharge_coins">Recharger des pièces</string>
+    <string name="save">Enregistrer</string>
+    <string name="address">Adresse</string>
+    <string name="edit_profile">Modifier le profil</string>
+    <string name="online">En ligne</string>
+    <string name="coupon_code">Code du coupon</string>
+    <string name="done">Terminé</string>
+    <string name="buy_more">Acheter plus</string>
+    <string name="redeem_now">Échanger maintenant</string>
+    <string name="available">Points disponibles</string>
+    <string name="expiry_date">Date d\'expiration</string>
+    <string name="cvv_number">Numéro CVV</string>
+    <string name="buy_now">Acheter maintenant</string>
+    <string name="use_loyalty_points">Utiliser des points de fidélité</string>
+    <string name="forgot_password_title">Mot de passe oublié</string>
+    <string name="notifications">Notifications</string>
+    <string name="refer_now">Référer maintenant</string>
+    <string name="buy_credit">Acheter des crédits</string>
+
+    <string name="age">tranche d\'âge</string>
+    <string name="block_user">Bloquer l\'utilisateur</string>
+    <string name="report">Rapport</string>
+    <string name="distance">Distance</string>
+    <string name="congratulation">Félicitations !</string>
+    <string name="your_password_has_been_completely_reset_login_and_use_the_app">Votre mot de passe a été complètement réinitialisé, connectez-vous et utilisez l\'application</string>
+    <string name="your_password_has_been_changed">Votre mot de passe a été complètement modifié et utilisez l\'application</string>
+    <string name="send_message">Envoyer un message</string>
+    <string name="keep_exploring">Continuez à explorer</string>
+    <string name="end_call">Terminer l\'appel</string>
+    <string name="buy_gift_card">Acheter une carte-cadeau</string>
+    <string name="loyalty_points">Points de fidélité</string>
+    <string name="verify_number">Vérifier le numéro</string>
+    <string name="verify_email">Vérifier l\'e-mail</string>
+
+
+    <string name="phone_length_should_be_greater_than_7_characters">La longueur du téléphone doit être supérieure à 7</string>
+    <string name="email_should_not_contain_white_spaces">Le courrier électronique ne doit pas contenir d\'espaces blancs</string>
+    <string name="please_enter_dob_18">Date de naissance autorisée 18 ans</string>
+    <string name="please_enter_first_name">Veuillez saisir le prénom</string>
+    <string name="please_enter_last_name">Veuillez entrer le nom de famille</string>
+    <string name="please_enter_valid_email">Veuillez entrer un email valide</string>
+    <string name="please_enter_phone_number">Veuillez entrer le numéro de téléphone</string>
+    <string name="please_enter_valid_phone_number">Veuillez entrer un numéro de téléphone valide</string>
+    <string name="please_enter_valid_oldpassword">Veuillez entrer un ancien mot de passe valide</string>
+    <string name="please_enter_valid_password">Veuillez entrer un mot de passe valide</string>
+    <string name="please_enter_valid_current_password">Veuillez entrer un mot de passe actuel valide</string>
+    <string name="password_length_should_be_greater_than_7_characters">La longueur du mot de passe doit être supérieure à 7 caractères</string>
+    <string name="password_should_have_special_character">Le mot de passe doit avoir au moins un caractère spécial !!</string>
+    <string name="password_must_have_atleast_one_uppercase_character">Le mot de passe doit avoir au moins un caractère majuscule !!</string>
+    <string name="password_must_have_atleast_one_digit_character">Le mot de passe doit avoir au moins un caractère !!</string>
+    <string name="password_must_have_special_one_uppercase_character">Le mot de passe doit avoir au moins un caractère majuscule et au moins un chiffre et au moins un caractère spécial !!</string>
+    <string name="please_enter_confirm_password">Veuillez saisir un mot de passe de confirmation valide</string>
+    <string name="please_select_date_of_birth">Veuillez sélectionner la date de naissance</string>
+    <string name="please_select_city_or_country">Veuillez sélectionner la ville ou le pays</string>
+    <string name="please_select_location">Veuillez sélectionner l\'emplacement/l\'adresse</string>
+    <string name="please_accept_t_and_c">Veuillez accepter les conditions générales</string>
+    <string name="please_select_gender">Veuillez sélectionner le sexe</string>
+    <string name="please_enter_username">Veuillez saisir le nom d\'utilisateur</string>
+    <string name="password_and_confirm_password_doesnot_match">Le mot de passe et la confirmation du mot de passe ne correspondent pas</string>
+
+
+    <string name="please_enter_valid_otp">Veuillez entrer un OTP valide</string>
+    <string name="verifying_email">Vérification de l\'adresse e-mail !</string>
+    <string name="not_available">Non disponible</string>
+    <string name="_available">Disponible</string>
+    <string name="please_enter_valid_user_name">Veuillez entrer un nom d\'utilisateur valide</string>
+    <string name="please_enter_education_level">Veuillez sélectionner le niveau d\'éducation</string>
+    <string name="please_select_origin_ethnicity">Veuillez sélectionner l\'origine/l\'origine ethnique</string>
+    <string name="please_select_work">Veuillez sélectionner Travail</string>
+    <string name="please_select_dating_pref">Veuillez sélectionner votre préférence de rencontre</string>
+    <string name="please_select_job_title">Veuillez sélectionner le titre du poste</string>
+    <string name="please_select_religous_beliefs">Veuillez sélectionner les croyances religieuses</string>
+    <string name="please_select_childern">Veuillez sélectionner votre enfant</string>
+    <string name="password_recovery">Récupération du mot de passe</string>
+    <string name="edit_information">Modifier les informations</string>
+    <string name="male">Homme</string>
+    <string name="female">Femme</string>
+    <string name="both">Les deux</string>
+
+
+    <string name="check_internet">Problème Internet ! Veuillez réessayer</string>
+
+</resources>

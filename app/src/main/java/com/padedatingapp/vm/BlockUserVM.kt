@@ -9,6 +9,7 @@ import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.MyMatches
 import com.padedatingapp.model.blockUser.BlockModel
 import com.padedatingapp.model.blockUser.BlockUserModel
+import com.padedatingapp.model.slider.SliderModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
@@ -21,6 +22,7 @@ class BlockUserVM(
     var loginResponse = SingleLiveEvent<Resource<MyMatches>>()
     var blockUsersResponse = SingleLiveEvent<Resource<BlockModel>>()
     var unblockUserResponse = SingleLiveEvent<Resource<BlockUserModel>>()
+    var sliderImageResponse = SingleLiveEvent<Resource<SliderModel>>()
 
     var token = ""
 
@@ -41,6 +43,15 @@ class BlockUserVM(
         coroutinesManager.ioScope.launch {
             unblockUserResponse.postValue(Resource.loading(null))
             unblockUserResponse.postValue(aboutMeRepo.unblockUser("Bearer $token", receiverID!!))
+        }
+    }
+
+
+
+    fun callsliderImageApi() {
+        coroutinesManager.ioScope.launch {
+            sliderImageResponse.postValue(Resource.loading(null))
+            sliderImageResponse.postValue(aboutMeRepo.sliderImages())
         }
     }
 

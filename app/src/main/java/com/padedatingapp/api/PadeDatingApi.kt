@@ -11,6 +11,7 @@ import com.padedatingapp.model.plans.PlanModel
 import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
+import com.padedatingapp.model.slider.SliderModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -235,6 +236,10 @@ interface PadeDatingApi {
     suspend fun blockUsers(
         @Header("Authorization") token: String,
     ): BlockModel
+
+
+    @GET(NetworkUrls.SLIDER)
+    suspend fun sliderImages(): SliderModel
 
 
 

@@ -104,8 +104,6 @@ public class AppSocketListener implements SocketListener {
 
             e.printStackTrace();
         }
-
-
     }
 
     private BroadcastReceiver socketConnectionReceiver = new BroadcastReceiver() {

@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable
+            name="vm"
+            type="com.padedatingapp.vm.BlockUserVM" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,21 +66,21 @@
 
 
                 />
-            <View
-                android:id="@+id/vThree"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_3sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:background="@drawable/bg_round_edge_white"
-                />
+<!--            <View-->
+<!--                android:id="@+id/vThree"-->
+<!--                android:layout_width="@dimen/_40sdp"-->
+<!--                android:layout_height="@dimen/_3sdp"-->
+<!--                android:layout_marginStart="@dimen/_5sdp"-->
+<!--                android:background="@drawable/bg_round_edge_white"-->
+<!--                />-->
 
-            <View
-                android:id="@+id/vFour"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_3sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:background="@drawable/bg_round_edge_white"
-                />
+<!--            <View-->
+<!--                android:id="@+id/vFour"-->
+<!--                android:layout_width="@dimen/_40sdp"-->
+<!--                android:layout_height="@dimen/_3sdp"-->
+<!--                android:layout_marginStart="@dimen/_5sdp"-->
+<!--                android:background="@drawable/bg_round_edge_white"-->
+<!--                />-->
 
         </TableRow>
 

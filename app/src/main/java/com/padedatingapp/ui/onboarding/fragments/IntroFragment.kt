@@ -19,15 +19,14 @@ class IntroFragment : DataBindingFragment<FragmentIntroBinding>() {
     private fun initComponents() {
         var pos = 0
         pos = arguments?.getInt("pos", 0) ?: 0
+        Glide.with(this).load(arguments?.getString("image")).into(ivImage)
 
-        when (pos) {
-            0 -> {
-                Glide.with(this).load(R.drawable.couple1).into(ivImage)
-            }
-            1 -> Glide.with(this).load(R.drawable.couple2).into(ivImage)
-            2 -> Glide.with(this).load(R.drawable.couple3).into(ivImage)
-            3 -> Glide.with(this).load(R.drawable.couple4).into(ivImage)
-        }
+//        when (pos) {
+//            0 -> Glide.with(this).load(R.drawable.couple1).into(ivImage)
+//            1 -> Glide.with(this).load(R.drawable.couple2).into(ivImage)
+//            2 -> Glide.with(this).load(R.drawable.couple3).into(ivImage)
+//            3 -> Glide.with(this).load(R.drawable.couple4).into(ivImage)
+//        }
     }
 
     override fun onResume() {
