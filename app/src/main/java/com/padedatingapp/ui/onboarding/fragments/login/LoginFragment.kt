@@ -41,6 +41,7 @@ import com.padedatingapp.databinding.FragmentLoginBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
+import com.padedatingapp.ui.main.fragments.MeetMeFragment
 import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -184,9 +185,10 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
     private fun onLoginResponse(data: ResultModel<UserModel>) {
 
         Log.e(TAG, "onLoginResponse " + data.data.toString())
+        //Log.e(TAG, "dataBBZZXXC " + Gson().toJson(data.data.toString()))
 
         data?.let {
-
+            Log.e(TAG, "dataBBZZXXC " + Gson().toJson(it.data))
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 sharedPref.setString(AppConstants.USER_TOKEN, it.data?.accessToken!!)
 

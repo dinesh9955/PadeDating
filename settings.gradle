@@ -1,7 +1,5 @@
-include ':emoji'
-include ':emoji-google'
+include ':otpview'
 include ':ccp'
 include ':bubbletabbar'
 include ':app'
-include ":otpview"
-rootProject.name = "Pade Dating App"
+rootProject.name = "DadeDatingApp"

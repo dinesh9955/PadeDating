@@ -8,9 +8,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.isNotEmpty
-import com.google.android.gms.vision.Detector
-import com.google.android.gms.vision.barcode.Barcode
-import com.google.android.gms.vision.barcode.BarcodeDetector
+//import com.google.android.gms.vision.Detector
+//import com.google.android.gms.vision.barcode.Barcode
+//import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.stripe.android.*
 import kotlinx.android.synthetic.main.xyz1.*
 
@@ -27,7 +27,7 @@ class xyz1 : AppCompatActivity(){
 
     private var time: CountDownTimer? = null
 
-    private lateinit var detector: BarcodeDetector
+//    private lateinit var detector: BarcodeDetector
 
 
 
@@ -185,22 +185,22 @@ class xyz1 : AppCompatActivity(){
     }
 
 
-    private val processor = object : Detector.Processor<Barcode> {
-        override fun release() {
-        }
-        override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
-            if (detections != null && detections.detectedItems.isNotEmpty()) {        val barcode = detections?.detectedItems
-                if (barcode?.size() ?: 0 > 0) {
-                    // show barcode content value
-                    Toast.makeText(
-                        this@xyz1,
-                        barcode?.valueAt(0)?.displayValue ?: "",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-    }
+//    private val processor = object : Detector.Processor<Barcode> {
+//        override fun release() {
+//        }
+//        override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
+//            if (detections != null && detections.detectedItems.isNotEmpty()) {        val barcode = detections?.detectedItems
+//                if (barcode?.size() ?: 0 > 0) {
+//                    // show barcode content value
+//                    Toast.makeText(
+//                        this@xyz1,
+//                        barcode?.valueAt(0)?.displayValue ?: "",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
+//    }
 
 //    fun initializeCustomerSession(context: Context?, EphemeralKeyRawJson:String){
 //

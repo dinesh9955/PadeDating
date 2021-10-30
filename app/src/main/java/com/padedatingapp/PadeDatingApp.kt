@@ -43,7 +43,6 @@ class PadeDatingApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
         FacebookSdk.sdkInitialize(applicationContext)
 
         FirebaseApp.initializeApp(applicationContext);
@@ -75,7 +74,7 @@ class PadeDatingApp : Application() {
             Log.e(TAG, "getMessage3 " + e.message)
         }
 
-        initializeSocket(applicationContext)
+      //  initializeSocket(applicationContext)
 
         EmojiManager.install(GoogleEmojiProvider())
 //        EmojiManager.install(IosEmojiProvider())
