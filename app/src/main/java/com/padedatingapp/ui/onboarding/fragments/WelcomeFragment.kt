@@ -49,7 +49,7 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
         viewBinding.lifecycleOwner = this
 
 
-        Log.e(TAG, "sharedPref.getString(AppConstants.USER_OBJECT) "+sharedPref.getString(AppConstants.USER_OBJECT, "en"))
+       // Log.e(TAG, "sharedPref.getString(AppConstants.USER_OBJECT) "+sharedPref.getString(AppConstants.USER_OBJECT, "en"))
 
         if (sharedPref.getString(AppConstants.USER_OBJECT, "en") != "") {
             startActivity(Intent(requireContext(), HomeActivity::class.java))
@@ -112,6 +112,7 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
                     "sliderImageResponse" -> {
                         val data = response.data as SliderModel
                         Log.e(TAG, "dataAA " + data.toString())
+
                         data?.let {
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                                 Log.e(TAG, "listAA " + data.data.size)
@@ -237,9 +238,10 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
 
 
                             } else {
-                                toast(data.message)
+                              //  toast(""+data.message)
                             }
                         }
+
                     }
                 }
             }

@@ -339,7 +339,7 @@
     <string name="Edit_Info">Edit Info</string>
     <string name="Please_Check_Internet_Connection">Please Check Your Internet Connection and Try Again</string>
 
-    <string name="Terms_Conditions">Terms and Conditions</string>
+    <string name="Terms_Conditions">Privacy Policy</string>
 
     <string name="Setup_Credit_Card">Setup Credit Card</string>
     <string name="Card_Holder_Name">Card Holder Name</string>
@@ -353,8 +353,8 @@
     <string name="AddProfilePicture">Add Profile Picture</string>
     <string name="Logout">Logout</string>
     <string name="Login">Login</string>
-    <string name="Alreadyhaveanaccount">Already have an account? </string>
-    <string name="Donthaveanaccount">Don\'t have an account? </string>
+    <string name="Alreadyhaveanaccount">Already have an account?&#160;</string>
+    <string name="Donthaveanaccount">Don\'t have an account?&#160;</string>
 
     <string name="AddAGiftCardCode">Add A Gift Card Code</string>
     <string name="Youhave">You have</string>

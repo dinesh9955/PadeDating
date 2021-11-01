@@ -329,7 +329,7 @@
     <string name="Matches">Allumettes</string>
     <string name="Edit_Info">Modifier les informations</string>
     <string name="Please_Check_Internet_Connection">S\'il vous plaît, vérifiez votre connexion à internet et réessayez</string>
-    <string name="Terms_Conditions">Termes et conditions</string>
+    <string name="Terms_Conditions">Politique de confidentialité</string>
     <string name="Setup_Credit_Card">Enregistrer la carte de crédit</string>
     <string name="Card_Holder_Name">Nom du titulaire</string>
     <string name="Card_Number">Numéro de carte</string>
@@ -339,8 +339,8 @@
     <string name="AddProfilePicture">Ajouter une photo de profil</string>
     <string name="Logout">Se déconnecter</string>
     <string name="Login">Connexion</string>
-    <string name="Alreadyhaveanaccount">Vous avez déjà un compte?</string>
-    <string name="Donthaveanaccount">Vous n\'avez pas de compte?</string>
+    <string name="Alreadyhaveanaccount">Vous avez déjà un compte?&#160;</string>
+    <string name="Donthaveanaccount">Vous n\'avez pas de compte?&#160;</string>
     <string name="AddAGiftCardCode">Ajouter un code de carte-cadeau</string>
     <string name="Youhave">Tu as</string>
     <string name="ReportUser">Dénoncer un utilisateur</string>

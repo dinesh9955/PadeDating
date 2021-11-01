@@ -105,7 +105,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_18sdp"
-            android:text="@string/terms_and_conditions"
+            android:text="@string/Terms_Conditions"
             android:textColor="@color/colorWhite" />
     </RelativeLayout>
 </layout>
