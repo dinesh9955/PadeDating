@@ -32,5 +32,5 @@ object NetworkUrls {
     const val blockedUsers = "api/v1/user/blockedUsers/"
     const val privacyPolicy = "api/v1/user/cms/"
     const val SLIDER = "api/v1/user/images/"
-
+    const val GetAllNotifications = "api/v1/user/getAllNotifications/"
 }

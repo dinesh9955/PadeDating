@@ -9,6 +9,7 @@ import com.padedatingapp.manager.CoroutinesManager
 import com.padedatingapp.model.MyMatches
 import com.padedatingapp.model.blockUser.BlockModel
 import com.padedatingapp.model.blockUser.BlockUserModel
+import com.padedatingapp.model.notification.NotificationModel
 import com.padedatingapp.model.slider.SliderModel
 import com.padedatingapp.utils.ResourceProvider
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class BlockUserVM(
     var blockUsersResponse = SingleLiveEvent<Resource<BlockModel>>()
     var unblockUserResponse = SingleLiveEvent<Resource<BlockUserModel>>()
     var sliderImageResponse = SingleLiveEvent<Resource<SliderModel>>()
+    var notificationModelResponse = SingleLiveEvent<Resource<NotificationModel>>()
 
     var token = ""
 
@@ -54,5 +56,18 @@ class BlockUserVM(
             sliderImageResponse.postValue(aboutMeRepo.sliderImages())
         }
     }
+
+
+    fun callNotificationApi(receiverID: RequestBody) {
+        coroutinesManager.ioScope.launch {
+            notificationModelResponse.postValue(Resource.loading(null))
+            notificationModelResponse.postValue(aboutMeRepo.notifications("Bearer $token", receiverID!!))
+        }
+    }
+
+
+
+
+
 
 }

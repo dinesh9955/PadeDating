@@ -6,6 +6,7 @@ import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.notification.NotificationModel
 import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.plans.PlanModel
 import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
@@ -210,6 +211,15 @@ interface PadeDatingApi {
         @Header("Authorization") token: String,
         @Path("id") id: String,
     ): BlockUserModel
+
+
+
+    @POST(NetworkUrls.GetAllNotifications)
+    suspend fun notification(
+            @Header("Authorization") token: String,
+            @Body body: RequestBody
+    ): NotificationModel
+
 
     @POST(NetworkUrls.payment)
     suspend fun payment(

@@ -9,6 +9,7 @@ import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.notification.NotificationModel
 import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
@@ -44,6 +45,10 @@ class ChatRepo @Inject constructor(private val padeApi: PadeDatingApi) {
 
     suspend fun unblockUser(token: String, receiverID: String): Resource<BlockUserModel> {
         return handleException { padeApi.unblockUser(token, receiverID) }
+    }
+
+    suspend fun notifications(token: String, receiverID: RequestBody): Resource<NotificationModel> {
+        return handleException { padeApi.notification(token, receiverID) }
     }
 
     suspend fun deleteChat(token: String, receiverID: String): Resource<ChatDelete> {
