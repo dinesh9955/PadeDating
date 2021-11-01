@@ -197,21 +197,21 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                 viewBinding.rbSmokeYes.isChecked = true
                 viewBinding.rbSmokeNo.isChecked = false
                 viewBinding.rbSmokeSomeTimes.isChecked = false
-                aboutMeVM.doYouSmoke.value = requireActivity().getString(R.string.yes_C)
+                aboutMeVM.doYouSmoke.value = "NO"
             })
 
             viewBinding.rbSmokeNo.setOnClickListener(View.OnClickListener {
                 viewBinding.rbSmokeYes.isChecked = false
                 viewBinding.rbSmokeNo.isChecked = true
                 viewBinding.rbSmokeSomeTimes.isChecked = false
-                aboutMeVM.doYouSmoke.value = requireActivity().getString(R.string.no_C)
+                aboutMeVM.doYouSmoke.value = "NO"
             })
 
             viewBinding.rbSmokeSomeTimes.setOnClickListener(View.OnClickListener {
                 viewBinding.rbSmokeYes.isChecked = false
                 viewBinding.rbSmokeNo.isChecked = false
                 viewBinding.rbSmokeSomeTimes.isChecked = true
-                aboutMeVM.doYouSmoke.value =  requireActivity().getString(R.string.sometimes_C)
+                aboutMeVM.doYouSmoke.value = "SOMETIMES"
             })
 
 
@@ -222,21 +222,21 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
                 viewBinding.rbDrinkYes.isChecked = true
                 viewBinding.rbDrinkNo.isChecked = false
                 viewBinding.rbDrinkSomeTimes.isChecked = false
-                aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.yes_C)
+                aboutMeVM.doYouDrink.value = "YES"
             })
 
             viewBinding.rbDrinkNo.setOnClickListener(View.OnClickListener {
                 viewBinding.rbDrinkYes.isChecked = false
                 viewBinding.rbDrinkNo.isChecked = true
                 viewBinding.rbDrinkSomeTimes.isChecked = false
-                aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.no_C)
+                aboutMeVM.doYouDrink.value = "NO"
             })
 
             viewBinding.rbDrinkSomeTimes.setOnClickListener(View.OnClickListener {
                 viewBinding.rbDrinkYes.isChecked = false
                 viewBinding.rbDrinkNo.isChecked = false
                 viewBinding.rbDrinkSomeTimes.isChecked = true
-                aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.sometimes_C)
+                aboutMeVM.doYouDrink.value = "SOMETIMES"
             })
 
 
@@ -479,36 +479,36 @@ class AboutMeSignUpFragment : DataBindingFragment<FragmentAboutMeSignUpBinding>(
             viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
             viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
             viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
-            aboutMeVM.interesedIn.value = requireActivity().getString(R.string.male)
+            aboutMeVM.interesedIn.value = "Male"
         }
 
         viewBinding.ivFemale.setOnClickListener {
             viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
             viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white)
             viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
-            aboutMeVM.interesedIn.value = requireActivity().getString(R.string.female)
+            aboutMeVM.interesedIn.value = "Female"
         }
 
         viewBinding.ivBothGender.setOnClickListener {
             viewBinding.ivBothGender.setBackgroundResource(R.drawable.bg_round_edge_white_purple_border)
             viewBinding.ivFemale.setBackgroundResource(R.drawable.bg_round_edge_white)
             viewBinding.ivMale.setBackgroundResource(R.drawable.bg_round_edge_white)
-            aboutMeVM.interesedIn.value = requireActivity().getString(R.string.both)
+            aboutMeVM.interesedIn.value = "Both"
         }
 
         viewBinding.rgDrink.setOnCheckedChangeListener { p0, p1 ->
             if (rbDrinkNo.isChecked) aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.no)
-            else if (rbDrinkYes.isChecked) aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.yes)
+            else if (rbDrinkYes.isChecked) aboutMeVM.doYouDrink.value = "Yes"
             else {
-                aboutMeVM.doYouDrink.value = requireActivity().getString(R.string.sometimes)
+                aboutMeVM.doYouDrink.value = "Sometimes"
             }
         }
 
         viewBinding.rgSmoke.setOnCheckedChangeListener { p0, p1 ->
-            if (rbDrinkNo.isChecked) aboutMeVM.doYouSmoke.value = requireActivity().getString(R.string.no)
-            else if (rbDrinkYes.isChecked) aboutMeVM.doYouSmoke.value = requireActivity().getString(R.string.yes)
+            if (rbDrinkNo.isChecked) aboutMeVM.doYouSmoke.value = "No"
+            else if (rbDrinkYes.isChecked) aboutMeVM.doYouSmoke.value = "Yes"
             else {
-                aboutMeVM.doYouSmoke.value = requireActivity().getString(R.string.sometimes)
+                aboutMeVM.doYouSmoke.value = "Sometimes"
             }
         }
 
