@@ -100,16 +100,30 @@ class ChangeLanguageFragment : DataBindingFragment<FragmentChangeLanguageBinding
             myLang = "en"
         }
 
-
         viewBinding.tvArabic.setOnClickListener {
             radiobtneng.setImageResource(R.drawable.ellipse_506)
             radiobtnarab.setImageResource(R.drawable.group_22856)
             myLang = "fr"
         }
 
+
+
+        viewBinding.radiobtneng.setOnClickListener {
+            radiobtneng.setImageResource(R.drawable.group_22856)
+            radiobtnarab.setImageResource(R.drawable.ellipse_506)
+            myLang = "en"
+        }
+
+        viewBinding.radiobtnarab.setOnClickListener {
+            radiobtneng.setImageResource(R.drawable.ellipse_506)
+            radiobtnarab.setImageResource(R.drawable.group_22856)
+            myLang = "fr"
+        }
+
+
         viewBinding.btnResetPassword.setOnClickListener {
-           // sharedPref.setString("mylang", myLang)
-            setLocale(myLang)
+//            sharedPref.setString("mylang", myLang)
+//            setLocale(myLang)
         }
 
 
