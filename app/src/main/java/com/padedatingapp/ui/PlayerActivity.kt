@@ -1,5 +1,6 @@
 package com.padedatingapp.ui
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.google.android.exoplayer2.util.Util
 import com.padedatingapp.R
 import com.padedatingapp.base.DataBindingActivity
 import com.padedatingapp.databinding.ActivityPlayerBinding
+import com.padedatingapp.utils.LocaleHelper
 
 class PlayerActivity : DataBindingActivity<ActivityPlayerBinding>() {
 
@@ -156,4 +158,8 @@ class PlayerActivity : DataBindingActivity<ActivityPlayerBinding>() {
         finish()
     }
 
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 }

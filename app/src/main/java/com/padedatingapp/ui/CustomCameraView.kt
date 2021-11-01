@@ -1,6 +1,7 @@
 package com.padedatingapp.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.ThumbnailUtils
@@ -26,6 +27,7 @@ import com.otaliastudios.transcoder.strategy.DefaultVideoStrategies
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
 import com.padedatingapp.R
 import com.padedatingapp.utils.ImageCompressor
+import com.padedatingapp.utils.LocaleHelper
 import com.padedatingapp.utils.getFormattedCountDownTimer
 import kotlinx.android.synthetic.main.activity_custom_camera_view.*
 import kotlinx.coroutines.GlobalScope
@@ -257,4 +259,8 @@ class CustomCameraView : AppCompatActivity() {
         )
     }
 
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 }

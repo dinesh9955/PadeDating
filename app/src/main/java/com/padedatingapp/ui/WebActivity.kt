@@ -1,5 +1,6 @@
 package com.padedatingapp.ui
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.StrictMode
@@ -21,6 +22,7 @@ import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.privacyPolicy.Data
 import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
+import com.padedatingapp.utils.LocaleHelper
 import com.padedatingapp.vm.WebVM
 import kotlinx.android.synthetic.main.fragment_messages.*
 import kotlinx.android.synthetic.main.header_layout_with_gradient_back.*
@@ -231,4 +233,8 @@ class WebActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 }

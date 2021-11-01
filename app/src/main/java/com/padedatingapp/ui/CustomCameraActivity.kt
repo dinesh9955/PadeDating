@@ -2,6 +2,7 @@ package com.padedatingapp
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,6 +15,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.padedatingapp.utils.LocaleHelper
 import kotlinx.android.synthetic.main.activity_custom_camera.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -141,5 +143,10 @@ class CustomCameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+    }
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
     }
 }

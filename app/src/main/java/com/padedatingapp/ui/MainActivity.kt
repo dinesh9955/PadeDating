@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.padedatingapp.FCM.ReferrerReceiver
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
+import com.padedatingapp.utils.LocaleHelper
 import com.propertyonthespot.utils.Utility
 
 
@@ -146,5 +147,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             fragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
     }
 }
