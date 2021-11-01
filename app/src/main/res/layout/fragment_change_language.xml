@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorLightGrey"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+            <include
+                android:id="@+id/header"
+                layout="@layout/header_layout"/>
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_gradient_logo" />
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ivLangLogo"
+                app:layout_constraintTop_toBottomOf="@+id/tvPleaseselect"
+                android:layout_marginHorizontal="@dimen/_20sdp">
+
+                <TextView
+                    android:id="@+id/tvEnglish"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium_numbers"
+                    android:text="@string/english"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:textColor="@color/_1a1824"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toStartOf="@+id/radiobtneng"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/radiobtneng"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:src="@drawable/ellipse_506"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvEnglish"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvEnglish"
+                    app:layout_constraintTop_toTopOf="@+id/tvEnglish" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clArabic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ivLangLogo"
+                app:layout_constraintTop_toBottomOf="@+id/clEnglish"
+                android:layout_marginHorizontal="@dimen/_20sdp">
+
+                <TextView
+                    android:id="@+id/tvArabic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium_numbers"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/french"
+                    android:textColor="@color/_1a1824"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/radiobtnarab"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/radiobtnarab"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ellipse_506"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvArabic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvArabic"
+                    app:layout_constraintTop_toTopOf="@+id/tvArabic" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/btnResetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginVertical="@dimen/_18sdp"
+                android:background="@drawable/button_gradient_bg"
+                android:fontFamily="@font/rubik_medium"
+                android:text="@string/change_language"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:layout_marginBottom="40dp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

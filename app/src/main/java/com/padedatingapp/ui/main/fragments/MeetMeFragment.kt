@@ -23,14 +23,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.adapter.MeetMeAdapter
 import com.padedatingapp.api.Resource
@@ -39,12 +37,8 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
 import com.padedatingapp.model.*
-import com.padedatingapp.model.chat.ChatUsersData
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
-import com.padedatingapp.ui.main.HomeActivity
-import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
-import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
 //import com.padedatingapp.ui.MeetMeFragmentDirections
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
@@ -52,8 +46,6 @@ import com.padedatingapp.utils.setMarqueText
 import com.padedatingapp.vm.MeetMeVM
 import com.yuyakaido.android.cardstackview.*
 import io.socket.emitter.Emitter
-import kotlinx.android.synthetic.main.bottomsheet_perfect_match.*
-import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -105,8 +97,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     }
 
     private fun setUserData() {
-        if (sharedPref.getString("address") != "") {
-            viewBinding.tvMyLocationHome.text = sharedPref.getString("address")
+        if (sharedPref.getString("address", "en") != "") {
+            viewBinding.tvMyLocationHome.text = sharedPref.getString("address", "en")
         } else {
             viewBinding.tvMyLocationHome.text = userObject.address
         }
@@ -119,11 +111,11 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
         userObject =
                 Gson().fromJson(
-                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                         UserModel::class.java
                 )
 
-        meetMeVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        meetMeVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
         viewBinding.tvMyLocationHome.setOnClickListener {
             showAddressOverlay()
@@ -501,7 +493,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         }
 
 
-        var filter = sharedPref.getString("filter")
+        var filter = sharedPref.getString("filter", "en")
 
         Log.e(TAG, "filter11 "+filter)
 
@@ -509,9 +501,9 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         val jsonObj = JsonObject()
 
         if(filter.equals("filter")){
-            var interest = sharedPref.getString("interest")
-            var address = sharedPref.getString("address")
-            var dating_prefences = sharedPref.getString("dating_prefences")
+            var interest = sharedPref.getString("interest", "en")
+            var address = sharedPref.getString("address", "en")
+            var dating_prefences = sharedPref.getString("dating_prefences", "en")
 //            var employment = sharedPref.getString("employment")
             var age = sharedPref.getInt("age")
             var distance = sharedPref.getInt("distance")

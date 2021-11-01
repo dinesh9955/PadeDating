@@ -87,7 +87,7 @@ public class SocketIOService extends Service {
         super.onCreate();
         sharedPref = new SharedPref(getApplication());
 
-        userModel = new Gson().fromJson(sharedPref.getString(AppConstants.USER_OBJECT), UserModel.class);
+        userModel = new Gson().fromJson(sharedPref.getString(AppConstants.USER_OBJECT, "en"), UserModel.class);
 
         try
         {
@@ -147,8 +147,8 @@ public class SocketIOService extends Service {
             options.forceNew = true;
             options.reconnectionAttempts = Integer.MAX_VALUE;
             //  options.timeout = 10000;
-            Log.e(TAG, "sharedPrefToken "+sharedPref.getString(AppConstants.USER_TOKEN));
-            options.query = "token=" + sharedPref.getString(AppConstants.USER_TOKEN);
+            Log.e(TAG, "sharedPrefToken "+sharedPref.getString(AppConstants.USER_TOKEN, "en"));
+            options.query = "token=" + sharedPref.getString(AppConstants.USER_TOKEN, "en");
 
             mSocket = IO.socket(SocketUrls.CHAT_SERVER_URL,options);
 

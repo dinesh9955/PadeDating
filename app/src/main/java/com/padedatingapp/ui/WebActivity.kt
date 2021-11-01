@@ -59,7 +59,7 @@ class WebActivity : AppCompatActivity() {
 //        setSupportActionBar(toolbar)
 //        supportActionBar!!.setDisplayShowTitleEnabled(false)
         textViewTitleBar = findViewById(R.id.tvTitle) as TextView
-        textViewTitleBar.text = "Terms and Conditions"
+        textViewTitleBar.text = getString(R.string.Terms_Conditions)
 
 
         webView = findViewById(R.id.webView1) as WebView

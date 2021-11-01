@@ -3,9 +3,7 @@ package com.padedatingapp.ui.main.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -65,10 +63,10 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
 
 
     private fun initComponents() {
-        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
         userObject =
             Gson().fromJson(
-                sharedPref.getString(AppConstants.USER_OBJECT),
+                sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                 UserModel::class.java
             )
 
@@ -238,7 +236,7 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
 
 
         showDialogOK(requireActivity(),
-            "Do you want to unblock this user?",
+                requireActivity().getString(R.string.do_you_want_to_unblock_this_user),
             DialogInterface.OnClickListener { dialog, which ->
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE -> {
@@ -259,8 +257,8 @@ class BlockUserFragment : DataBindingFragment<FragmentBlockBinding>(), BlockUser
     ) {
         AlertDialog.Builder(splashScreen)
             .setMessage(message)
-            .setPositiveButton("OK", okListener)
-             .setNegativeButton("CANCEL", okListener)
+            .setPositiveButton(requireActivity().getString(R.string.ok), okListener)
+             .setNegativeButton(requireActivity().getString(R.string.cancel), okListener)
 //            .setCancelable(false)
             .create()
             .show()

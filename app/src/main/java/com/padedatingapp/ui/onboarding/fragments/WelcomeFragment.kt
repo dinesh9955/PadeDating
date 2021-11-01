@@ -7,29 +7,21 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.birimo.birimosports.utils.SharedPref
-import com.google.gson.JsonObject
 import com.padedatingapp.R
-import com.padedatingapp.adapter.BlockUserAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentWelcomeBinding
-import com.padedatingapp.model.blockUser.BlockModel
 import com.padedatingapp.model.slider.Data
 import com.padedatingapp.model.slider.SliderModel
 import com.padedatingapp.ui.WebActivity
 import com.padedatingapp.ui.main.HomeActivity
-import com.padedatingapp.ui.main.fragments.BlockUserFragment
-import com.padedatingapp.ui.main.fragments.MessagesFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.BlockUserVM
-import kotlinx.android.synthetic.main.fragment_messages.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import org.koin.android.ext.android.inject
 
@@ -57,9 +49,9 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
         viewBinding.lifecycleOwner = this
 
 
-        Log.e(TAG, "sharedPref.getString(AppConstants.USER_OBJECT) "+sharedPref.getString(AppConstants.USER_OBJECT))
+        Log.e(TAG, "sharedPref.getString(AppConstants.USER_OBJECT) "+sharedPref.getString(AppConstants.USER_OBJECT, "en"))
 
-        if (sharedPref.getString(AppConstants.USER_OBJECT) != "") {
+        if (sharedPref.getString(AppConstants.USER_OBJECT, "en") != "") {
             startActivity(Intent(requireContext(), HomeActivity::class.java))
             requireActivity().finish()
         } else{
@@ -231,7 +223,7 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
                                                     viewBinding.introViewPager.setCurrentItem(1, true)
                                                 }
                                                 1->{
-                                                    if (sharedPref.getString(AppConstants.USER_OBJECT) != "") {
+                                                    if (sharedPref.getString(AppConstants.USER_OBJECT, "en") != "") {
                                                         startActivity(Intent(requireContext(), HomeActivity::class.java))
                                                         requireActivity().finish()
                                                     } else
@@ -449,7 +441,7 @@ class WelcomeFragment : DataBindingFragment<FragmentWelcomeBinding>() {
                     viewBinding.btnNext.text = getString(R.string.get_started)
                 }
                 3->{
-                    if (sharedPref.getString(AppConstants.USER_OBJECT) != "") {
+                    if (sharedPref.getString(AppConstants.USER_OBJECT, "en") != "") {
                         startActivity(Intent(requireContext(), HomeActivity::class.java))
                         requireActivity().finish()
                     } else

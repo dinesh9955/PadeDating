@@ -69,10 +69,10 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
     }
 
     private fun initComponents() {
-        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
         userObject =
                 Gson().fromJson(
-                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                         UserModel::class.java
                 )
 
@@ -240,7 +240,7 @@ class MessagesFragment : DataBindingFragment<FragmentMessagesBinding>(),
 //                    tvMessages.visibility = View.GONE
 //                    tvMsg.visibility = View.VISIBLE
                 }else{
-                    tvMatches.text = "Matches ("+list.size+")"
+                    tvMatches.text = requireActivity().getString(R.string.Matches)+" ("+list.size+")"
                     tvMatches.visibility = View.VISIBLE
 //                    tvMessages.visibility = View.VISIBLE
 //                    tvMsg.visibility = View.GONE

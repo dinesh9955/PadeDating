@@ -15,8 +15,6 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentBuyPremiumBinding
-import com.padedatingapp.model.DummyModel
-import com.padedatingapp.model.MeetMeData
 import com.padedatingapp.model.plans.Doc
 import com.padedatingapp.model.plans.PlanModel
 import com.padedatingapp.utils.AppConstants
@@ -49,7 +47,7 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
     }
 
     private fun initComponents() {
-        buyPremiumVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        buyPremiumVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
         var from = arguments?.getString("from","")
 
@@ -78,7 +76,7 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
 
     override fun onItemClick(model: Doc) {
         Log.e("BuyPremiumFragment", "onItemClick: ", )
-        findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy("Buy Premium", model))
+        findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model))
     }
 
     override fun onResume() {

@@ -64,12 +64,12 @@ class FiltersFragment : DataBindingFragment<FragmentFiltersBinding>() {
     }
 
     private fun setUserData() {
-        if (sharedPref.getString("address") != "") {
-            viewBinding.tvLocation.text = sharedPref.getString("address")
+        if (sharedPref.getString("address", "en") != "") {
+            viewBinding.tvLocation.text = sharedPref.getString("address", "en")
         } else {
             val userObject =
                 Gson().fromJson(
-                    sharedPref.getString(AppConstants.USER_OBJECT),
+                    sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                     UserModel::class.java
                 )
             viewBinding.tvLocation.text = userObject.address

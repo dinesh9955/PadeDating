@@ -23,7 +23,6 @@ import com.padedatingapp.model.UserModel
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
-import kotlinx.android.synthetic.main.header_layout.view.*
 import org.koin.android.ext.android.inject
 
 class PasswordRecoveryFragment : DataBindingFragment<FragmentPasswordRecoveryBinding>() {
@@ -84,7 +83,7 @@ class PasswordRecoveryFragment : DataBindingFragment<FragmentPasswordRecoveryBin
 
 
     private fun initComponents() {
-        passwordRecoveryVM.token =sharedPref.getString(AppConstants.USER_TOKEN)
+        passwordRecoveryVM.token =sharedPref.getString(AppConstants.USER_TOKEN, "en")
             passwordRecoveryVM._errorMessage.observe(viewLifecycleOwner) {
                 if (it != "") toast(it)
             }

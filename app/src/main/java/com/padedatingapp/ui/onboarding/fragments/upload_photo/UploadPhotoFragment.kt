@@ -38,7 +38,6 @@ import com.padedatingapp.utils.ImageCompressor
 import com.padedatingapp.utils.RealPathUtil
 import com.padedatingapp.utils.hideKeyboard
 import id.zelory.compressor.Compressor
-import kotlinx.android.synthetic.main.header_layout.view.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -91,9 +90,9 @@ class UploadPhotoFragment : DataBindingFragment<FragmentUploadPhotoBinding>(),
 
 
 
-        uploadPhotoVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        uploadPhotoVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
-        Log.e(TAG, "USER_TOKEN11 "+sharedPref.getString(AppConstants.USER_TOKEN))
+        Log.e(TAG, "USER_TOKEN11 "+sharedPref.getString(AppConstants.USER_TOKEN, "en"))
 
         viewBinding.header.tvTitle.text = getString(R.string.upload_photo)
 

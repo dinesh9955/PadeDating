@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="@color/colorAccent"
-                android:text="Add A Gift Card Code"
+                android:text="@string/AddAGiftCardCode"
                 android:paddingHorizontal="@dimen/_18sdp"
                 android:paddingVertical="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_10sdp"
@@ -80,7 +80,7 @@
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvAddGiftCardCode"
-                android:text="You have" />
+                android:text="@string/Youhave" />
             <TextView
                 android:id="@+id/tvLoyalytPoints"
                 android:layout_width="wrap_content"

@@ -92,7 +92,7 @@
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/rubik_medium"
-                android:text="UnBlock"
+                android:text="@string/UnBlock"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="normal"

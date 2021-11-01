@@ -36,7 +36,7 @@
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:text="Logout"
+            android:text="@string/Logout"
             android:backgroundTint="@color/colorRed"
             android:background="@drawable/bg_round_edge_white"
             android:layout_marginTop="@dimen/_10sdp"
@@ -361,6 +361,21 @@
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
+            <TextView
+                android:id="@+id/tvLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_refer_friend"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/_10sdp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/change_language"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/tvReferAfriend"

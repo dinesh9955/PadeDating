@@ -1,8 +1,9 @@
 package com.padedatingapp.api.remote
 
+import android.content.Context
 import java.io.IOException
 
-class NoConnectivityException : IOException() {
+class NoConnectivityException() : IOException() {
     // You can send any message whatever you want from here.
     override val message: String
         get() = "Please Check Your Internet Connection and Try Again"

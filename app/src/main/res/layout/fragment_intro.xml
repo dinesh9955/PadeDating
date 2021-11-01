@@ -26,7 +26,7 @@
             android:id="@+id/tvContentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Where to enjoy the beauty of friendship"
+            android:text="@string/beauty_of_friendship"
             android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/colorWhite"

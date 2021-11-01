@@ -1,5 +1,6 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,12 +18,15 @@ import com.padedatingapp.model.UserModel
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.MainActivity
+import com.padedatingapp.ui.main.HomeActivity
 import com.padedatingapp.ui.onboarding.fragments.WelcomeFragment.Companion.isLogout
 import com.padedatingapp.utils.AppConstants
+import com.padedatingapp.utils.LocaleHelper
 import com.padedatingapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     private val sharedPref by inject<SharedPref>()
@@ -42,7 +46,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     private fun initComponents() {
         userObject =
         Gson().fromJson(
-            sharedPref.getString(AppConstants.USER_OBJECT),
+            sharedPref.getString(AppConstants.USER_OBJECT, "en"),
             UserModel::class.java
         )
 
@@ -61,7 +65,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
             findNavController().navigate(R.id.action_to_buy_premium)
         }
         viewBinding.tvPref.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment("Edit Info"))
+            findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment(requireActivity().getString(R.string.Edit_Info)))
         }
 
         viewBinding.tvSetting.setOnClickListener {
@@ -83,10 +87,10 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
 
             if (sharedPref.getBoolean(AppConstants.REMEMBER_ME)) {
                 isRemember = true
-                email = sharedPref.getString(AppConstants.USER_EMAIL)
-                phone = sharedPref.getString(AppConstants.USER_PHONE)
+                email = sharedPref.getString(AppConstants.USER_EMAIL, "en")
+                phone = sharedPref.getString(AppConstants.USER_PHONE, "en")
                 countryCode = sharedPref.getInt(AppConstants.USER_COUNTRY_CODE)
-                pass = sharedPref.getString(AppConstants.USER_PASSWORD)
+                pass = sharedPref.getString(AppConstants.USER_PASSWORD, "en")
             }
 
             sharedPref.clear()
@@ -102,6 +106,8 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
                 pass
             )
 
+            sharedPref.setString("mylang", "en")
+            setLocale("en")
             sharedPref.setString(AppConstants.USER_OBJECT , "")
 
             val mApplication: PadeDatingApp = requireActivity().applicationContext as PadeDatingApp
@@ -113,7 +119,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
         }
 
         viewBinding.tvOrigin.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment("Edit Info"))
+            findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment(requireActivity().getString(R.string.Edit_Info)))
         }
 
         viewBinding.ivEditProfile.setOnClickListener {
@@ -126,6 +132,10 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
 
         viewBinding.tvLoyaltyPoints.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionToLoyaltyFragment())
+        }
+
+        viewBinding.tvLanguage.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionToChangeLanguageFragment())
         }
 
         viewBinding.tvBuyGift.setOnClickListener {
@@ -143,6 +153,17 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
 
     }
 
+
+    fun setLocale(localeName: String?) {
+        val context: Context = LocaleHelper.setLocale(requireActivity(), localeName)
+        val myLocale = Locale(localeName)
+        val res = context.resources
+        val dm = res.displayMetrics
+        val conf = res.configuration
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+    }
+
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
@@ -153,7 +174,7 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
         try {
             var userObject =
                 Gson().fromJson(
-                    sharedPref.getString(AppConstants.USER_OBJECT),
+                    sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                     UserModel::class.java
                 )
 

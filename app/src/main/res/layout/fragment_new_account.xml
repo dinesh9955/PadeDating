@@ -172,7 +172,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/colorDarkGrey"
                     android:gravity="center_horizontal"
-                    android:text="Already have an account? "
+                    android:text="@string/Alreadyhaveanaccount"
                     />
                 <TextView
                     android:id="@+id/tvLogin"
@@ -183,7 +183,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/colorAccent"
                     android:gravity="center_horizontal"
-                    android:text="Login"
+                    android:text="@string/Login"
                     />
                 
             </TableRow>

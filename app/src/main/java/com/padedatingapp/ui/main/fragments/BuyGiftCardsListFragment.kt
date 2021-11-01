@@ -20,7 +20,6 @@ import com.padedatingapp.model.ResultModel
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.BuyGiftCardsListVM
-import kotlinx.android.synthetic.main.header_layout.view.*
 import org.koin.android.ext.android.inject
 
 class BuyGiftCardsListFragment :  DataBindingFragment<FragmentBuyGiftCardsListBinding>(),
@@ -121,7 +120,7 @@ class BuyGiftCardsListFragment :  DataBindingFragment<FragmentBuyGiftCardsListBi
 
     private fun initComponents() {
         viewBinding.header.tvTitle.text = getString(R.string.gift_cards)
-        buyGiftCardsListVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        buyGiftCardsListVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
        // var list = ArrayList<DummyModel>()
 //        repeat(5) {

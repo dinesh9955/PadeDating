@@ -10,7 +10,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
@@ -26,9 +25,9 @@ import com.padedatingapp.model.ChatIDModel
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
-import com.padedatingapp.ui.call.VideoCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.main.fragments.ChatFragment
+import com.padedatingapp.utils.LocaleHelper
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
@@ -38,6 +37,9 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     companion object{
         var TAG = "HomeActivity"
     }
+
+    var primaryBaseActivity //THIS WILL KEEP ORIGINAL INSTANCE
+            : Context? = null
 
     lateinit var locationStatus: Emitter.Listener
 
@@ -101,7 +103,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 chatIDModel.type = type
                 chatIDModel.receiverID = jsonObjectUser2.getString("_id")
                 chatIDModel.receiverName = jsonObjectUser2.getString("firstName")+" "+jsonObjectUser2.getString(
-                    "lastName"
+                        "lastName"
                 )
                 chatIDModel.receiverImage = jsonObjectUser2.getString("image")
 
@@ -207,7 +209,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         override fun onReceive(context: Context, intent: Intent) {
             val bundleObject = intent.extras
             val type = bundleObject!!.getString("type")
-            Log.e(TAG, "typeAAA "+type)
+            Log.e(TAG, "typeAAA " + type)
 
             if (type.equals("VIDEO_CALL", ignoreCase = true)) {
                 var res = intent.getStringExtra("key")
@@ -293,8 +295,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         pref.SavePref(this@HomeActivity)
 
         val json = JSONObject()
-        json.put("lat", ""+pref.latitude)
-        json.put("long", ""+pref.longitude)
+        json.put("lat", "" + pref.latitude)
+        json.put("long", "" + pref.longitude)
 
         AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
 
@@ -315,8 +317,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 pref.longitude = ""+longitute
 
                 val json = JSONObject()
-                json.put("lat", ""+latitute)
-                json.put("long", ""+longitute)
+                json.put("lat", "" + latitute)
+                json.put("long", "" + longitute)
 
                 AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
             }
@@ -341,7 +343,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
            // Log.e(TAG, "locationManager.getAllProviders() "+ locationManager!!.getAllProviders())
 
 
-        } catch (ex:SecurityException) {
+        } catch (ex: SecurityException) {
             //Toast.makeText(applicationContext, "Fehler bei der Erfassung!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -351,5 +353,11 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.forEach { fragment ->
             fragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        primaryBaseActivity = newBase;
+        super.attachBaseContext(LocaleHelper.onAttach(primaryBaseActivity));
     }
 }

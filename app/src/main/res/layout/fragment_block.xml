@@ -34,7 +34,7 @@
             android:fontFamily="@font/rubik_medium"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="8sp"
-            android:text="Block Users"
+            android:text="@string/BlockUsers"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:textStyle="normal"

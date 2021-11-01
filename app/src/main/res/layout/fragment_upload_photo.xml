@@ -67,7 +67,7 @@
                     android:fontFamily="@font/rubik_medium"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="15sp"
-                    android:text="Add Profile Picture"
+                    android:text="@string/AddProfilePicture"
                     android:textColor="#172b4d"
                     android:textSize="20sp"
                     android:textStyle="normal" />

@@ -36,15 +36,12 @@ import com.stripe.android.TokenCallback
 import com.stripe.android.model.Card
 import com.stripe.android.model.Token
 import com.stripe.exception.AuthenticationException
-import com.stripe.model.Charge
-import com.stripe.model.Customer
 import kotlinx.android.synthetic.main.fragment_buy_gift.*
 import kotlinx.android.synthetic.main.item_premium_packst.*
 import kotlinx.android.synthetic.main.layout_setup_credit_card.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
-import java.util.*
 
 
 class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
@@ -75,11 +72,11 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
         var userObject =
             Gson().fromJson(
-                sharedPref.getString(AppConstants.USER_OBJECT),
+                sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                 UserModel::class.java
             )
 
-        buyGiftVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        buyGiftVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
       //  val bundle = arguments
 
@@ -90,7 +87,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         planData  = arguments?.getParcelable<Doc>("planData") as Doc
 
         tvPackName.text = planData.name
-        tvPackValidity.text = ""+planData.type + " Bundle"
+        tvPackValidity.text = ""+planData.type + " "+requireActivity().getString(R.string.bundle)
         tvPackValidity.visibility = View.VISIBLE
 
         tvPackPrice.text = planData.price.units +" "+ planData.price.amount
@@ -115,13 +112,13 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 //                findNavController().popBackStack()
 
             if(etCardHolderName.text.toString().length == 0){
-                toast("Enter card holder name")
+                toast(requireActivity().getString(R.string.Enter_card_holder_name))
             }else if(etCardNumber.text.toString().length == 0){
-                toast("Enter card number")
+                toast(requireActivity().getString(R.string.Enter_card_number))
             }else if(etExpiryDate.text.toString().length != 7){
-                toast("Enter expiry month and year")
+                toast(requireActivity().getString(R.string.Enter_expiry_month_and_year))
             }else if(etCVV.text.toString().length == 0){
-                toast("Enter cvv")
+                toast(requireActivity().getString(R.string.Enter_cvv))
             }else{
                 makePayment(etCardHolderName.text.toString(),
                     etCardNumber.text.toString(),

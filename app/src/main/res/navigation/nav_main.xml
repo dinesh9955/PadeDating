@@ -196,6 +196,15 @@
             app:popExitAnim="@anim/slide_out_left" />
 
         <action
+            android:id="@+id/action_to_changeLanguage_fragment"
+            app:destination="@id/changeLanguageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
+        <action
             android:id="@+id/action_to_gift_card_list_fragment"
             app:destination="@id/giftCardsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -395,6 +404,12 @@
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.padedatingapp.ui.main.fragments.ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password"></fragment>
+
+
+    <fragment
+        android:id="@+id/changeLanguageFragment"
+        android:name="com.padedatingapp.ui.main.fragments.ChangeLanguageFragment"
         tools:layout="@layout/fragment_change_password"></fragment>
 
 

@@ -15,4 +15,8 @@
     <color name="colorLightGrey">#F4F6FA</color>
     <color name="colorRed">#FF3333</color>
     <color name="colorGreyTranspaent">#78ececec</color>
+
+    <color name="_1a1824">#1a1824</color>
+    <color name="_919191">#919191</color>
+
 </resources>

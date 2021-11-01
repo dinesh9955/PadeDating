@@ -41,8 +41,6 @@ import com.padedatingapp.databinding.FragmentLoginBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.ui.main.HomeActivity
-import com.padedatingapp.ui.main.fragments.MeetMeFragment
-import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
@@ -119,10 +117,10 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>() {
 
         if (sharedPref.getBoolean(AppConstants.REMEMBER_ME)) {
             loginVM.isRememberMe.value = true
-            loginVM.email.value = (sharedPref.getString(AppConstants.USER_EMAIL))
-            loginVM.phoneNo.value = sharedPref.getString(AppConstants.USER_PHONE)
+            loginVM.email.value = (sharedPref.getString(AppConstants.USER_EMAIL, "en"))
+            loginVM.phoneNo.value = sharedPref.getString(AppConstants.USER_PHONE, "en")
             viewBinding.ccp.setCountryForPhoneCode(sharedPref.getInt(AppConstants.USER_COUNTRY_CODE))
-            loginVM.password.value = (sharedPref.getString(AppConstants.USER_PASSWORD))
+            loginVM.password.value = (sharedPref.getString(AppConstants.USER_PASSWORD, "en"))
         }
 
         viewBinding.ivHideShowPass.setOnClickListener {

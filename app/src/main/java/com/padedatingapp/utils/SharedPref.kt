@@ -11,7 +11,7 @@ class SharedPref(context: Application) {
     fun setString(name: String, value: String) {
         sharedpreferences.edit().putString(name, value).apply()
     }
-    fun getString(name: String): String {
+    fun getString(name: String, s: String): String {
         return sharedpreferences.getString(name,"")!!
     }
     fun getLong(name:String): Long {

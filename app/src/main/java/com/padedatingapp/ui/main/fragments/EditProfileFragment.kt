@@ -206,7 +206,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
     private fun initComponents() {
         viewBinding.header.tvTitle.text = getString(R.string.edit_information)
 
-        editProfileVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        editProfileVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
         viewBinding.header.ivBack.setOnClickListener {
             requireActivity().hideKeyboard()
             findNavController().popBackStack()
@@ -257,7 +257,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
         val intent = object : Autocomplete.IntentBuilder(
             AutocompleteActivityMode.FULLSCREEN, fields
         ) {}
-            .setHint("Address")
+            .setHint( requireActivity().getString(R.string.Address))
             .build(requireContext())
         startActivityForResult(intent, SELECT_ADDRESS_REQUEST_CODE)
     }
@@ -274,7 +274,7 @@ class EditProfileFragment : DataBindingFragment<FragmentEditProfileBinding>(),
             editProfileVM.list.clear()
             val userObject =
                 Gson().fromJson(
-                    sharedPref.getString(AppConstants.USER_OBJECT),
+                    sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                     UserModel::class.java
                 )
             Glide.with(requireContext()).load(userObject.image)

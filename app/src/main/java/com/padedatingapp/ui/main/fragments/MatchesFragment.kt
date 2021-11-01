@@ -10,8 +10,6 @@ import com.birimo.birimosports.utils.SharedPref
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
-import com.padedatingapp.adapter.MeetMeAdapter
-import com.padedatingapp.adapter.OtherUserImagesAdapter
 import com.padedatingapp.adapter.PeopleWhoLikedAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
@@ -21,7 +19,6 @@ import com.padedatingapp.databinding.FragmentMatchesBinding
 import com.padedatingapp.model.*
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
-import com.padedatingapp.vm.MeetMeVM
 import com.padedatingapp.vm.MyMatchesVM
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -57,7 +54,7 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
     }
 
     private fun initComponents() {
-        myMatchesVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        myMatchesVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
 
 //        var list = ArrayList<DummyModel>()
@@ -203,7 +200,7 @@ class MatchesFragment : DataBindingFragment<FragmentMatchesBinding>(),
 
         var userObject =
                 Gson().fromJson(
-                        sharedPref.getString(AppConstants.USER_OBJECT),
+                        sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                         UserModel::class.java
                 )
 

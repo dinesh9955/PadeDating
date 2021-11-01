@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.coroutineScope
@@ -34,7 +33,6 @@ import com.padedatingapp.databinding.FragmentCreateAccountBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.UsernameResponse
-import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.formatDate
 import com.padedatingapp.utils.hideKeyboard
@@ -77,15 +75,15 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
 
     private fun initComponents() {
         createAccountVM.countryCode = ccp.selectedCountryCodeWithPlus
-        createAccountVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        createAccountVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
         viewBinding.tvTitle.text = getString(R.string.sign_up)
 
 
 //        Log.e(NewAccountFragment.TAG, "sentSocialResponseF "+sharedPref.getString(AppConstants.SOCIAL_FN))
 //        Log.e(NewAccountFragment.TAG, "sentSocialResponseL "+sharedPref.getString(AppConstants.SOCIAL_LN))
 
-        createAccountVM.firstName.value = sharedPref.getString(AppConstants.SOCIAL_FN)
-        createAccountVM.lastName.value = sharedPref.getString(AppConstants.SOCIAL_LN)
+        createAccountVM.firstName.value = sharedPref.getString(AppConstants.SOCIAL_FN, "en")
+        createAccountVM.lastName.value = sharedPref.getString(AppConstants.SOCIAL_LN, "en")
 
 
 

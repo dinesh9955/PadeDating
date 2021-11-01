@@ -298,5 +298,16 @@
 
 
     <string name="check_internet">Problème Internet ! Veuillez réessayer</string>
+    <string name="private_secondary_images_or_videos">Images ou vidéos privées/secondaires</string>
+    <string name="sometimes">parfois</string>
+    <string name="english">Anglais</string>
+    <string name="french">français</string>
+    <string name="change_language">Changer de langue</string>
+    <string name="filters">Filtres</string>
+    <string name="show_me">Montre moi</string>
+    <string name="men">Hommes</string>
+    <string name="women">Femmes</string>
+    <string name="Employment">Emploi</string>
+    <string name="DatingPrefences">Préférences de rencontres</string>
 
 </resources>

@@ -21,15 +21,11 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentChangePasswordBinding
-import com.padedatingapp.model.ResultModel
-import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.otp.OtpForgotMain
-import com.padedatingapp.ui.onboarding.fragments.password_recovery_fragment.PasswordRecoveryVM
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
 import com.padedatingapp.vm.ChangePasswordVM
-import kotlinx.android.synthetic.main.header_layout.view.*
 import org.koin.android.ext.android.inject
 
 class ChangePasswordFragment : DataBindingFragment<FragmentChangePasswordBinding>(){
@@ -68,14 +64,14 @@ class ChangePasswordFragment : DataBindingFragment<FragmentChangePasswordBinding
         initComponents()
         initObservables()
 //        setUserData()
-        viewBinding.header.tvTitle.text = "Change Password"
+        viewBinding.header.tvTitle.text = requireActivity().getString(R.string.change_password)
 
     }
 
 
 
     private fun initComponents() {
-        passwordRecoveryVM.token =sharedPref.getString(AppConstants.USER_TOKEN)
+        passwordRecoveryVM.token =sharedPref.getString(AppConstants.USER_TOKEN, "en")
         passwordRecoveryVM._errorMessage.observe(viewLifecycleOwner) {
             if (it != "") toast(it)
         }

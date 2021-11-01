@@ -1,6 +1,5 @@
 package com.padedatingapp.ui.main.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.padedatingapp.R
-import com.padedatingapp.adapter.ChatListAdapter
 import com.padedatingapp.adapter.OtherUserImagesAdapter
 import com.padedatingapp.api.Resource
 import com.padedatingapp.api.ResponseStatus
@@ -22,17 +18,10 @@ import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentProfileOtherUserBinding
 import com.padedatingapp.model.*
-import com.padedatingapp.ui.main.HomeActivity
-import com.padedatingapp.ui.onboarding.fragments.login.LoginFragment
-import com.padedatingapp.ui.onboarding.fragments.login.LoginFragmentDirections
-import com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
-import com.padedatingapp.vm.MeetMeVM
 import com.padedatingapp.vm.ProfileOtherVM
 import kotlinx.android.synthetic.main.fragment_profile_other_user.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
 
 class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBinding>(),
@@ -70,7 +59,7 @@ class ProfileOtherUserFragment : DataBindingFragment<FragmentProfileOtherUserBin
     }
 
     private fun initComponents() {
-        profileOtherVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        profileOtherVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
 
         viewBinding.ivBack.setOnClickListener {

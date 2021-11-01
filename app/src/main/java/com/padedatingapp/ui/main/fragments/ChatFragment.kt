@@ -54,13 +54,9 @@ import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.ChatVM
 import com.vanniktech.emoji.EmojiPopup
-import com.vanniktech.emoji.listeners.*
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import kotlinx.android.synthetic.main.bottomsheet_gift_card_purchased.*
-import kotlinx.android.synthetic.main.bottomsheet_report.*
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.fragment_profile_other_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONException
@@ -176,10 +172,10 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
         userObject =
                 Gson().fromJson(
-                    sharedPref.getString(AppConstants.USER_OBJECT),
+                    sharedPref.getString(AppConstants.USER_OBJECT, "en"),
                     UserModel::class.java
                 )
-        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN)
+        chatVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
         if (userObject != null) {
             val json = JSONObject()
@@ -239,9 +235,9 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
         if(block == true){
-            tvBlock.text = "Blocked user"
+            tvBlock.text = requireActivity().getString(R.string.Blocked_user)
         }else{
-            tvBlock.text = "Block user"
+            tvBlock.text = requireActivity().getString(R.string.Block_user)
         }
 
         tvBlock.setOnClickListener {
@@ -253,7 +249,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
 
             showDialogOK(requireActivity(),
-                "Do you want to block this user?",
+                    requireActivity().getString(R.string.do_you_want_to_block_this_user),
                 DialogInterface.OnClickListener { dialog, which ->
                     when (which) {
                         DialogInterface.BUTTON_POSITIVE -> {
@@ -340,7 +336,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                 sendMessage("text")
                 viewBinding.etTypingMessage.setText("")
             }else{
-                Toast.makeText(context, "Please input String ", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, requireActivity().getString(R.string.Please_Enter_Message), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -859,7 +855,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                             if (response.data != null) {
 
                                 if (response.data.data?.isOnline == true) {
-                                    viewBinding.isOnline.text = "Online"
+                                    viewBinding.isOnline.text = requireActivity().getString(R.string.Online)
                                     viewBinding.isOnline.setCompoundDrawablesWithIntrinsicBounds(
                                         R.drawable.ic_online,
                                         0,
@@ -867,7 +863,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                                         0
                                     );
                                 } else {
-                                    viewBinding.isOnline.text = "Offline"
+                                    viewBinding.isOnline.text = requireActivity().getString(R.string.Offline)
                                     viewBinding.isOnline.setCompoundDrawablesWithIntrinsicBounds(
                                         R.drawable.ic_offline,
                                         0,
@@ -1135,7 +1131,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
         //val list = resources.getStringArray(R.array.gender_array)
        // val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Select Reason")
+            .setTitle(requireActivity().getString(R.string.Select_Reason))
             .setItems(array) { _, which ->
                 reasonText!!.text = list[which].text
                 titleIdReport = list[which].id
@@ -1150,8 +1146,8 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     ) {
         AlertDialog.Builder(splashScreen)
             .setMessage(message)
-            .setPositiveButton("OK", okListener)
-            .setNegativeButton("CANCEL", okListener)
+            .setPositiveButton(requireActivity().getString(R.string.ok), okListener)
+            .setNegativeButton(requireActivity().getString(R.string.cancel), okListener)
 //            .setCancelable(false)
             .create()
             .show()
