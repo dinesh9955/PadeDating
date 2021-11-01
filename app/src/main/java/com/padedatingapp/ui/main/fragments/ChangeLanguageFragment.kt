@@ -108,7 +108,7 @@ class ChangeLanguageFragment : DataBindingFragment<FragmentChangeLanguageBinding
         }
 
         viewBinding.btnResetPassword.setOnClickListener {
-            sharedPref.setString("mylang", myLang)
+           // sharedPref.setString("mylang", myLang)
             setLocale(myLang)
         }
 
