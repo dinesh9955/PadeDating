@@ -308,6 +308,16 @@
                 app:nullable="false"
                 app:argType="com.padedatingapp.model.plans.Doc"
                 />
+            <argument
+                android:name="discount"
+                android:defaultValue="0"
+                app:argType="string"
+                />
+            <argument
+                android:name="point"
+                android:defaultValue="0"
+                app:argType="string"
+                />
 
         </action>
     </fragment>
@@ -395,6 +405,14 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" >
             <argument android:name="from"
+                android:defaultValue="none"
+                app:argType="string"
+                />
+            <argument android:name="discount"
+                android:defaultValue="none"
+                app:argType="string"
+                />
+            <argument android:name="point"
                 android:defaultValue="none"
                 app:argType="string"
                 />

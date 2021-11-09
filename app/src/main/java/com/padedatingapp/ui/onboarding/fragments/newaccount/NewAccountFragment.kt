@@ -188,7 +188,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
                     }
 
                     "sentOtpResponse" -> {
-                        var data = response.data as ResultModel<OtpData>
+                        var data = response.data as ResultModel<UserModel>
 
                         Log.e(TAG, "sentOtpResponse "+data.toString())
                         onSendOtpResponse(data)
@@ -218,11 +218,11 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 signUpVM.phoneNo.value = data.data!!.phoneNo
-                signUpVM.countryCode = data.data!!.countryCode
-                signUpVM.email.value = data.data!!.email
-                if (it.data!!.isEmailVerified || it.data!!.isPhoneVerified){
+                signUpVM.countryCode = data.data.countryCode
+                signUpVM.email.value = data.data.email
+                if (it.data!!.isEmailVerified || it.data.isPhoneVerified){
                    // findNavController().navigate(NewAccountFragmentDirections.actionToCreateNewAccount())
-                    sharedPref.setString(AppConstants.USER_TOKEN,it.data?.accessToken)
+                    sharedPref.setString(AppConstants.USER_TOKEN,it.data.accessToken)
                     findNavController().navigate(NewAccountFragmentDirections.actionToCreateNewAccount(email = it.data?.email?:"",phone = it.data?.phoneNo?:"",countryCode = it.data?.countryCode?:""))
                 }
                 else
@@ -302,7 +302,7 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
     }
 
 
-    private fun onSendOtpResponse(data: ResultModel<OtpData>?) {
+    private fun onSendOtpResponse(data: ResultModel<UserModel>?) {
         data?.let {
             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                 when (signUpVM.verificationType) {
@@ -318,7 +318,8 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
                         findNavController().navigate(
                             NewAccountFragmentDirections.actionNewAccountToVerifyOtp(
                                 "phone",
-                                phone = signUpVM.phoneNo.value.toString()
+                                phone = signUpVM.phoneNo.value.toString(),
+                                    countryCode = signUpVM.countryCode
                             )
                         )
                     }
@@ -350,13 +351,15 @@ class NewAccountFragment : DataBindingFragment<FragmentNewAccountBinding>() {
         tvPhone?.setOnClickListener {
             signUpVM.verificationType = "phone"
             dialog.dismiss()
-              findNavController().navigate(NewAccountFragmentDirections.actionNewAccountToVerifyOtp("phone",phone = signUpVM.phoneNo.value.toString(),countryCode = signUpVM.countryCode))
+            signUpVM.callSendOtpApi()
+            findNavController().navigate(NewAccountFragmentDirections.actionNewAccountToVerifyOtp("phone",phone = signUpVM.phoneNo.value.toString(),countryCode = signUpVM.countryCode))
           //  toast("Currently Unavailable")
         }
         tvPhoneValue?.setOnClickListener {
-            signUpVM.verificationType = "phone"
             dialog.dismiss()
-             findNavController().navigate(NewAccountFragmentDirections.actionNewAccountToVerifyOtp("phone",phone = signUpVM.phoneNo.value.toString(),countryCode = signUpVM.countryCode))
+            signUpVM.verificationType = "phone"
+            signUpVM.callSendOtpApi()
+             //findNavController().navigate(NewAccountFragmentDirections.actionNewAccountToVerifyOtp("phone",phone = signUpVM.phoneNo.value.toString(),countryCode = signUpVM.countryCode))
          //   toast("Currently Unavailable")
         }
         tvEmail?.setOnClickListener {

@@ -399,21 +399,36 @@
 
                 <CheckBox
                     android:id="@+id/cbTandC"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvLocation"
                     android:layout_marginHorizontal="@dimen/_18sdp"
                     android:layout_marginVertical="15dp"
                     android:button="@drawable/checkbox_selector"
                     android:buttonTint="@null"
+                    android:padding="@dimen/_5sdp"
                     android:checked="@={vm.termsConditionCheck}"
                     android:drawableLeft="@android:color/transparent"
                     android:drawablePadding="@dimen/_5sdp"
-                    android:text="@string/by_creating_an_account_you_agree_to_our_term_and_conditions"
                     android:textColor="@color/colorBlack"
                     android:textSize="12sp"
                     android:textStyle="normal"
                     android:theme="@style/checkBoxStyle" />
+
+                <TextView
+                    android:id="@+id/tvTermsCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvLocation"
+                    android:layout_alignStart="@id/cbTandC"
+                    android:layout_marginStart="37dp"
+                    android:layout_alignTop="@id/cbTandC"
+                    android:layout_alignBottom="@id/cbTandC"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:text="@string/by_creating_an_account_you_agree_to_our_term_and_conditions"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
 
                 <Button
                     android:id="@+id/btnCreateAccount"

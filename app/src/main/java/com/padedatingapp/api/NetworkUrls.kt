@@ -1,7 +1,7 @@
 package com.padedatingapp.api
 
 object NetworkUrls {
-    const val BASE_URL = "https://dev.webdevelopmentsolution.net:3004/"
+    const val BASE_URL = "https://api.padematch.com/"
     const val SOCIAL_USER = "api/v1/user/socialLogin"
     const val REGISTER_USER = "api/v1/user/register"
     const val VERIFY_OTP = "api/v1/user/verifyOtp"
@@ -30,6 +30,7 @@ object NetworkUrls {
     const val reasons = "api/v1/user/reasons/"
     const val reportUser = "api/v1/user/reportUser/"
     const val blockedUsers = "api/v1/user/blockedUsers/"
+    const val LoyalityPoints = "api/v1/user/loyaltyPoints/"
     const val privacyPolicy = "api/v1/user/cms/"
     const val SLIDER = "api/v1/user/images/"
     const val GetAllNotifications = "api/v1/user/getAllNotifications/"

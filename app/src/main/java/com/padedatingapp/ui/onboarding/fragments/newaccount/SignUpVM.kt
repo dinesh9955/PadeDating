@@ -81,7 +81,7 @@ class SignUpVM(
         val jsonObj = JsonObject()
         when (verificationType) {
             "phone" -> {
-                jsonObj.addProperty("phone", phoneNo.value)
+                jsonObj.addProperty("phoneNo", phoneNo.value)
                 jsonObj.addProperty("countryCode", countryCode)
             }
             "email" -> {

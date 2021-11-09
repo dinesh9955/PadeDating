@@ -33,11 +33,17 @@ import com.padedatingapp.databinding.FragmentCreateAccountBinding
 import com.padedatingapp.model.ResultModel
 import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.UsernameResponse
+import com.padedatingapp.ui.Terms_Condition
+import com.padedatingapp.ui.WebActivity
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.formatDate
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.utils.togglePasswordVisibility
+import kotlinx.android.synthetic.main.fragment_create_account.*
 import kotlinx.android.synthetic.main.fragment_new_account.*
+import kotlinx.android.synthetic.main.fragment_new_account.ccp
+import kotlinx.android.synthetic.main.fragment_welcome.*
+import kotlinx.android.synthetic.main.fragment_welcome.tvTandC
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -327,6 +333,10 @@ class CreateAccountFragment : DataBindingFragment<FragmentCreateAccountBinding>(
             createAccountVM.termsConditionCheck.set(
                     isChecked
             )
+        }
+        tvTermsCondition.setOnClickListener {
+            val intent = Intent(context, Terms_Condition::class.java)
+            context?.startActivity(intent)
         }
     }
 

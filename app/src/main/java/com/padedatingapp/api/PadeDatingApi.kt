@@ -6,6 +6,7 @@ import com.padedatingapp.model.blockUser.BlockUserModel
 import com.padedatingapp.model.call.CallUser
 import com.padedatingapp.model.chat.ChatDelete
 import com.padedatingapp.model.chat.ChatUsers
+import com.padedatingapp.model.loyalityModel.LoyalityPointsResponse
 import com.padedatingapp.model.notification.NotificationModel
 import com.padedatingapp.model.otp.OtpForgotMain
 import com.padedatingapp.model.plans.PlanModel
@@ -246,6 +247,11 @@ interface PadeDatingApi {
     suspend fun blockUsers(
         @Header("Authorization") token: String,
     ): BlockModel
+
+    @GET(NetworkUrls.LoyalityPoints)
+    suspend fun loyalityPoint(
+            @Header("Authorization") token: String,
+    ): LoyalityPointsResponse
 
 
     @GET(NetworkUrls.SLIDER)

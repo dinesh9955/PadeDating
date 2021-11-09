@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.observe
@@ -63,6 +64,15 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         progressDialog = CustomProgressDialog(requireContext())
         viewBinding.vm = buyGiftVM
         viewBinding.lifecycleOwner = this
+        cbLoyaltyPoints.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                textTax.visibility=View.VISIBLE
+                tvTaxAmount.visibility=View.VISIBLE
+            } else {
+                textTax.visibility=View.GONE
+                tvTaxAmount.visibility=View.GONE
+            }
+        })
 
         initComponents()
         initObservables()
@@ -86,17 +96,27 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
         planData  = arguments?.getParcelable<Doc>("planData") as Doc
 
+        tvLoyalytPoints.text = arguments?.getString("point")
+        tvTaxAmount.text =  planData.price.units +" "+arguments?.getString("discount")
+
         tvPackName.text = planData.name
         tvPackValidity.text = ""+planData.type + " "+requireActivity().getString(R.string.bundle)
         tvPackValidity.visibility = View.VISIBLE
 
         tvPackPrice.text = planData.price.units +" "+ planData.price.amount
-
         textGoldPackage.text = planData.name
-        tvTaxAmount.text = planData.price.units +" "+ planData.price.amount
+        tvPackageAmount.text = planData.price.units +" "+ planData.price.amount
 
+//        if (cbLoyaltyPoints.isChecked){
+//            textTax.visibility=View.VISIBLE
+//            tvTaxAmount.visibility=View.VISIBLE
+//        }
+//        else{
+//            textTax.visibility=View.GONE
+//            tvTaxAmount.visibility=View.GONE
+//        }
 
-        tvLoyalytPoints.text = ""+userObject.totalPoints
+//        tvLoyalytPoints.text = ""+userObject.totalPoints
 
 
         viewBinding.header.tvTitle.text = title
@@ -120,12 +140,13 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
             }else if(etCVV.text.toString().length == 0){
                 toast(requireActivity().getString(R.string.Enter_cvv))
             }else{
-                makePayment(etCardHolderName.text.toString(),
+                makePayment(
+                    etCardHolderName.text.toString(),
                     etCardNumber.text.toString(),
                     etExpiryDate.text.toString().split("/")[0],
                     etExpiryDate.text.toString().split("/")[1],
                     etCVV.text.toString(),
-                    ""+userObject.totalPoints,
+                    "" + userObject.totalPoints,
                     planData.name,
                     planData.price.amount
                 )
@@ -168,6 +189,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                     }
                 }
             }
+
             override fun afterTextChanged(editable: Editable) {}
         })
 
@@ -217,8 +239,8 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         planAmount: Int
     ) {
         progressDialog?.show()
-        val publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM"
-       // val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
+       val publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM"
+      //val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
 
 //        val card = Card(etCardHolderName.text.toString(),
 //            etCardNumber.text.toString().toInt(),
@@ -246,24 +268,25 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
             }
 
             override fun onSuccess(token: Token) {
+                Log.e(TAG, "onSuccess " + "Live mode " + token.livemode)
                 Log.e(TAG, "onSuccess " + token.id)
                 progressDialog?.dismiss()
                 var packageName = planData._id
-                            val jsonObj = JsonObject()
-                            jsonObj.addProperty("package", packageName)
-                            jsonObj.addProperty("stripeToken", token.id)
-                            jsonObj.addProperty("card", "")
+                val jsonObj = JsonObject()
+                jsonObj.addProperty("package", packageName)
+                jsonObj.addProperty("stripeToken", token.id)
+                jsonObj.addProperty("card", "")
 
-                            if (cbLoyaltyPoints.isChecked == true){
-                                jsonObj.addProperty("points", ""+points)
-                            }else{
-                                jsonObj.addProperty("points", "")
-                            }
+                if (cbLoyaltyPoints.isChecked == true) {
+                    jsonObj.addProperty("points", "" + points)
+                } else {
+                    jsonObj.addProperty("points", "")
+                }
 
-                            buyGiftVM.paymentAPI(
-                                jsonObj.toString()
-                                    .toRequestBody("application/json".toMediaTypeOrNull())
-                            )
+                buyGiftVM.paymentAPI(
+                    jsonObj.toString()
+                        .toRequestBody("application/json".toMediaTypeOrNull())
+                )
 
 
                 //com.stripe.Stripe.apiKey = "sk_test_51CiPu1Iuz09BIRfI5m3yq1y0mOq9wxctHpfRlYfT4hps7TaTfTfSjRKxd3zDBXi2j7KIPeEfgo8OfBXT6g2XrBl700FU6gNyLJ"
@@ -360,7 +383,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                 when (type) {
                     "BuyGiftCardList" -> {
                         val data = response.data?.message
-                        Log.e(TAG, "userObjectAA "+data.toString())
+                        Log.e(TAG, "userObjectAA " + data.toString())
 
                         findNavController().popBackStack()
 //

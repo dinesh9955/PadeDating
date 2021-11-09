@@ -1,5 +1,6 @@
 package com.padedatingapp.vm
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.padedatingapp.api.Resource
@@ -20,6 +21,7 @@ class BuyGiftVM(
     private val aboutMeRepo: GiftCardRepo
 ) : ViewModel() {
     var loginResponsePayment = SingleLiveEvent<Resource<BlockUserModel>>()
+    var isChecked  = ObservableField<Boolean>(false)
 
     var file: File? = null
     var token = ""

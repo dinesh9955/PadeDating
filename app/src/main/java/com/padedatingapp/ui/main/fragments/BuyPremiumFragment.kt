@@ -75,8 +75,14 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
     }
 
     override fun onItemClick(model: Doc) {
-        Log.e("BuyPremiumFragment", "onItemClick: ", )
-        findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model))
+
+        if ( arguments?.getString("from","") == "loyalty_points")
+        {
+            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model,arguments?.getString("discount","")!!,arguments?.getString("point","")!!))
+        }
+        else
+            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model))
+
     }
 
     override fun onResume() {

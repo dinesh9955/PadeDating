@@ -57,6 +57,7 @@ object AppModule {
         viewModel { BuyGiftVM(get(), get(), get()) }
         viewModel { BlockUserVM(get(), get(), get()) }
         viewModel { WebVM(get(), get(), get()) }
+        viewModel { LoyalityVM(get(), get(), get()) }
 
 
     }

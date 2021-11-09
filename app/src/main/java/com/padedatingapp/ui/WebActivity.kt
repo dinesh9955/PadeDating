@@ -204,8 +204,8 @@ class WebActivity : AppCompatActivity() {
                                 var privacy = list_data[0].privacy
                                 var image = list_data[0].image
 
-                                val content = privacy +
-                                "</br><p><img src="+image+" /></p>"
+                                val content = privacy
+//                                "</br><p><img src="+image+" /></p>"
                                 webView.loadDataWithBaseURL("", content, "text/html", "UTF-8", "")
 
                                // webView.loadData(privacy, "text/html", "UTF-8");

@@ -11,5 +11,6 @@ data class Data(
     val email: String,
     val image: String,
     val legal: String,
-    val privacy: String
+    val privacy: String,
+    val terms: String,
 )

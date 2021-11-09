@@ -143,7 +143,7 @@ class VerifyOtpFragment : DataBindingFragment<FragmentVerifyOtpBinding>() {
             otpVm.countryCode = arguments?.getString("countryCode", "") ?: ""
             viewBinding.textVerifyPhoneNumber.text =
                 getString(R.string.verifying_phone_number)
-            viewBinding.tvPhone.text = "+" + otpVm.countryCode + otpVm.phoneNo.value
+            viewBinding.tvPhone.text =otpVm.countryCode + otpVm.phoneNo.value
         }
     }
 
