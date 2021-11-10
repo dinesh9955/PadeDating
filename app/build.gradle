@@ -205,7 +205,9 @@ dependencies {
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
     implementation 'com.vanniktech:emoji-google:0.7.0'
-    implementation 'com.stripe:stripe-android:1.0.4'
+//Stripe payment gateway
+    implementation 'com.stripe:stripe-android:16.10.2'
+
     implementation 'com.android.support:multidex:1.0.3'
 //    implementation 'com.google.android.gms:play-services-vision:19.0.0'
 }

@@ -13,6 +13,7 @@ import android.view.Window
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
@@ -32,14 +33,17 @@ import com.padedatingapp.model.plans.Doc
 import com.padedatingapp.utils.AppConstants
 import com.padedatingapp.utils.hideKeyboard
 import com.padedatingapp.vm.BuyGiftVM
+import com.stripe.android.ApiResultCallback
 import com.stripe.android.Stripe
-import com.stripe.android.TokenCallback
 import com.stripe.android.model.Card
 import com.stripe.android.model.Token
-import com.stripe.exception.AuthenticationException
+import com.stripe.android.view.CardInputWidget
 import kotlinx.android.synthetic.main.fragment_buy_gift.*
 import kotlinx.android.synthetic.main.item_premium_packst.*
 import kotlinx.android.synthetic.main.layout_setup_credit_card.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.android.ext.android.inject
@@ -47,6 +51,10 @@ import org.koin.android.ext.android.inject
 
 class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
 
+    lateinit var cardInputWidget: CardInputWidget
+    val stripe: Stripe by lazy {
+        Stripe(requireContext(), getString(R.string.stripe_key))
+    }
     companion object{
         var TAG = "BuyGiftFragment"
     }
@@ -61,6 +69,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
     override fun layoutId(): Int = R.layout.fragment_buy_gift
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cardInputWidget = CardInputWidget(requireContext())
         progressDialog = CustomProgressDialog(requireContext())
         viewBinding.vm = buyGiftVM
         viewBinding.lifecycleOwner = this
@@ -135,21 +144,22 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                 toast(requireActivity().getString(R.string.Enter_card_holder_name))
             }else if(etCardNumber.text.toString().length == 0){
                 toast(requireActivity().getString(R.string.Enter_card_number))
-            }else if(etExpiryDate.text.toString().length != 7){
+            }else if(etExpiryDate.text.toString().length != 5){
                 toast(requireActivity().getString(R.string.Enter_expiry_month_and_year))
             }else if(etCVV.text.toString().length == 0){
                 toast(requireActivity().getString(R.string.Enter_cvv))
             }else{
-                makePayment(
-                    etCardHolderName.text.toString(),
-                    etCardNumber.text.toString(),
-                    etExpiryDate.text.toString().split("/")[0],
-                    etExpiryDate.text.toString().split("/")[1],
-                    etCVV.text.toString(),
-                    "" + userObject.totalPoints,
-                    planData.name,
-                    planData.price.amount
-                )
+                fetchCardDetail(it)
+//                makePayment(
+//                    etCardHolderName.text.toString(),
+//                    etCardNumber.text.toString(),
+//                    etExpiryDate.text.toString().split("/")[0],
+//                    etExpiryDate.text.toString().split("/")[1],
+//                    etCVV.text.toString(),
+//                    "" + userObject.totalPoints,
+//                    planData.name,
+//                    planData.price.amount
+//                )
             }
 
 
@@ -225,129 +235,192 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         e.printStackTrace()
     }
 
-
-
-
-    fun makePayment(
-        cardHolderName: String,
-        cardNumber: String,
-        expMonth: String,
-        expYear: String,
-        cvv: String,
-        points: String,
-        planName: String,
-        planAmount: Int
-    ) {
-        progressDialog?.show()
-       val publishableApiKey = "pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM"
-      //val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
-
-//        val card = Card(etCardHolderName.text.toString(),
-//            etCardNumber.text.toString().toInt(),
-//            etExpiryDate.text.toString().toInt(),
-//            etCVV.text.toString())
-
-         val card = Card(
-             cardNumber,
-             expMonth.toInt(),
-             expYear.toInt(),
-             cvv
-         )
-
-//        val card = Card("4242424242424242", 12, 2022, "123")
-
-        var stripe: Stripe? = null
+    private fun fetchCardDetail(view: View) {
+        var userObject =
+            Gson().fromJson(
+                sharedPref.getString(AppConstants.USER_OBJECT, "en"),
+                UserModel::class.java
+            )
         try {
-            stripe = Stripe(publishableApiKey)
-        } catch (e: AuthenticationException) {
+
+            cardInputWidget.setCardNumber(etCardNumber?.text?.trim()?.toString() ?: "")
+            val month = etExpiryDate?.text.toString().substringBefore("/")
+            val year = etExpiryDate?.text.toString().substringAfter("/")
+            cardInputWidget.setExpiryDate(month.toInt(), year.toInt())
+            cardInputWidget.setCvcCode(etCVV?.text?.trim().toString())
+            if(cardInputWidget.cardParams!=null){
+                CoroutineScope(Dispatchers.IO).launch {
+                    stripe.createCardToken(
+                        cardParams = cardInputWidget.cardParams!!,
+                        callback = object : ApiResultCallback<Token> {
+                            override fun onError(e: Exception) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    Log.e("Card Message", e.message ?: "")
+                                    Toast.makeText(context,e.message,Toast.LENGTH_SHORT).show()
+                                    e.printStackTrace()
+                                }
+
+                            }
+
+                            override fun onSuccess(result: Token) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    Log.e("Token", result.id)
+                                    Log.e("Token", result.card!!.id.toString())
+                                    //vm.addCardApi(result.id)
+                                    progressDialog?.dismiss()
+                                    var packageName = planData._id
+                                    val jsonObj = JsonObject()
+                                    jsonObj.addProperty("package", packageName)
+                                    jsonObj.addProperty("stripeToken", result.id)
+                                    jsonObj.addProperty("card", result.card!!.id)
+
+                                    if (cbLoyaltyPoints.isChecked == true) {
+                                        jsonObj.addProperty("points", arguments?.getString("point"))
+                                    } else {
+                                        jsonObj.addProperty("points", "")
+                                    }
+
+                                    buyGiftVM.paymentAPI(
+                                        jsonObj.toString()
+                                            .toRequestBody("application/json".toMediaTypeOrNull())
+                                    )
+
+                                }
+                            }
+
+                        })
+                }
+            }else{
+                // CommonAlerts.showSnackBar("Please enter valid card details")
+                Toast.makeText(context,"Please enter valid card details",Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
             e.printStackTrace()
         }
-        stripe!!.createToken(card, publishableApiKey, object : TokenCallback() {
-            override fun onError(error: java.lang.Exception) {
-                Log.e(TAG, "onError " + error.message)
-            }
-
-            override fun onSuccess(token: Token) {
-                Log.e(TAG, "onSuccess " + "Live mode " + token.livemode)
-                Log.e(TAG, "onSuccess " + token.id)
-                progressDialog?.dismiss()
-                var packageName = planData._id
-                val jsonObj = JsonObject()
-                jsonObj.addProperty("package", packageName)
-                jsonObj.addProperty("stripeToken", token.id)
-                jsonObj.addProperty("card", "")
-
-                if (cbLoyaltyPoints.isChecked == true) {
-                    jsonObj.addProperty("points", "" + points)
-                } else {
-                    jsonObj.addProperty("points", "")
-                }
-
-                buyGiftVM.paymentAPI(
-                    jsonObj.toString()
-                        .toRequestBody("application/json".toMediaTypeOrNull())
-                )
-
-
-                //com.stripe.Stripe.apiKey = "sk_test_51CiPu1Iuz09BIRfI5m3yq1y0mOq9wxctHpfRlYfT4hps7TaTfTfSjRKxd3zDBXi2j7KIPeEfgo8OfBXT6g2XrBl700FU6gNyLJ"
-//                com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp"
-//                try {
-//                    Thread {
-//                        try {
-//                            val customerParams: MutableMap<String, Any> =
-//                                HashMap()
-//                            customerParams["email"] = "dnkumar.chauhan@gmail.com"
-//                            customerParams["source"] = token.id
-//                            val customer = Customer.create(customerParams)
-//                            val chargeParams: MutableMap<String, Any> =
-//                                HashMap()
-//                            chargeParams["amount"] = planAmount * 100 // amount in cents, again
-//                            chargeParams["currency"] = "usd"
-//                            // chargeParams.put("source", token.getId());
-//                            chargeParams["description"] = ""+planName
-//                            chargeParams["customer"] = customer.id
-//                            //                                        chargeParams.put("email", "paying.user@example.com");
-//                            val charge = Charge.create(chargeParams)
-//                            Log.e(TAG, "onSuccessCharge " + charge.source.id)
-//                            val xx = Gson().toJson(charge)
-//                            Log.e(TAG, "onSuccessChargeGson $xx")
-//
-//
-//                            var packageName = planData._id
-//                            // var packageName = planData._id
-////                            planData
-//
-//
-//                            val jsonObj = JsonObject()
-//                            jsonObj.addProperty("package", packageName)
-//                            jsonObj.addProperty("stripeToken", token.id)
-//                            jsonObj.addProperty("card", charge.source.id)
-//
-//                            if (cbLoyaltyPoints.isChecked == true){
-//                                jsonObj.addProperty("points", ""+points)
-//                            }else{
-//                                jsonObj.addProperty("points", "")
-//                            }
-//
-//
-//
-//                            buyGiftVM.callUpdateProfileApi(
-//                                jsonObj.toString()
-//                                    .toRequestBody("application/json".toMediaTypeOrNull())
-//                            )
-//
-//                        } catch (e: java.lang.Exception) {
-//                            e.printStackTrace()
-//                            Log.e(TAG, "onSuccessERRoR " + e.message)
-//                        }
-//                        //System.out.println("Charge Log :" + charge);
-//                    }.start()
-//                } catch (e: java.lang.Exception) {
-//                    e.printStackTrace()
-//                }
-            }
-        })
     }
+
+
+
+//    fun makePayment(
+//        cardHolderName: String,
+//        cardNumber: String,
+//        expMonth: String,
+//        expYear: String,
+//        cvv: String,
+//        points: String,
+//        planName: String,
+//        planAmount: Int
+//    ) {
+//        progressDialog?.show()
+//       val publishableApiKey = getString(R.string.stripe_key)
+//      //val publishableApiKey = "pk_test_inM99ehBADdrzRTf3wa3ggu2"
+//
+////        val card = Card(etCardHolderName.text.toString(),
+////            etCardNumber.text.toString().toInt(),
+////            etExpiryDate.text.toString().toInt(),
+////            etCVV.text.toString())
+//
+//         val card = Card(
+//             cardNumber,
+//             expMonth.toInt(),
+//             expYear.toInt(),
+//             cvv
+//         )
+//
+////        val card = Card("4242424242424242", 12, 2022, "123")
+//
+//        var stripe: Stripe? = null
+//        try {
+//            stripe = Stripe(publishableApiKey)
+//        } catch (e: AuthenticationException) {
+//            e.printStackTrace()
+//        }
+//        stripe!!.createToken(card, publishableApiKey, object : TokenCallback() {
+//            override fun onError(error: java.lang.Exception) {
+//                Log.e(TAG, "onError " + error.message)
+//            }
+//
+//            override fun onSuccess(token: Token) {
+//                Log.e(TAG, "onSuccess " + "Live mode " + token.livemode)
+//                Log.e(TAG, "onSuccess " + token.id)
+//                progressDialog?.dismiss()
+//                var packageName = planData._id
+//                val jsonObj = JsonObject()
+//                jsonObj.addProperty("package", packageName)
+//                jsonObj.addProperty("stripeToken", token.id)
+//                jsonObj.addProperty("card", "")
+//
+//                if (cbLoyaltyPoints.isChecked == true) {
+//                    jsonObj.addProperty("points", "" + points)
+//                } else {
+//                    jsonObj.addProperty("points", "")
+//                }
+//
+//                buyGiftVM.paymentAPI(
+//                    jsonObj.toString()
+//                        .toRequestBody("application/json".toMediaTypeOrNull())
+//                )
+//
+//
+//                //com.stripe.Stripe.apiKey = "sk_test_51CiPu1Iuz09BIRfI5m3yq1y0mOq9wxctHpfRlYfT4hps7TaTfTfSjRKxd3zDBXi2j7KIPeEfgo8OfBXT6g2XrBl700FU6gNyLJ"
+////                com.stripe.Stripe.apiKey = "sk_test_xitA2poC7TfjnP1IGD0FT6rp"
+////                try {
+////                    Thread {
+////                        try {
+////                            val customerParams: MutableMap<String, Any> =
+////                                HashMap()
+////                            customerParams["email"] = "dnkumar.chauhan@gmail.com"
+////                            customerParams["source"] = token.id
+////                            val customer = Customer.create(customerParams)
+////                            val chargeParams: MutableMap<String, Any> =
+////                                HashMap()
+////                            chargeParams["amount"] = planAmount * 100 // amount in cents, again
+////                            chargeParams["currency"] = "usd"
+////                            // chargeParams.put("source", token.getId());
+////                            chargeParams["description"] = ""+planName
+////                            chargeParams["customer"] = customer.id
+////                            //                                        chargeParams.put("email", "paying.user@example.com");
+////                            val charge = Charge.create(chargeParams)
+////                            Log.e(TAG, "onSuccessCharge " + charge.source.id)
+////                            val xx = Gson().toJson(charge)
+////                            Log.e(TAG, "onSuccessChargeGson $xx")
+////
+////
+////                            var packageName = planData._id
+////                            // var packageName = planData._id
+//////                            planData
+////
+////
+////                            val jsonObj = JsonObject()
+////                            jsonObj.addProperty("package", packageName)
+////                            jsonObj.addProperty("stripeToken", token.id)
+////                            jsonObj.addProperty("card", charge.source.id)
+////
+////                            if (cbLoyaltyPoints.isChecked == true){
+////                                jsonObj.addProperty("points", ""+points)
+////                            }else{
+////                                jsonObj.addProperty("points", "")
+////                            }
+////
+////
+////
+////                            buyGiftVM.callUpdateProfileApi(
+////                                jsonObj.toString()
+////                                    .toRequestBody("application/json".toMediaTypeOrNull())
+////                            )
+////
+////                        } catch (e: java.lang.Exception) {
+////                            e.printStackTrace()
+////                            Log.e(TAG, "onSuccessERRoR " + e.message)
+////                        }
+////                        //System.out.println("Charge Log :" + charge);
+////                    }.start()
+////                } catch (e: java.lang.Exception) {
+////                    e.printStackTrace()
+////                }
+//            }
+//        })
+    //}
 
 
 
@@ -385,7 +458,7 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                         val data = response.data?.message
                         Log.e(TAG, "userObjectAA " + data.toString())
 
-                        findNavController().popBackStack()
+                        findNavController().navigate(BuyGiftFragmentDirections.actionToProfile("from_gift"))
 //
 //                        onSetGiftCardListResponse(data)
                     }

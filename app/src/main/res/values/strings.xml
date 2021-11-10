@@ -369,6 +369,8 @@
     <string name="beauty_of_friendship">Where to enjoy the beauty of friendship</string>
 
     <string name="history">History</string>
+<!--    <string name="stripe_key">pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM</string>-->
+    <string name="stripe_key">pk_test_51IkZRFEdED7mtE2M451CGvKQKU6wVeHAC2MHjfkf7GxsCwMx6fDQrpH17HudtS0SMjQJaGbIgN5w4RHre9Jxy1IE007XDznE5l</string>
 
 
 </resources>

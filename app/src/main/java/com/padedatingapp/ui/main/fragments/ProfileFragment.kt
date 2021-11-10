@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.compose.navArgument
 import androidx.navigation.fragment.findNavController
 import com.birimo.birimosports.utils.SharedPref
 import com.bumptech.glide.Glide
@@ -44,8 +45,14 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     }
 
     private fun initComponents() {
-        userObject =
-        Gson().fromJson(
+
+        var from=arguments?.getString("type")?:""
+
+        val text = if (from=="from_gift") "My Premium"
+        else  "Become Premium Member"
+        tvBecomePremium.text = text
+
+        userObject = Gson().fromJson(
             sharedPref.getString(AppConstants.USER_OBJECT, "en"),
             UserModel::class.java
         )
@@ -59,6 +66,8 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
         }else{
             tvPremium.visibility = View.INVISIBLE
         }
+
+
 
 
         viewBinding.tvBecomePremium.setOnClickListener {

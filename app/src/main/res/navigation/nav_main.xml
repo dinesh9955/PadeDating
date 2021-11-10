@@ -374,7 +374,16 @@
     <fragment
         android:id="@+id/buyGiftCardWithPayment"
         android:name="com.padedatingapp.ui.main.fragments.BuyGiftFragment"
-        tools:layout="@layout/fragment_buy_gift"></fragment>
+        tools:layout="@layout/fragment_buy_gift">
+        <action
+            android:id="@+id/action_to_profile"
+            app:destination="@id/profileFragment">
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
+
+    </fragment>
 
     <fragment
         android:id="@+id/giftCardsFragment"
