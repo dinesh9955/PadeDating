@@ -1,19 +1,25 @@
 package com.padedatingapp.ui.main
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
+import com.birimo.birimosports.utils.SharedPref
 import com.fxn.OnBubbleClickListener
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import com.padedatingapp.PadeDatingApp
 import com.padedatingapp.R
 import com.padedatingapp.SavePref
@@ -27,16 +33,20 @@ import com.padedatingapp.sockets.SocketUrls
 import com.padedatingapp.ui.call.AudioCallActivity
 import com.padedatingapp.ui.call.VideoCallActivity2
 import com.padedatingapp.ui.main.fragments.ChatFragment
-import com.padedatingapp.utils.LocaleHelper
+import com.padedatingapp.ui.main.fragments.MeetMeFragment
+import com.padedatingapp.utils.*
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
+import org.koin.android.ext.android.inject
 
 class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
     companion object{
         var TAG = "HomeActivity"
     }
+    private val sharedPref by inject<SharedPref>()
+
 
     var primaryBaseActivity //THIS WILL KEEP ORIGINAL INSTANCE
             : Context? = null
@@ -44,6 +54,14 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     lateinit var locationStatus: Emitter.Listener
 
     override fun layoutId(): Int = R.layout.activity_home
+
+
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
+    // private var geocoder: Geocoder? = null
+    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
+    private var mLocationRequest: LocationRequest? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,18 +99,18 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
       //  viewBinding.bottomMenu.setSelectedWithId(bottom_menu[2].id, false)
 
-        getLocation()
+
 
         val bundle = intent.extras
         if (bundle != null) {
-            var res = bundle.getString("key")
+            val res = bundle.getString("key")
             val jsonObject = JSONObject(res)
             Log.e(TAG, "jsonObjectAA " + jsonObject)
             val type: String = jsonObject.getString("type")
             Log.e(TAG, "typeAA " + type)
 
             if (type.equals("TEXT_CHAT", ignoreCase = true)) {
-                var chatIDModel = ChatIDModel()
+                val chatIDModel = ChatIDModel()
 
                 //  val jsonObjectUser2: JSONObject = jsonObject.getJSONObject("sentTo")
 
@@ -197,11 +215,15 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
+        getLocation()
         registerReceiver(mHandleMessageReceiver, IntentFilter("OPEN_NEW_ACTIVITY1"))
     }
 
     override fun onStop() {
         super.onStop()
+        if (fusedLocationProviderClient != null)
+            fusedLocationProviderClient?.removeLocationUpdates(locationCallback!!)
+
         unregisterReceiver(mHandleMessageReceiver);
     }
 
@@ -278,70 +300,56 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
 
 
+
     @SuppressLint("ServiceCast")
     fun getLocation() {
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
+        if(!isGPSEnabled()){
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            return
+        }
+
+        getLastKnownLocation()
+
+
 
         locationStatus = Emitter.Listener { args ->
             runOnUiThread {
                 val data: JSONObject = args[0] as JSONObject
-
                 Log.e("locationStatus ", "message $data")
             }
         }
-
         AppSocketListener.getInstance().addOnHandler(SocketUrls.LOCATION, locationStatus)
 
-        var pref = SavePref()
-        pref.SavePref(this@HomeActivity)
-
-        val json = JSONObject()
-        json.put("lat", "" + pref.latitude)
-        json.put("long", "" + pref.longitude)
-
-        AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
-
-
-
-        var locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-
-        var locationListener = object : LocationListener{
-
-
-            override fun onLocationChanged(location: Location) {
-                var latitute = location!!.latitude
-                var longitute = location!!.longitude
-
-                Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
-
-                pref.latitude = ""+latitute
-                pref.longitude = ""+longitute
-
-                val json = JSONObject()
-                json.put("lat", "" + latitute)
-                json.put("long", "" + longitute)
-
-                AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
-            }
-
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-            }
-
-
-
-        }
 
         try {
-           // locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
-            if(locationManager!!.getAllProviders().contains("network")) {
-                locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-            }else{
-                if(locationManager!!.getAllProviders().contains("gps")) {
-                    locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+
+/*
+            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+
+            val locationListener = object : LocationListener{
+                override fun onLocationChanged(location: Location) {
+                    val latitute = location.latitude?:0.0
+                    val longitute = location.longitude?:0.0
+                    // Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
+                    pref.latitude = ""+latitute
+                    pref.longitude = ""+longitute
+                    val json = JSONObject()
+                    json.put("lat", "" + latitute)
+                    json.put("long", "" + longitute)
+                    AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
                 }
-            }
 
-           // Log.e(TAG, "locationManager.getAllProviders() "+ locationManager!!.getAllProviders())
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
 
+                }
+            }*/
+           // locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
 
         } catch (ex: SecurityException) {
             //Toast.makeText(applicationContext, "Fehler bei der Erfassung!", Toast.LENGTH_SHORT).show()
@@ -360,4 +368,61 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         primaryBaseActivity = newBase;
         super.attachBaseContext(LocaleHelper.onAttach(primaryBaseActivity));
     }
+
+
+    private fun getLastKnownLocation() {
+        //requireActivity().showDialog()
+        mLocationRequest = LocationRequest()
+        mLocationRequest?.interval = 1000
+        mLocationRequest?.fastestInterval = 1000
+        mLocationRequest?.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        //locationRequest!!.setInterval(2000)
+        locationRequest?.fastestInterval = 1500
+        initLocationCallback()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun initLocationCallback() {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                super.onLocationResult(locationResult)
+                val mylocation = locationResult?.lastLocation
+                val mCurrentLatLng = LatLng(mylocation?.latitude?:0.0, mylocation?.longitude?:0.0)
+                val latitute = locationResult?.lastLocation?.latitude?:0.0
+                val longitute = locationResult?.lastLocation?.longitude?:0.0
+                Log.v("test", "Latitute: $latitute ; Longitute: $longitute")
+                val list = getAddressList(latitute,longitute)
+                val code = list!![0].countryCode
+                val address = list!![0].getAddressLine(0)
+                sharedPref.setString(AppConstants.COUNTRY_CODE, code)
+
+                MeetMeFragment.getLocation?.getLocation(address)
+
+                val pref = SavePref()
+                pref.SavePref(this@HomeActivity)
+                pref.latitude = ""+latitute
+                pref.longitude = ""+longitute
+                val json = JSONObject()
+                json.put("lat", "" + latitute)
+                json.put("long", "" + longitute)
+                AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+
+                if (fusedLocationProviderClient != null)
+                    fusedLocationProviderClient?.removeLocationUpdates(locationCallback!!)
+            }
+        }
+
+        fusedLocationProviderClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null
+        )
+    }
+
+
+
 }

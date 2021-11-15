@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_onboarding"
-    app:startDestination="@id/welcomeFragment">
+    app:startDestination="@id/splash">
+    <include app:graph="@navigation/nav_verify" />
 
     <fragment
         android:id="@+id/welcomeFragment"
@@ -29,13 +30,28 @@
             app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
+    <fragment android:id="@+id/splash"
+        android:name="com.padedatingapp.ui.onboarding.fragments.splash.Splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/splash_to_welcome"
+            app:destination="@id/welcomeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+
+
     <fragment
         android:id="@+id/newAccountFragment"
         android:name="com.padedatingapp.ui.onboarding.fragments.newaccount.NewAccountFragment"
         tools:layout="@layout/fragment_new_account">
         <action
             android:id="@+id/action_new_account_to_verify_otp"
-            app:destination="@id/verifyOtpFragment"
+            app:destination="@id/nav_verify"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
@@ -152,43 +168,7 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/verifyOtpFragment"
-        android:name="com.padedatingapp.ui.onboarding.fragments.otp.VerifyOtpFragment"
-        tools:layout="@layout/fragment_verify_otp">
 
-        <action
-            android:id="@+id/action_to_create_new_account"
-            app:destination="@id/creatNewAccountFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" >
-
-            <argument
-                android:name="verificationType"
-                app:argType="string"
-                android:defaultValue="phone"
-                />
-            <argument
-                android:name="email"
-                app:argType="string"
-                android:defaultValue=""
-                />
-            <argument
-                android:name="phone"
-                app:argType="string"
-                android:defaultValue="phone"
-                />
-            <argument
-                android:name="countryCode"
-                app:argType="string"
-                android:defaultValue=""
-                />
-        </action>
-
-    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -306,40 +286,7 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/newUploadPhotoFragment"
-        android:name="com.padedatingapp.ui.onboarding.fragments.upload_photo.UploadPhotoFragment"
-        tools:layout="@layout/item_upload_photo">
 
-        <action
-            android:id="@+id/action_to_sign_up_about_fragment"
-            app:destination="@id/signupAboutMeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:launchSingleTop="true"
-            app:popUpToInclusive="false"
-            app:popUpTo="@id/newAccountFragment"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" >
-            <argument
-                android:name="title"
-                android:defaultValue="Sign Up"
-                app:argType="string"
-                app:nullable="false" />
-        </action>
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/signupAboutMeFragment"
-        android:name="com.padedatingapp.ui.onboarding.fragments.about_me.AboutMeSignUpFragment"
-        tools:layout="@layout/fragment_about_me_sign_up">
-
-        <argument
-            android:name="title"
-            android:defaultValue="Sign Up"
-            />
-    </fragment>
 
     <fragment
         android:id="@+id/forgotPasswordFragment"
@@ -374,21 +321,5 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/creatNewAccountFragment"
-        android:name="com.padedatingapp.ui.onboarding.fragments.create_account.CreateAccountFragment"
-        tools:layout="@layout/fragment_create_account">
-
-        <action
-            android:id="@+id/action_to_upload_photo"
-            app:destination="@id/newUploadPhotoFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:launchSingleTop="true"
-            app:popUpToInclusive="false"
-            app:popUpTo="@id/newAccountFragment"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
-    </fragment>
 
 </navigation>

@@ -27,8 +27,8 @@ class PremiumPacksAdapter(private val listener: OnItemClickListener) :
         init {
              binding.root.setOnClickListener {
                  listener.onItemClick(getItem(adapterPosition))
-             }
         }
+            }
 
         fun bind(model: Doc) {
             binding.apply {

@@ -55,7 +55,7 @@ class UserModel (
     val work: String,
     var profileStatus:Int,
     val interestedIn: String,
-    val totalPoints: String,
+    val totalPoints: Int=0,
     val totalLikes: String,
     val totalMatched: String,
     val myReferralCode: String,

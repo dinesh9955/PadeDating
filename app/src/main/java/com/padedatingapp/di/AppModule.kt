@@ -38,7 +38,7 @@ object AppModule {
            single { NetworkConnectionInterceptor(get()) }
         //activities
         viewModel { SignUpVM(get(), get(), get()) }
-        viewModel { OtpVM(get(), get(), get()) }
+        viewModel { OtpVM(get(), get(), get(),get()) }
         viewModel { CreateAccountVM(get(), get(), get()) }
         viewModel { LoginVM(get(), get(), get()) }
         viewModel { UploadPhotoVM(get(), get(), get()) }

@@ -20,4 +20,6 @@ class OtpRepo @Inject constructor(private val padeApi: PadeDatingApi) {
     suspend fun verifyOtp(requestBody: RequestBody): Resource<ResultModel<UserModel>> {
         return handleException { padeApi.verifyOtp(requestBody)}
     }
+
+
 }

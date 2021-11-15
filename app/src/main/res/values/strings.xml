@@ -341,6 +341,7 @@
     <string name="Setup_Credit_Card">Setup Credit Card</string>
     <string name="Card_Holder_Name">Card Holder Name</string>
     <string name="Card_Number">Card Number</string>
+    <string name="enter_pin">Enter Pin</string>
 
     <string name="UnBlock">UnBlock</string>
     <string name="Block">Block</string>
@@ -369,8 +370,14 @@
     <string name="beauty_of_friendship">Where to enjoy the beauty of friendship</string>
 
     <string name="history">History</string>
-<!--    <string name="stripe_key">pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM</string>-->
-    <string name="stripe_key">pk_test_51IkZRFEdED7mtE2M451CGvKQKU6wVeHAC2MHjfkf7GxsCwMx6fDQrpH17HudtS0SMjQJaGbIgN5w4RHre9Jxy1IE007XDznE5l</string>
+    <!--    <string name="stripe_key">pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM</string>-->
+    <string name="stripe_key">pk_live_51IkZRFEdED7mtE2MN4Vs4RmIqrsCOzBdQb5g6m3881NMM8aWYtf3oh88gFK7eL5oYHFjfaR6DAMQvAbLR2nKW0BA00xGV45OGh</string>
+    <string name="enter_code">Please enter the verification code</string>
+
+
+<!--    <string name="alliase_key">pade</string>-->
+<!--    <string name="allise_assword">12345678</string>-->
+
 
 
 </resources>

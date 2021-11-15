@@ -1,5 +1,6 @@
 package com.padedatingapp.ui.main.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -36,6 +37,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentMeetMeBinding
+import com.padedatingapp.interfaces.GetLocation
 import com.padedatingapp.model.*
 import com.padedatingapp.sockets.AppSocketListener
 import com.padedatingapp.sockets.SocketUrls
@@ -54,11 +56,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackListener,
-        MeetMeAdapter.OnItemClickListener {
-
+        MeetMeAdapter.OnItemClickListener, GetLocation {
     var placeLat : Double = 0.0
     var placeLng : Double = 0.0
-
+    var abc=""
     lateinit var locationStatus: Emitter.Listener
 
     private lateinit var userObject : UserModel
@@ -78,29 +79,53 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     companion object {
         private const val SELECT_ADDRESS_REQUEST_CODE = 1003
         var TAG = "MeetMeFragment"
+        var getLocation : GetLocation? = null
     }
 
+
+    override fun getLocation(address: String) {
+        super.getLocation(address)
+        if (sharedPref.getString("address", "en") != "") {
+            viewBinding.tvMyLocationHome.text = sharedPref.getString("address", "en")
+        }
+        else {
+            viewBinding?.tvMyLocationHome.text = address
+            abc=address
+            // viewBinding.tvMyLocationHome.text = userObject.address
+//                        viewBinding.tvMyLocationHome.text = abc
+        }
+        setMarqueText(viewBinding.tvMyLocationHome)
+    }
 
 
     override fun layoutId(): Int = R.layout.fragment_meet_me
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val abc=sharedPref.getString(AppConstants.COUNTRY_CODE,"")
+        Log.v("codee",abc)
 
         progressDialog = CustomProgressDialog(requireContext())
         viewBinding.vm = meetMeVM
         viewBinding.lifecycleOwner = this
-
+        getLocation = this
         initComponents()
         initObservables()
-        setUserData()
+        if (sharedPref.getString("address", "en") != "") {
+            viewBinding.tvMyLocationHome.text = sharedPref.getString("address", "en")
+            setMarqueText(viewBinding.tvMyLocationHome)
+
+        }
 
     }
 
     private fun setUserData() {
         if (sharedPref.getString("address", "en") != "") {
             viewBinding.tvMyLocationHome.text = sharedPref.getString("address", "en")
-        } else {
-            viewBinding.tvMyLocationHome.text = userObject.address
+        }
+        else {
+
+           // viewBinding.tvMyLocationHome.text = userObject.address
+//                        viewBinding.tvMyLocationHome.text = abc
         }
         setMarqueText(viewBinding.tvMyLocationHome)
     }
@@ -430,6 +455,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -451,8 +477,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
                             Log.e(TAG , "placeLat2 "+placeLat+" "+placeLng)
 
-                            sharedPref.setString("address", addresses[0].getAddressLine(0))
-                            viewBinding.tvMyLocationHome.text = addresses[0].getAddressLine(0)
+                            sharedPref.setString("address", addresses.get(0).countryName + ", " + addresses.get(0).adminArea + ", " + addresses.get(0).locality)
+                            viewBinding.tvMyLocationHome.text =addresses.get(0).countryName + ", " + addresses.get(0).adminArea + ", " + addresses.get(0).locality
                             requireActivity().hideKeyboard()
                         } catch (e: Exception) {
                             Log.e("HomeFragment", "GeoCoder Exception: $e")

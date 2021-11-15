@@ -100,7 +100,7 @@
                     android:text="@={vm.otp}"
                     android:textColor="@color/colorBlack"
                     app:itemCount="4"
-                    app:itemSpacing="45dp"
+                    app:itemSpacing="20dp"
                     app:lineColor="@color/colorDarkGrey"
                     app:viewType="line" />
 

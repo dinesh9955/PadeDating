@@ -14,6 +14,8 @@ import com.padedatingapp.model.privacyPolicy.PrivacyPolicyModel
 import com.padedatingapp.model.reasons.ReasonModel
 import com.padedatingapp.model.reportUser.ReportUserModel
 import com.padedatingapp.model.slider.SliderModel
+import com.padedatingapp.model.waveModel.WaveCardResponse
+import com.padedatingapp.model.wavepayment.WavePaymentResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -263,5 +265,17 @@ interface PadeDatingApi {
     suspend fun privacyPolicy(
         @Header("Authorization") token: String,
     ): PrivacyPolicyModel
+
+    @POST(NetworkUrls.WaveCard)
+    suspend fun waveCard(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): WaveCardResponse
+
+    @POST(NetworkUrls.WavePayment)
+    suspend fun wavePayment(
+        @Header("Authorization") token: String,
+        @Body body: RequestBody
+    ): WavePaymentResponse
 
 }

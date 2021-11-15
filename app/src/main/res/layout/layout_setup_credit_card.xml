@@ -60,6 +60,29 @@
 
         />
 
+
+
+    <EditText
+        android:id="@+id/etPin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_pin"
+        android:singleLine="true"
+        android:inputType="number"
+        android:fontFamily="@font/rubik"
+        android:textSize="16sp"
+        android:maxLength="20"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_18sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etCardNumber"
+        android:background="@drawable/bg_round_edge_white"
+
+        />
+
     <EditText
         android:id="@+id/etExpiryDate"
         android:layout_width="0dp"
@@ -67,14 +90,14 @@
         android:hint="@string/expiry_date"
         android:fontFamily="@font/rubik"
         android:textSize="16sp"
-        android:maxLength="7"
+        android:maxLength="5"
         android:layout_marginTop="@dimen/_10sdp"
         android:paddingVertical="@dimen/_10sdp"
         android:paddingHorizontal="@dimen/_18sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/etCVV"
-        app:layout_constraintTop_toBottomOf="@id/etCardNumber"
+        app:layout_constraintTop_toBottomOf="@id/etPin"
         android:background="@drawable/bg_round_edge_white"
         android:inputType="number"
         />
@@ -95,7 +118,7 @@
         android:layout_marginStart="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/etExpiryDate"
-        app:layout_constraintTop_toBottomOf="@id/etCardNumber"
+        app:layout_constraintTop_toBottomOf="@id/etPin"
         android:background="@drawable/bg_round_edge_white"
         />
 

@@ -21,16 +21,16 @@
             android:scaleType="centerCrop"
             android:src="@drawable/intro_logo"
             android:layout_centerInParent="true" />
-        
+
         <TextView
             android:id="@+id/tvContentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/beauty_of_friendship"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
             android:layout_below="@id/ivLogo"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/beauty_of_friendship"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
     </RelativeLayout>
 </layout>

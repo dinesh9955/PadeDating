@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/homeFragment">
+    <include app:graph="@navigation/nav_verify" />
 
     <fragment
         android:id="@+id/homeFragment"
@@ -97,7 +98,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
+
+            <argument android:name="fromProfile"
+                android:defaultValue="none"
+                app:argType="string"
+                />
+        </action>
 
         <action
             android:id="@+id/action_to_notif"
@@ -148,6 +155,7 @@
         android:id="@+id/profileFragment"
         android:name="com.padedatingapp.ui.main.fragments.ProfileFragment"
         tools:layout="@layout/fragment_profile">
+
         <action
             android:id="@+id/action_to_buy_premium"
             app:destination="@id/buyPremiumFragment"
@@ -155,7 +163,15 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_left" >
+            <argument
+                android:name="titleProfile"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
+
+
+
 
         <action
             android:id="@+id/action_to_sign_up_about_fragment"
@@ -313,11 +329,24 @@
                 android:defaultValue="0"
                 app:argType="string"
                 />
+
             <argument
                 android:name="point"
                 android:defaultValue="0"
                 app:argType="string"
                 />
+            <argument
+                android:name="country"
+                android:defaultValue=""
+                app:argType="string"
+                />
+
+            <argument
+                android:name="titleProfile"
+                android:defaultValue=""
+                app:argType="string"
+                />
+
 
         </action>
     </fragment>
@@ -383,6 +412,31 @@
                 app:argType="string" />
         </action>
 
+        <action
+            android:id="@+id/action_to_verifyotp"
+            app:destination="@id/nav_verify">
+
+            <argument
+                android:name="type"
+                app:argType="string"
+                android:defaultValue=""/>
+            <argument
+                android:name="packageId"
+                app:argType="string"
+                android:defaultValue=""/>
+            <argument
+                android:name="flwId"
+                app:argType="string"
+                android:defaultValue=""/>
+            <argument
+                android:name="point"
+                app:argType="string"
+                android:defaultValue=""/>
+
+        </action>
+
+
+
     </fragment>
 
     <fragment
@@ -422,6 +476,10 @@
                 app:argType="string"
                 />
             <argument android:name="point"
+                android:defaultValue="none"
+                app:argType="string"
+                />
+            <argument android:name="country"
                 android:defaultValue="none"
                 app:argType="string"
                 />

@@ -1013,7 +1013,14 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
                             if (response.data != null) {
                                 //toast(response.data.message)
                                 Log.e(TAG, "dataAACC " + response.data.data)
-                                list = response.data.data.value
+                                if(response.data.data==null){
+
+                                }
+                                else{
+
+                                    list = response.data.data.value
+                                }
+
                             }
                         }
                     }

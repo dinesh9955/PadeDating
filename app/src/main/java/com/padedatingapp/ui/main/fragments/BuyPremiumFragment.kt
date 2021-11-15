@@ -7,6 +7,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.birimo.birimosports.utils.SharedPref
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.padedatingapp.R
 import com.padedatingapp.adapter.PremiumPacksAdapter
@@ -15,6 +16,7 @@ import com.padedatingapp.api.ResponseStatus
 import com.padedatingapp.base.DataBindingFragment
 import com.padedatingapp.custom_views.CustomProgressDialog
 import com.padedatingapp.databinding.FragmentBuyPremiumBinding
+import com.padedatingapp.model.UserModel
 import com.padedatingapp.model.plans.Doc
 import com.padedatingapp.model.plans.PlanModel
 import com.padedatingapp.utils.AppConstants
@@ -30,15 +32,23 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
     companion object{
         var TAG = "BuyPremiumFragment"
     }
+    private lateinit var userObject : UserModel
+
 
     private val buyPremiumVM by inject<BuyPremiumVM>()
 
     private var progressDialog: CustomProgressDialog? = null
     private val sharedPref by inject<SharedPref>()
+    var totalPoint=0
 
     override fun layoutId(): Int = R.layout.fragment_buy_premium
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userObject =
+            Gson().fromJson(
+                sharedPref.getString(AppConstants.USER_OBJECT, "en"),
+                UserModel::class.java
+            )
         progressDialog = CustomProgressDialog(requireContext())
         viewBinding.vm = buyPremiumVM
         viewBinding.lifecycleOwner = this
@@ -50,6 +60,7 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
         buyPremiumVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
 
         var from = arguments?.getString("from","")
+        var title=arguments?.getString("fromProfile","")
 
 //        var list = ArrayList<DummyModel>()
 //        repeat(5) {
@@ -78,11 +89,15 @@ class BuyPremiumFragment : DataBindingFragment<FragmentBuyPremiumBinding>(),
 
         if ( arguments?.getString("from","") == "loyalty_points")
         {
-            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model,arguments?.getString("discount","")!!,arguments?.getString("point","")!!))
+            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model,arguments?.getString("discount","")!!,arguments?.getString("point","")!!,arguments?.getString("country","")!!))
         }
         else
-            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(requireActivity().getString(R.string.Buy_Premium), model))
+            findNavController().navigate(BuyPremiumFragmentDirections.actionToBuy(
+              title =  requireActivity().getString(R.string.Buy_Premium),
+                planData =model,
+                titleProfile=   arguments?.getString("titleProfile","")!!
 
+            ))
     }
 
     override fun onResume() {

@@ -41,21 +41,43 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
     override fun layoutId(): Int = R.layout.fragment_profile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userObject =
+            Gson().fromJson(
+                sharedPref.getString(AppConstants.USER_OBJECT, "en"),
+                UserModel::class.java
+            )
+        if (userObject.isSubscribed==true){
+            tvBecomePremium.text="My Premium"
+        }
+        else{
+            tvBecomePremium.text="Become Premium Member"
+
+        }
         initComponents()
     }
 
     private fun initComponents() {
 
+
+        var type=arguments?.getString("typeOtp")
         var from=arguments?.getString("type")?:""
 
-        val text = if (from=="from_gift") "My Premium"
-        else  "Become Premium Member"
-        tvBecomePremium.text = text
+//        val text = if (from=="from_gift") "My Premium"
+//        else  "Become Premium Member"
+//        tvBecomePremium.text = text
+//
+//        if (type=="otpProfile"){
+//            tvBecomePremium.text="My Premium"
+//        }
+//        else
+//        {
+//            tvBecomePremium.text="Become Premium Member"
+//        }
 
-        userObject = Gson().fromJson(
-            sharedPref.getString(AppConstants.USER_OBJECT, "en"),
-            UserModel::class.java
-        )
+//        userObject = Gson().fromJson(
+//            sharedPref.getString(AppConstants.USER_OBJECT, "en"),
+//            UserModel::class.java
+//        )
 
         tvLikesCount.text = ""+userObject.totalLikes
         tvFollowerCount.text = ""+userObject.totalMatched
@@ -70,8 +92,13 @@ class ProfileFragment : DataBindingFragment<FragmentProfileBinding>() {
 
 
 
-        viewBinding.tvBecomePremium.setOnClickListener {
-            findNavController().navigate(R.id.action_to_buy_premium)
+          viewBinding.tvBecomePremium.setOnClickListener {
+          ///  findNavController().navigate(R.id.action_to_buy_premium)
+              findNavController().navigate(ProfileFragmentDirections.actionToBuyPremium(titleProfile = "fromProfile"))
+
+              // findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment(requireActivity().getString(R.string.Edit_Info)))
+
+
         }
         viewBinding.tvPref.setOnClickListener {
             findNavController().navigate(ProfileFragmentDirections.actionToSignUpAboutFragment(requireActivity().getString(R.string.Edit_Info)))

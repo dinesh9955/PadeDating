@@ -58,7 +58,7 @@ data class UserPoints(
     val religiousBelief: String,
     val state: String,
     val stripeId: Any,
-    val totalPoints: Int,
+    val totalPoints: Int=0,
     val updatedAt: String,
     val username: String,
     val walletAmount: String,

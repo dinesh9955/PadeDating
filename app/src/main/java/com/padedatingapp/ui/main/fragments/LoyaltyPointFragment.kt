@@ -2,6 +2,7 @@ package com.padedatingapp.ui.main.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +39,8 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
     private var progressDialog: CustomProgressDialog? = null
     private lateinit var adapter1: LoyalityPointAdapter
     var discount=""
+    var country=""
+    var loyalityPoints=0
     var list_data = ArrayList<com.padedatingapp.model.loyalityModel.DataX>()
 
     override fun layoutId(): Int = R.layout.fragment_loyalty_point
@@ -52,11 +55,16 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
             findNavController().popBackStack()
         }
         viewBinding.btnRedeemNow.setOnClickListener {
-            //findNavController().popBackStack()
-            findNavController().navigate(LoyaltyPointFragmentDirections.actionToBuyPremium(
-                    from ="loyalty_points",
-                    discount =discount,
-                       point =viewBinding.tvLoyaltyPoints.text.toString() ))
+//            if (loyalityPoints <= 100) {
+//                Toast.makeText(context, "Loyality points should be greater than 100.", Toast.LENGTH_SHORT).show()
+//            } else {
+
+                findNavController().navigate(LoyaltyPointFragmentDirections.actionToBuyPremium(
+                    from = "loyalty_points",
+                    discount = discount,
+                    point = viewBinding.tvLoyaltyPoints.text.toString(), country = country))
+                Log.v("Tag", country)
+           // }
         }
         adapter1 = LoyalityPointAdapter(requireContext())
         viewBinding.rvLoyalityPoint.adapter = adapter1
@@ -72,22 +80,6 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
 
 
     }
-
-
-//    private fun setUserData() {
-//        try {
-//            var userObject =
-//                    Gson().fromJson(
-//                            sharedPref.getString(AppConstants.USER_OBJECT, "en"),
-//                            UserModel::class.java
-//                    )
-//
-//            viewBinding.tvLoyaltyPoints.text = ""+userObject.totalPoints
-//
-//        } catch (e: JsonParseException) {
-//
-//        }
-//    }
 
     private fun initComponents() {
         loyalityVM.token = sharedPref.getString(AppConstants.USER_TOKEN, "en")
@@ -125,10 +117,14 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
                         data?.let {
                             if (data.statusCode == ResponseStatus.STATUS_CODE_SUCCESS && data.success) {
                                 Log.e(MessagesFragment.TAG, "listAA " + data.data)
+                                loyalityPoints=response.data.data.UserPoints.totalPoints
                                 viewBinding.tvLoyaltyPoints.text=response.data.data.UserPoints.totalPoints.toString()
                                 discount=response.data.data.discount.toString()
+                                country=response.data.data.UserPoints.country.toString()
 
                                 list_data= response.data.data.data as ArrayList<DataX>
+                                sharedPref.setString(AppConstants.USER_OBJECT, Gson().toJson(it.data.UserPoints))
+
                                 adapter1.updateList(list_data)
                                 adapter1.notifyDataSetChanged()
 

@@ -33,5 +33,7 @@ object NetworkUrls {
     const val LoyalityPoints = "api/v1/user/loyaltyPoints/"
     const val privacyPolicy = "api/v1/user/cms/"
     const val SLIDER = "api/v1/user/images/"
+    const val WaveCard = "api/v1/user/enterPin/"
+    const val WavePayment = "api/v1/user/Payment/"
     const val GetAllNotifications = "api/v1/user/getAllNotifications/"
 }
