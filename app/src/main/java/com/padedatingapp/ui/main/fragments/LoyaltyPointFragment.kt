@@ -55,16 +55,15 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
             findNavController().popBackStack()
         }
         viewBinding.btnRedeemNow.setOnClickListener {
-//            if (loyalityPoints <= 100) {
-//                Toast.makeText(context, "Loyality points should be greater than 100.", Toast.LENGTH_SHORT).show()
-//            } else {
-
+            if (loyalityPoints <= 100) {
+                Toast.makeText(context, "Loyality points should be greater than 100.", Toast.LENGTH_SHORT).show()
+            } else {
                 findNavController().navigate(LoyaltyPointFragmentDirections.actionToBuyPremium(
                     from = "loyalty_points",
                     discount = discount,
                     point = viewBinding.tvLoyaltyPoints.text.toString(), country = country))
                 Log.v("Tag", country)
-           // }
+            }
         }
         adapter1 = LoyalityPointAdapter(requireContext())
         viewBinding.rvLoyalityPoint.adapter = adapter1
@@ -87,8 +86,6 @@ class LoyaltyPointFragment : DataBindingFragment<FragmentLoyaltyPointBinding>() 
 
 
     private fun initObservables() {
-
-
 
         loyalityVM.blockUsersResponse.observe(viewLifecycleOwner) {
             getLiveData(it, "ChatUser")

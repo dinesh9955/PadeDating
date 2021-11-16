@@ -35,7 +35,7 @@ object AppModule {
         single { ResourceProvider(androidApplication()) }
         single { CoroutinesManager() }
         single { SharedPref(get()) }
-           single { NetworkConnectionInterceptor(get()) }
+        single { NetworkConnectionInterceptor(get()) }
         //activities
         viewModel { SignUpVM(get(), get(), get()) }
         viewModel { OtpVM(get(), get(), get(),get()) }

@@ -47,6 +47,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     }
     private val sharedPref by inject<SharedPref>()
 
+    var locationRepeat = 0
+
 
     var primaryBaseActivity //THIS WILL KEEP ORIGINAL INSTANCE
             : Context? = null
@@ -314,7 +316,7 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
             return
         }
 
-        getLastKnownLocation()
+        //getLastKnownLocation()
 
 
 
@@ -327,29 +329,71 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
         AppSocketListener.getInstance().addOnHandler(SocketUrls.LOCATION, locationStatus)
 
 
+
+        var pref = SavePref()
+        pref.SavePref(this@HomeActivity)
+
+        val json = JSONObject()
+        json.put("lat", "" + pref.latitude)
+        json.put("long", "" + pref.longitude)
+
+        AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+
+
+
+        var locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+
+        var locationListener = object : LocationListener{
+
+
+            override fun onLocationChanged(location: Location) {
+                var latitute = location!!.latitude
+                var longitute = location!!.longitude
+
+                Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
+
+                pref.latitude = ""+latitute
+                pref.longitude = ""+longitute
+
+                val json = JSONObject()
+                json.put("lat", "" + latitute)
+                json.put("long", "" + longitute)
+
+                AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+
+                val list = getAddressList(latitute,longitute)
+                val code = list!![0].countryCode
+                val address = list!![0].getAddressLine(0)
+
+                if(locationRepeat == 0){
+                    var intent = Intent()
+                    intent!!.putExtra("address", address)
+
+                    onActivityResult(100, 200 , intent)
+                    sharedPref.setString("address", address)
+                    locationRepeat = 1
+                }
+            }
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+            }
+
+
+
+        }
+
         try {
-
-/*
-            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-
-            val locationListener = object : LocationListener{
-                override fun onLocationChanged(location: Location) {
-                    val latitute = location.latitude?:0.0
-                    val longitute = location.longitude?:0.0
-                    // Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
-                    pref.latitude = ""+latitute
-                    pref.longitude = ""+longitute
-                    val json = JSONObject()
-                    json.put("lat", "" + latitute)
-                    json.put("long", "" + longitute)
-                    AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+            // locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+            if(locationManager!!.getAllProviders().contains("network")) {
+                locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            }else{
+                if(locationManager!!.getAllProviders().contains("gps")) {
+                    locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
                 }
+            }
 
-                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+            // Log.e(TAG, "locationManager.getAllProviders() "+ locationManager!!.getAllProviders())
 
-                }
-            }*/
-           // locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
 
         } catch (ex: SecurityException) {
             //Toast.makeText(applicationContext, "Fehler bei der Erfassung!", Toast.LENGTH_SHORT).show()
@@ -373,15 +417,15 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
     private fun getLastKnownLocation() {
         //requireActivity().showDialog()
         mLocationRequest = LocationRequest()
-        mLocationRequest?.interval = 1000
-        mLocationRequest?.fastestInterval = 1000
+        mLocationRequest?.interval = 100
+        mLocationRequest?.fastestInterval = 100
         mLocationRequest?.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create()
         locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         //locationRequest!!.setInterval(2000)
-        locationRequest?.fastestInterval = 1500
+        locationRequest?.fastestInterval = 150
         initLocationCallback()
     }
 
@@ -402,6 +446,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
 
                 MeetMeFragment.getLocation?.getLocation(address)
 
+
+
                 val pref = SavePref()
                 pref.SavePref(this@HomeActivity)
                 pref.latitude = ""+latitute
@@ -410,6 +456,17 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
                 json.put("lat", "" + latitute)
                 json.put("long", "" + longitute)
                 AppSocketListener.getInstance().emit(SocketUrls.LOCATION, json)
+
+                var intent = Intent()
+                intent!!.putExtra("address", address)
+
+                if(locationRepeat == 0){
+                    onActivityResult(100, 200 , intent)
+                    sharedPref.setString("address", address)
+                    locationRepeat = 1
+                }
+
+
 
                 if (fusedLocationProviderClient != null)
                     fusedLocationProviderClient?.removeLocationUpdates(locationCallback!!)
@@ -422,6 +479,8 @@ class HomeActivity : DataBindingActivity<ActivityHomeBinding>() {
             null
         )
     }
+
+
 
 
 

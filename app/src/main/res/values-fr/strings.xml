@@ -352,5 +352,12 @@
     <string name="sometimes_C">PARFOIS</string>
 
     <string name="history">Histoire</string>
+    <string name="Term_Condition">Termes et conditions</string>
+    <string name="enter_pin">Entrez le code PIN</string>
+    <string name="enter_code">entrez le code de vérification S\'il vous plait</string>
+    <string name="Total_Amount">Montant total</string>
+    <string name="Discount">Remise</string>
+    <string name="Gold_Package">Forfait Or</string>
+    <string name="No_user_found">Aucun utilisateur trouvé</string>
 
 </resources>

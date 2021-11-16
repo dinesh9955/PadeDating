@@ -78,7 +78,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     var descriptionReport = ""
 
 
-    lateinit var list : List<Value>
+    var list : List<Value>?= null
 
     private lateinit var dialog: Dialog
 
@@ -1129,20 +1129,25 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
     @RequiresApi(Build.VERSION_CODES.N)
     private fun showDropDownDialog() {
         var index = 0
-        val array = arrayOfNulls<String>(list.size)
-        for (value in list) {
-            array[index] = value.text
-            index++
+        if(list != null){
+            val array = arrayOfNulls<String>(list!!.size)
+            for (value in list!!) {
+                array[index] = value.text
+                index++
+            }
+
+            //val list = resources.getStringArray(R.array.gender_array)
+            // val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
+            MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(requireActivity().getString(R.string.Select_Reason))
+                    .setItems(array) { _, which ->
+                        reasonText!!.text = list!![which].text
+                        titleIdReport = list!![which].id
+                    }.show()
         }
 
-        //val list = resources.getStringArray(R.array.gender_array)
-       // val array: Array<String> = list.stream().toArray { arrayOfNulls<String>(it) }
-       MaterialAlertDialogBuilder(requireContext())
-            .setTitle(requireActivity().getString(R.string.Select_Reason))
-            .setItems(array) { _, which ->
-                reasonText!!.text = list[which].text
-                titleIdReport = list[which].id
-            }.show()
+
+
     }
 
 

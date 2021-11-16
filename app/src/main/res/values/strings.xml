@@ -371,8 +371,16 @@
 
     <string name="history">History</string>
     <!--    <string name="stripe_key">pk_test_51CiPu1Iuz09BIRfI2jDraDneZ1NUdC9zh5OXorg8NeKZgNirmXyIo0p8LWPxtCUucdpUhUQI5M8mvuRUYIuhxLr9006nzziOmM</string>-->
-    <string name="stripe_key">pk_live_51IkZRFEdED7mtE2MN4Vs4RmIqrsCOzBdQb5g6m3881NMM8aWYtf3oh88gFK7eL5oYHFjfaR6DAMQvAbLR2nKW0BA00xGV45OGh</string>
+    <string name="stripe_key" translatable="false">pk_live_51IkZRFEdED7mtE2MN4Vs4RmIqrsCOzBdQb5g6m3881NMM8aWYtf3oh88gFK7eL5oYHFjfaR6DAMQvAbLR2nKW0BA00xGV45OGh</string>
     <string name="enter_code">Please enter the verification code</string>
+
+
+
+    <string name="Total_Amount">Total Amount</string>
+    <string name="Discount">Discount</string>
+    <string name="Gold_Package">Gold Package</string>
+    <string name="No_user_found">No user found!</string>
+
 
 
 <!--    <string name="alliase_key">pade</string>-->

@@ -429,7 +429,6 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
         }
         else{
             jsonObj.addProperty("points", UnCheckTotalAmmount)
-
         }
         jsonObj.addProperty("pin", etPin.text.toString())
         Log.v("abccc",jsonObj.toString())
@@ -517,8 +516,6 @@ class BuyGiftFragment : DataBindingFragment<FragmentBuyGiftBinding>(){
                                     flwId = flw_ref,
                                     packageId = packageId,
                                     point = points))
-
-
                             } else {
                                 toast(data.message)
                             }

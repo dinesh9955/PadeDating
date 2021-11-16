@@ -83,6 +83,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     }
 
 
+
+
     override fun getLocation(address: String) {
         super.getLocation(address)
         if (sharedPref.getString("address", "en") != "") {
@@ -284,6 +286,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
     override fun onResume() {
         super.onResume()
         requireActivity().hideKeyboard()
+
     }
 
 
@@ -486,6 +489,16 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                     } catch (e: Exception) {
                     }
                 }
+            }
+        }
+
+
+        if (requestCode == 100) {
+            if (resultCode == 200) {
+                Log.e(TAG, "GeoCoderException: $requestCode $resultCode ${data?.getStringExtra("address")}")
+//                getLocation("${data?.getStringExtra("address")}")
+
+                viewBinding.tvMyLocationHome.text = "${data?.getStringExtra("address")}"
             }
         }
     }
@@ -789,6 +802,9 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             }
         }
     }
+
+
+
 
 
 }
