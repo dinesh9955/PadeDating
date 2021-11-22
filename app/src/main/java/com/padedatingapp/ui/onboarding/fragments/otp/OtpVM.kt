@@ -84,7 +84,7 @@ class OtpVM(
 
         when (verificationType) {
             "phone" -> {
-                jsonObj.addProperty("flw_ref", phoneNo.value)
+                jsonObj.addProperty("phoneNo", phoneNo.value)
                 jsonObj.addProperty("countryCode", countryCode)
                 jsonObj.addProperty("otpCode", otp.value.toString())
             }

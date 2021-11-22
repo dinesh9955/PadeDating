@@ -57,7 +57,7 @@ class VerifyOtpFragment : DataBindingFragment<FragmentVerifyOtpBinding>() {
 
         if (otpVm.type=="from_wave"){
             otpVm.packageId=arguments?.getString("packageId")!!
-            otpVm. flw_ref=arguments?.getString("flwId")!!
+            otpVm.flw_ref=arguments?.getString("flwId")!!
             otpVm.point=arguments?.getString("point")!!
             otpView.itemCount=5
             textVerifyPhoneNumber.visibility=View.GONE
