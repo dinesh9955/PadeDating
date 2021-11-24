@@ -393,47 +393,24 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         Log.e("MeetMeFragment", "meetMeDataAA: "+meetMeData.firstName)
 
         viewBinding.likeFloating.setOnClickListener {
-            // viewBinding.motionLayout.transitionToState(R.id.like)
-//            showCongratsPopup()
-           // viewBinding.cStack.swipe()
             Log.e("MeetMeFragment", "setOnClickListener: "+position)
-
-
-
             meetMeData = list[position]
-
             val jsonObj = JsonObject()
             jsonObj.addProperty("action", "like")
-
             meetMeVM.callMeetMeLikeApi(
                     list[position]._id,
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
-
             like()
-
-//            var chatIDModel = ChatIDModel()
-//            if(meetMeData != null){
-//                chatIDModel.receiverID = meetMeData._id
-//                chatIDModel.receiverName = meetMeData.firstName + " "+meetMeData.lastName
-//                chatIDModel.receiverImage = meetMeData.image
-//
-//                showCongratsPopup(chatIDModel)
-//            }
-
-
         }
 
         viewBinding.unlikeFloating.setOnClickListener {
-//            dislike()
             val jsonObj = JsonObject()
             jsonObj.addProperty("action", "dislike")
-
             meetMeVM.callMeetMeLikeApi(
                     list[position]._id,
                     jsonObj.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
-
             dislike()
         }
 
@@ -506,13 +483,17 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
 
 
-
+//    "statusCode": 400,
+//    "success": false,
+//    "message": "Please Buy Subscription To Like Other People",
+//    "data": null
+//}
 
     private fun initObservables() {
 
         meetMeVM.errorMessage.observe(viewLifecycleOwner) {
             if (it != "") {
-                toast(it)
+//                toast(it)
             }
         }
 
@@ -635,7 +616,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
 
     private fun getLiveDataLike(response: Resource<LikeModel>?, type: String) {
 
-        //Log.e(TAG, "onViewCreated12")
+        Log.e(TAG, "getLiveDataLike")
 
         when (response?.status) {
             Resource.Status.LOADING -> {
@@ -665,17 +646,20 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                                         }
 
                                     }else{
-                                       // like()
+//                                        like()
                                     }
                                 }
 
                                 if(data.data.dislikedBy.size != 0){
-                                    //dislike()
+//                                    dislike()
                                 }
 
 
                             } else {
                                 toast(data.message)
+                                if (data.statusCode == 400 && data.success == false) {
+                                    initObservables()
+                                }
                             }
                         }
                     }
@@ -683,7 +667,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
             }
             Resource.Status.ERROR -> {
                 progressDialog?.dismiss()
-                toast(response.getErrorMessage().toString())
+              //  toast(response.getErrorMessage().toString())
             }
             Resource.Status.CANCEL -> {
                 progressDialog?.dismiss()
