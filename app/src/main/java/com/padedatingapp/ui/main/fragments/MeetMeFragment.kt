@@ -250,7 +250,7 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
         manager?.setMaxDegree(20.0f)
         manager?.setDirections(Direction.HORIZONTAL)
         manager?.setCanScrollHorizontal(true)
-        manager?.setCanScrollVertical(true)
+        manager?.setCanScrollVertical(false)
         manager?.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager?.setOverlayInterpolator(LinearInterpolator())
         viewBinding.cStack.layoutManager = manager
@@ -260,6 +260,8 @@ class MeetMeFragment : DataBindingFragment<FragmentMeetMeBinding>(), CardStackLi
                 supportsChangeAnimations = false
             }
         }
+
+
     }
 
     private fun dislike() {

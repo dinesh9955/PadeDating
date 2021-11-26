@@ -10,15 +10,15 @@ plugins {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 //    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.padedatingapp"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.3"
+        targetSdkVersion 31
+        versionCode 4
+        versionName "1.0.4"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

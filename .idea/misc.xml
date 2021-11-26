@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/activity_home.xml" value="0.18425925925925926" />
+        <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/activity_main.xml" value="0.18425925925925926" />
+        <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/bottomsheet_perfect_match.xml" value="0.1921875" />
+        <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/fragment_about_me_sign_up.xml" value="0.1814814814814815" />
         <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/fragment_meet_me.xml" value="0.1921875" />
+        <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/fragment_splash.xml" value="0.1921875" />
         <entry key="..\:/Dinesh/2/pade_customer_android-ankush_dev/app/src/main/res/layout/fragment_verify_otp.xml" value="0.1921875" />
       </map>
     </option>
