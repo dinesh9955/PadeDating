@@ -96,9 +96,7 @@ class ChatFragment : DataBindingFragment<FragmentChatBinding>(),
 
     var emojiPopup: EmojiPopup? = null
     var heightDiff: Int = 0
-
     var block : Boolean = false
-
 //    private var bookingId: String? = null
 
 
